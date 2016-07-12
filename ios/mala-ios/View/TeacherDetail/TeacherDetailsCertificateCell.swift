@@ -13,22 +13,26 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
     // MARK: - Property
     var models: [AchievementModel?] = [] {
         didSet {
-            
             guard models.count != oldValue.count else {
                 return
             }
-            
-//            labels.removeAll()
-//            
-//            for model in models {
-//                labels.append(model?.title ?? "")
-//                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
-//                photo.caption = model?.title ?? ""
-//                images.append(photo)
-//            }
+            tagsView.labels = models.map { (model) -> String in
+                return model?.title ?? "默认证书"
+            }
         }
     }
     var images: [SKPhoto] = []
+    
+    
+    // MARK: - Components
+    /// 标签容器
+    lazy var tagsView: TagListView = {
+        let tagsView = TagListView(frame: CGRect(x: 0, y: 0, width: MalaLayout_CardCellWidth, height: 0))
+        tagsView.labelBackgroundColor = MalaColor_FCDFB7_0
+        tagsView.textColor = MalaColor_EF8F1D_0
+        return tagsView
+    }()
+
     
     // MARK: - Constructed
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -44,7 +48,17 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
     
     // MARK: - Private Method
     private func configure() {
-//        self.tagsView.delegate = self
+        
+        content.addSubview(tagsView)
+        content.snp_updateConstraints { (make) -> Void in
+            make.bottom.equalTo(contentView.snp_bottom).offset(-10)
+        }
+        tagsView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(content.snp_top)
+            make.left.equalTo(content.snp_left)
+            make.width.equalTo(MalaLayout_CardCellWidth)
+            make.bottom.equalTo(content.snp_bottom)
+        }
     }
     
     

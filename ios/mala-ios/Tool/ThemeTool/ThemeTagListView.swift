@@ -20,9 +20,7 @@ class ThemeTagListView: UIView {
     /// 标签字符串数组
     var labels: [String] = [] {
         didSet {
-            if labels != oldValue {
-                setupLabels()
-            }
+            tagsView.labels = labels
         }
     }
     /// 标签背景色
@@ -73,7 +71,7 @@ class ThemeTagListView: UIView {
         // AutoLayout
         iconView.snp_makeConstraints { (make) in
             make.left.equalTo(self.snp_left)
-            make.top.equalTo(self.snp_top)
+            make.top.equalTo(self.snp_top).offset(2)
             make.height.equalTo(21)
             make.width.equalTo(21)
         }
@@ -82,13 +80,6 @@ class ThemeTagListView: UIView {
             make.top.equalTo(self.snp_top)
             make.bottom.equalTo(self.snp_bottom)
             make.right.equalTo(self.snp_right)
-        }
-    }
-    
-    private func setupLabels() {
-        tagsView.reset()
-        for string in labels {
-            tagsView.addTag(string, backgroundColor: labelBackgroundColor, textColor: textColor)
         }
     }
     
