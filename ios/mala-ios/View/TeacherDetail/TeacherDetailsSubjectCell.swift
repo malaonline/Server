@@ -52,28 +52,43 @@ class TeacherDetailsSubjectCell: TeacherDetailBaseCell {
                 println("高中年级数据 -> \(seniorSchools) \n")
                 
                 // 添加label
-                self.setupTags(elementarySchool, strings: elementarySchools)
-                self.setupTags(juniorSchool, strings: juniorSchools)
-                self.setupTags(seniorSchool, strings: seniorSchools)
+                self.setupTags(elementarySchool, strings: &elementarySchools)
+                
+                let height = (MalaScreenWidth <= 375 && elementarySchools.count > 4) ? 55 : 25
+                elementarySchool.snp_updateConstraints { (make) in
+                    make.height.equalTo(height)
+                }
+                
+                self.setupTags(juniorSchool, strings: &juniorSchools)
+                self.setupTags(seniorSchool, strings: &seniorSchools)
             }
         }
     }
     
     // MARK: - Components
     /// 小学
-    private lazy var elementarySchool: MATabListView = {
-        let elementarySchool = MATabListView()
-        return elementarySchool
+    private lazy var elementarySchool: ThemeTagListView = {
+        let tagsView = ThemeTagListView()
+        tagsView.imageName = "detail_class1"
+        tagsView.labelBackgroundColor = MalaColor_F9B7B7_0
+        tagsView.textColor = MalaColor_E25C5C_0
+        return tagsView
     }()
     /// 初中
-    private lazy var juniorSchool: MATabListView = {
-        let juniorSchool = MATabListView()
-        return juniorSchool
+    private lazy var juniorSchool: ThemeTagListView = {
+        let tagsView = ThemeTagListView()
+        tagsView.imageName = "detail_class2"
+        tagsView.labelBackgroundColor = MalaColor_B1D8F3_0
+        tagsView.textColor = MalaColor_2B7BB4_0
+        return tagsView
     }()
     /// 高中
-    private lazy var seniorSchool: MATabListView = {
-        let elementarySchool = MATabListView()
-        return elementarySchool
+    private lazy var seniorSchool: ThemeTagListView = {
+        let tagsView = ThemeTagListView()
+        tagsView.imageName = "detail_class3"
+        tagsView.labelBackgroundColor = MalaColor_BFE7CA_0
+        tagsView.textColor = MalaColor_259746_0
+        return tagsView
     }()
     
     
@@ -103,30 +118,41 @@ class TeacherDetailsSubjectCell: TeacherDetailBaseCell {
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
             make.top.equalTo(content.snp_top)
+            make.height.equalTo(25)
         }
         juniorSchool.snp_makeConstraints { (make) in
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
             make.top.equalTo(elementarySchool.snp_bottom).offset(12)
+            make.height.equalTo(25)
         }
         seniorSchool.snp_makeConstraints { (make) in
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
             make.top.equalTo(juniorSchool.snp_bottom).offset(12)
+            make.height.equalTo(25)
             make.bottom.equalTo(content.snp_bottom)
         }
     }
     
-    private func setupTags(view: MATabListView, strings: [String]) {
+    private func setupTags(tagsView: ThemeTagListView, inout strings: [String]) {
         
         // 判断转入数组的所有元素是否都为空字符串
         // 是，将移除对应控件。
         // 否，将添加字符串到对应控件中
-        let isEmpty = (strings.reduce("") {$0 + $1}) == ""
+        var isEmpty = ""
         
-        if isEmpty {
-            view.removeFromSuperview()
+        for string in strings {
+            isEmpty += string
+            if string == "", let index = strings.indexOf(string) {
+                strings.removeAtIndex(index)
+            }
         }
+        
+        if isEmpty == "" {
+            tagsView.removeFromSuperview()
+        }
+        
         
         // 根据8种页面状态调整UI
         switch (elementarySchool.superview, juniorSchool.superview, seniorSchool.superview) {
@@ -183,8 +209,8 @@ class TeacherDetailsSubjectCell: TeacherDetailBaseCell {
             break
         }
 
-        if !isEmpty {
-            view.setTags(strings)
+        if isEmpty != "" {
+            tagsView.labels = strings
         }
     }
 }

@@ -23,6 +23,9 @@ class TeacherDetailsTagsCell: TeacherDetailBaseCell {
     /// 标签容器
     lazy var tagsView: ThemeTagListView = {
         let tagsView = ThemeTagListView()
+        tagsView.imageName = "tags_icon"
+        tagsView.labelBackgroundColor = MalaColor_BCD0DE_0
+        tagsView.textColor = MalaColor_5789AC_0
         return tagsView
     }()
     
@@ -40,9 +43,6 @@ class TeacherDetailsTagsCell: TeacherDetailBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
-        // Style
-        tagsView.imageName = "tags_icon"
-        
         // SubViews
         content.addSubview(tagsView)
         

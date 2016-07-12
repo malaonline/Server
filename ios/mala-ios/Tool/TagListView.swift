@@ -19,6 +19,8 @@ class TagListView:UIScrollView
     var tagHorizontalPadding:CGFloat = 5.0 // padding between tags horizontally
     var tagVerticalPadding:CGFloat = 5.0 // padding between tags vertically
     var tagCombinedMargin:CGFloat = 10.0 // margin of left and right combined, text in tags are by default centered.
+    var labelBackgroundColor:UIColor = UIColor.lightGrayColor()
+    var textColor:UIColor = UIColor.whiteColor()
     override init(frame:CGRect)
     {
         super.init(frame: frame)
@@ -31,7 +33,7 @@ class TagListView:UIScrollView
         super.init(coder: aDecoder)
     }
     
-    func addTag(text:String,target:AnyObject?=nil,tapAction:Selector?=nil,longPressAction:Selector?=nil,backgroundColor:UIColor,textColor:UIColor)
+    func addTag(text:String,target:AnyObject?=nil,tapAction:Selector?=nil,longPressAction:Selector?=nil,backgroundColor:UIColor?=nil,textColor:UIColor?=nil)
     {
         //instantiate label
         //you can customize your label here! but make sure everything fit. Default row height is 30.
@@ -39,9 +41,9 @@ class TagListView:UIScrollView
         label.layer.cornerRadius = 3
         label.clipsToBounds = true
         label.textColor = UIColor.whiteColor()
-        label.backgroundColor = backgroundColor
+        label.backgroundColor = backgroundColor ?? labelBackgroundColor
         label.text = text
-        label.textColor = textColor
+        label.textColor = textColor  ?? textColor
         label.font = UIFont.systemFontOfSize(14)
         label.sizeToFit()
         label.textAlignment = NSTextAlignment.Center

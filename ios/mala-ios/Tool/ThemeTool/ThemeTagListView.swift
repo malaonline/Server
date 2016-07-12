@@ -25,6 +25,19 @@ class ThemeTagListView: UIView {
             }
         }
     }
+    /// 标签背景色
+    var labelBackgroundColor:UIColor = UIColor.lightGrayColor() {
+        didSet {
+            tagsView.labelBackgroundColor = labelBackgroundColor
+        }
+    }
+    /// 标签文字颜色
+    var textColor:UIColor = UIColor.whiteColor()
+        {
+        didSet {
+            tagsView.textColor = textColor
+        }
+    }
     
     
     // MARK: - Components
@@ -60,14 +73,14 @@ class ThemeTagListView: UIView {
         // AutoLayout
         iconView.snp_makeConstraints { (make) in
             make.left.equalTo(self.snp_left)
-            make.centerY.equalTo(self.snp_centerY)
+            make.top.equalTo(self.snp_top)
             make.height.equalTo(21)
             make.width.equalTo(21)
         }
         tagsView.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(iconView.snp_right).offset(12)
-            make.centerY.equalTo(self.snp_centerY)
-            make.height.equalTo(25)
+            make.top.equalTo(self.snp_top)
+            make.bottom.equalTo(self.snp_bottom)
             make.right.equalTo(self.snp_right)
         }
     }
@@ -75,7 +88,11 @@ class ThemeTagListView: UIView {
     private func setupLabels() {
         tagsView.reset()
         for string in labels {
-            tagsView.addTag(string, backgroundColor: MalaColor_BCD0DE_0, textColor: MalaColor_5789AC_0)
+            tagsView.addTag(string, backgroundColor: labelBackgroundColor, textColor: textColor)
         }
+    }
+    
+    func reset() {
+        tagsView.reset()
     }
 }
