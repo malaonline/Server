@@ -30,8 +30,8 @@ $(function(){
         $row.find('td[field=status]').text(statusDict[status]);
         var actionHtml = '无';
          if (status == TO_CHOOSE) {
-             actionHtml = ('<a class="" data-action="donot-choose">初选淘汰</a>'
-                 + ' | <a class="" data-action="invite-interview">邀约面试</a>');
+             actionHtml = ('<a class="" data-action="invite-interview">邀约面试</a>'
+                 + ' | <a class="" data-action="donot-choose">初选淘汰</a>');
          } else if(status == TO_INTERVIEW) {
              actionHtml = ('<a class="" data-action="set-interview-ok">面试通过</a>'
                  + ' | <a class="" data-action="set-interview-fail">面试失败</a>');
