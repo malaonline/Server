@@ -35,6 +35,8 @@ class TagListView:UIScrollView
     var labelBackgroundColor: UIColor = UIColor.lightGrayColor()
     /// 默认文字颜色
     var textColor: UIColor = UIColor.whiteColor()
+    /// 图标名称
+    var iconName: String?
     
     
     // MARK: - Instance Method
@@ -72,10 +74,24 @@ class TagListView:UIScrollView
         label.textColor = color ?? textColor
         label.font = UIFont.systemFontOfSize(14)
         label.sizeToFit()
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = .Center
         self.tags.append(label)
         label.layer.shouldRasterize = true
         label.layer.rasterizationScale = UIScreen.mainScreen().scale
+        
+        // 图标
+        if iconName != nil {
+            label.textAlignment = .Left
+            let imageView = UIImageView(image: UIImage(named: iconName!))
+            label.addSubview(imageView)
+            
+            imageView.snp_makeConstraints { (make) -> Void in
+                make.width.equalTo(14)
+                make.height.equalTo(14)
+                make.right.equalTo(label.snp_right).offset(-tagCombinedMargin)
+                make.centerY.equalTo(label.snp_centerY)
+            }
+        }
         
         // 处理事件
         if tapAction != nil {
@@ -90,13 +106,13 @@ class TagListView:UIScrollView
         }
         
         // 计算frame
-        label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, label.frame.width + tagCombinedMargin, rowHeight - tagVerticalPadding)
+        let iconPadding: CGFloat = (iconName == nil) ? 0 : (14+3)
+        label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, label.frame.width + tagCombinedMargin + iconPadding, rowHeight - tagVerticalPadding)
         if self.tags.count == 0 {
             label.frame = CGRectMake(hashtagsOffset.left, hashtagsOffset.top, label.frame.width, label.frame.height)
             self.addSubview(label)
             
-        }
-        else {
+        } else {
             label.frame = self.generateFrameAtIndex(tags.count-1, rowNumber: &currentRow)
             self.addSubview(label)
         }
