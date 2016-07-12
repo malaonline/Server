@@ -814,6 +814,9 @@
 		F4767A431D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
 		F4767A441D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
 		F4767A451D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
+		F4767A471D34930C00FD47F1 /* ThemeTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A461D34930C00FD47F1 /* ThemeTagListView.swift */; };
+		F4767A481D34930C00FD47F1 /* ThemeTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A461D34930C00FD47F1 /* ThemeTagListView.swift */; };
+		F4767A491D34930C00FD47F1 /* ThemeTagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A461D34930C00FD47F1 /* ThemeTagListView.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
@@ -1138,6 +1141,7 @@
 		F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseReportCardCell.swift; sourceTree = "<group>"; };
 		F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemePhotoCollectionView.swift; sourceTree = "<group>"; };
 		F4767A421D348A7B00FD47F1 /* TagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		F4767A461D34930C00FD47F1 /* ThemeTagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTagListView.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
@@ -1486,7 +1490,6 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				F4767A421D348A7B00FD47F1 /* TagListView.swift */,
 				F4F1EBDD1CF6B98500EBDBF6 /* YLProgressBar */,
 				F452CD6B1CE0313E001A30E8 /* WZLBadge */,
 				F49BD5911CA4131D00EB3CCF /* SKPhotoBrowser */,
@@ -1506,6 +1509,7 @@
 				F47C2ABC1C85785A0051A880 /* MalaAlert.swift */,
 				F4D0D17D1CA148DF00B25704 /* FloatRatingView.swift */,
 				F49BD5A91CA413C000EB3CCF /* MalaPhotoBrowser.swift */,
+				F4767A421D348A7B00FD47F1 /* TagListView.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1801,6 +1805,7 @@
 				F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */,
 				F45F0DDC1CF6E142004DC1A6 /* ThemeHorizontalBarChartView.swift */,
 				F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */,
+				F4767A461D34930C00FD47F1 /* ThemeTagListView.swift */,
 			);
 			path = ThemeTool;
 			sourceTree = "<group>";
@@ -2646,6 +2651,7 @@
 				F49BD55D1CA3C2DF00EB3CCF /* MalaRemoteNotificationHandler.swift in Sources */,
 				F45E69E01C8D278A00BD0859 /* ThemeHUD.swift in Sources */,
 				F40B53D21C841AD600C20037 /* PaymentAmountCell.swift in Sources */,
+				F4767A471D34930C00FD47F1 /* ThemeTagListView.swift in Sources */,
 				F45F27F61CA8E07E00F0012C /* Extension+UIVIewController.swift in Sources */,
 				F49BD5A71CA4131D00EB3CCF /* SKZoomingScrollView.swift in Sources */,
 				F4B3C6831CFD450600C1B423 /* SingleAbilityData.swift in Sources */,
@@ -2858,6 +2864,7 @@
 				35FF7A7D1CF8325A000A70EE /* MalaRemoteNotificationHandler.swift in Sources */,
 				35FF7A7E1CF8325A000A70EE /* ThemeHUD.swift in Sources */,
 				35FF7A7F1CF8325A000A70EE /* PaymentAmountCell.swift in Sources */,
+				F4767A481D34930C00FD47F1 /* ThemeTagListView.swift in Sources */,
 				35FF7A801CF8325A000A70EE /* Extension+UIVIewController.swift in Sources */,
 				35FF7A811CF8325A000A70EE /* SKZoomingScrollView.swift in Sources */,
 				F4B3C6841CFD450600C1B423 /* SingleAbilityData.swift in Sources */,
@@ -3070,6 +3077,7 @@
 				35FF7B601CF83264000A70EE /* MalaRemoteNotificationHandler.swift in Sources */,
 				35FF7B611CF83264000A70EE /* ThemeHUD.swift in Sources */,
 				35FF7B621CF83264000A70EE /* PaymentAmountCell.swift in Sources */,
+				F4767A491D34930C00FD47F1 /* ThemeTagListView.swift in Sources */,
 				35FF7B631CF83264000A70EE /* Extension+UIVIewController.swift in Sources */,
 				35FF7B641CF83264000A70EE /* SKZoomingScrollView.swift in Sources */,
 				F4B3C6851CFD450600C1B423 /* SingleAbilityData.swift in Sources */,

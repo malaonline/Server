@@ -14,22 +14,16 @@ class TeacherDetailsTagsCell: TeacherDetailBaseCell {
     /// 标签字符串数组
     var labels: [String] = [] {
         didSet {
-            if labels != oldValue {
-                setupLabels()
-            }
+            tagsView.labels = labels
         }
     }
     
     
     // MARK: - Components
     /// 标签容器
-    lazy var tagsView: TagListView = {
-        let tagsView = TagListView()
+    lazy var tagsView: ThemeTagListView = {
+        let tagsView = ThemeTagListView()
         return tagsView
-    }()
-    private lazy var iconView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "tags_icon"))
-        return imageView
     }()
     
     
@@ -47,32 +41,18 @@ class TeacherDetailsTagsCell: TeacherDetailBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        
+        tagsView.imageName = "tags_icon"
         
         // SubViews
-        content.addSubview(iconView)
         content.addSubview(tagsView)
         
         // AutoLayout
         tagsView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(content.snp_top)
-            make.left.equalTo(iconView.snp_right).offset(12)
+            make.left.equalTo(content.snp_left)
             make.bottom.equalTo(content.snp_bottom)
             make.height.equalTo(25)
             make.right.equalTo(content.snp_right)
-        }
-        iconView.snp_makeConstraints { (make) in
-            make.left.equalTo(content.snp_left)
-            make.centerY.equalTo(content.snp_centerY)
-            make.height.equalTo(21)
-            make.width.equalTo(21)
-        }
-    }
-    
-    private func setupLabels() {
-        tagsView.reset()
-        for string in labels {
-            tagsView.addTag(string, backgroundColor: MalaColor_BCD0DE_0, textColor: MalaColor_5789AC_0)
         }
     }
 }
