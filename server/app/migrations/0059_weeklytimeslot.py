@@ -13,7 +13,7 @@ def edit_weekly_time_slot(apps, schema_editor):
     index = 0
 
     for weekday in range(1, 8):
-        for start in ((8, 0), (10, 30), (14, 00), (16, 30), (19, 0)):
+        for start in ((8, 0), (10, 30), (14, 0), (16, 30), (19, 0)):
             end = (start[0] + 2, start[1])
             one_weekly_time_slot = weekly_time_slots[index]
             one_weekly_time_slot.start = time(*start)
