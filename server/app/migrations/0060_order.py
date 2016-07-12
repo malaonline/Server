@@ -70,7 +70,7 @@ def add_item(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('app', '0059_auto_20160130_2118'),
+        ('app', '0059_weeklytimeslot'),
     ]
 
     operations = [

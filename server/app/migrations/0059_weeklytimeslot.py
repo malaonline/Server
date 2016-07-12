@@ -24,7 +24,7 @@ def edit_weekly_time_slot(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('app', '0150_evaluation_reminded'),
+        ('app', '0059_auto_20160130_2118'),
     ]
 
     operations = [
