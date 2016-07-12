@@ -45,9 +45,8 @@ android {
         applicationId "com.malalaoshi.android"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        def buildID = System.getenv("BUILD_NUMBER") + "_" + System.getenv("JOB_NAME")
-        versionName "1.0" + (buildID == null ? "" : "." + buildID)
+        versionCode 3
+        versionName "2.0.0"
     }
     buildTypes {
         debug {
