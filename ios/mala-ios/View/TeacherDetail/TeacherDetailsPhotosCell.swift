@@ -55,7 +55,7 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     private func setupUserInterface() {
         
         // SubViews
-        tagsView.removeFromSuperview()
+//        tagsView.removeFromSuperview()
         headerView.addSubview(detailButton)
         content.addSubview(photoCollection)
 

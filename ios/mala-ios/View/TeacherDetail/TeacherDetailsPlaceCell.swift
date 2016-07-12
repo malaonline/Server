@@ -69,7 +69,6 @@ class TeacherDetailsPlaceCell: TeacherDetailBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
-        tagsView.removeFromSuperview()
         content.addSubview(tableView)
         content.addSubview(button)
         

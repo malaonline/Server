@@ -811,6 +811,9 @@
 		F4767A3F1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
 		F4767A401D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
 		F4767A411D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */; };
+		F4767A431D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
+		F4767A441D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
+		F4767A451D348A7B00FD47F1 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4767A421D348A7B00FD47F1 /* TagListView.swift */; };
 		F47C2AB71C8445950051A880 /* PaymentChannelSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */; };
 		F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47C2ABC1C85785A0051A880 /* MalaAlert.swift */; };
 		F48BBAD21CE4309B00774297 /* CouponRulesPopupWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */; };
@@ -1134,6 +1137,7 @@
 		F474E89C1CF2A9ED0025A865 /* SimpleReportResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleReportResultModel.swift; sourceTree = "<group>"; };
 		F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseReportCardCell.swift; sourceTree = "<group>"; };
 		F4767A3E1D2CDCD000FD47F1 /* ThemePhotoCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemePhotoCollectionView.swift; sourceTree = "<group>"; };
+		F4767A421D348A7B00FD47F1 /* TagListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		F47C2AB61C8445950051A880 /* PaymentChannelSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentChannelSectionHeaderView.swift; sourceTree = "<group>"; };
 		F47C2ABC1C85785A0051A880 /* MalaAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaAlert.swift; sourceTree = "<group>"; };
 		F48BBAD11CE4309B00774297 /* CouponRulesPopupWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponRulesPopupWindow.swift; sourceTree = "<group>"; };
@@ -1482,6 +1486,7 @@
 		30E3366C1C27C41800DCF1C5 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				F4767A421D348A7B00FD47F1 /* TagListView.swift */,
 				F4F1EBDD1CF6B98500EBDBF6 /* YLProgressBar */,
 				F452CD6B1CE0313E001A30E8 /* WZLBadge */,
 				F49BD5911CA4131D00EB3CCF /* SKPhotoBrowser */,
@@ -2648,6 +2653,7 @@
 				F45BDAE81CB760540038CE3D /* ThemeCalendarViewCell.swift in Sources */,
 				F45871FD1C51E0380048D93F /* CourseChoosingOtherServiceCell.swift in Sources */,
 				F427FFA91CEDA34700EAB748 /* LearningReportTopicDataCell.swift in Sources */,
+				F4767A431D348A7B00FD47F1 /* TagListView.swift in Sources */,
 				F46065241C97B168004056B1 /* TeacherDetailsController.swift in Sources */,
 				F460650C1C96D363004056B1 /* UIImageView+Navi.swift in Sources */,
 				F40B53B01C7EEA2800C20037 /* Extension+NSURLRequest.swift in Sources */,
@@ -2859,6 +2865,7 @@
 				35FF7A831CF8325A000A70EE /* CourseChoosingOtherServiceCell.swift in Sources */,
 				35FF7A841CF8325A000A70EE /* LearningReportTopicDataCell.swift in Sources */,
 				35FF7A851CF8325A000A70EE /* TeacherDetailsController.swift in Sources */,
+				F4767A441D348A7B00FD47F1 /* TagListView.swift in Sources */,
 				35FF7A861CF8325A000A70EE /* UIImageView+Navi.swift in Sources */,
 				35FF7A871CF8325A000A70EE /* Extension+NSURLRequest.swift in Sources */,
 				35FF7A881CF8325A000A70EE /* SKDetectingView.swift in Sources */,
@@ -3070,6 +3077,7 @@
 				35FF7B661CF83264000A70EE /* CourseChoosingOtherServiceCell.swift in Sources */,
 				35FF7B671CF83264000A70EE /* LearningReportTopicDataCell.swift in Sources */,
 				35FF7B681CF83264000A70EE /* TeacherDetailsController.swift in Sources */,
+				F4767A451D348A7B00FD47F1 /* TagListView.swift in Sources */,
 				35FF7B691CF83264000A70EE /* UIImageView+Navi.swift in Sources */,
 				35FF7B6A1CF83264000A70EE /* Extension+NSURLRequest.swift in Sources */,
 				35FF7B6B1CF83264000A70EE /* SKDetectingView.swift in Sources */,

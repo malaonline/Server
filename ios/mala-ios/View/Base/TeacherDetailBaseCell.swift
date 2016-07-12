@@ -17,17 +17,6 @@ class TeacherDetailBaseCell: UITableViewCell {
             titleLabel.text = title
         }
     }
-    /// 标签字符串数组
-    var labels: [String] = [] {
-        didSet {
-            if labels != oldValue {
-                for view in self.tagsView.subviews {
-                    view.removeFromSuperview()
-                }
-                self.tagsView.setTags(labels)
-            }
-        }
-    }
     
     
     // MARK: - Components
@@ -48,11 +37,6 @@ class TeacherDetailBaseCell: UITableViewCell {
     }()
     /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
     lazy var content: UIView = UIView()
-    /// 标签容器
-    lazy var tagsView: MATabListView = {
-        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 12))
-        return tagsView
-    }()
     
     
     // MARK: - Constructed
@@ -69,12 +53,10 @@ class TeacherDetailBaseCell: UITableViewCell {
     // MARK: - Private
     private func setupUserInterface() {
         // Style
-//        content.backgroundColor = UIColor.orangeColor()
         
         // SubViews
         contentView.addSubview(headerView)
         contentView.addSubview(content)
-        content.addSubview(tagsView)
         headerView.addSubview(titleLabel)
         
         // Autolayout
@@ -95,15 +77,5 @@ class TeacherDetailBaseCell: UITableViewCell {
             make.left.equalTo(headerView.snp_left).offset(12)
             make.height.equalTo(14)
         }
-        tagsView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.left.equalTo(self.content.snp_left)
-            make.bottom.equalTo(self.content.snp_bottom)
-            make.right.equalTo(self.content.snp_right)
-        }
-    }
-    
-    @objc func accessoryViewDidTap(sender: UIButton) {
-        
     }
 }
