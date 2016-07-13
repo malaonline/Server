@@ -6,6 +6,7 @@ import logging
 import random
 import hashlib
 import requests
+import urllib
 
 from django.conf import settings
 
@@ -130,12 +131,15 @@ def klx_register(role, uid, name, password=None, subject=None):
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return None
+    if hasattr(settings, "COLD_TESTING") and settings.COLD_TESTING:
+        print(klx_url+'?'+urllib.parse.urlencode(params))
     ret_json = json.loads(resp.content.decode('utf-8'))
     if ret_json.get('data') is not None: # code == 0, 用户已存在时code != 0
         ret_data = ret_json.get('data')
         return ret_data.get('username')  # (仅供参考)目前返回格式是 KUAILEXUE_PARTNER+uid+'_'+${YYYY}
     else:
-        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+        req_url = klx_url+'?'+urllib.parse.urlencode(params)
+        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s. (URL=%s)' % (ret_json.get('code'), ret_json.get('message'), req_url))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         return None
 
@@ -172,7 +176,8 @@ def klx_relation(klx_teacher, klx_students):
     if ret_json.get('code') == 0 or ret_json.get('message', '').lower() == 'success':
         return True
     else:
-        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+        req_url = klx_url+'?'+urllib.parse.urlencode(params)
+        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s. (URL=%s)' % (ret_json.get('code'), ret_json.get('message'), req_url))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         return False
 
