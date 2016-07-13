@@ -13,7 +13,7 @@ class Command(BaseCommand):
     test_suite = unittest.TestSuite
     test_runner = unittest.TextTestRunner
     test_loader = unittest.defaultTestLoader
-    verbosity = 2
+    verbosity = 1
     failfast = False
     default_test_file = 'app.cold_tests'
 
@@ -54,6 +54,7 @@ class Command(BaseCommand):
         unittest.removeHandler()
 
     def handle(self, *args, **options):
+        self.verbosity = options.get('verbosity', 1)
         test_labels = options.get('test_labels')
         self.init()
         suite = self.build_suite(test_labels)
