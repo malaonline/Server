@@ -131,6 +131,13 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
             queue: nil
         ) { [weak self] (notification) -> Void in
             if let model = notification.object as? ProfileElementModel, type = model.controller as? UIViewController.Type {
+                
+                // 若对应项被冻结，则点击无效
+                if model.disabled, let message = model.disabledMessage {
+                    self?.ShowTost(message)
+                    return
+                }
+                
                 let viewController = type.init()
                 viewController.title = model.controllerTitle
                 viewController.hidesBottomBarWhenPushed = true

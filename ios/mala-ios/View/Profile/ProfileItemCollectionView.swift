@@ -52,10 +52,6 @@ class ProfileItemCollectionView: UICollectionView, UICollectionViewDelegate, UIC
         }
         
         if let model = model?[indexPath.row] {
-            // 若对应项被冻结，则点击无效
-            if model.disabled {
-                return
-            }
             NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushProfileItemController, object: model)
         }
     }

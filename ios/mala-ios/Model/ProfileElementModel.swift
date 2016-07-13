@@ -30,6 +30,8 @@ class ProfileElementModel: BaseObjectModel {
     
     /// 是否冻结
     var disabled: Bool = false
+    /// 冻结信息
+    var disabledMessage: String? = nil
     
     
     // MARK: - Constructed
@@ -42,7 +44,7 @@ class ProfileElementModel: BaseObjectModel {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(id: Int, title: String = "", detail: String = "", controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0, iconName: String = "", newMessageIconName: String = "", disabled: Bool = false) {
+    convenience init(id: Int, title: String = "", detail: String = "", controller: AnyClass?, controllerTitle: String, type: userInfoType?, badgeNumber: Int? = 0, iconName: String = "", newMessageIconName: String = "", disabled: Bool = false, disabledMessage: String? = nil) {
         self.init()
         self.id = id
         self.title = title
@@ -54,6 +56,7 @@ class ProfileElementModel: BaseObjectModel {
         self.iconName = iconName
         self.newMessageIconName = newMessageIconName
         self.disabled = disabled
+        self.disabledMessage = disabledMessage
     }
     
     // MARK: - Override

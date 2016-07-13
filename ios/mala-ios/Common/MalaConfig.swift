@@ -195,7 +195,8 @@ public class MalaConfig {
                     type: nil,
                     iconName: "profile_collect",
                     newMessageIconName: "",
-                    disabled: true
+                    disabled: true,
+                    disabledMessage: "敬请期待"
                 ),
                 ProfileElementModel(
                     id: 1,
