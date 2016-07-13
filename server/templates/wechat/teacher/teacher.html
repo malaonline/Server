@@ -95,19 +95,31 @@
                 $img.css('margin-top', top + 'px');
             }
         };
-        function pageload(){
+        var initIcons = function(){
             {%if gender == '女'%}
             $('.teacher_gender').attr('src', '{% static "common/icons/fmale.png" %}');
             {%elif gender == '男'%}
             $('.teacher_gender').attr('src', '{% static "common/icons/male.png" %}');
             {%endif%}
+            $('#verifiedIcon').attr('src', '{% static 'wechat/images/ic_verified.png' %}');
+            $('#teachingAgeIcon').attr('src', '{% static 'wechat/images/ic_clock.png' %}');
+            $('#levelIcon').attr('src', '{% static 'wechat/images/ic_crown.png' %}');
+            $('.elementary').attr('src', '{% static 'wechat/images/ic_pen.png' %}');
+            $('.middle').attr('src', '{% static 'wechat/images/ic_book.png' %}');
+            $('.high').attr('src', '{% static 'wechat/images/ic_hat.png' %}');
+            $('.tags').attr('src', '{% static 'wechat/images/ic_tag.png' %}');
+            $('.ic-achievement').attr('src', '{% static 'wechat/images/ic_pic.png' %}');
+            $('#moreSchoolDown').attr('src', pullDownImg);
+            $('#moreSchoolUp').attr('src', pullUpImg);
+            $('#morePhotos').attr('src', moreImg);
+            $('#icHeart').attr('src', '{% static 'wechat/images/ic_heart.png' %}');
+        };
+        function pageload(){
+            initIcons();
 
             $('.teacher_avatar').css('backgroundImage', 'url({%if teacher.avatar.url%}{{teacher.avatar.url|safe}}{%endif%})');
             $('#teacherHeadBackImg').attr('src', '{% static "common/img/teacher_back.png" %}');
             drawTeachAgeLevel();
-            $('#moreSchoolDown').attr('src', pullDownImg);
-            $('#moreSchoolUp').attr('src', pullUpImg);
-            $('#morePhotos').attr('src', moreImg);
             var $teacherImages = $('.teacher_images');
             for(var i=0;i<userPhotos.length;i++){
               var nimg = $('<div class="img_box"><img name="teacherPhoto"></div>');
@@ -168,7 +180,7 @@
                     </div>
                     <div class="teacher_avatar_cont">
                         <div class="teacher_avatar"></div>
-                        <img id="verifiedIcon" src="{% static 'wechat/images/ic_verified.png' %}">
+                        <img id="verifiedIcon">
                     </div>
                 </div>
                 <div class="weui_panel teacher_panel level_panel">
@@ -176,7 +188,7 @@
                         <input id="teachingAge" type="hidden" value="{{teacher.teaching_age}}">
                         <div class="inner">
                             <canvas id="teachingAgeCanvas" width="44" height="44"></canvas>
-                            <img src="{% static 'wechat/images/ic_clock.png' %}">
+                            <img id="teachingAgeIcon">
                             <div>教龄<br>{{teacher.teaching_age}}年</div>
                         </div>
                     </div>
@@ -184,7 +196,7 @@
                         <input id="level" type="hidden" value="{%if teacher and teacher.level%}{{teacher.level.id}}{%endif%}">
                         <div class="inner">
                             <canvas id="levelCanvas" width="44" height="44"></canvas>
-                            <img src="{% static 'wechat/images/ic_crown.png' %}">
+                            <img id="levelIcon">
                             <div>级别<br>{%if teacher and teacher.level%}<label>{{teacher.level.name}}</label>{%endif%}</div>
                         </div>
                     </div>
@@ -197,9 +209,9 @@
                         {% for grade in grades_tree %}
                             <div class="icon_labels_row grade_row">
                                 <div class="icon_box grade_icon {{ grade.key }}">
-                                    <img class="elementary" src="{% static 'wechat/images/ic_pen.png' %}">
-                                    <img class="middle" src="{% static 'wechat/images/ic_book.png' %}">
-                                    <img class="high" src="{% static 'wechat/images/ic_hat.png' %}">
+                                    <img class="elementary">
+                                    <img class="middle">
+                                    <img class="high">
                                 </div>
                                 <div class="labels_box grade_names {{ grade.key }}">
                                     {% for sub_grade in grade.children %}
@@ -220,7 +232,7 @@
                     <div class="item_distance">
                         <div class="icon_labels_row tag_row">
                             <div class="icon_box tags">
-                                <img class="tags" src="{% static 'wechat/images/ic_tag.png' %}">
+                                <img class="tags">
                             </div>
                             <div class="labels_box tags">
                                 {%for tg in tags%}
@@ -270,7 +282,7 @@
                     <div class="item_distance_ach">
                         {%for am in achievements%}
                             <label class="teacher_achievement" data-img="{{ am.img_url }}">
-                                {{am.title}}<img src="{% static 'wechat/images/ic_pic.png' %}">
+                                {{am.title}}<img class="ic-achievement">
                             </label>
                         {%endfor%}
                     </div>
@@ -319,7 +331,7 @@
             </div>
             <div class="submit_content">
                 <div class="like">
-                    <div class="ext_weui_btn_like"><img src="{% static 'wechat/images/ic_heart.png' %}"><br>收藏</div>
+                    <div class="ext_weui_btn_like"><img id="icHeart"><br>收藏</div>
                 </div>
                 <div class="go">
                     <div class="ext_weui_btn_submit">马上报名</div>
