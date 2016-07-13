@@ -2350,3 +2350,53 @@ class EvaluationActionView(BaseStaffActionView):
         else:
             return JsonResponse({'ok': False, 'msg': '未安排测评时间, 无法设置完成状态', 'code': 'evaluation_status'})
             # return JsonResponse({'ok': False, 'msg': '设置测评完成失败, 请稍后重试或联系管理员', 'code': 'complete_evaluation'})
+
+
+class LevelPriceConfigView(BaseStaffView):
+    """
+    级别的价格设置界面
+    """
+    template_name = 'staff/level/price_cfg.html'
+
+    def build_context(self, context, prices, levels):
+        if not prices or not levels:
+            context['level_list'] = []
+            return
+        level_list = list(levels)
+        for level in level_list:
+            for price in prices:
+                if price.level_id == level.id:
+                    level.price = price.price
+                    break
+        context['level_list'] = level_list
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        region = self.request.GET.get('region')
+        prices = []
+        if region and region.isdigit():
+            prices = models.Price.objects.filter(region_id=region)
+        all_levels= models.Level.objects.all()
+        self.build_context(kwargs, prices, all_levels)
+        kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其他'))
+        return super(LevelPriceConfigView, self).get_context_data(**kwargs)
+
+
+class LevelSalaryConfigView(LevelPriceConfigView):
+    """
+    级别的薪资设置界面
+    """
+    template_name = 'staff/level/salary_cfg.html'
+
+    def build_context(self, context, prices, levels):
+        if not prices or not levels:
+            context['level_list'] = []
+            return
+        level_list = list(levels)
+        for level in level_list:
+            for price in prices:
+                if price.level_id == level.id:
+                    level.commission_percentage = price.commission_percentage
+                    break
+        context['level_list'] = level_list

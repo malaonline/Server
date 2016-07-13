@@ -31,4 +31,6 @@ urlpatterns = [
     url(r'^coupon/config/$', views.CouponConfigView.as_view(), name="coupon_config"),
     url(r'^evaluations/$', views.EvaluationView.as_view(), name="evaluations"),
     url(r'^evaluations/action/$', views.EvaluationActionView.as_view(), name="evaluations_action"),
+    url(r'^level/price/config/$', views.LevelPriceConfigView.as_view(), name="level_price_cfg"),
+    url(r'^level/salary/config/$', views.LevelSalaryConfigView.as_view(), name="level_salary_cfg"),
 ]
