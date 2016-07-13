@@ -4,67 +4,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/report__page_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="提分点分析"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider"/>
+    android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="30dp"
-        android:gravity="end|center_vertical">
-
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fl_bottom"
+        android:layout_marginTop="28dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_title"
+            style="@style/report__page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
-            android:drawableLeft="@drawable/report__ic_line_chart"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/report__ic_line_chart"
-            android:text="我的评分"
-            android:textColor="#5E5E5E"
-            android:textSize="10sp"/>
+            android:text="提分点分析"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/report__gray_divider"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/report__view_blue_ring"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/report__view_blue_ring"
-            android:text="平均评分"
-            android:textColor="#5E5E5E"
-            android:textSize="10sp"/>
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="30dp"
+            android:gravity="end|center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:layout_marginRight="7dp"
+                android:drawableLeft="@drawable/report__ic_line_chart"
+                android:drawablePadding="4dp"
+                android:drawableStart="@drawable/report__ic_line_chart"
+                android:text="我的评分"
+                android:textColor="#5E5E5E"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/report__view_blue_ring"
+                android:drawablePadding="4dp"
+                android:drawableStart="@drawable/report__view_blue_ring"
+                android:text="平均评分"
+                android:textColor="#5E5E5E"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"/>
+
+        <com.malalaoshi.android.report.view.LineView
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="32dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"/>
+
     </LinearLayout>
 
-    <com.malalaoshi.android.report.view.LineView
-        android:id="@+id/view_line"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="32dp"/>
-
-
     <FrameLayout
+        android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp">
 
 
         <RelativeLayout

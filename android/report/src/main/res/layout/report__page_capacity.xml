@@ -4,57 +4,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:gravity="center_horizontal">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fl_bottom"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/report__page_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="能力结构分析"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_down"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="-1"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/report__page_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="能力结构分析"/>
 
-        <Button
-            android:id="@+id/btn_add"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/btn_down"
-            android:text="+1"
-            android:visibility="gone"/>
-    </RelativeLayout>
+            <Button
+                android:id="@+id/btn_down"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="-1"
+                android:visibility="gone"/>
 
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/btn_down"
+                android:text="+1"
+                android:visibility="gone"/>
+        </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/report__gray_divider"/>
 
-    <com.malalaoshi.android.report.view.PolygonNetView
-        android:id="@+id/view_chart"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <com.malalaoshi.android.report.view.PolygonNetView
+            android:id="@+id/view_chart"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+    </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

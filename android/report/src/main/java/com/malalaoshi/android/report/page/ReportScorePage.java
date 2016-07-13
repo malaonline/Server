@@ -3,7 +3,7 @@ package com.malalaoshi.android.report.page;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
@@ -19,7 +19,7 @@ import java.util.List;
  * 提分数据分析页
  * Created by tianwei on 5/22/16.
  */
-public class ReportScorePage extends LinearLayout {
+public class ReportScorePage extends RelativeLayout {
 
     private List<ScoreAnalyses> data;
 

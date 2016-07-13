@@ -6,7 +6,7 @@
     <color name="core__title_bar_text_color">#FF333333</color>
 
     <!-- 标题栏标题的大小-->
-    <dimen name="core__title_bar_text_size">16sp</dimen>
+    <dimen name="core__title_bar_text_size">16dp</dimen>
 
     <!-- 标题栏分割线-->
     <drawable name="core__title_bar_divider">#FFDADADA</drawable>

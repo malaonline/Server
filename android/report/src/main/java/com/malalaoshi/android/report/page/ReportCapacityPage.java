@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -24,7 +24,7 @@ import java.util.Map;
  * 能力数据分析页
  * Created by tianwei on 5/22/16.
  */
-public class ReportCapacityPage extends LinearLayout {
+public class ReportCapacityPage extends RelativeLayout {
 
     private static final Map<String, String> NAME;
 

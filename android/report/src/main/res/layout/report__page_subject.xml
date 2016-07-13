@@ -1,67 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.malalaoshi.android.report.page.ReportSubjectPage xmlns:android="http://schemas.android.com/apk/res/android"
+<com.malalaoshi.android.report.page.ReportSubjectPage
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tv_title"
-        style="@style/report__page_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="题目数据分析" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/report__gray_divider" />
+    android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-8dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="24dp"
-        android:gravity="end|center_vertical">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/fl_bottom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_title"
+            style="@style/report__page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:drawableLeft="@drawable/report__blue_circle"
-            android:drawablePadding="3dp"
-            android:text="答题数量"
-            android:textColor="#5E5E5E"
-            android:textSize="@dimen/core__text_size_small" />
+            android:layout_marginTop="28dp"
+            android:text="题目数据分析"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/report__gray_divider"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/report__green_circle"
-            android:drawablePadding="3dp"
-            android:text="正确数量"
-            android:textColor="#5E5E5E"
-            android:textSize="@dimen/core__text_size_small" />
+            android:layout_marginBottom="-8dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="24dp"
+            android:gravity="end|center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:drawableLeft="@drawable/report__blue_circle"
+                android:drawablePadding="3dp"
+                android:text="答题数量"
+                android:textColor="#5E5E5E"
+                android:textSize="@dimen/core__text_size_small"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/report__green_circle"
+                android:drawablePadding="3dp"
+                android:text="正确数量"
+                android:textColor="#5E5E5E"
+                android:textSize="@dimen/core__text_size_small"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"/>
+        <com.malalaoshi.android.report.view.WaveView
+            android:id="@+id/view_wave"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="32dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"/>
     </LinearLayout>
 
-    <com.malalaoshi.android.report.view.WaveView
-        android:id="@+id/view_wave"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="32dp" />
-
-
     <FrameLayout
+        android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="35dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:text="解读："
                 android:textColor="#363b4e"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,7 +106,7 @@
                 android:layout_marginTop="7dp"
                 android:text="蓝色区域为学生答题数量，区域越大答题数越多。绿色区域为学生正确数量，和蓝色区域的差别越小学生正确率越高。"
                 android:textColor="#363b4e"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </RelativeLayout>
 
         <ImageView
@@ -97,6 +117,6 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@null"
-            android:src="@drawable/report__ic_pin" />
+            android:src="@drawable/report__ic_pin"/>
     </FrameLayout>
 </com.malalaoshi.android.report.page.ReportSubjectPage>

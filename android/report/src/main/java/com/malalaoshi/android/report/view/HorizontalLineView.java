@@ -151,7 +151,7 @@ public class HorizontalLineView extends View {
             paint.setColor(Color.WHITE);
             frontTxt = item.getyValue() + "/" + item.getY2Value();
             frontTxtRect = Utils.getTextBounds(paint, frontTxt);
-            txtBegin = backBegin + frontWidth - frontTxtRect.width() - TXT_MARGIN;
+            txtBegin = backBegin + frontWidth - frontTxtRect.width() - MiscUtil.dp2px(8);
             txtBegin = txtBegin < backBegin ? backBegin : txtBegin;
             canvas.drawText(frontTxt, txtBegin, cellHeight * (i + 0.5f) - frontTxtRect.height() / 8, paint);
         }
