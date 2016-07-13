@@ -1,7 +1,6 @@
 package com.malalaoshi.android.activitys;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,10 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.view.ZoomImageView;
-import com.squareup.picasso.Picasso;
 
 
 /**
@@ -88,31 +88,15 @@ public class GalleryActivity extends BaseActivity {
 			public Object instantiateItem(ViewGroup container, int position) {
 
 				ZoomImageView imageView = new ZoomImageView(GalleryActivity.this);
-
-				//ScaleImageView imageView = new ScaleImageView(getApplicationContext());
-				//imageView.setImageResource(mImgs[position]);
 				String imgUrl = mImgUrls[position];
-				//imageView.setImageURI(Uri.parse(imgUrl));
-
-				Picasso.with(GalleryActivity.this) //
-						.load(imgUrl) //
-						.placeholder(R.drawable.ic_default_img_org) //
-						.error(R.drawable.ic_default_img_org_error) //
-						.tag(GalleryActivity.this) //
+				Glide.with(GalleryActivity.this)
+						.load(imgUrl)
+						.diskCacheStrategy(DiskCacheStrategy.ALL)
+						.placeholder(R.drawable.ic_default_img_org)
+						.error(R.drawable.ic_default_img_org_error)
+						.crossFade()
 						.into(imageView);
-
 				container.addView(imageView);
-				/*String imgUrl = mImgUrls[position];
-				PhotoView imageView = new PhotoView(GalleryActivity.this);
-				Picasso.with(GalleryActivity.this) //
-						.load(imgUrl) //
-						.placeholder(R.drawable.ic_default_img_org) //
-						.error(R.drawable.ic_default_img_org_error) //
-						.tag(GalleryActivity.this) //
-						.into(imageView);
-				// Now just add PhotoView to ViewPager and return it
-				container.addView(imageView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);*/
-
 				return imageView;
 			}
 

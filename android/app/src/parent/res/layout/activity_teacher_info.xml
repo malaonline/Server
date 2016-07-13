@@ -26,9 +26,9 @@
                     android:layout_height="@dimen/bg_teacher_height"
                     android:layout_centerInParent="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/core__teacher_banner" />
+                    android:src="@drawable/core__teacher_banner"
+                    />
             </RelativeLayout>
-
 
             <include layout="@layout/teacher_info_body"
                 android:layout_width="match_parent"

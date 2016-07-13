@@ -9,14 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.malalaoshi.android.MalaApplication;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
+import com.malalaoshi.android.util.DensityUtil;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,12 +42,10 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
     @Bind(R.id.titleBar)
     protected TitleBarView titleBarView;
 
-    //@Bind(R.id.rv_gallerys)
-    //protected RecyclerView recyclerViewGallery;
-
     @Bind(R.id.lv_gallerys)
-    protected ListView listViewGallery;
+    protected GridView listViewGallery;
 
+    private GalleryAdapter galleryAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +69,10 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
     }
 
     private void initViews() {
-
-        listViewGallery.setAdapter(new GalleryAdapter2(this));
+        galleryAdapter = new GalleryAdapter(this);
+        List<String> photos = Arrays.asList(photoUrls);
+        galleryAdapter.addAll(photos);
+        listViewGallery.setAdapter(galleryAdapter);
         //设置布局管理器
         /*recyclerViewGallery.setLayoutManager(new GridLayoutManager(this,1));
         //设置adapter
@@ -84,6 +93,7 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
     public void onTitleRightClick() {
 
     }
+
 
     class GalleryAdapter2 extends BaseAdapter{
 
@@ -122,29 +132,29 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
         }
 
         class Holder{
-            SimpleDraweeView[] simpleDraweeViews = new SimpleDraweeView[3];
+            ImageView[] imageViews = new ImageView[3];
             public Holder(View itemView) {
-                simpleDraweeViews[0] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView1);
-                simpleDraweeViews[1] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView2);
-                simpleDraweeViews[2] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView3);
+                imageViews[0] = (ImageView) itemView.findViewById(R.id.networkImageView1);
+                imageViews[1] = (ImageView) itemView.findViewById(R.id.networkImageView2);
+                imageViews[2] = (ImageView) itemView.findViewById(R.id.networkImageView3);
             }
             public void update(final int position){
-                simpleDraweeViews[0].setVisibility(View.INVISIBLE);
-                simpleDraweeViews[1].setVisibility(View.INVISIBLE);
-                simpleDraweeViews[2].setVisibility(View.INVISIBLE);
+                imageViews[0].setVisibility(View.INVISIBLE);
+                imageViews[1].setVisibility(View.INVISIBLE);
+                imageViews[2].setVisibility(View.INVISIBLE);
                 int count = (photoUrls.length - position*3)>3?3:photoUrls.length - position*3;
                 for (int i=0;i<count;i++){
-                    simpleDraweeViews[i].setVisibility(View.VISIBLE);
+                    imageViews[i].setVisibility(View.VISIBLE);
                     final int newPos = position*3+i;
                     //重置图高度
-                    int width = simpleDraweeViews[i].getMeasuredWidth();
-                    ViewGroup.LayoutParams layoutParamses =  simpleDraweeViews[i].getLayoutParams();
+                    int width = imageViews[i].getMeasuredWidth();
+                    ViewGroup.LayoutParams layoutParamses =  imageViews[i].getLayoutParams();
                     layoutParamses.height = width;
-                    simpleDraweeViews[i].setLayoutParams(layoutParamses);
+                    imageViews[i].setLayoutParams(layoutParamses);
 
                     //加载图片
-                    updateNetworkImageView(simpleDraweeViews[i],photoUrls[newPos]);
-                    simpleDraweeViews[i].setOnClickListener(new View.OnClickListener() {
+                    updateNetworkImageView(imageViews[i],photoUrls[newPos]);
+                    imageViews[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
@@ -156,10 +166,14 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                 }
             }
 
-            private void updateNetworkImageView(SimpleDraweeView imageView,String url){
-                if (!EmptyUtils.isEmpty(url)){
-                    imageView.setImageURI(Uri.parse(url));
-                }
+            private void updateNetworkImageView(ImageView imageView,String url){
+                Glide.with(GalleryPreviewActivity.this)
+                        .load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.ic_default_photo)
+                        .error(R.drawable.ic_default_photo)
+                        .crossFade()
+                        .into(imageView);
             }
         }
 
@@ -167,71 +181,42 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
     }
 
 
-    class GalleryAdapter extends RecyclerView.Adapter{
-        GalleryAdapter(){
+    class GalleryAdapter extends MalaBaseAdapter<String>{
 
+        public GalleryAdapter(Context context) {
+            super(context);
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_list_item, null);
-            return new GalleryViewHolder(view);
+        protected View createView(int position, ViewGroup parent) {
+            ImageView imageView = new ImageView(context);
+            ViewGroup.LayoutParams layoutParamses = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+            int width = DensityUtil.getScreemWidth(context);
+            width = (width - 2*context.getResources().getDimensionPixelSize(R.dimen.grallery_preview_divider))/3;
+            layoutParamses.width = width;
+            layoutParamses.height = width;
+            imageView.setLayoutParams(layoutParamses);
+            return imageView;
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ((GalleryViewHolder)holder).update(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            int count = photoUrls.length/3;
-            return photoUrls.length%3==0?count:count+1;
-        }
-
-        class GalleryViewHolder extends RecyclerView.ViewHolder{
-
-            SimpleDraweeView[] networkImageViews = new SimpleDraweeView[3];
-            View parent;
-            public GalleryViewHolder(View itemView) {
-                super(itemView);
-                parent = itemView;
-                networkImageViews[0] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView1);
-                networkImageViews[1] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView2);
-                networkImageViews[2] = (SimpleDraweeView) itemView.findViewById(R.id.networkImageView3);
-            }
-
-            public void update(final int position){
-
-                int count = photoUrls.length - position*3;
-                for (int i=0;i<count;i++){
-                    //重置图高度
-                    int width = networkImageViews[i].getMeasuredWidth();
-
-                    ViewGroup.LayoutParams layoutParamses = networkImageViews[i].getLayoutParams();
-                    layoutParamses.height = width;
-                    networkImageViews[i].setLayoutParams(layoutParamses);
-
-
-                    //加载图片
-                    updateNetworkImageView(networkImageViews[i],photoUrls[position*3+i]);
-                    networkImageViews[i].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
-                            intent.putExtra(GalleryActivity.GALLERY_URLS, photoUrls);
-                            intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
-                            startActivity(intent);
-                        }
-                    });
+        protected void fillView(final int position, View convertView, String data) {
+            Glide.with(GalleryPreviewActivity.this)
+                    .load(data)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_default_photo)
+                    .crossFade()
+                    .centerCrop()
+                    .into((ImageView) convertView);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(GalleryPreviewActivity.this, GalleryActivity.class);
+                    intent.putExtra(GalleryActivity.GALLERY_URLS, photoUrls);
+                    intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
+                    startActivity(intent);
                 }
-            }
-
-            private void updateNetworkImageView(SimpleDraweeView imageView,String url){
-                if (!EmptyUtils.isEmpty(url)){
-                    imageView.setImageURI(Uri.parse(url));
-                }
-            }
+            });
         }
     }
 

@@ -26,7 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
@@ -77,6 +78,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/1/24.
@@ -95,7 +97,7 @@ public class UserFragment extends BaseFragment {
     protected TextView tvUserName;
 
     @Bind(R.id.iv_user_avatar)
-    protected SimpleDraweeView ivAvatar;
+    protected ImageView ivAvatar;
 
     @Bind(R.id.tv_unpaid_orders)
     protected ImageView tvUnpaidOrders;
@@ -246,13 +248,20 @@ public class UserFragment extends BaseFragment {
     private void updateUserAvatarUI() {
         if (UserManager.getInstance().isLogin()) {
             String string = UserManager.getInstance().getAvatorUrl();
-            if (!TextUtils.isEmpty(string)) {
-                if (!EmptyUtils.isEmpty(string)){
-                    ivAvatar.setImageURI(Uri.parse(string));
-                }
-            }
+            Glide.with(this)
+                    .load(string)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.default_avatar)
+                    .crossFade()
+                    .into(ivAvatar);
         } else {
-            ivAvatar.setImageURI(Uri.parse("res://myavator/" + R.drawable.default_avatar));
+            Glide.with(this)
+                    .load(R.drawable.default_avatar)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .crossFade()
+                    .into(ivAvatar);
         }
     }
 
@@ -644,11 +653,15 @@ public class UserFragment extends BaseFragment {
     }
 
     private void setAvatarSucceeded() {
-        if (strAvatarLocPath != null) {
-            String url = "file://"+strAvatarLocPath;
-            ivAvatar.setImageURI(Uri.parse(url));
-            UserManager.getInstance().setAvatorUrl(url);
-        }
+        String url = strAvatarLocPath;
+        Glide.with(this)
+                .load(strAvatarLocPath)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_default_teacher_avatar)
+                .crossFade()
+                .into(ivAvatar);
+        UserManager.getInstance().setAvatorUrl(url);
         MiscUtil.toast(R.string.usercenter_set_avator_succeed);
         stopProcessDialog();
     }

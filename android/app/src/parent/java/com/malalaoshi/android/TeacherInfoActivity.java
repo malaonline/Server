@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.GalleryAdapter;
@@ -63,6 +62,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/3/29.
@@ -103,7 +103,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     //头像
     @Bind(R.id.parent_teacher_detail_head_portrait)
-    protected SimpleDraweeView mHeadPortrait;
+    protected ImageView mHeadPortrait;
 
     //教师姓名
     @Bind(R.id.parent_teacher_detail_name_tv)
@@ -353,7 +353,13 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void updateBlurImage(final String url) {
-        Glide.with(this).load(url).bitmapTransform(new BlurTransformation(this)).into(teacherView);
+        Glide.with(this).load(url)
+                .bitmapTransform(new BlurTransformation(this))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.core__teacher_banner)
+                .crossFade()
+                .centerCrop()
+                .into(teacherView);
     }
 
     //跟新教师详情
@@ -367,10 +373,14 @@ public class TeacherInfoActivity extends BaseActivity
             }
             //头像
             string = teacher.getAvatar();
-            if (!EmptyUtils.isEmpty(string)) {
-                mHeadPortrait.setImageURI(Uri.parse(string));
-                updateBlurImage(string);
-            }
+            Glide.with(this)
+                    .load(string)
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_default_teacher_avatar)
+                    .crossFade()
+                    .into(mHeadPortrait);
+            updateBlurImage(string);
 
             //性别
             String gender = teacher.getGender();

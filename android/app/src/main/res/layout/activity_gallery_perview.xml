@@ -15,16 +15,22 @@
         app:cusTitleText="相册"
         app:cusTitleTextColor="@color/title_bar_text_color"
         app:cusTitleTextSize="@dimen/text_size_xlarge"/>
-    <ListView
+   <!-- <ListView
          android:id="@+id/lv_gallerys"
          android:paddingTop="4dp"
          android:divider="@null"
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"></ListView>
-    <!--  <android.support.v7.widget.RecyclerView
-         android:id="@+id/rv_gallerys"
-         android:paddingTop="4dp"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"/>-->
+         android:layout_height="wrap_content"></ListView>-->
+    <GridView
+        android:id="@+id/lv_gallerys"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:horizontalSpacing="@dimen/grallery_preview_divider"
+        android:verticalSpacing="@dimen/grallery_preview_divider"></GridView>
+
+
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.push.MalaPushClient;
@@ -40,8 +39,6 @@ public class MalaApplication extends BaseApplication {
         //启动应用后设置用户初始化并设置用户别名
         MalaPushClient.getInstance().init();
         MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
-        //初始化图片加载库Freso
-        Fresco.initialize(this);
     }
 
     public static MalaApplication getInstance() {

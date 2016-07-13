@@ -1,80 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-   <!-- <com.android.volley.toolbox.NetworkImageView
+    <ImageView
         android:id="@+id/networkImageView1"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_photo"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/networkImageView1"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        fresco:actualImageScaleType="focusCrop"
-        fresco:placeholderImage="@drawable/ic_default_photo"
-        fresco:placeholderImageScaleType="focusCrop"
-        fresco:failureImage="@drawable/ic_default_photo"
-        fresco:failureImageScaleType="focusCrop"
-        fresco:fadeDuration="1000"
-        fresco:backgroundImage="@color/white"
-        />
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+         />
     <View
         android:layout_width="4dp"
-        android:layout_height="match_parent"/>
-    <!--<com.android.volley.toolbox.NetworkImageView
+        android:layout_height="match_parent" />
+    <ImageView
         android:id="@+id/networkImageView2"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_photo"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/networkImageView2"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        fresco:actualImageScaleType="focusCrop"
-        fresco:placeholderImage="@drawable/ic_default_photo"
-        fresco:placeholderImageScaleType="focusCrop"
-        fresco:failureImage="@drawable/ic_default_photo"
-        fresco:failureImageScaleType="focusCrop"
-        fresco:fadeDuration="1000"
-        fresco:backgroundImage="@color/white"
-        />
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+         />
     <View
         android:layout_width="4dp"
-        android:layout_height="match_parent"/>
- <!--   <com.android.volley.toolbox.NetworkImageView
+       android:layout_height="match_parent" />
+    <ImageView
         android:id="@+id/networkImageView3"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_default_photo"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/networkImageView3"
-        android:layout_marginBottom="4dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        fresco:actualImageScaleType="focusCrop"
-        fresco:placeholderImage="@drawable/ic_default_photo"
-        fresco:placeholderImageScaleType="focusCrop"
-        fresco:failureImage="@drawable/ic_default_photo"
-        fresco:failureImageScaleType="focusCrop"
-        fresco:fadeDuration="1000"
-        fresco:backgroundImage="@color/white"
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
         />
 </LinearLayout>

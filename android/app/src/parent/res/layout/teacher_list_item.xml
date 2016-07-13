@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/teacher_list_item_body"
     android:layout_marginTop="8dp"
     style="@style/AppWidget.CardViewStyle">
@@ -51,21 +51,13 @@
                 android:layout_weight="1"
                 android:background="@drawable/line" />
         </LinearLayout>
-        <com.facebook.drawee.view.SimpleDraweeView
+
+        <ImageView
             android:id="@+id/teacher_list_item_avater"
             android:layout_width="@dimen/home_avater_height"
             android:layout_height="@dimen/home_avater_width"
             android:layout_marginTop="@dimen/home_margin_top_xlarge"
-            android:gravity="center"
-            fresco:actualImageScaleType="focusCrop"
-            fresco:placeholderImage="@drawable/ic_default_teacher_avatar"
-            fresco:placeholderImageScaleType="focusCrop"
-            fresco:failureImage="@drawable/ic_default_teacher_avatar"
-            fresco:failureImageScaleType="focusCrop"
-            fresco:fadeDuration="1000"
-            fresco:backgroundImage="@color/white"
-            fresco:roundAsCircle="true"
-            ></com.facebook.drawee.view.SimpleDraweeView>
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"

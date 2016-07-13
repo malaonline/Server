@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -29,7 +28,6 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="全国违章"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_normal_x"/>
         <TextView
@@ -41,7 +39,6 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="初一 数学"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size_normal_x"/>
 
@@ -79,7 +76,6 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="北京"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size_normal_x"/>
     </LinearLayout>
@@ -92,7 +88,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@color/line_color"/>
-
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -133,20 +128,12 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal_x"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginTop="12dp"
-            fresco:actualImageScaleType="focusCrop"
-            fresco:backgroundImage="@color/white"
-            fresco:fadeDuration="1000"
-            fresco:failureImage="@drawable/ic_default_teacher_avatar"
-            fresco:failureImageScaleType="focusCrop"
-            fresco:placeholderImage="@drawable/ic_default_teacher_avatar"
-            fresco:placeholderImageScaleType="focusCrop"
-            fresco:roundAsCircle="true"/>
+            android:src="@drawable/ic_default_teacher_avatar"/>
     </LinearLayout>
-
 
 </RelativeLayout>

@@ -1,20 +1,21 @@
 package com.malalaoshi.android.adapter;
 
 import android.content.Context;
-import android.net.Uri;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import com.facebook.drawee.view.SimpleDraweeView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.School;
 import com.malalaoshi.android.util.LocationUtil;
 
-import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/1/5.
@@ -29,7 +30,7 @@ public class SchoolAdapter extends MalaBaseAdapter<School> {
     protected View createView(int position, ViewGroup parent) {
         View convertView = View.inflate(context, R.layout.school_list_item, null);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.ivSchoolPic = (SimpleDraweeView)convertView.findViewById(R.id.iv_school_pic);
+        viewHolder.ivSchoolPic = (ImageView)convertView.findViewById(R.id.iv_school_pic);
         viewHolder.tvSchoolName = (TextView)convertView.findViewById(R.id.tv_school_name);
         viewHolder.tvSchoolAddress = (TextView)convertView.findViewById(R.id.tv_school_address);
         viewHolder.tvSchoolDistance = (TextView)convertView.findViewById(R.id.tv_school_distance);
@@ -41,9 +42,14 @@ public class SchoolAdapter extends MalaBaseAdapter<School> {
     protected void fillView(int position, View convertView, School data) {
         ViewHolder viewHolder = (ViewHolder) convertView.getTag();
         String imgUrl = data.getThumbnail();
-        if (!EmptyUtils.isEmpty(imgUrl)){
-            viewHolder.ivSchoolPic.setImageURI(Uri.parse(imgUrl));
-        }
+        Glide.with(context)
+                .load(imgUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_default_img)
+                .crossFade()
+                .centerCrop()
+                .into(viewHolder.ivSchoolPic);
+
         viewHolder.tvSchoolName.setText(data.getName());
         viewHolder.tvSchoolAddress.setText(data.getAddress());
         Double distance = data.getDistance();
@@ -54,7 +60,7 @@ public class SchoolAdapter extends MalaBaseAdapter<School> {
     }
 
     class ViewHolder {
-        public SimpleDraweeView ivSchoolPic;
+        public ImageView ivSchoolPic;
         public TextView tvSchoolName;
         public TextView tvSchoolAddress;
         public TextView tvSchoolDistance;

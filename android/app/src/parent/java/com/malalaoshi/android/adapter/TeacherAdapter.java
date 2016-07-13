@@ -1,25 +1,29 @@
 package com.malalaoshi.android.adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.TeacherInfoActivity;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.util.StringUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class TeacherAdapter extends BaseRecycleAdapter<TeacherAdapter.ViewHolder,Teacher> {
@@ -51,7 +55,7 @@ public class TeacherAdapter extends BaseRecycleAdapter<TeacherAdapter.ViewHolder
         protected TextView level;
 
         @Bind(R.id.teacher_list_item_avater)
-        protected SimpleDraweeView avater;
+        protected ImageView avater;
 
         @Bind(R.id.teacher_list_item_price)
         protected TextView price;
@@ -93,9 +97,13 @@ public class TeacherAdapter extends BaseRecycleAdapter<TeacherAdapter.ViewHolder
                 tags.setText(tagStr);
             }
             String imgUrl = teacher.getAvatar();
-            if (!EmptyUtils.isEmpty(imgUrl)){
-                avater.setImageURI(Uri.parse(imgUrl));
-            }
+            Glide.with(view.getContext())
+                    .load(imgUrl)
+                    .bitmapTransform(new CropCircleTransformation(view.getContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_default_teacher_avatar)
+                    .crossFade()
+                    .into(avater);
 
             String priceRange = "价格异常";
             Double minPrice = teacher.getMin_price();
@@ -112,4 +120,5 @@ public class TeacherAdapter extends BaseRecycleAdapter<TeacherAdapter.ViewHolder
             TeacherInfoActivity.open(this.view.getContext(), teacher != null ? teacher.getId() : null);
         }
     }
+
 }

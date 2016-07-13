@@ -2,8 +2,6 @@ package com.malalaoshi.android.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.OrderInfoActivity;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
@@ -28,8 +27,6 @@ import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,7 +63,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
         protected TextView tvTeacherName;
 
         @Bind(R.id.iv_teacher_avator)
-        protected SimpleDraweeView avater;
+        protected ImageView avater;
 
         @Bind(R.id.tv_course_name)
         protected TextView tvCourseName;
@@ -166,9 +163,13 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
             }
 
             String imgUrl = order.getTeacher_avatar();
-            if (!EmptyUtils.isEmpty(imgUrl)){
-                avater.setImageURI(Uri.parse(imgUrl));
-            }
+            Glide.with(view.getContext())
+                    .load(imgUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_default_teacher_avatar)
+                    .crossFade()
+                    .into(avater);
+
         }
 
         @OnClick(R.id.tv_buy_course)

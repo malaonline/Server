@@ -189,6 +189,7 @@
     <dimen name="grallery_height">85dp</dimen>
     <dimen name="grallery_horizontal_spacing">2dp</dimen>
 
+    <dimen name="grallery_preview_divider">2dp</dimen>
     //
     <dimen name="flow_textview_width">800dp</dimen>
     <dimen name="flow_textview_height">25dp</dimen>

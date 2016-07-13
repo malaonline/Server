@@ -1,15 +1,16 @@
 package com.malalaoshi.android.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
@@ -38,6 +39,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/5/24.
@@ -62,7 +64,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     protected TextView tvSchool;
 
     @Bind(R.id.iv_teacher_avator)
-    protected SimpleDraweeView ivTeacherAvator;
+    protected ImageView ivTeacherAvator;
 
     @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
@@ -152,9 +154,13 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         };
         tvMount.setText(strTopay);
         String imgUrl = order.getTeacher_avatar();
-        if (!EmptyUtils.isEmpty(imgUrl)){
-            ivTeacherAvator.setImageURI(Uri.parse(imgUrl));
-        }
+        Glide.with(getContext())
+                .load(imgUrl)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_default_teacher_avatar)
+                .crossFade()
+                .into(ivTeacherAvator);
         startProcessDialog("正在加载数据···");
         loadData();
     }

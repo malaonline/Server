@@ -17,11 +17,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.CommentApi;
 import com.malalaoshi.android.api.PostCommentApi;
@@ -45,6 +47,7 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/3/2.
@@ -70,7 +73,7 @@ public class CommentDialog extends DialogFragment {
     private OnCommentResultListener resutListener;
 
     @Bind(R.id.iv_teacher_avater)
-    SimpleDraweeView teacherAvater;
+    ImageView teacherAvater;
 
     @Bind(R.id.tv_teacher_name)
     TextView tvTeacherName;
@@ -232,9 +235,14 @@ public class CommentDialog extends DialogFragment {
             });
 
         }
-        if (!EmptyUtils.isEmpty(teacherAvatarUrl)) {
-            teacherAvater.setImageURI(Uri.parse(teacherAvatarUrl));
-        }
+        Glide.with(getContext())
+                .load(teacherAvatarUrl)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_default_teacher_avatar)
+                .crossFade()
+                .into(teacherAvater);
+
         tvTeacherName.setText(teacherName);
         tvCourse.setText(courseName);
     }

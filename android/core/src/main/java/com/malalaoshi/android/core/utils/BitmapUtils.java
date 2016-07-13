@@ -4,7 +4,6 @@ package com.malalaoshi.android.core.utils;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -13,7 +12,6 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 
 import com.malalaoshi.android.core.MalaContext;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -34,7 +32,7 @@ public class BitmapUtils {
             return BitmapFactory.decodeFile(cacheFile.getAbsolutePath());
         }
         try {
-            Bitmap bitmap = Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).resize(width,height).get();
+           Bitmap bitmap = null;//Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).resize(width,height).get();
             //Bitmap bitmap = Picasso.with(MalaContext.getContext()).load(Uri.parse(url)).get();
             Bitmap result = blurBitmap(bitmap);
             bitmap.recycle();
