@@ -210,24 +210,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                 }
                 
                 /// 确保是imageView触发手势，且imageView图片存在
-                if let imageView = notification.object as? UIImageView, originImage = imageView.image {
-                    
-                    let images = self?.model.photo_set?.map({ (imageURL) -> SKPhoto in
-                        let image = SKPhoto.photoWithImageURL(imageURL)
-                        image.shouldCachePhotoURLImage = true
-                        return image
-                    })
-                    
-                    /// 图片浏览器
-                    let browser = SKPhotoBrowser(originImage: originImage, photos: images ?? [], animatedFromView: imageView)
-                    browser.initializePageIndex(imageView.tag)
-                    browser.displayAction = false
-                    browser.displayBackAndForwardButton = false
-                    browser.displayDeleteButton = false
-                    browser.statusBarStyle = nil
-                    browser.bounceAnimation = false
-                    browser.navigationController?.navigationBarHidden = true
-                    self?.navigationController?.presentViewController(browser, animated: true, completion: nil)
+                if let photoBrowser = notification.object as? SKPhotoBrowser {
+                    self?.navigationController?.presentViewController(photoBrowser, animated: true, completion: nil)
                 }
         }
     }

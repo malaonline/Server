@@ -37,6 +37,9 @@ class TagListView:UIScrollView
     var textColor: UIColor = UIColor.whiteColor()
     /// 图标名称
     var iconName: String?
+    /// 公共触发事件
+    var commonTarget: AnyObject?
+    var commonAction: Selector?
     
     
     // MARK: - Instance Method
@@ -93,13 +96,25 @@ class TagListView:UIScrollView
             }
         }
         
-        // 处理事件
+        // 点击事件
         if tapAction != nil {
             let tap = UITapGestureRecognizer(target: target, action: tapAction!)
             label.userInteractionEnabled = true
             label.addGestureRecognizer(tap)
         }
         
+        // 公共点击事件
+        if commonTarget != nil && commonAction != nil {
+            let tap = UITapGestureRecognizer(target: commonTarget, action: commonAction!)
+            // 若由labels数据生成标签，则将标签下标分配为tag
+            if labels.count != 0, let index = labels.indexOf(text) {
+                label.tag = index
+            }
+            label.userInteractionEnabled = true
+            label.addGestureRecognizer(tap)
+        }
+        
+        // 长按事件
         if longPressAction != nil {
             let longPress = UILongPressGestureRecognizer(target: target, action: longPressAction!)
             label.addGestureRecognizer(longPress)

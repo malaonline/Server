@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegate {
+class TeacherDetailsCertificateCell: TeacherDetailBaseCell {
 
     // MARK: - Property
     var models: [AchievementModel?] = [] {
@@ -16,11 +16,18 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
             guard models.count != oldValue.count else {
                 return
             }
-            tagsView.labels = models.map { (model) -> String in
-                return "  "+(model?.title ?? "默认证书")
+            
+            /// 解析数据
+            for model in models {
+                self.labels.append("  "+(model?.title ?? "默认证书"))
+                let photo = SKPhoto.photoWithImageURL(model?.img?.absoluteString ?? "")
+                photo.caption = model?.title ?? "默认证书"
+                images.append(photo)
             }
+            tagsView.labels = self.labels
         }
     }
+    var labels: [String] = []
     var images: [SKPhoto] = []
     
     
@@ -31,6 +38,8 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
         tagsView.labelBackgroundColor = MalaColor_FCDFB7_0
         tagsView.textColor = MalaColor_EF8F1D_0
         tagsView.iconName = "image_icon"
+        tagsView.commonTarget = self
+        tagsView.commonAction = #selector(TeacherDetailsCertificateCell.tagDidTap(_:))
         return tagsView
     }()
 
@@ -65,23 +74,21 @@ class TeacherDetailsCertificateCell: TeacherDetailBaseCell, MATabListViewDelegat
     
     // MARK: - Delegate
     ///  标签点击事件
-    func tagDidTap(sender: UILabel, tabListView: MATabListView) {
+    func tagDidTap(sender: UITapGestureRecognizer) {
         
         /// 图片浏览器
-        let browser = SKPhotoBrowser(photos: images)
-        browser.initializePageIndex(sender.tag-1)
-        browser.statusBarStyle = nil
-        browser.forceDismiss = true
-        browser.displayAction = false
-        browser.bounceAnimation = false
-        browser.displayDeleteButton = false
-        browser.displayBackAndForwardButton = false
-        browser.navigationController?.navigationBarHidden = true
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
-    }
-    
-    func tagShourldDisplayBorder(sender: UILabel, tabListView: MATabListView) -> Bool {
-        return true
+        if let index = sender.view?.tag {
+            let browser = SKPhotoBrowser(photos: images)
+            browser.initializePageIndex(index)
+            browser.statusBarStyle = nil
+            browser.forceDismiss = true
+            browser.displayAction = false
+            browser.bounceAnimation = false
+            browser.displayDeleteButton = false
+            browser.displayBackAndForwardButton = false
+            browser.navigationController?.navigationBarHidden = true
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: browser)
+        }
     }
 }
