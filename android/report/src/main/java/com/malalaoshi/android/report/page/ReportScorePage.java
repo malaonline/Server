@@ -2,9 +2,11 @@ package com.malalaoshi.android.report.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.ViewUtils;
 import com.malalaoshi.android.report.R;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ReportScorePage extends RelativeLayout {
 
     private List<ScoreAnalyses> data;
+    private LineView lineView;
 
     public ReportScorePage(Context context) {
         super(context);
@@ -42,7 +45,7 @@ public class ReportScorePage extends RelativeLayout {
     }
 
     private void initView() {
-        LineView lineView = (LineView) findViewById(R.id.view_line);
+        lineView = (LineView) findViewById(R.id.view_line);
         List<AxisModel> list = new ArrayList<>();
         if (EmptyUtils.isEmpty(data)) {
             return;
@@ -53,6 +56,29 @@ public class ReportScorePage extends RelativeLayout {
         }
         lineView.setList(list);
         lineView.setMax(100);
+        initTest();
+    }
+
+    /**
+     * Just for test
+     */
+    private void initTest() {
+        if (!MalaContext.isDebug()) {
+            return;
+        }
+        findViewById(R.id.ll_test).setVisibility(VISIBLE);
+        findViewById(R.id.btn_down).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lineView.updateTestData(false);
+            }
+        });
+        findViewById(R.id.btn_up).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lineView.updateTestData(true);
+            }
+        });
     }
 
     public void setData(List<ScoreAnalyses> data) {

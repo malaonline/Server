@@ -45,7 +45,7 @@ public class PolygonNetView extends View {
     private static final int TXT_COLOR = Color.parseColor("#5E5E5E");
     private static final int TXT_OFFSET = MiscUtil.dp2px(5);
     private static final int TXT_SIZE = MiscUtil.dp2px(10);
-    private static final int SIZE = MiscUtil.dp2px(210);
+    private static final int SIZE = MiscUtil.dp2px(200);
     private static final int R = SIZE / 2;//半径
     //边缘点点的半径
     private static final int EDGE_RADIUS = MiscUtil.dp2px(2);

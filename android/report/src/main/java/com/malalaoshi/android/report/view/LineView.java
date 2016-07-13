@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -20,6 +21,7 @@ import com.malalaoshi.android.report.entity.AxisModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 波形图
@@ -49,6 +51,8 @@ public class LineView extends View {
     //坐标轴保留长度
     private static final int AXIS_OFFSET = MiscUtil.dp2px(15);
     private static final int AXIS_WIDTH = MiscUtil.dp2px(1);
+    //最大柱宽
+    private static final int MAX_LINE_WIDTH = MiscUtil.dp2px(18);
 
     private Paint paint;
 
@@ -144,53 +148,49 @@ public class LineView extends View {
         float cellWidth = (width - AXIS_OFFSET) / (list.size() + 2f / 3);
         float unitHeight = (height - AXIS_OFFSET) / max;
         float startX;
-        float lastX = 0;
-        float lastY = 0;
         float x;
         float y;
-        float offsetY;
-        Path path = new Path();
+        float lineWidth;
+        float lineSpace;
+        lineWidth = cellWidth * 2f / 3;
+        if (lineWidth > MAX_LINE_WIDTH) {
+            lineWidth = MAX_LINE_WIDTH;
+        }
+        lineSpace = (cellWidth - lineWidth) / 2;
+        List<Point> points = new ArrayList<>();
         paint.setStyle(Paint.Style.FILL);
         for (int i = 0; i < list.size(); i++) {
-            paint.setColor(COLOR_LIST.get(i));
+            paint.setColor(COLOR_LIST.get(i % COLOR_LIST.size()));
             AxisModel model = list.get(i);
             startX = AXIS_OFFSET + cellWidth * i;
-            canvas.drawRect(startX, -unitHeight * model.getyValue(), startX + cellWidth * 2f / 3, 0, paint);
+            canvas.drawRect(startX + lineSpace, -unitHeight * model.getyValue(), startX + lineWidth + lineSpace, 0,
+                    paint);
             drawText(canvas, model.getxValue(), cellWidth, i);
-            x = startX + cellWidth / 3f;
+            x = startX + cellWidth / 2f;
             y = -unitHeight * model.getY2Value();
             if (i == 0) {
                 float yy = unitHeight * model.getY2Value() - AXIS_OFFSET / 2;
                 yy = yy > 0 ? yy : 0;
-                path.moveTo(AXIS_OFFSET / 2, -yy);
-                lastX = AXIS_OFFSET / 2;
-                lastY = -yy;
+                points.add(new Point(AXIS_OFFSET / 2, (int) -yy));
             }
-            if (lastY > y) {
-                offsetY = 0.1f;
-            } else {
-                offsetY = -0.1f;
-            }
-            path.quadTo((lastX + x) / 2, (lastY + y) * (1 + offsetY) / 2, x, y);
+            points.add(new Point((int) x, (int) y));
             if (i == list.size() - 1) {
                 float yy = unitHeight * model.getY2Value() - AXIS_OFFSET / 2;
                 yy = yy > 0 ? yy : 0;
-                path.lineTo(startX + cellWidth, -yy);
+                points.add(new Point((int) (startX + cellWidth), (int) -yy));
             }
-            lastX = x;
-            lastY = y;
         }
         paint.reset();
         paint.setAntiAlias(true);
         paint.setStrokeWidth(MiscUtil.dp2px(1));
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(PATH_COLOR);
-        canvas.drawPath(path, paint);
+        drawPointCurvePath(canvas, points);
         //画平均线圈圈
         float yy;
         paint.setStrokeWidth(MiscUtil.dp2px(1f));
         for (int i = 0; i < list.size(); i++) {
-            startX = AXIS_OFFSET + cellWidth * i + cellWidth / 3f;
+            startX = AXIS_OFFSET + cellWidth * i + cellWidth / 2;
             yy = -list.get(i).getY2Value() * unitHeight;
             paint.setStyle(Paint.Style.STROKE);
             paint.setColor(PATH_COLOR);
@@ -202,13 +202,40 @@ public class LineView extends View {
     }
 
     private void drawText(Canvas canvas, String txt, float cellWidth, int position) {
-        Rect rect = Utils.getTextBounds(paint, txt);
-        StaticLayout layout = new StaticLayout(
-                txt, textPaint, (int) (cellWidth * 2f / 3), Layout.Alignment.ALIGN_CENTER, 1f, 1f, true);
+        StaticLayout layout = new StaticLayout(txt, textPaint, (int) cellWidth, Layout.Alignment.ALIGN_CENTER, 1f, 1f,
+                true);
         canvas.save();
-        canvas.translate(AXIS_OFFSET + cellWidth * position, rect.height() / 2);
+        canvas.translate(AXIS_OFFSET + cellWidth * position, MiscUtil.dp2px(5));
         layout.draw(canvas);
         canvas.restore();
+    }
+
+    private void drawPointCurvePath(Canvas canvas, List<Point> points) {
+        Point startP;
+        Point endP;
+        Point p3 = new Point();
+        Point p4 = new Point();
+        Path path = new Path();
+
+        if (null == points || 0 == points.size()) {
+            return;
+        }
+
+        startP = points.get(0);
+        path.moveTo(startP.x, startP.y);
+        int xCenter;
+
+        for (int i = 0; i < points.size() - 1; i++) {
+            startP = points.get(i);
+            endP = points.get(i + 1);
+            xCenter = (startP.x + endP.x) / 2;
+            p3.y = startP.y;
+            p3.x = xCenter;
+            p4.y = endP.y;
+            p4.x = xCenter;
+            path.cubicTo(p3.x, p3.y, p4.x, p4.y, endP.x, endP.y);
+        }
+        canvas.drawPath(path, paint);
     }
 
     /**
@@ -279,7 +306,26 @@ public class LineView extends View {
         paint.setTextSize(AXIS_TXT_SIZE);
         float len = (height - AXIS_OFFSET) / 4;
         for (int i = 1; i <= 4; i++) {
-            canvas.drawText((max / 4 * i) + "%", -textLeftLen - MiscUtil.dp2px(3), -len * i + textHeight * 5 / 8, paint);
+            canvas.drawText((max / 4 * i) + "%", -textLeftLen - MiscUtil.dp2px(3), -len * i + textHeight * 5 / 8,
+                    paint);
         }
+    }
+
+    /**
+     * 测试用
+     */
+    public void updateTestData(boolean add) {
+        if (EmptyUtils.isEmpty(list)) {
+            return;
+        }
+        if (!add && list.size() < 2) {
+            return;
+        }
+        if (add) {
+            list.add(list.get(new Random().nextInt(list.size())));
+        } else {
+            list.remove(list.size() - 1);
+        }
+        invalidate();
     }
 }
