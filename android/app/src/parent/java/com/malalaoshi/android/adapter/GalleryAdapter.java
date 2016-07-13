@@ -14,8 +14,8 @@ import com.malalaoshi.android.core.utils.EmptyUtils;
 /**
  * Created by kang on 16/6/14.
  */
-public class GralleryAdapter extends MalaBaseAdapter<String> {
-    public GralleryAdapter(Context context) {
+public class GalleryAdapter extends MalaBaseAdapter<String> {
+    public GalleryAdapter(Context context) {
         super(context);
     }
 

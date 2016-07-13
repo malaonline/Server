@@ -2,7 +2,6 @@ package com.malalaoshi.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -23,22 +22,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
-import com.malalaoshi.android.adapter.GralleryAdapter;
+import com.malalaoshi.android.adapter.GalleryAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
-import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
-import com.malalaoshi.android.core.utils.BitmapUtils;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
@@ -50,13 +48,14 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.SchoolListResult;
-import com.malalaoshi.android.util.DensityUtil;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
 import com.malalaoshi.android.view.RingProgressbar;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -172,26 +171,22 @@ public class TeacherInfoActivity extends BaseActivity
     @Bind(R.id.parent_teacher_detail_highscore_listview)
     protected ListView mHighScoreList;
 
-    @Bind(R.id.hs_grallery)
-    protected HorizontalScrollView hsGrallery;
+    @Bind(R.id.hs_gallery)
+    protected HorizontalScrollView hsGallery;
 
     //个人相册
-    @Bind(R.id.gv_grallery)
-    protected GridView gvGrallery;
+    @Bind(R.id.gv_gallery)
+    protected GridView gvGallery;
 
     //更多相册
     @Bind(R.id.tv_gallery_more)
     protected TextView tvGalleryMore;
 
-    private GralleryAdapter gralleryAdapter;
+    private GalleryAdapter galleryAdapter;
 
     //特殊成就
     @Bind(R.id.parent_teacher_detail_achievement_fl)
     protected FlowLayout mAchievement;
-
-    //收藏老师
-    @Bind(R.id.btn_collect)
-    protected TextView tvCollect;
 
     //马上报名
     @Bind(R.id.parent_teacher_signup_btn)
@@ -276,7 +271,7 @@ public class TeacherInfoActivity extends BaseActivity
         tvGalleryMore.setOnClickListener(this);
         scrollView.setScrollViewListener(this);
         titleBarView.setOnTitleBarClickListener(this);
-        gvGrallery.setOnItemClickListener(this);
+        gvGallery.setOnItemClickListener(this);
     }
 
     private void initData() {
@@ -286,8 +281,8 @@ public class TeacherInfoActivity extends BaseActivity
         mFirstSchool = new ArrayList<>();
         mSchoolAdapter = new SchoolAdapter(this);
         listviewSchool.setAdapter(mSchoolAdapter);
-        gralleryAdapter = new GralleryAdapter(this);
-        gvGrallery.setAdapter(gralleryAdapter);
+        galleryAdapter = new GalleryAdapter(this);
+        gvGallery.setAdapter(galleryAdapter);
 
         startProcessDialog("正在加载数据···");
         loadData();
@@ -358,29 +353,13 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void updateBlurImage(final String url) {
-        MalaContext.exec(new Runnable() {
-            @Override
-            public void run() {
-                int height = getResources().getDimensionPixelSize(R.dimen.bg_teacher_height);
-                int width = DensityUtil.getScreemWidth(getBaseContext());
-                final Bitmap bitmap = BitmapUtils.blurBitmap(url,width,height);
-                MalaContext.postOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (bitmap != null) {
-                            teacherView.setImageBitmap(bitmap);
-                        }
-                    }
-                });
-            }
-        });
+        Glide.with(this).load(url).bitmapTransform(new BlurTransformation(this)).into(teacherView);
     }
 
     //跟新教师详情
     private void updateUI(Teacher teacher) {
         if (teacher != null) {
             String string;
-            String spot = "  ";
             //姓名
             string = teacher.getName();
             if (string != null) {
@@ -433,8 +412,8 @@ public class TeacherInfoActivity extends BaseActivity
             }
 
             //提分榜
-            List<HighScore> highScores = new ArrayList<HighScore>();
-            //第一个为空,listview第一行为标题
+            List<HighScore> highScores = new ArrayList<>();
+            //第一个为空,listView第一行为标题
             highScores.add(new HighScore());
             highScores.addAll(mTeacher.getHighscore_set());
             HighScoreAdapter highScoreAdapter = new HighScoreAdapter(this, highScores);
@@ -451,9 +430,9 @@ public class TeacherInfoActivity extends BaseActivity
 
             //教龄级别
             Integer level = teacher.getLevel();
-            if (null!=level){
+            if (null != level) {
                 viewTeacherLevel.setProgress(level);
-                tvTeacherLevel.setText("T"+level);
+                tvTeacherLevel.setText("T" + level);
             }
             Integer teachAge = teacher.getTeaching_age();
             if (teachAge != null) {
@@ -466,26 +445,26 @@ public class TeacherInfoActivity extends BaseActivity
     private void setGradeTeaching(String[] grades) {
         //数据处理
         int count = 0;
-        List<List<String>> gradelist = Grade.getGradesByGroup(grades);
+        List<List<String>> gradeList = Grade.getGradesByGroup(grades);
 
-        if (gradelist != null && gradelist.get(0) != null && gradelist.get(0).size() > 0) {
-            setFlowDatas(flTeachPrimary, (String[]) gradelist.get(0).toArray(new String[gradelist.get(0).size()]),
+        if (gradeList != null && gradeList.get(0) != null && gradeList.get(0).size() > 0) {
+            setFlowDatas(flTeachPrimary, gradeList.get(0).toArray(new String[gradeList.get(0).size()]),
                     R.drawable.bg_text_primary, R.color.primary_text_color);
         } else {
             rlTeachPrimary.setVisibility(View.GONE);
             count++;
         }
 
-        if (gradelist != null && gradelist.get(1) != null && gradelist.get(1).size() > 0) {
-            setFlowDatas(flTeachJunior, (String[]) gradelist.get(1).toArray(new String[gradelist.get(1).size()]),
+        if (gradeList != null && gradeList.get(1) != null && gradeList.get(1).size() > 0) {
+            setFlowDatas(flTeachJunior, gradeList.get(1).toArray(new String[gradeList.get(1).size()]),
                     R.drawable.bg_text_junior, R.color.junior_text_color);
         } else {
             rlTeachJunior.setVisibility(View.GONE);
             count++;
         }
 
-        if (gradelist != null && gradelist.get(2) != null && gradelist.get(2).size() > 0) {
-            setFlowDatas(flTeachSenior, (String[]) gradelist.get(2).toArray(new String[gradelist.get(2).size()]),
+        if (gradeList != null && gradeList.get(2) != null && gradeList.get(2).size() > 0) {
+            setFlowDatas(flTeachSenior, gradeList.get(2).toArray(new String[gradeList.get(2).size()]),
                     R.drawable.bg_text_senior, R.color.senior_text_color);
         } else {
             rlTeachSenior.setVisibility(View.GONE);
@@ -497,10 +476,10 @@ public class TeacherInfoActivity extends BaseActivity
             viewJuniorLine.setVisibility(View.GONE);
             return;
         } else if (count == 2) {
-            if (gradelist.get(0).size() > 0) {
+            if (gradeList.get(0).size() > 0) {
                 viewJuniorLine.setVisibility(View.GONE);
                 return;
-            } else if (gradelist.get(2).size() > 0) {
+            } else if (gradeList.get(2).size() > 0) {
                 viewPrimaryLine.setVisibility(View.GONE);
                 return;
             }
@@ -513,7 +492,7 @@ public class TeacherInfoActivity extends BaseActivity
         flowlayout.removeAllViews();
 
         for (int i = 0; datas != null && i < datas.size(); i++) {
-            TextView textView = buildCertTextView(datas.get(i).getTitle(), 0);
+            TextView textView = buildCertTextView(datas.get(i).getTitle());
             final int finalI = i;
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -538,7 +517,7 @@ public class TeacherInfoActivity extends BaseActivity
         }
     }
 
-    private TextView buildCertTextView(String title, int drawableId) {
+    private TextView buildCertTextView(String title) {
         TextView textView = new TextView(this);
 
         int leftPadding = getResources().getDimensionPixelSize(R.dimen.flow_textview_left_padding);
@@ -604,35 +583,35 @@ public class TeacherInfoActivity extends BaseActivity
 
     void loadGallery(String[] gallery) {
         if (gallery == null || gallery.length <= 0) {
-            hsGrallery.setVisibility(View.GONE);
+            hsGallery.setVisibility(View.GONE);
             return;
         }
-        gralleryAdapter.addAll(Arrays.asList(gallery));
-        gvGrallery.setFocusable(true);
-        MeasureGrallery(gvGrallery, gralleryAdapter);
-        gvGrallery.setVerticalScrollBarEnabled(true);
-        gvGrallery.setAdapter(gralleryAdapter);
+        galleryAdapter.addAll(Arrays.asList(gallery));
+        gvGallery.setFocusable(true);
+        MeasureGallery(gvGallery, galleryAdapter);
+        gvGallery.setVerticalScrollBarEnabled(true);
+        gvGallery.setAdapter(galleryAdapter);
     }
 
-    private void MeasureGrallery(GridView gvGrallery, GralleryAdapter gralleryAdapter) {
+    private void MeasureGallery(GridView gvGallery, GalleryAdapter galleryAdapter) {
 
-        int childCount = gralleryAdapter.getCount();
-        int gralleryWidth = getResources().getDimensionPixelSize(R.dimen.grallery_width);
-        int gralleryHeight = getResources().getDimensionPixelSize(R.dimen.grallery_height);
-        int gralleryHorizontalSpacing = getResources().getDimensionPixelSize(R.dimen.grallery_horizontal_spacing);
-        int gridviewWidth = 0;
+        int childCount = galleryAdapter.getCount();
+        int galleryWidth = getResources().getDimensionPixelSize(R.dimen.grallery_width);
+        int galleryHeight = getResources().getDimensionPixelSize(R.dimen.grallery_height);
+        int galleryHorizontalSpacing = getResources().getDimensionPixelSize(R.dimen.grallery_horizontal_spacing);
+        int gridViewWidth = 0;
         if (childCount > 0) {
-            gridviewWidth = (gralleryWidth + gralleryHorizontalSpacing) * childCount - gralleryHorizontalSpacing;
+            gridViewWidth = (galleryWidth + galleryHorizontalSpacing) * childCount - galleryHorizontalSpacing;
             if (childCount == 1) {
-                gridviewWidth -= gralleryHorizontalSpacing;
+                gridViewWidth -= galleryHorizontalSpacing;
             }
         }
-        ViewGroup.LayoutParams params = gvGrallery.getLayoutParams();
-        params.width = gridviewWidth;
-        params.height = gralleryHeight;
-        gvGrallery.setLayoutParams(params);   //重点
-        gvGrallery.setStretchMode(GridView.NO_STRETCH);
-        gvGrallery.setNumColumns(childCount);   //重点
+        ViewGroup.LayoutParams params = gvGallery.getLayoutParams();
+        params.width = gridViewWidth;
+        params.height = galleryHeight;
+        gvGallery.setLayoutParams(params);   //重点
+        gvGallery.setStretchMode(GridView.NO_STRETCH);
+        gvGallery.setNumColumns(childCount);   //重点
     }
 
     private void requestError() {
@@ -726,7 +705,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldX, int oldY) {
         //最大上滑距离
         int maxOffset = headerImage.getMeasuredHeight() - titleBarView.getMeasuredHeight();
         //开始变色位置
@@ -788,9 +767,7 @@ public class TeacherInfoActivity extends BaseActivity
 
         @Override
         public void onApiSuccess(@NonNull Teacher response) {
-            if (response != null) {
-                get().loadTeacherInfoSuccess(response);
-            }
+            get().loadTeacherInfoSuccess(response);
         }
 
         @Override

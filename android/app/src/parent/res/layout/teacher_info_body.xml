@@ -409,7 +409,7 @@
         android:layout_height="wrap_content">
 
     <HorizontalScrollView
-        android:id="@+id/hs_grallery"
+        android:id="@+id/hs_gallery"
         android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -417,7 +417,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <GridView
-                android:id="@+id/gv_grallery"
+                android:id="@+id/gv_gallery"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:background="@color/white"

@@ -23,6 +23,7 @@ import java.io.File;
  */
 public class BitmapUtils {
 
+    @Deprecated
     public static Bitmap blurBitmap(String url, int width, int height) {
         String path = "";
         if (url.contains("?")) {
@@ -48,6 +49,7 @@ public class BitmapUtils {
         return null;
     }
 
+    @Deprecated
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Bitmap blurBitmap(Bitmap sentBitmap) {
         if (Build.VERSION_CODES.JELLY_BEAN_MR1 > Build.VERSION.SDK_INT) {
