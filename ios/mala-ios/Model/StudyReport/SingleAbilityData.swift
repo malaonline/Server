@@ -14,7 +14,13 @@ class SingleAbilityData: NSObject {
     /// 能力名称（简略）
     var key: String = ""
     /// 数值
-    var val: Int = 0
+    var val: Int = 0 {
+        didSet {
+            if val == 0 {
+                val = 1
+            }
+        }
+    }
     /// 能力
     var ability: MalaStudyReportAbility {
         get {
