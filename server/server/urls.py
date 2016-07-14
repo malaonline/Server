@@ -17,6 +17,7 @@ import django
 import os
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,5 +35,5 @@ urlpatterns = [
         {'document_root': os.path.join(BASE_DIR, "app", "api")}),
     url(r'^', include('web.urls', namespace='web')),
     url(r'^favicon\.ico$', django.views.generic.base.RedirectView.as_view(
-        url=settings.STATIC_URL + 'common/icons/favicon.ico', permanent=True)),
+        url=static('common/icons/favicon.ico'), permanent=True)),
 ]
