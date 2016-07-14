@@ -11,7 +11,9 @@ import UIKit
 class HandlePingppBehaviour: NSObject {
 
     /// 最大重试次数
-    let MaxRetry = 2
+    let maxRetry = 3
+    /// 当前重试次数
+    var currentRetry = 0
     /// 当前视图控制器
     weak var currentViewController: UIViewController? {
         didSet {
@@ -61,7 +63,8 @@ class HandlePingppBehaviour: NSObject {
     ///
     ///  - returns: 支付结果
     func validateOrderStatus() {
-        
+
+        currentRetry += 1
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             ThemeHUD.showActivityIndicator()
         })
@@ -75,27 +78,33 @@ class HandlePingppBehaviour: NSObject {
             if let errorMessage = errorMessage {
                 println("HandlePingppBehaviour - validateOrderStatus Error \(errorMessage)")
             }
-        }, completion: { order -> Void in
+        }, completion: {order -> Void in
             println("订单状态获取成功 \(order.status)")
             
             // 根据[订单状态]和[课程是否被抢占标记]来判断支付结果
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                ThemeHUD.hideActivityIndicator()
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 
-                // 判断是否被抢买
-                if order.is_timeslot_allocated == false {
-                    self?.showHasBeenPreemptedAlert()
-                    return
-                }
-            
-                // 若订单状态为已付款则表示支付成功，否则支付失败
+                // 判断订单状态
                 if order.status == MalaOrderStatus.Paid.rawValue {
-                    self?.showSuccessAlert()
+                    if order.is_timeslot_allocated == false {
+                        // 课程被抢买
+                        self.showHasBeenPreemptedAlert()
+                    }else {
+                        // 支付成功
+                        self.showSuccessAlert()
+                    }
                 }else {
-                    self?.showFailAlert()
+                    if self.currentRetry == self.maxRetry {
+                        // 支付失败
+                        self.showFailAlert()
+                    }else {
+                        // 重新获取订单状态
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.validateOrderStatus()
+                        })
+                    }
                 }
             }
-            
         })
     }
     
