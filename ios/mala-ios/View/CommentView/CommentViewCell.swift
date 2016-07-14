@@ -384,16 +384,16 @@ class CommentViewCell: UITableViewCell {
         commentButton.hidden = true
         showCommentButton.hidden = false
         
-        statusIcon.highlighted = true
         statusIcon.enabled = true
+        statusIcon.highlighted = true
         expiredLabel.hidden = true
         floatRating.hidden = false
         floatRating.rating = Float((model?.comment?.score) ?? 0)
     }
     
-    ///  设置未评论样式
+    ///  设置待评论样式
     private func setStyleNoComments() {
-        println("课程评价状态 - 未评价")
+        println("课程评价状态 - 待评价")
         
         commentButton.hidden = false
         showCommentButton.hidden = true
@@ -424,5 +424,11 @@ class CommentViewCell: UITableViewCell {
         commentWindow.model = self.model ?? StudentCourseModel()
         commentWindow.isJustShow = true
         commentWindow.show()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        statusIcon.highlighted = false
+        statusIcon.enabled = true
     }
 }
