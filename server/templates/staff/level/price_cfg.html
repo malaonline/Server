@@ -26,17 +26,25 @@
         <input type="submit" value="查询"/>
     </form>
 
+    <input type="hidden" id="targetRegion" value="{{ query_data.region }}">
     <table class="table table-bordered table-striped">
         <tr>
-            <th class="text-center type_auto">级别\年级</th>
-            <th class="text-center type_small">所有年级</th>
-            <th class="text-center type_small">操作</th>
+            <th width="40%" class="text-center type_auto">级别\年级</th>
+            <th width="30%" class="text-center type_small">所有年级</th>
+            <th width="30%" class="text-center type_small">操作</th>
         </tr>
         {% for level in level_list %}
             <tr levelId="{{ level.id }}">
-                <td>{{level.name }}</td>
-                <td>{{level.price|money_format:'/' }}元/小时</td>
-                <td><a>修改</a><a>确定</a></td>
+                <td field="name">{{level.name }}</td>
+                <td>
+                    <input class="price-in hide" type="text" dest="price">
+                    <span class="price-show">{{level.price|money_format:'/' }}</span>
+                    元/小时
+                </td>
+                <td>
+                    <a class="modify">修改</a>&nbsp;&nbsp;
+                    <a class="cancel hide">取消</a>&nbsp;&nbsp;<a class="save hide">确定</a>
+                </td>
             </tr>
         {% empty %}
             <tr><td colspan="3">请选择地区</td></tr>

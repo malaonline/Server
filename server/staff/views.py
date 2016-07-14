@@ -2382,6 +2382,24 @@ class LevelPriceConfigView(BaseStaffView):
         kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其他'))
         return super(LevelPriceConfigView, self).get_context_data(**kwargs)
 
+    def post(self, request):
+        region_id = request.POST.get('region')
+        level_id = request.POST.get('level')
+        price = request.POST.get('price')
+        if not region_id or not level_id or not price:
+            return HttpResponse(status=400)
+        try:
+            new_price = float(price)
+        except:
+            new_price = -1
+        if new_price < 0:
+            return JsonResponse({'ok': False, 'msg': '价格范围错误', 'code': 1})
+        region = get_object_or_404(models.Region, id=region_id)
+        level = get_object_or_404(models.Level, id=level_id)
+        num = models.Price.objects.filter(region=region, level=level).update(price=int(new_price * 100))
+        logger.info("修改地区%s级别%s的课时价格为%s, 数据库影响%s条"%(region.name, level.name, new_price, num))
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
 
 class LevelSalaryConfigView(LevelPriceConfigView):
     """
@@ -2400,3 +2418,21 @@ class LevelSalaryConfigView(LevelPriceConfigView):
                     level.commission_percentage = price.commission_percentage
                     break
         context['level_list'] = level_list
+
+    def post(self, request):
+        region_id = request.POST.get('region')
+        level_id = request.POST.get('level')
+        commission_percentage = request.POST.get('commission_percentage')
+        if not region_id or not level_id or not commission_percentage:
+            return HttpResponse(status=400)
+        try:
+            new_percent = int(commission_percentage)
+        except:
+            new_percent = -1
+        if new_percent < 0 or new_percent > 100:
+            return JsonResponse({'ok': False, 'msg': '佣金比例范围错误', 'code': 1})
+        region = get_object_or_404(models.Region, id=region_id)
+        level = get_object_or_404(models.Level, id=level_id)
+        num = models.Price.objects.filter(region=region, level=level).update(commission_percentage=new_percent)
+        logger.info("修改地区%s级别%s的佣金比例为%s, 数据库影响%s条"%(region.name, level.name, new_percent, num))
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})

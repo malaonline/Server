@@ -11,6 +11,7 @@ function showLoading(msg) {
 function hideLoading() {
     $('#mLoadingDialog').hide();
 }
+var DEFAULT_ERR_MSG = '请求失败, 请稍后重试, 或联系管理员!';
 function _malaAjax0(method, url, data, success, dataType, error, loadingMsg) {
     if ($.isFunction(data)) {
         loadingMsg = error;
