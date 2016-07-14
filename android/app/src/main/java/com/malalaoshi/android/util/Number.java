@@ -1,5 +1,6 @@
 package com.malalaoshi.android.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -22,4 +23,5 @@ public class Number{
         }
         return s;
     }
+
 }

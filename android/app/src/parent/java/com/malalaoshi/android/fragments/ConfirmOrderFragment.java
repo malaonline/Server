@@ -150,7 +150,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         String strTopay = "金额异常";
         Double toPay = order.getTo_pay();
         if(toPay!=null){
-            strTopay = Number.subZeroAndDot(toPay);
+            strTopay = String.format("%.2f",toPay);
         };
         tvMount.setText(strTopay);
         String imgUrl = order.getTeacher_avatar();

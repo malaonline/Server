@@ -220,7 +220,7 @@ public class OrderDetailFragment extends BaseFragment {
         String strTopay = "金额异常";
         Double toPay = order.getTo_pay();
         if(toPay!=null){
-            strTopay = Number.subZeroAndDot(toPay*0.01d);
+            strTopay = String.format("%.2f",toPay*0.01d);
         };
         tvMount.setText(strTopay);
 
