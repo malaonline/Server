@@ -119,7 +119,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private void setEvent() {
         tvTitleLocation.setOnClickListener(this);
-        //tvTitleTady.setOnClickListener(this);
         indicatorTabs.setViewPager(vpHome);
         indicatorTabs.setPageChangeListener(this);
         EventBus.getDefault().register(this);
@@ -210,32 +209,23 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         }
     }
 
-    private void loadCourses() {
-        EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA));
-    }
-
     private void setCurrentPager(int i) {
         switch (i) {
             case PAGE_INDEX_TEACHERS:
                 tvTitleLocation.setVisibility(View.VISIBLE);
-                //tvTitleTady.setVisibility(View.GONE);
                 StatReporter.teacherListPage();
                 break;
             case PAGE_INDEX_COURSES:
                 tvTitleLocation.setVisibility(View.GONE);
-                //tvTitleTady.setVisibility(View.VISIBLE);
-                //下载数据
-                //loadCourses();
                 StatReporter.coursePage();
                 break;
             case PAGE_INDEX_MEMBER_SERVICE:
+                tvTitleLocation.setVisibility(View.GONE);
                 StatReporter.memberServicePage();
+                break;
             case PAGE_INDEX_USER:
                 tvTitleLocation.setVisibility(View.GONE);
-                //tvTitleTady.setVisibility(View.GONE);
-                if(PAGE_INDEX_USER==i){
-                    StatReporter.myPage();
-                }
+                StatReporter.myPage();
                 break;
         }
     }
@@ -275,6 +265,16 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                     indicatorTabs.setTabIndicatorVisibility(3,View.INVISIBLE);
                 }
                 break;
+        }
+    }
+
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()) {
+            case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
+            case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
+                loadNoticeMessage();
+                break;
+
         }
     }
 
@@ -341,6 +341,11 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     public void loadNoticeMessage() {
         if (UserManager.getInstance().isLogin()) {
             ApiExecutor.exec(new LoadNoticeRequest(this));
+        }else{
+            NoticeEvent noticeEvent = new NoticeEvent(EventType.BUS_EVENT_NOTICE_MESSAGE);
+            noticeEvent.setUnpayCount(0L);
+            noticeEvent.setUncommentCount(0L);
+            EventBus.getDefault().post(noticeEvent);
         }
     }
 
