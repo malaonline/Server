@@ -3,7 +3,7 @@ package com.malalaoshi.android.report.page;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.utils.ViewUtils;
@@ -13,7 +13,7 @@ import com.malalaoshi.android.report.R;
  * 报告封面
  * Created by tianwei on 5/21/16.
  */
-public class ReportHomePage extends RelativeLayout {
+public class ReportHomePage extends LinearLayout {
 
     private TextView nameView;
     private TextView gradeView;

@@ -3,78 +3,67 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/ll_bottom"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"/>
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/report__page_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/report__ic_folder_title"
-            android:text="麻辣老师学生学习报告样本"
-            android:textSize="@dimen/core__title_bar_text_size"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"/>
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_below="@+id/tv_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="29dp"
-            android:background="#F7B063"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="2016年4月05日～2016年5月30日"
-            android:textColor="@color/core__white"
-            android:textSize="@dimen/core__text_size_small"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8"/>
-        <ImageView
-            android:id="@+id/iv_subject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_time"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/report__ic_folder"
-            android:contentDescription="@null"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="13"/>
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/report__page_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/report__ic_folder_title"
+        android:text="麻辣老师学生学习报告样本"
+        android:textSize="@dimen/core__title_bar_text_size"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_below="@+id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:background="#F7B063"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="2016年4月05日～2016年5月30日"
+        android:textColor="@color/core__white"
+        android:textSize="@dimen/core__text_size_small"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"/>
+    <ImageView
+        android:id="@+id/iv_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_time"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/report__ic_folder"
+        android:contentDescription="@null"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="35dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="50dp">
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/tv_name_label"
@@ -136,4 +125,8 @@
             android:background="@drawable/report__ic_oval_divider"
             android:contentDescription="@null"/>
     </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"/>
 </com.malalaoshi.android.report.page.ReportHomePage>
