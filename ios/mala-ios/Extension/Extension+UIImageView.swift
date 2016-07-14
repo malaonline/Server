@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 extension UIImageView {
     
@@ -18,5 +19,17 @@ extension UIImageView {
         placeHolder.contentMode = .ScaleAspectFill
         placeHolder.clipsToBounds = true
         return placeHolder
+    }
+    
+    
+    func ma_setImage(URL: NSURL, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: CompletionHandler? = nil) {
+        
+        self.kf_setImageWithURL(
+            URL,
+            placeholderImage: placeholderImage,
+            optionsInfo: [.Transition(.Fade(0.25)), .TargetCache(ImageCache(name: URL.absoluteString.componentsSeparatedByString("?").first ?? URL.absoluteString))],
+            progressBlock: progressBlock,
+            completionHandler: completionHandler
+        )
     }
 }
