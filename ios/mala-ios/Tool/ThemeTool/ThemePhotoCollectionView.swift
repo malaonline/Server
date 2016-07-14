@@ -67,7 +67,7 @@ class ThemePhotoCollectionViewCell: UICollectionViewCell {
     /// 图片URL
     var url: String = "" {
         didSet {
-            imageView.kf_setImageWithURL((NSURL(string: url) ?? NSURL()), optionsInfo: [.Transition(.Fade(0.25))])
+            imageView.ma_setImage((NSURL(string: url) ?? NSURL()))
         }
     }
     

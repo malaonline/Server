@@ -23,7 +23,7 @@ class OrderFormViewCell: UITableViewCell {
             
             // 老师头像
             if let url = NSURL(string: (model?.avatarURL ?? "")) {
-                avatarView.kf_setImageWithURL(url, placeholderImage: UIImage(named: "profileAvatar_placeholder"))
+                avatarView.ma_setImage(url, placeholderImage: UIImage(named: "profileAvatar_placeholder"))
             }
             
             // 设置订单状态

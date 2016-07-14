@@ -79,7 +79,7 @@ class TeacherDetailsSchoolsTableViewCell: UITableViewCell {
                 return
             }
             
-            photoView.kf_setImageWithURL(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: UIImage(named: "detailPicture_placeholder"))
+            photoView.ma_setImage(NSURL(string: (model?.thumbnail) ?? "")!, placeholderImage: UIImage(named: "detailPicture_placeholder"))
             titleLabel.text = model!.name
             addressLabel.text = model!.address
             distanceLabel.text = String(showDistance: (model?.distance ?? 0.0))

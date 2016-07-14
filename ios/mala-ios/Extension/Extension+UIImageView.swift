@@ -23,11 +23,14 @@ extension UIImageView {
     
     
     func ma_setImage(URL: NSURL, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: CompletionHandler? = nil) {
-        
-        self.kf_setImageWithURL(
-            URL,
+        // 使用图片绝对路径作为缓存键值
+        let pureURL = URL.absoluteString.componentsSeparatedByString("?").first ?? URL.absoluteString
+        let resource = Kingfisher.Resource(downloadURL: URL, cacheKey: pureURL)
+        // 加载图片资源
+        self.kf_setImageWithResource(
+            resource,
             placeholderImage: placeholderImage,
-            optionsInfo: [.Transition(.Fade(0.25)), .TargetCache(ImageCache(name: URL.absoluteString.componentsSeparatedByString("?").first ?? URL.absoluteString))],
+            optionsInfo: [.Transition(.Fade(0.25)), .TargetCache(ImageCache(name: pureURL))],
             progressBlock: progressBlock,
             completionHandler: completionHandler
         )

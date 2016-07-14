@@ -15,7 +15,7 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
         didSet {
             println("评论视图 - 放置模型: \(model)")
             
-            avatarView.kf_setImageWithURL(model.teacher?.avatar ?? NSURL())
+            avatarView.ma_setImage(model.teacher?.avatar ?? NSURL())
             teacherNameLabel.text = model.teacher?.name
             subjectLabel.text = model.subject
             textView.text = model.comment?.content

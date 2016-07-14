@@ -139,7 +139,7 @@ public class MalaPhotoBrowserCell: UICollectionViewCell {
     /// 当前Cell图片URL
     var imageURL: String = "" {
         didSet {
-            contentImageView.kf_setImageWithURL(NSURL(string: imageURL) ?? NSURL())
+            contentImageView.ma_setImage(NSURL(string: imageURL) ?? NSURL())
         }
     }
     

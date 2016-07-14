@@ -21,7 +21,7 @@ class CommentViewCell: UITableViewCell {
             schoolLabel.text = model?.school
             
             // 老师头像
-            avatarView.kf_setImageWithURL(model?.teacher?.avatar ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
+            avatarView.ma_setImage(model?.teacher?.avatar ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
             
             // 课程评价状态
             if model?.comment != nil {

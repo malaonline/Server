@@ -25,7 +25,7 @@ class ProfileViewHeaderView: UIView {
     /// 用户头像URL
     var avatarURL: String = "" {
         didSet {
-            avatarView.kf_setImageWithURL(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
+            avatarView.ma_setImage(NSURL(string: avatarURL) ?? NSURL(), placeholderImage: UIImage(named: "profileAvatar_placeholder"))
         }
     }
     /// 用户头像
