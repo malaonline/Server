@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -81,6 +82,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.commentView.setBackground(null);
         holder.commentView.setText("评价已过期");
         holder.commentView.setTextColor(getColor(R.color.text_color));
+        holder.ratingbar.setVisibility(View.GONE);
     }
 
     private void setCommentedUI(final CommentViewHolder holder, final Course course) {
@@ -89,9 +91,12 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_done_btn);
         holder.commentView.setText("查看评价");
         holder.commentView.setTextColor(getColor(R.color.title_right_color));
+        holder.ratingbar.setVisibility(View.VISIBLE);
         if (course.is_expired() && course.getComment() == null) {
+            holder.ratingbar.setRating(0);
             return;
         }
+        holder.ratingbar.setRating(course.getComment().getScore());
         holder.commentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +111,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.commentView.setText("去评价");
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_valid_btn);
         holder.commentView.setTextColor(getColor(R.color.theme_red));
+        holder.ratingbar.setVisibility(View.GONE);
         holder.commentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +156,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         private TextView stateView;
         private ImageView iconView;
         private TextView commentView;
+        private RatingBar ratingbar;
 
         public CommentViewHolder(View view) {
             super(view);
@@ -161,6 +168,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
             stateView = (TextView) view.findViewById(R.id.tv_status);
             iconView = (ImageView) view.findViewById(R.id.iv_icon);
             commentView = (TextView) view.findViewById(R.id.tv_comment);
+            ratingbar = (RatingBar) view.findViewById(R.id.ratingbar);
         }
     }
 }

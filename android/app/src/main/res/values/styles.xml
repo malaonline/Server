@@ -204,5 +204,12 @@
         <item name="android:maxHeight">40dip</item>
     </style>
 
+    <!-- 评价星 -->
+    <style name="mala.ratingbar_small" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_drawable_small</item>
+        <item name="android:minHeight">13dip</item>
+        <item name="android:maxHeight">13dip</item>
+    </style>
+
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
 </resources>
