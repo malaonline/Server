@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^api/v1/(?P<path>.*(\.json|\.yaml))$', django.views.static.serve,
         {'document_root': os.path.join(BASE_DIR, "app", "api")}),
     url(r'^', include('web.urls', namespace='web')),
+    url(r'^favicon\.ico$', django.views.generic.base.RedirectView.as_view(
+        url=settings.STATIC_URL + 'common/icons/favicon.ico', permanent=True)),
 ]
