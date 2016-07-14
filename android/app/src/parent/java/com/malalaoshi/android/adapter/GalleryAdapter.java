@@ -36,7 +36,6 @@ public class GalleryAdapter extends MalaBaseAdapter<String> {
                 .load(data)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_default_img)
-                .centerCrop()
                 .crossFade()
                 .into(holder.gralleryView);
 

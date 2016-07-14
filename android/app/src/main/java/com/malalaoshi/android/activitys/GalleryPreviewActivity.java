@@ -2,28 +2,23 @@ package com.malalaoshi.android.activitys;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.util.DensityUtil;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -171,7 +166,6 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                         .load(url)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.ic_default_photo)
-                        .error(R.drawable.ic_default_photo)
                         .crossFade()
                         .into(imageView);
             }
@@ -190,6 +184,7 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
         @Override
         protected View createView(int position, ViewGroup parent) {
             ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             ViewGroup.LayoutParams layoutParamses = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
             int width = DensityUtil.getScreemWidth(context);
             width = (width - 2*context.getResources().getDimensionPixelSize(R.dimen.grallery_preview_divider))/3;
@@ -206,7 +201,6 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_default_photo)
                     .crossFade()
-                    .centerCrop()
                     .into((ImageView) convertView);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

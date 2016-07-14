@@ -31,6 +31,7 @@ import com.malalaoshi.android.util.Number;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Order>{
@@ -165,6 +166,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
             String imgUrl = order.getTeacher_avatar();
             Glide.with(view.getContext())
                     .load(imgUrl)
+                    .bitmapTransform(new CropCircleTransformation(view.getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_default_teacher_avatar)
                     .crossFade()

@@ -357,8 +357,8 @@ public class TeacherInfoActivity extends BaseActivity
                 .bitmapTransform(new BlurTransformation(this))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.core__teacher_banner)
-                .crossFade()
                 .centerCrop()
+                .crossFade()
                 .into(teacherView);
     }
 

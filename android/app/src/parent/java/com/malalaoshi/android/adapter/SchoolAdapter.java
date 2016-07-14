@@ -47,7 +47,6 @@ public class SchoolAdapter extends MalaBaseAdapter<School> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_default_img)
                 .crossFade()
-                .centerCrop()
                 .into(viewHolder.ivSchoolPic);
 
         viewHolder.tvSchoolName.setText(data.getName());
