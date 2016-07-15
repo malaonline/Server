@@ -15,7 +15,8 @@ class OrderFormStatusCell: UITableViewCell {
     var model: OrderForm? {
         didSet {
             /// 老师头像
-            if let url = NSURL(string: (model?.avatarURL ?? "")) {
+            
+            if let urlString = model?.avatarURL, url = NSURL(string: (urlString)) {
                 self.avatarView.ma_setImage(url, placeholderImage: UIImage(named: "profileAvatar_placeholder"))
             }
             

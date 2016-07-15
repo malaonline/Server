@@ -23,10 +23,15 @@ extension UIImageView {
     
     
     func ma_setImage(URL: NSURL, placeholderImage: Image? = nil, progressBlock: DownloadProgressBlock? = nil, completionHandler: CompletionHandler? = nil) {
+        
         // 使用图片绝对路径作为缓存键值
-        let pureURL = URL.absoluteString.componentsSeparatedByString("?").first ?? URL.absoluteString
-        let resource = Kingfisher.Resource(downloadURL: URL, cacheKey: pureURL)
+        let splitArray = URL.absoluteString.componentsSeparatedByString("?")
+        guard let pureURL = splitArray.first where !pureURL.isEmpty else {
+            return
+        }
+        
         // 加载图片资源
+        let resource = Kingfisher.Resource(downloadURL: URL, cacheKey: pureURL)
         self.kf_setImageWithResource(
             resource,
             placeholderImage: placeholderImage,

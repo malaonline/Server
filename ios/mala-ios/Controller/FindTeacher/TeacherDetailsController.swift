@@ -194,24 +194,44 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                         self?.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 5), atScrollPosition: .Bottom, animated: false)
                     }
                 }
-        }
+        } 
         NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_PushPhotoBrowser,
             object: nil,
             queue: nil
             ) { [weak self] (notification) -> Void in
                 
-                // push图片浏览器
+                // 相册
                 if let info = notification.object as? String where info == "browser" {
-                    // 相册
                     let browser = MalaPhotoBrowser()
                     browser.imageURLs = self?.model.photo_set ?? []
                     self?.navigationController?.pushViewController(browser, animated: true)
                 }
                 
-                /// 确保是imageView触发手势，且imageView图片存在
+                // 特殊成就
                 if let photoBrowser = notification.object as? SKPhotoBrowser {
                     self?.navigationController?.presentViewController(photoBrowser, animated: true, completion: nil)
+                }
+                
+                // 相册图片
+                if let imageView = notification.object as? UIImageView, originImage = imageView.image {
+                    
+                    let images = self?.model.photo_set?.map({ (imageURL) -> SKPhoto in
+                        let image = SKPhoto.photoWithImageURL(imageURL)
+                        image.shouldCachePhotoURLImage = true
+                        return image
+                    })
+                    
+                    /// 图片浏览器
+                    let browser = SKPhotoBrowser(originImage: originImage, photos: images ?? [], animatedFromView: imageView)
+                    browser.initializePageIndex(imageView.tag)
+                    browser.displayAction = false
+                    browser.displayBackAndForwardButton = false
+                    browser.displayDeleteButton = false
+                    browser.statusBarStyle = nil
+                    browser.bounceAnimation = false
+                    browser.navigationController?.navigationBarHidden = true
+                    self?.navigationController?.presentViewController(browser, animated: true, completion: nil)
                 }
         }
     }
