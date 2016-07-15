@@ -12,22 +12,26 @@
         <LinearLayout
             android:id="@+id/ll_refresh_refreshing"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="212dp">
             <ImageView
                 android:id="@+id/iv_refresh_refreshing"
-                android:src="@drawable/refresh_refreshing"
+                android:src="@drawable/refresh_loading"
+                android:layout_marginTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_refresh_refreshing"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/text_color_home_price"
+                android:textSize="@dimen/text_size_normal_x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="正在加载···"
+                android:text="正在努力加载学习报告哦..."
                 android:visibility="visible" />
         </LinearLayout>
         <include

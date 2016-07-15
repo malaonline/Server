@@ -200,7 +200,7 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
         rlLearningReport.setVisibility(View.GONE);
         llRefreshRefreshing.setVisibility(View.VISIBLE);
         llRefreshRefreshing.setOnClickListener(this);
-        ivRefreshRefreshing.setImageDrawable(getResources().getDrawable(R.drawable.ic_course));
+        ivRefreshRefreshing.setImageDrawable(getResources().getDrawable(R.mipmap.ic_loading_animation_01));
         tvRefreshRefreshing.setText("加载失败,点击重试!");
         reportStatus = EnumReportStatus.LOGIN_FAILED;
     }
