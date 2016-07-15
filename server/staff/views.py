@@ -416,6 +416,10 @@ class TeacherUnpublishedEditView(BaseStaffView):
             teacher.experience = parseInt(request.POST.get('experience'), 0)
             teacher.profession = parseInt(request.POST.get('profession'), 0)
             teacher.interaction = parseInt(request.POST.get('interaction'), 0)
+            # 是否在微信上显示
+            show_on_wechat = request.POST.get('show_on_wechat')
+            if show_on_wechat:  # if None: do not change
+                teacher.recommended_on_wechat = (show_on_wechat == '1')
             certIdHeld.save()
             # 科目年级 & 风格标签
             teacher.abilities.clear()

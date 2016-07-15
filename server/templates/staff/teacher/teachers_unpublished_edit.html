@@ -127,6 +127,20 @@
                     </select>
                 </div>
             </div>
+            {% if teacher.published %}
+                <div class="form-group">
+                    <label for="interaction" class="col-sm-3 col-md-3 col-lg-2 control-label">在微信展示</label>
+                    <div class="col-sm-9">
+                        <label><input type="radio" name="show_on_wechat" value="1"
+                               {% if teacher.recommended_on_wechat %}checked="checked"{% endif %}
+                            />&nbsp;&nbsp;是&nbsp;&nbsp;</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <label><input type="radio" name="show_on_wechat" value="0"
+                               {% if not teacher.recommended_on_wechat %}checked="checked"{% endif %}
+                            />&nbsp;&nbsp;否&nbsp;&nbsp;</label>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
     <hr>
