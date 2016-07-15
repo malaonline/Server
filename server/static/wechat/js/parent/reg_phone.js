@@ -94,6 +94,9 @@ function checkSMS(){
         }
       }else{
         console.log("验证码正确")
+        if(teacherId == 'ONLY_REGISTER'){
+            wx.closeWindow();
+        }
         if(nextpage != "None"){
           location.href = nextpage;
         }

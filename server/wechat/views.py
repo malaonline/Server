@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 
 # django modules
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, TemplateView, ListView, DetailView
 from django.db.models import Q,Count
 from django.conf import settings
@@ -871,6 +871,9 @@ def check_phone(request):
         "teacherId": teacherId,
         "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
     }
+    sign_data = _jssdk_sign(request.build_absolute_uri())
+    context.update(sign_data)
+    context['WX_APPID'] = settings.WEIXIN_APPID
     return render(request, 'wechat/parent/reg_phone.html', context)
 
 
@@ -900,3 +903,10 @@ class VipView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, kwargs)
+
+
+class RegisterRedirectView(View):
+
+    def get(self, request):
+        reg_url = _get_auth_redirect_url(request, 'ONLY_REGISTER')
+        return redirect(reg_url)

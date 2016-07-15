@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^policy/', views.policy, name="policy"),
     url(r'^report/sample/$', views.ReportSampleView.as_view(), name="report-sample"),
     url(r'^vip/$', views.VipView.as_view(), name="report-sample"),
+    url(r'^register/$', views.RegisterRedirectView.as_view(), name="register"),
 ]

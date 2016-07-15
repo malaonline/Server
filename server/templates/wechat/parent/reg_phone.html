@@ -76,8 +76,19 @@
         </div>
     </div>
 </div>
+<script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script src="{% static 'wechat/js/parent/reg_phone.js' %}?v=2.0"></script>
+<script>
+    wx.config({
+        debug: false,
+        appId: '{{ WX_APPID }}',
+        timestamp: '{{ timestamp }}',
+        nonceStr: '{{ noncestr }}',
+        signature: '{{ signature }}',
+        jsApiList: ['closeWindow']
+    });
+</script>
 
 </body>
 </html>
