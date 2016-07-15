@@ -10,6 +10,13 @@ class TestStaffWeb(TestCase):
     def tearDown(self):
         pass
 
+    def test_analysis(self):
+        client = Client()
+        client.login(username='test', password='mala-test')
+        url = "/staff/analysis"
+        response = client.get(url)
+        self.assertEqual(200, response.status_code)
+
     def test_coupons_list(self):
         # 奖学金领用列表
         client = Client()
