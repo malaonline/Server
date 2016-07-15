@@ -297,6 +297,14 @@ class CourseChoosingView(OrderBaseView):
         order_data['orders_api_url'] = '/api/v1/orders/%s' % order.id
         if settings.TESTING:
             order_data['TESTING'] = settings.TESTING
+            charge = models.Charge()
+            charge.order = order
+            charge.ch_id = 'ch_%s' % (order.order_id)
+            charge.created = timezone.now()
+            charge.channel = models.Charge.WX_PUB_MALA
+            charge.order_no = order.order_id
+            charge.amount = order.to_pay
+            charge.save()
             return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': order_data})
         # get wx pay order
         ret_json = wx_pay_unified_order(order, request, wx_openid)
@@ -319,6 +327,11 @@ class CourseChoosingView(OrderBaseView):
         # get request params
         prepay_id = request.POST.get('prepay_id')
         order_id = request.POST.get('order_id')
+        if settings.TESTING:
+            ret_code = set_order_paid(order_id=order_id)
+            if ret_code == 1:
+                return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+            return JsonResponse({'ok': True, 'msg': '', 'code': 0})
         query_ret = wx_pay_order_query(order_id=order_id)
         if query_ret['ok']:
             trade_state = query_ret['data']['trade_state']
@@ -548,6 +561,8 @@ def wx_pay_notify_view(request):
 
 
 def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
+    if not openid:
+        return False
     while (times > 0):
         try:
             access_token, msg = _get_wx_token()

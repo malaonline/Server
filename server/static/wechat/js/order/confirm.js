@@ -144,13 +144,19 @@ $(function(){
                 if (result.ok) {
                     var data = result.data, prepay_id = data.prepay_id, order_id = data.order_id;
                     if (data.TESTING) {
-                        $.ajax({ // 取消订单@TESTING
-                            'type': "DELETE", 'url': data.orders_api_url, 'success': function (result) {
-                                stopPaying();
-                            }, 'error': function (xhr, errorType, errorDesc) {
-                                console.log('[' + errorType + '] ' + errorDesc);
-                                stopPaying();
+                        // in TESTING
+                        var verify_params = {'action': 'verify', 'prepay_id': prepay_id, 'order_id': order_id};
+                        $.ajax({'type': "POST", 'url': location.pathname, 'data': verify_params, 'success': function(verify_ret){
+                            if (verify_ret && verify_ret.ok) {
+                                showAlertDialog('支付成功');
+                            } else {
+                                showAlertDialog(verify_ret && verify_ret.msg || defaultErrMsg);
                             }
+                            stopPaying();
+                        }, 'dataType': 'json', 'error': function() {
+                            showAlertDialog('获取支付结果失败');
+                            stopPaying();
+                        }
                         });
                         return;
                     }
@@ -161,22 +167,13 @@ $(function(){
                         signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                         paySign: data.paySign, // 支付签名
                         success: function (res) {
-                            var verify_params = {
-                                'action': 'verify',
-                                'prepay_id': prepay_id,
-                                'order_id': order_id
-                            };
+                            var verify_params = {'action': 'verify', 'prepay_id': prepay_id, 'order_id': order_id};
                             $.ajax({'type': "POST", 'url': location.pathname, 'data': verify_params, 'success': function(verify_ret){
-                                if (verify_ret) {
-                                    if (verify_ret.ok) {
-                                        //showAlertDialog('支付成功');
-                                        wx.closeWindow();
-                                        return;
-                                    } else {
-                                        showAlertDialog(result.msg);
-                                    }
+                                if (verify_ret && verify_ret.ok) {
+                                    wx.closeWindow();
+                                    return;
                                 } else {
-                                    showAlertDialog(defaultErrMsg);
+                                    showAlertDialog(verify_ret && verify_ret.msg || defaultErrMsg);
                                 }
                                 stopPaying();
                             }, 'dataType': 'json', 'error': function() {
@@ -187,7 +184,7 @@ $(function(){
                         },
                         fail: function(res){
                             $.ajax({ // 取消订单
-                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
+                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(){
                                     stopPaying();
                                 }, 'error': function(){
                                     stopPaying();
@@ -199,7 +196,7 @@ $(function(){
                         //},
                         cancel: function(){
                             $.ajax({ // 取消订单
-                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(result){
+                                'type': "DELETE", 'url': data.orders_api_url, 'success': function(){
                                     stopPaying();
                                 }, 'error': function(){
                                     stopPaying();
@@ -219,6 +216,7 @@ $(function(){
                 stopPaying();
             }
         }, 'dataType': 'json', 'error': function() {
+            showAlertDialog(defaultErrMsg);
             stopPaying();
         }
         });

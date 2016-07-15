@@ -179,7 +179,7 @@ def wx_pay_unified_order(order, request, wx_openid):
 
 
 def _create_charge_object(pre_req_params, order, wx_pay_resp_dict):
-    charge = models.Charge.objects.create()
+    charge = models.Charge()
     charge.order = order
     charge.ch_id = wx_pay_resp_dict['prepay_id']
     charge.created = timezone.now()
