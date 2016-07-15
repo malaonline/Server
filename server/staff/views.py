@@ -193,6 +193,17 @@ class CouponsListView(StaffRoleRequiredMixin, ListView):
         return coupons_list
 
 
+class AnalysisView(BaseStaffView):
+    template_name = 'staff/analysis.html'
+
+    def get(self, request):
+        context = dict(
+                teachers=models.Teacher.objects.count(),
+                parents=models.Parent.objects.count(),
+                )
+        return render(request, self.template_name, context)
+
+
 class TeacherView(BaseStaffView):
     template_name = 'staff/teacher/teachers.html'
 

@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^login/$', views.login, name="login"),
     url(r'^login/auth/$', views.login_auth, name="login_auth"),
     url(r'^logout/$', views.logout, name="logout"),
+    url(r'^analysis$', views.AnalysisView.as_view(), name="analysis"),
     url(r'^students/$', views.StudentView.as_view(), name="students"),
     url(r'^students/schedule/manage/$', views.StudentScheduleManageView.as_view(), name="student_schedule_manage"),
     url(r'^students/schedule/changelog/$', views.StudentScheduleChangelogView.as_view(), name="student_schedule_changelog"),
