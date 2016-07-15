@@ -185,7 +185,7 @@ public class GalleryPreviewActivity extends BaseActivity implements TitleBarView
         protected View createView(int position, ViewGroup parent) {
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ViewGroup.LayoutParams layoutParamses = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+            AbsListView.LayoutParams layoutParamses = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
             int width = DensityUtil.getScreemWidth(context);
             width = (width - 2*context.getResources().getDimensionPixelSize(R.dimen.grallery_preview_divider))/3;
             layoutParamses.width = width;
