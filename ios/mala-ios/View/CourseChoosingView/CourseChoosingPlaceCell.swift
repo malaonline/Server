@@ -59,7 +59,6 @@ class CourseChoosingPlaceCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
-        tagsView.removeFromSuperview()
         content.addSubview(tableView)
         
         // Autolayout

@@ -91,7 +91,6 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         dropArrow.userInteractionEnabled = false
         
         // SubViews
-        tagsView.removeFromSuperview()
         content.addSubview(tableView)
         
         // Autolayout

@@ -48,7 +48,6 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
-        tagsView.removeFromSuperview()
         content.addSubview(classSchedule)
         content.addSubview(legendView)
         

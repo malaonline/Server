@@ -46,7 +46,6 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
         // Style
         
         // SubViews
-        tagsView.removeFromSuperview()
         contentView.addSubview(tableView)
         contentView.addSubview(priceView)
         

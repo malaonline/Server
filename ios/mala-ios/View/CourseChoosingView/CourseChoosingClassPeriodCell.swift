@@ -37,7 +37,6 @@ class CourseChoosingClassPeriodCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
-        tagsView.removeFromSuperview()
         content.removeFromSuperview()
         contentView.addSubview(legendView)
         

@@ -62,17 +62,6 @@ class MalaBaseCell: UITableViewCell {
             }
         }
     }
-    /// 标签字符串数组
-    var labels: [String] = [] {
-        didSet {
-            if labels != oldValue {
-                for view in self.tagsView.subviews {
-                    view.removeFromSuperview()
-                }
-                self.tagsView.setTags(labels)
-            }
-        }
-    }
     
     
     // MARK: - Components
@@ -85,11 +74,6 @@ class MalaBaseCell: UITableViewCell {
     }()
     /// 真正的控件容器，若有需求要添加新的子控件，请添加于此内部（注意区别于 UITableViewCell 中的 contentView）
     lazy var content: UIView = UIView()
-    /// 标签容器
-    lazy var tagsView: MATabListView = {
-        let tagsView = MATabListView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.size.width, height: 12))
-        return tagsView
-    }()
     /// 详情箭头指示器——附加组件类型之一
     lazy var rightArrow: UIButton = {
         let rightArrow = UIButton()
@@ -136,7 +120,6 @@ class MalaBaseCell: UITableViewCell {
         // SubViews
         contentView.addSubview(title)
         contentView.addSubview(content)
-        content.addSubview(tagsView)
         
         // Autolayout
         title.snp_makeConstraints { (make) -> Void in
@@ -149,12 +132,6 @@ class MalaBaseCell: UITableViewCell {
             make.left.equalTo(contentView.snp_left).offset(12)
             make.right.equalTo(contentView.snp_right).offset(-12)
             make.bottom.equalTo(contentView.snp_bottom).offset(-14)
-        }
-        tagsView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(content.snp_top)
-            make.bottom.equalTo(content.snp_bottom)
-            make.left.equalTo(content.snp_left)
-            make.right.equalTo(content.snp_right)
         }
     }
     

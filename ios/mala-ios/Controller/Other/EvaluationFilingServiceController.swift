@@ -135,7 +135,6 @@ class EvaluationFilingServiceCell: MalaBaseCell {
         // Style
         
         // Subviews
-        tagsView.removeFromSuperview()
         content.addSubview(contentImageView)
         content.addSubview(contentLabel)
         
