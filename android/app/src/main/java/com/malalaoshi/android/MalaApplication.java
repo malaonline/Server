@@ -1,5 +1,6 @@
 package com.malalaoshi.android;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.RequestQueue;
@@ -7,6 +8,8 @@ import com.android.volley.toolbox.Volley;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.push.MalaPushClient;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 /**
  * Created by liumengjun on 11/16/15.
@@ -22,6 +25,8 @@ public class MalaApplication extends BaseApplication {
     // 运行信息
     private boolean isNetworkOk;
     public boolean isFirstStartApp = true;
+
+    private RefWatcher refWatcher;
 
     @Override
     protected void initOnMainProcess() {
@@ -39,6 +44,12 @@ public class MalaApplication extends BaseApplication {
         //启动应用后设置用户初始化并设置用户别名
         MalaPushClient.getInstance().init();
         MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
+        refWatcher = LeakCanary.install(this);
+    }
+
+    public static RefWatcher getRefWatcher(Context context) {
+        MalaApplication application = (MalaApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 
     public static MalaApplication getInstance() {
