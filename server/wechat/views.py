@@ -860,21 +860,22 @@ def check_phone(request):
     else:
         logger.debug(req.status_code)
 
-    if openid:
-        profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
-        lastOne = list(profiles) and profiles[0]
-        if lastOne:
-            return HttpResponseRedirect(reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+openid)
-
-    context = {
-        "openid": openid,
-        "teacherId": teacherId,
-    }
     if teacherId == 'ONLY_REGISTER':
         nextpage = reverse('wechat:register')+'?step=success'
     else:
         nextpage = reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
-    context['nextpage'] = nextpage
+
+    if openid:
+        profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
+        lastOne = list(profiles) and profiles[0]
+        if lastOne:
+            return HttpResponseRedirect(nextpage)
+
+    context = {
+        "openid": openid,
+        "teacherId": teacherId,
+        "nextpage": nextpage
+    }
     sign_data = _jssdk_sign(request.build_absolute_uri())
     context.update(sign_data)
     context['WX_APPID'] = settings.WEIXIN_APPID
