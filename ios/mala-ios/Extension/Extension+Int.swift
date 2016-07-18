@@ -24,7 +24,7 @@ extension Int {
             if self == 0 {
                 return "￥0.01"
             }
-            return String(format: "￥%@", String(Double(self)/100))
+            return String(format: "￥%.2f", Double(self)/100)
         }
     }
     
