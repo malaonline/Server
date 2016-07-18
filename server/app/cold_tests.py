@@ -35,24 +35,34 @@ class SimpleTest(unittest.TestCase):
         params = klx_build_params({'username': test_stu_id}, True)
         print(url)
 
-        # total-item-nums
-        resp = requests.get(url + '/total-item-nums', params=params)
-        if resp.status_code != 200:
-            print('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-        print(resp.url)
-        ret_json = json.loads(resp.content.decode('utf-8'))
-        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
-            print(ret_json.get('data'))
-        else:
-            print('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+        def _request_kuailexue_api_data(type):
+            resp = requests.get(url + '/' + type, params=params)
+            if resp.status_code != 200:
+                print('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            print(resp.url)
+            ret_json = json.loads(resp.content.decode('utf-8'))
+            if ret_json.get('code') == 0 and ret_json.get('data') is not None:
+                print(ret_json.get('data'))
+            else:
+                print('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
-        # total-exercise-nums
-        resp = requests.get(url + '/total-exercise-nums', params=params)
-        if resp.status_code != 200:
-            print('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-        ret_json = json.loads(resp.content.decode('utf-8'))
-        print(resp.url)
-        if ret_json.get('code') == 0 and ret_json.get('data') is not None:
-            print(ret_json.get('data'))
-        else:
-            print('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+        # total-item-nums 指定学生累计答题数、正确答题数
+        _request_kuailexue_api_data('total-item-nums')
+
+        # total-exercise-nums 指定学生累计答题次数（即答题次数）及完成率
+        _request_kuailexue_api_data('total-exercise-nums')
+
+        # error-knowledge-point 错题知识点分布
+        _request_kuailexue_api_data('error-knowledge-point')
+
+        # items-trend 按月显示练习量走势
+        _request_kuailexue_api_data('items-trend')
+
+        # knowledge-point-accuracy 指定学生一级/二级知识点正确率
+        _request_kuailexue_api_data('knowledge-point-accuracy')
+
+        # ability-structure 能力结构分析
+        _request_kuailexue_api_data('ability-structure')
+
+        # my-average-score 各知识点全部用户平均得分率及指定学生得分率
+        _request_kuailexue_api_data('my-average-score')
