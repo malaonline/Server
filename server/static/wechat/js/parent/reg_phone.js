@@ -93,10 +93,7 @@ function checkSMS(){
           showToast('该手机号已绑定其他微信号');
         }
       }else{
-        console.log("验证码正确")
-        if(teacherId == 'ONLY_REGISTER'){
-            wx.closeWindow();
-        }
+        console.log("验证码正确");
         if(nextpage != "None"){
           location.href = nextpage;
         }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        注册成功
+    </title>
+    {% load staticfiles%}
+    {% load compile_static %}
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/parent/reg_phone.less'|compile %}?v=2.0">
+
+    <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: '{{ WX_APPID }}',
+            timestamp: '{{ timestamp }}',
+            nonceStr: '{{ noncestr }}',
+            signature: '{{ signature }}',
+            jsApiList: ['closeWindow']
+        });
+        function close_window(){
+            wx.closeWindow();
+        }
+    </script>
+</head>
+<body>
+
+<div ontouchstart class="page">
+    <div class="weui_msg">
+       <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+       <div class="weui_text_area">
+           <h2 class="weui_msg_title">注册成功</h2>
+       </div>
+       <div class="weui_opr_area">
+           <p class="weui_btn_area">
+               <a href="javascript:close_window()" class="weui_btn weui_btn_primary">确定</a>
+           </p>
+       </div>
+    </div>
+</div>
+
+</body>
+</html>

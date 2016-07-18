@@ -869,8 +869,12 @@ def check_phone(request):
     context = {
         "openid": openid,
         "teacherId": teacherId,
-        "nextpage": reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
     }
+    if teacherId == 'ONLY_REGISTER':
+        nextpage = reverse('wechat:register')+'?step=success'
+    else:
+        nextpage = reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
+    context['nextpage'] = nextpage
     sign_data = _jssdk_sign(request.build_absolute_uri())
     context.update(sign_data)
     context['WX_APPID'] = settings.WEIXIN_APPID
@@ -908,5 +912,12 @@ class VipView(View):
 class RegisterRedirectView(View):
 
     def get(self, request):
+        step = request.GET.get('step')
+        if step == 'success':
+            context = {}
+            sign_data = _jssdk_sign(request.build_absolute_uri())
+            context.update(sign_data)
+            context['WX_APPID'] = settings.WEIXIN_APPID
+            return render(request, 'wechat/parent/reg_success.html', context)
         reg_url = _get_auth_redirect_url(request, 'ONLY_REGISTER')
         return redirect(reg_url)
