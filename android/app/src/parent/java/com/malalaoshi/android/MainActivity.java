@@ -139,6 +139,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS});
         if (permissions == null) {
+            Toast.makeText(this,"获取定位权限失败!",Toast.LENGTH_SHORT).show();
             return;
         }
         if (permissions.size() == 0) {
@@ -149,7 +150,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     private void initLocManager() {
-        locManager.initLocation();
         loadLocation();
     }
 
@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
             initLocManager();
         } else {
             // 未获取到授权，取消需要该权限的方法
-            //Toast.makeText(this,"缺少定位相关权限",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"获取定位权限失败!",Toast.LENGTH_SHORT).show();
         }
     }
 

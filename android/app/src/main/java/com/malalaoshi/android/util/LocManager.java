@@ -2,34 +2,29 @@ package com.malalaoshi.android.util;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.malalaoshi.android.MalaApplication;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.malalaoshi.android.core.MalaContext;
 
 /**
  * Created by kang on 16/1/6.
  */
 public class LocManager {
     private static final String TAG = "LocManager";
+    private static LocManager instance = new LocManager();
     //定位相关对象
     private LocationManager locationManager;
-
-    private static LocManager instance = new LocManager();
-    private static Context mContext;
+    private Context mContext;
     private LocListener locationListener;
-    private List<ReceiveLocationListener> listenerList;
+    private ReceiveLocationListener receiveLocationListener;
 
     //定位状态
     public final static int NOT_LOCATION = 0;   //未开始定位
@@ -45,36 +40,39 @@ public class LocManager {
     public int getLocationStatus() {
         return locationStatus;
     }
+
     public void unregisterLocationListener(ReceiveLocationListener listener) {
-        locationStatus = NOT_LOCATION;
-        listenerList.remove(listener);
+        receiveLocationListener = listener;
     }
 
     public void registerLocationListener(ReceiveLocationListener listener) {
-        locationStatus = NOT_LOCATION;
-        listenerList.add(listener);
+        receiveLocationListener = null;
     }
 
-
     private LocManager() {
-        listenerList = new ArrayList<>();
     }
 
     public static LocManager getInstance() {
-        mContext = MalaApplication.getInstance().getApplicationContext();//context.getApplicationContext();Context context
+        instance.mContext = MalaApplication.getInstance().getApplicationContext();
+        instance.initLocation();
         return instance;
     }
 
-    public void initLocation() {
+    private void initLocation() {
         //通过上下文获得得到手机位置的系统服务，
-        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager==null){
+            locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
+        }
+        if (locationListener==null){
+            locationListener = new LocListener();
+        }
     }
 
     public void start() {
-        mLocation = null;
+        //mLocation = null;
         //开始定位
         locationStatus = BEING_LOCATION;
-        locationListener = new LocListener();
         //调用getProvider方法，获得最好的位置提供者
         String provider = getProvider(locationManager);
         //Location loc = locationManager.getLastKnownLocation(provider);
@@ -96,12 +94,10 @@ public class LocManager {
             locationStatus = ERROR_LOCATION;
             return;
         }
-
         locationManager.requestLocationUpdates(provider, 3000, 10, locationListener);
     }
 
     public void stop() {
-        //locationStatus = NOT_LOCATION;
         if (locationListener != null) {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -114,7 +110,6 @@ public class LocManager {
                 return;
             }
             locationManager.removeUpdates(locationListener);
-            locationListener = null;
         }
     }
 
@@ -130,17 +125,16 @@ public class LocManager {
                 locationStatus = OK_LOCATION;
                 mLocation = new Location(location);
             }else{
+                MiscUtil.toast("定位失败!");
                 locationStatus = ERROR_LOCATION;
             }
 
-            for (int i=0;i<listenerList.size();i++){
-                ReceiveLocationListener listener = listenerList.get(i);
-                listener.onReceiveLocation(location);
+            if (receiveLocationListener!=null){
+                receiveLocationListener.onReceiveLocation(location);
             }
             Log.i(TAG,"latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
             //停止定位
             stop();
-            //Location.distanceBetween();
         }
         /**
          * 设备状态（可用、不可用）发生改变时回调的方法
@@ -178,6 +172,12 @@ public class LocManager {
      */
     private String getProvider(LocationManager manager) {
         Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        /*Criteria criteria = new Criteria();
         // 设置精准度
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         // 设置是否对海拔敏感
@@ -187,7 +187,7 @@ public class LocManager {
         //设置对速度变化是否敏感
         criteria.setSpeedRequired(false);
         //设置在定位时，是否允许产生与运营商交换数据的开销
-        criteria.setCostAllowed(true);
+        criteria.setCostAllowed(true);*/
         //这个方法是用来得到最好的定位方式，它有两个参数
         //1、Criteria(类似于Map集合)，一组关于定位的条件，速度、海拔、耗电量等
         //2、enableOnly，布尔类型，false，有可能是已经关掉了的设备；true，就只会得到已经打开了的设备。
