@@ -17,10 +17,10 @@ class ThemeDate {
     ///  - parameter Period: 课时数量（基数应为[课表对象]数量）
     ///
     ///  - returns: 上课时间表（字符串数组）
-    class func dateArray(days: [ClassScheduleDayModel], period: Int) -> [String] {
+    class func dateArray(days: [ClassScheduleDayModel], period: Int) -> [[NSTimeInterval]] {
         
         /// 上课时间表字符串数组
-        var timeSchedule: [String] = []
+        var timeSchedule: [[NSTimeInterval]] = [[NSTimeInterval]]()
         /// 课表数组排序
         let sortDays = days.sort { (model0, model1) -> Bool in
             return (model0.weekID == 0 ? 7 : model0.weekID) < (model1.weekID == 0 ? 7 : model1.weekID)
@@ -34,13 +34,9 @@ class ThemeDate {
         repeat {
             
             let singleDate = sortDays[index]
-            let firstAvailableDate = ThemeDate().getFirstAvailableDate(singleDate).dateByAddingWeeks(currentWeekAdding)
-            
-            let dateString = getDateString(date: firstAvailableDate, format: "yyyy-MM-dd")
-            let startString = getDateString(date: firstAvailableDate, format: "HH:mm")
-            let endString = getDateString(date: firstAvailableDate.dateByAddingHours(2), format: "HH:mm")
-            
-            timeSchedule.append(String(format: "%@ (%@-%@)", dateString, startString, endString))
+            let firstDate = ThemeDate().getFirstAvailableDate(singleDate).dateByAddingWeeks(currentWeekAdding)
+            let endDate = firstDate.dateByAddingHours(2)
+            timeSchedule.append([firstDate.timeIntervalSince1970, endDate.timeIntervalSince1970])
             
             classPeriod -= 2
             index += 1
