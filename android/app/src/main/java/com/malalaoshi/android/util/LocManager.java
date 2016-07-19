@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.malalaoshi.android.MalaApplication;
-import com.malalaoshi.android.core.MalaContext;
 
 /**
  * Created by kang on 16/1/6.
@@ -53,7 +52,9 @@ public class LocManager {
     }
 
     public static LocManager getInstance() {
-        instance.mContext = MalaApplication.getInstance().getApplicationContext();
+        if(instance.mContext==null){
+            instance.mContext = MalaApplication.getInstance().getApplicationContext();
+        }
         instance.initLocation();
         return instance;
     }
@@ -62,7 +63,6 @@ public class LocManager {
         //通过上下文获得得到手机位置的系统服务，
         if (locationManager==null){
             locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
         }
         if (locationListener==null){
             locationListener = new LocListener();
@@ -70,17 +70,24 @@ public class LocManager {
     }
 
     public void start() {
-        //mLocation = null;
+        mLocation = null;
         //开始定位
         locationStatus = BEING_LOCATION;
         //调用getProvider方法，获得最好的位置提供者
         String provider = getProvider(locationManager);
+        if (provider==null){
+            Log.i(TAG, "No GPS provider found!");
+            locationStatus = ERROR_LOCATION;
+            updateWithNewLocation(null);
+            return;
+        }
+
         //Location loc = locationManager.getLastKnownLocation(provider);
         //获得位置更新的操作
         //manager.requestLocationUpdates(provider, minTime, minDistance, listener)
         //其中的4个参数分别为：
         //provider：使用的定位设备，基站定位、GPS定位、网络定位等
-        //minTime：多长时间更新一次定位信息，单位为毫秒，最少为一分钟
+        //minTime：多长时间更新一次定位信息，单位为毫秒，最多为一分钟
         //minDistance：位置移动了多少米之后，重新获取一次定位信息
         //listener：在位置发生变化时的回调方法。定义一个类（LocListener），实现LocationListener接口
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -91,10 +98,15 @@ public class LocManager {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.i(TAG, "check location Permission failed");
             locationStatus = ERROR_LOCATION;
+            updateWithNewLocation(null);
             return;
         }
-        locationManager.requestLocationUpdates(provider, 3000, 10, locationListener);
+        Log.i(TAG, "GPS provider is enabled:" + provider.toString());
+        Location latestLocation = locationManager.getLastKnownLocation(provider);
+        updateWithNewLocation(latestLocation);
+        locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
     }
 
     public void stop() {
@@ -121,18 +133,7 @@ public class LocManager {
          */
         public void onLocationChanged(Location location) {
             // TODO Auto-generated method stub
-            if (location!=null){
-                locationStatus = OK_LOCATION;
-                mLocation = new Location(location);
-            }else{
-                MiscUtil.toast("定位失败!");
-                locationStatus = ERROR_LOCATION;
-            }
-
-            if (receiveLocationListener!=null){
-                receiveLocationListener.onReceiveLocation(location);
-            }
-            Log.i(TAG,"latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
+            updateWithNewLocation(location);
             //停止定位
             stop();
         }
@@ -176,7 +177,7 @@ public class LocManager {
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
         criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
         /*Criteria criteria = new Criteria();
         // 设置精准度
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -202,5 +203,21 @@ public class LocManager {
 
     public Location getLocation() {
         return mLocation;
+    }
+
+
+    protected void updateWithNewLocation(Location location) {
+        Log.i(TAG, "location changed to: " + location);
+        if (location!=null){
+            Log.i(TAG,"定位成功 latitude:"+location.getLatitude()+" longtitude:"+location.getLongitude());
+            locationStatus = OK_LOCATION;
+            mLocation = new Location(location);
+        }else{
+            Log.i(TAG,"定位失败!");
+            locationStatus = ERROR_LOCATION;
+        }
+        if (receiveLocationListener!=null){
+            receiveLocationListener.onReceiveLocation(location);
+        }
     }
 }
