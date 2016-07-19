@@ -78,7 +78,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         }
     }
     /// 上课时间表数据
-    var timeScheduleResult: [String] = [] {
+    var timeScheduleResult: [[NSTimeInterval]] = [] {
         didSet {
             // 刷新 [上课时间] Cell
             dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
@@ -182,7 +182,8 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         case 4:
             let cell = reuseCell as! CourseChoosingTimeScheduleCell
             cell.isOpen = self.isOpenTimeScheduleCell
-            cell.timeScheduleResult = self.timeScheduleResult
+            println("**** - \(self.timeScheduleResult)")
+            cell.timeSchedules = self.timeScheduleResult
             return cell
             
         case 5:

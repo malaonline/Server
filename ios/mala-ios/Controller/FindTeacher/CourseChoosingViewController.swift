@@ -400,7 +400,8 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                     // 请求上课时间表，并展开cell
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         if bool && self?.isNeedReloadTimeSchedule == true {
-                            self?.loadConcreteTimeslots()
+                            let array = ThemeDate.dateArray(MalaCourseChoosingObject.selectedTime, period: Int(MalaCourseChoosingObject.classPeriod))
+                            self?.tableView.timeScheduleResult = array
                             self?.isNeedReloadTimeSchedule = false
                         }
                         self?.tableView.isOpenTimeScheduleCell = true
@@ -412,49 +413,6 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
         self.observers.append(observerOpenTimeScheduleCell)
     }
     
-    /// 获取上课时间表
-    private func loadConcreteTimeslots() {
-        
-        // 老师id
-        guard let id = teacherModel?.id where MalaCourseChoosingObject.classPeriod != 0 else {
-            return
-        }
-        
-        // 上课时间
-        let timeslots = MalaCourseChoosingObject.selectedTime.map{$0.id}
-        guard timeslots.count != 0 else {
-            ShowTost("请先选择上课时间")
-            return
-        }
-        
-        // 课时
-        let hours = MalaCourseChoosingObject.classPeriod
-        
-        ThemeHUD.showActivityIndicator()
-        
-        // 请求上课时间表
-        getConcreteTimeslots(id, hours: hours, timeSlots: timeslots, failureHandler: { (reason, errorMessage) in
-            ThemeHUD.hideActivityIndicator()
-            
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-            // 错误处理
-            if let errorMessage = errorMessage {
-                println("CourseChoosingViewController - loadConcreteTimeslots Error \(errorMessage)")
-            }
-            
-        }, completion: { [weak self] (timeSlots) in
-            ThemeHUD.hideActivityIndicator()
-            
-            guard let timesSchedule = timeSlots else {
-                self?.ShowTost("上课时间获取有误，请重试！")
-                return
-            }
-            
-            let array = getTimeSchedule(timeIntervals: timesSchedule)
-            self?.tableView.timeScheduleResult = array
-            self?.tableView.isOpenTimeScheduleCell = true
-        })
-    }
     
     ///  计算最优奖学金使用方案
     private func calculateCoupon() {
