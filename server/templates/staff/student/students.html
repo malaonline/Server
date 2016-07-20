@@ -4,79 +4,80 @@
 
 {% block content %}
     {# TODO: some data should be retrieve from models #}
-<form>
-    注册日期
-    <select>
-        <option>2015-09-01</option>
-    </select>
-     -
-    <select>
-        <option>2015-10-01</option>
-    </select>
-
-    授课中心
-    <select>
-        {% for center in centers %}
-            <option>{{ center.name }}</option>
-        {% endfor %}
-    </select>
-
-    年级
-    <select>
-        {% for grade in grades %}
+{#<form>#}
+{#    注册日期#}
+{#    <select>#}
+{#        <option>2015-09-01</option>#}
+{#    </select>#}
+{#     -#}
+{#    <select>#}
+{#        <option>2015-10-01</option>#}
+{#    </select>#}
+{##}
+{#    授课中心#}
+{#    <select>#}
+{#        {% for center in centers %}#}
+{#            <option>{{ center.name }}</option>#}
+{#        {% endfor %}#}
+{#    </select>#}
+{##}
+{#    年级#}
+{#    <select>#}
+{#        {% for grade in grades %}#}
             {# 不显示: 小学 初中 高中 #}
-            {% if grade.superset %}
-                <option>{{ grade.name }}</option>
-            {% endif %}
-        {% endfor %}
-    </select>
+{#            {% if grade.superset %}#}
+{#                <option>{{ grade.name }}</option>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#    </select>#}
+{##}
+{#    科目#}
+{#    <select>#}
+{#        {% for subject in subjects %}#}
+{#            <option>{{ subject.name }}</option>#}
+{#        {% endfor %}#}
+{#    </select>#}
+{##}
+{#    剩余课时#}
+{#    <input type="number" />#}
+{##}
+{#    <input type="submit" value="查询"/>#}
+{#</form>#}
 
-    科目
-    <select>
-        {% for subject in subjects %}
-            <option>{{ subject.name }}</option>
-        {% endfor %}
-    </select>
-
-    剩余课时
-    <input type="number" />
-
-    <input type="submit" value="查询"/>
-</form>
-
-<table align="center" border="1" cellspacing="0" width="100%">
+<table class="table table-striped table-hover table-bordered">
     <tr>
-        <th>家长姓名</th>
-        <th>家长手机号</th>
-        <th>学生姓名</th>
-        <th>所属年级</th>
-        <th>所在学校</th>
-        <th>授课中心</th>
-        <th>订单数量</th>
-        <th>报课年级</th>
-        <th>报名科目</th>
-        <th>老师</th>
-        <th>手机号</th>
-        <th>剩余课时</th>
-        <th>上课时间</th>
-        <th>注册时间</th>
+        <th class="text-center">家长手机号</th>
+        <th class="text-center">学生姓名</th>
+        <th class="text-center">注册时间</th>
+{#        <th>所属年级</th>#}
+{#        <th>所在学校</th>#}
+{#        <th>授课中心</th>#}
+{#        <th>订单数量</th>#}
+{#        <th>报课年级</th>#}
+{#        <th>报名科目</th>#}
+{#        <th>老师</th>#}
+{#        <th>手机号</th>#}
+{#        <th>剩余课时</th>#}
+{#        <th>上课时间</th>#}
+{#        <th>注册时间</th>#}
     </tr>
     {% for parent in parents %}
         <tr align="center">
-{# 家长姓名 #}<td>{{ parent.user.username }}</td>
 {# 家长手机 #}<td>{{ parent.user.profile.phone }}</td>
-{# 学生姓名 #}<td>{{ parent.student_name }}</td>
-{# 所属年级 #}<td>N/A</td>
-{# 所在学校 #}<td>N/A</td>
-{# 授课中心 #}<td>N/A</td>
-{# 订单数量 #}<td>N/A</td>
-{# 报课年级 #}<td>N/A</td>
-{# 报名科目 #}<td>N/A</td>
-{# 老师姓名 #}<td>N/A</td>
-{# 老师手机 #}<td>N/A</td>
-{# 剩余课时 #}<td>N/A</td>
-{# 上课时间 #}<td>N/A</td>
-{# 注册时间 #}<td>N/A</td>
+{# 学生姓名 #}<td>{% if parent.student_name %}{{ parent.student_name }}{% else %}<未设置>{% endif %}</td>
+{# 注册时间 #}<td>{{ parent.user.date_joined |date:"Y-m-d H:i"}}</td>
+
+{# 所属年级 <td>N/A</td>#}
+{# 所在学校 <td>N/A</td>#}
+{# 授课中心 <td>N/A</td>#}
+{# 订单数量 <td>N/A</td>#}
+{# 报课年级 <td>N/A</td>#}
+{# 报名科目 <td>N/A</td>#}
+{# 老师姓名 <td>N/A</td>#}
+{# 老师手机 <td>N/A</td>#}
+{# 剩余课时 <td>N/A</td>#}
+{# 上课时间 <td>N/A</td>#}
+{# 注册时间 <td>N/A</td>#}
         </tr>
     {% endfor %}
 </table>

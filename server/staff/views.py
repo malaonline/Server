@@ -1256,10 +1256,11 @@ class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['parents'] = models.Parent.objects.all
-        kwargs['centers'] = models.School.objects.filter(center=True)
-        kwargs['grades'] = models.Grade.objects.all
-        kwargs['subjects'] = models.Subject.objects.all
+        kwargs['parents'] = models.Parent.objects.all().order_by(
+            '-user__date_joined')
+        # kwargs['centers'] = models.School.objects.filter(center=True)
+        # kwargs['grades'] = models.Grade.objects.all
+        # kwargs['subjects'] = models.Subject.objects.all
         return super(StudentView, self).get_context_data(**kwargs)
 
 

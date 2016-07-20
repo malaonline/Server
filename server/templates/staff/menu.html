@@ -27,6 +27,9 @@
   <div class="mui-heading">学生管理</div>
   <ul class="mui-nav">
     <li>
+      <a href="{% url 'staff:students' %}" class="{% menu_style 'staff:students' %}">注册学生列表</a>
+    </li>
+    <li>
       <a href="{% url 'staff:student_schedule_manage' %}" class="{% menu_style 'staff:student_schedule_manage' %}">调课与停课管理</a>
     </li>
     <li>
