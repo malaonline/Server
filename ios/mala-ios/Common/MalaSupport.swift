@@ -335,9 +335,11 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
     var timeStrings = [String]()
     var heightCount: Int = 0
     var list: [TimeScheduleModel] = []
+    let sortTimeSlots = timeSchedule.sort { (timeIntervals1, timeIntervals2) -> Bool in
+        return (timeIntervals1.first ?? 0) < (timeIntervals2.first ?? 0)
+    }
     
-    
-    for singleTime in timeSchedule {
+    for singleTime in sortTimeSlots {
         
         let currentStartDate = NSDate(timeIntervalSince1970: singleTime[0])
         let currentEndDate = NSDate(timeIntervalSince1970: singleTime[1])

@@ -182,7 +182,6 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         case 4:
             let cell = reuseCell as! CourseChoosingTimeScheduleCell
             cell.isOpen = self.isOpenTimeScheduleCell
-            println("**** - \(self.timeScheduleResult)")
             cell.timeSchedules = self.timeScheduleResult
             return cell
             

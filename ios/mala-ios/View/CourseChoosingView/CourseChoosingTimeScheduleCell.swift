@@ -13,11 +13,8 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Property
     /// 上课时间列表
     var timeSchedules: [[NSTimeInterval]]? {
-        didSet {
-            println("Time-newValue: \(timeSchedules)")
-            println("Time-oldValue: \(oldValue)")
-            
-            if (timeSchedules ?? []) != (oldValue ?? []) && timeSchedules != nil && isOpen {
+        didSet {            
+            if (timeSchedules ?? []) !== (oldValue ?? []) && timeSchedules != nil && isOpen {
                 parseTimeSchedules()
             }
         }
@@ -29,7 +26,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             guard let timeLineView = timeLineView else {
                 return
             }
-            println("时间表 展开")
+            
             if isOpen {
                 timeLineView.hidden = false
                 timeLineView.snp_updateConstraints { (make) -> Void in
