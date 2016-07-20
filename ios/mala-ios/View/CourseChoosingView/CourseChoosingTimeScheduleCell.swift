@@ -17,7 +17,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             println("Time-newValue: \(timeSchedules)")
             println("Time-oldValue: \(oldValue)")
             
-            if (timeSchedules ?? []) != (oldValue ?? []) && timeSchedules != nil {
+            if (timeSchedules ?? []) != (oldValue ?? []) && timeSchedules != nil && isOpen {
                 parseTimeSchedules()
             }
         }
@@ -31,10 +31,12 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             }
             println("时间表 展开")
             if isOpen {
+                timeLineView.hidden = false
                 timeLineView.snp_updateConstraints { (make) -> Void in
                     make.height.equalTo(currentHeightCount*16)
                 }
             }else {
+                timeLineView.hidden = true
                 timeLineView.snp_updateConstraints { (make) -> Void in
                     make.height.equalTo(0)
                 }
