@@ -86,7 +86,7 @@ public class CommentViewWindow: UIViewController, UITextViewDelegate {
     private lazy var avatarView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "avatar_placeholder"))
         imageView.contentMode = .ScaleAspectFill
-        imageView.layer.cornerRadius = imageView.frame.width/2
+        imageView.layer.cornerRadius = MalaLayout_CoursePopupWindowTitleViewHeight/2
         imageView.layer.masksToBounds = true
         return imageView
     }()
