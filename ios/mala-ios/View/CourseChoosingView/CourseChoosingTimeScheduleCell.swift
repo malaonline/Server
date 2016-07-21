@@ -20,7 +20,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         }
     }
     /// 展开标记
-    var isOpen: Bool = false {
+    var isOpen: Bool = true {
         didSet {
             
             guard let timeLineView = timeLineView else {

@@ -58,7 +58,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         }
     }
     /// 上课地点Cell展开标识
-    var isOpenTimeScheduleCell: Bool = false {
+    var isOpenTimeScheduleCell: Bool = true {
         didSet {
             if isOpenTimeScheduleCell != oldValue {
                 dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
