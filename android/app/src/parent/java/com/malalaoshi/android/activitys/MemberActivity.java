@@ -11,13 +11,13 @@ import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.fragments.MemberRightFragment;
-import com.malalaoshi.android.view.Indicator.RubberIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 public class MemberActivity extends BaseActivity implements TitleBarView.OnTitleBarClickListener {
 
@@ -26,14 +26,14 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
 
     private MyPagerAdapter adapter;
 
-
     private int currentPagerposition = 0;
-
 
     @Bind(R.id.vp_member)
     protected ViewPager memberViewPager;
-    @Bind(R.id.ri_member_rubber)
-    protected RubberIndicator riMember;
+
+    @Bind(R.id.circle_indicator)
+    protected CircleIndicator circleIndicator;
+
     @Bind(R.id.tbv_member_title)
     protected TitleBarView titleBarView;
 
@@ -45,70 +45,11 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
         //获得点击的哪个页面
         getPagerPosition();
         titleBarView.setOnTitleBarClickListener(this);
-        riMember.setCount(8, currentPagerposition);
         setAdapter();
+        circleIndicator.setViewPager(memberViewPager);
         memberViewPager.setCurrentItem(currentPagerposition);
-        setListener();
     }
 
-
-    private void setListener() {
-
-        memberViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                switch (position) {
-                    case 0:
-                        moveRubberIndicator(0);
-                        break;
-                    case 1:
-                        moveRubberIndicator(1);
-                        break;
-                    case 2:
-                        moveRubberIndicator(2);
-                        break;
-                    case 3:
-                        moveRubberIndicator(3);
-                        break;
-                    case 4:
-                        moveRubberIndicator(4);
-                        break;
-                    case 5:
-                        moveRubberIndicator(5);
-                        break;
-                    case 6:
-                        moveRubberIndicator(6);
-                        break;
-                    case 7:
-                        moveRubberIndicator(7);
-                        break;
-                }
-
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
-    private void moveRubberIndicator(int i) {
-        if (currentPagerposition < i) {
-            riMember.moveToRight();
-        } else if (currentPagerposition > i) {
-            riMember.moveToLeft();
-        }
-        currentPagerposition = i;
-
-    }
 
     private void setAdapter() {
         fragments = new ArrayList<>();

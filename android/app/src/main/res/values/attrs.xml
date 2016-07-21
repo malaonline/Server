@@ -9,12 +9,6 @@
         <attr name="civ_fill_color" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="RubberIndicator">
-        <attr name="smallCircleColor" format="color" />
-        <attr name="largeCircleColor" format="color" />
-        <attr name="outerCircleColor" format="color" />
-        <attr name="circleradius"  format="integer" />
-    </declare-styleable>
 
     <declare-styleable name="CircleView">
         <attr name="cv_color" format="color" />

@@ -20,16 +20,15 @@ import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.fragments.FilterGradeFragment;
 import com.malalaoshi.android.fragments.FilterSubjectFragment;
 import com.malalaoshi.android.fragments.FilterTagFragment;
-import com.malalaoshi.android.view.Indicator.RubberIndicator;
 import com.malalaoshi.android.view.SlideViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by kang on 16/6/20.
@@ -63,8 +62,8 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
     @Bind(R.id.filter_bar_title)
     protected TextView tvTitle;
 
-    @Bind(R.id.filter_rubber)
-    RubberIndicator rubberIndicator;
+    @Bind(R.id.circle_indicator)
+    CircleIndicator circleIndicator;
 
     private String titleText = "年级筛选";
 
@@ -108,7 +107,7 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
     }
 
     private void initView() {
-        rubberIndicator.setCount(3, 0);
+
         //viewpager不可侧滑
         viewPager.setCanSlide(false);
 
@@ -130,6 +129,7 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
         fragmentGroupAdapter = new FragmentGroupAdapter(getContext(),getChildFragmentManager(),this);
         viewPager.setAdapter(fragmentGroupAdapter);
         viewPager.setOffscreenPageLimit(3);//缓存页面
+        circleIndicator.setViewPager(viewPager);
 
     }
 
@@ -189,7 +189,6 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
         if (pageIndex>0){
             pageIndex--;
             viewPager.setCurrentItem(pageIndex);
-            rubberIndicator.moveToLeft();
             updateView(pageIndex);
         }
     }
@@ -198,7 +197,6 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
         if (pageIndex<fragmentGroupAdapter.getCount()-1){
             pageIndex++;
             viewPager.setCurrentItem(pageIndex);
-            rubberIndicator.moveToRight();
             updateView(pageIndex);
         }
     }

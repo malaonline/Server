@@ -23,17 +23,14 @@
         </com.malalaoshi.android.view.SlideViewPager>
 
     </LinearLayout>
-    <com.malalaoshi.android.view.Indicator.RubberIndicator
-        android:id="@+id/filter_rubber"
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/circle_indicator"
+        style="@style/mala.indicator_small"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_width="30dp"
-        android:layout_height="6dp"
-        android:layout_marginBottom="12dp"
-        app:smallCircleColor="#c7deee"
-        app:largeCircleColor="#8fbcdd"
-        app:circleradius="3"
-        />
+        android:layout_marginBottom="12dp" />
+
     <ImageView
         android:id="@+id/iv_dialog_ic"
         android:layout_width="wrap_content"

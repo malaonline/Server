@@ -29,16 +29,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/view_line"></android.support.v4.view.ViewPager>
 
-    <com.malalaoshi.android.view.Indicator.RubberIndicator
-        android:id="@+id/ri_member_rubber"
-        android:layout_width="150dp"
-        android:layout_height="10dp"
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/circle_indicator"
+        style="@style/mala.indicator_big"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:smallCircleColor="#c7deee"
-        app:largeCircleColor="#8fbcdd"
-        app:circleradius="5"
-        ></com.malalaoshi.android.view.Indicator.RubberIndicator>
-
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

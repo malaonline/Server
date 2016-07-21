@@ -211,5 +211,27 @@
         <item name="android:maxHeight">13dip</item>
     </style>
 
+    <style name="AppWidget.indicator" >
+        <item name="ci_animator">@anim/indicator_no_animator</item>
+        <item name="ci_drawable">@drawable/selected_indicator_radius</item>
+        <item name="ci_drawable_unselected">@drawable/unselected_indicator_radius</item>
+    </style>
+
+    <style name="mala.indicator_small" parent="AppWidget.indicator">
+        <item name="ci_width">6dp</item>
+        <item name="ci_height">6dp</item>
+        <item name="ci_margin">3dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">6dp</item>
+    </style>
+
+    <style name="mala.indicator_big" parent="AppWidget.indicator">
+        <item name="ci_width">10dp</item>
+        <item name="ci_height">10dp</item>
+        <item name="ci_margin">5dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">10dp</item>
+    </style>
+
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
 </resources>

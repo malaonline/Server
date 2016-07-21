@@ -20,15 +20,12 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp">
         </android.support.v4.view.ViewPager>
-        <com.malalaoshi.android.view.Indicator.RubberIndicator
-            android:id="@+id/course_rubber"
-            android:layout_width="30dp"
-            android:layout_height="6dp"
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/circle_indicator"
+            style="@style/mala.indicator_small"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            app:smallCircleColor="#c7deee"
-            app:largeCircleColor="#8fbcdd"
-            />
+            android:layout_marginBottom="10dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

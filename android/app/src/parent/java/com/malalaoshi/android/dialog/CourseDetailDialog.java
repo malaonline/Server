@@ -20,10 +20,7 @@ import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.entity.Course;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.fragments.CourseDetailFragment;
-import com.malalaoshi.android.view.Indicator.RubberIndicator;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +28,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by kang on 16/3/14.
@@ -61,8 +59,8 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
     protected ViewPager CourseViewPager;
     private FragmentGroupAdapter fragmentGroupAdapter;
 
-    @Bind(R.id.course_rubber)
-    protected RubberIndicator courseRubber;
+    @Bind(R.id.circle_indicator)
+    protected CircleIndicator circleIndicator;
 
     private int pagerIndex = 0;
     private List<Course> listShortCourse;
@@ -125,9 +123,9 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
         CourseViewPager.setAdapter(fragmentGroupAdapter);
         CourseViewPager.addOnPageChangeListener(this);
         if(listShortCourse.size()>1){
-            courseRubber.setCount(listShortCourse.size(), 0);
+            circleIndicator.setViewPager(CourseViewPager);
         }else{
-            courseRubber.setVisibility(View.GONE);
+            circleIndicator.setVisibility(View.GONE);
         }
 
         Course cource = listShortCourse.get(listShortCourse.size()-0-1);
@@ -192,13 +190,6 @@ public class CourseDetailDialog extends DialogFragment implements FragmentGroupA
 
     @Override
     public void onPageSelected(int position) {
-        if (pagerIndex>position){
-            courseRubber.moveToLeft();
-        }else{
-            courseRubber.moveToRight();
-        }
-        pagerIndex = position;
-
         Course cource = listShortCourse.get(listShortCourse.size()-position-1);
         if (!cource.is_passed()){
             setUIType(Type.NOPASS);
