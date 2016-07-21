@@ -437,3 +437,65 @@ func sortSchoolsByDistance(schools: [SchoolModel]) -> [SchoolModel] {
         return school1.distance < school2.distance
     })
 }
+
+
+// MARK: - Study Report Support
+func adjustHomeworkData(data: [SingleHomeworkData]) -> [SingleHomeworkData] {
+    
+    /// 排序
+    var sortData = data.sort { (data1, data2) -> Bool in
+        return data1.rate.doubleValue > data2.rate.doubleValue
+    }
+    var allRate: Double = 0
+    
+    /// 将多于8项的数据合并为第九项“其它”
+    while sortData.count > 8 {
+        if let lastReport = sortData.last {
+            allRate += lastReport.rate.doubleValue
+            sortData.removeLast()
+        }
+    }
+
+    sortData.append(SingleHomeworkData(id: 999, name: "其它", rate: NSNumber(double: allRate)))
+    return sortData
+}
+
+func adjustTopicData(data: [SingleTopicData]) -> [SingleTopicData] {
+    /// 排序
+    var sortData = data.sort { (data1, data2) -> Bool in
+        return data1.rightRate > data2.rightRate
+    }
+    var totalItem: Int = 0
+    var rightItem: Int = 0
+    
+    /// 将多于8项的数据合并为第九项“其它”
+    while sortData.count > 8 {
+        if let lastReport = sortData.last {
+            totalItem += lastReport.total_item
+            rightItem += lastReport.right_item
+            sortData.removeLast()
+        }
+    }
+    sortData.append(SingleTopicData(id: "9999", name: "其它", totalItem: totalItem, rightItem: rightItem))
+    return sortData
+}
+func adjustTopicScoreData(data: [SingleTopicScoreData]) -> [SingleTopicScoreData] {
+    /// 排序
+    var sortData = data.sort { (data1, data2) -> Bool in
+        return data1.my_score.doubleValue > data2.my_score.doubleValue
+    }
+    var myScore: Double = 0
+    var aveScore: Double = 0
+    
+    /// 将多于8项的数据合并为第九项“其它”
+    while sortData.count > 8 {
+        if let lastReport = sortData.last {
+            myScore += lastReport.my_score.doubleValue
+            aveScore += lastReport.ave_score.doubleValue
+            sortData.removeLast()
+        }
+    }
+    
+    sortData.append(SingleTopicScoreData(id: "9999", name: "其它", score: NSNumber(double: myScore), aveScore: NSNumber(double: aveScore)))
+    return sortData
+}

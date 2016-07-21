@@ -19,6 +19,12 @@ class SingleTopicData: NSObject {
     var total_item: Int = 0
     /// 所做此题目练习正确数
     var right_item: Int = 0
+    /// 正确率
+    var rightRate: Double {
+        get {
+            return Double(right_item)/Double(total_item == 0 ? 1 : total_item)
+        }
+    }
     
     
     // MARK: - Constructed

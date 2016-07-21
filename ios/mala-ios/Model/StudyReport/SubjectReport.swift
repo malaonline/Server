@@ -70,7 +70,7 @@ class SubjectReport: NSObject {
                     let set = SingleHomeworkData(dict: dict)
                     tempDict.append(set)
                 }
-                error_rates = tempDict
+                error_rates = adjustHomeworkData(tempDict)
             }
             return
         }
@@ -94,7 +94,7 @@ class SubjectReport: NSObject {
                     let set = SingleTopicData(dict: dict)
                     tempDict.append(set)
                 }
-                knowledges_accuracy = tempDict
+                knowledges_accuracy = adjustTopicData(tempDict)
             }
             return
         }
@@ -118,7 +118,7 @@ class SubjectReport: NSObject {
                     let set = SingleTopicScoreData(dict: dict)
                     tempDict.append(set)
                 }
-                score_analyses = tempDict
+                score_analyses = adjustTopicScoreData(tempDict)
             }
             return
         }
