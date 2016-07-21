@@ -110,7 +110,6 @@ public class MemberActivity extends BaseActivity implements TitleBarView.OnTitle
 
     }
 
-
     private void setAdapter() {
         fragments = new ArrayList<>();
         fragments.add(MemberRightFragment.newInstance(R.drawable.ic_member_selfstudy, "自习陪读", "享受专业老师免费陪读服务，随时解决学习问题"));

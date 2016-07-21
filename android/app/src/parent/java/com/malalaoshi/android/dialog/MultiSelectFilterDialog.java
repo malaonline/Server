@@ -108,7 +108,7 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
     }
 
     private void initView() {
-
+        rubberIndicator.setCount(3, 0);
         //viewpager不可侧滑
         viewPager.setCanSlide(false);
 
