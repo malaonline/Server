@@ -783,6 +783,24 @@ func getSubjectReport(id: Int, failureHandler: ((Reason, String?) -> Void)?, com
 
 
 // MARK: - Other
+///  获取学校数据列表
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getSchools(failureHandler: ((Reason, String?) -> Void)?, completion: [SchoolModel] -> Void) {
+    let parse: JSONDictionary -> [SchoolModel] = { data in
+        return sortSchoolsByDistance(parseSchoolsResult(data))
+    }
+    
+    let resource = authJsonResource(path: "/schools", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 ///  获取用户协议HTML
 ///
 ///  - parameter failureHandler: 失败处理闭包
@@ -1150,4 +1168,16 @@ let parseStudyReportResult: JSONDictionary -> [SimpleReportResultModel] = { resu
 let parseStudyReport: JSONDictionary -> SubjectReport = { reportInfo in
     var report = SubjectReport(dict: reportInfo)
     return report
+}
+/// 学校数据列表JSON解析器
+let parseSchoolsResult: JSONDictionary -> [SchoolModel] = { resultInfo in
+    
+    var schools: [SchoolModel] = []
+    
+    if let results = resultInfo["results"] as? [JSONDictionary] where results.count > 0 {
+        for school in results {
+            schools.append(SchoolModel(dict: school))
+        }
+    }
+    return schools
 }

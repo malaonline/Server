@@ -44,7 +44,9 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     var schoolArray: [SchoolModel] = [SchoolModel(id: 0, name: "线下体验店", address: "----")] {
         didSet {
             // 刷新 [教学环境] Cell
-            tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                self?.tableView.reloadSections(NSIndexSet(index: 5), withRowAnimation: .None)
+            })
         }
     }
     var isOpenSchoolsCell: Bool = false
@@ -253,29 +255,20 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     private func loadSchoolsData() {
-        // // 获取 [教学环境] 数据
-        MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
+        getSchools({ (reason, errorMessage) in
             ThemeHUD.hideActivityIndicator()
-            if error != nil {
-                println("TeacherDetailsController - loadSchools Request Error")
-                return
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("TeacherDetailsController - loadSchoolsData Error \(errorMessage)")
             }
-            guard let dict = result as? [String: AnyObject] else {
-                println("TeacherDetailsController - loadSchools Format Error")
-                return
+        }, completion: { [weak self] (schools) in
+            if schools.count > 0 {
+                self?.schoolArray = schools
+                self?.requiredCount += 1
             }
-            // result 字典转 [SchoolModel] 模型数组
-            let resultArray = ResultModel(dict: dict).results
-            var tempArray: [SchoolModel] = []
-            for object in resultArray ?? [] {
-                if let dict = object as? [String: AnyObject] {
-                    let set = SchoolModel(dict: dict)
-                    tempArray.append(set)
-                }
-            }
-            self?.schoolArray = sortSchoolsByDistance(tempArray)
-            self?.requiredCount += 1
-        }
+        })
     }
     
     private func showBackground() {

@@ -184,31 +184,22 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     
     private func loadSchoolsData() {
         
-        // // 获取 [教学环境] 数据
-        MalaNetworking.sharedTools.loadSchools{[weak self] (result, error) -> () in
-            if error != nil {
-                println("CourseChoosingViewController - loadSchools Request Error")
-                return
-            }
-            guard let dict = result as? [String: AnyObject] else {
-                println("CourseChoosingViewController - loadSchools Format Error")
-                return
-            }
+        getSchools({ (reason, errorMessage) in
+            ThemeHUD.hideActivityIndicator()
+            defaultFailureHandler(reason, errorMessage: errorMessage)
             
-            // result 字典转 [SchoolModel] 模型数组
-            let resultArray = ResultModel(dict: dict).results
-            var tempArray: [SchoolModel] = []
-            for object in resultArray ?? [] {
-                if let dict = object as? [String: AnyObject] {
-                    let set = SchoolModel(dict: dict)
-                    tempArray.append(set)
-                }
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadSchoolsData Error \(errorMessage)")
             }
-            self?.schoolArray = sortSchoolsByDistance(tempArray)
-            MalaCourseChoosingObject.school = tempArray[0]
-            self?.loadClassSchedule()
-            self?.requiredCount += 1
-        }
+        }, completion: { [weak self] (schools) in
+            if schools.count > 0 {
+                MalaCourseChoosingObject.school = schools[0]
+                self?.schoolArray = schools
+                self?.loadClassSchedule()
+                self?.requiredCount += 1
+            }
+        })
     }
     
     private func loadClassSchedule() {
