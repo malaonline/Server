@@ -426,3 +426,14 @@ func parseCouponlist(coupons: [CouponModel]) -> [CouponModel] {
     
     return result
 }
+
+///  根据距离进行学校排序
+///
+///  - parameter schools: 学校模型列表
+///
+///  - returns: 学校模型列表
+func sortSchoolsByDistance(schools: [SchoolModel]) -> [SchoolModel] {
+    return schools.sort({ (school1, school2) -> Bool in
+        return school1.distance < school2.distance
+    })
+}

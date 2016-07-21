@@ -273,7 +273,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                     tempArray.append(set)
                 }
             }
-            self?.schoolArray = tempArray
+            self?.schoolArray = sortSchoolsByDistance(tempArray)
             self?.requiredCount += 1
         }
     }

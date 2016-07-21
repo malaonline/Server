@@ -204,7 +204,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
                     tempArray.append(set)
                 }
             }
-            self?.schoolArray = tempArray
+            self?.schoolArray = sortSchoolsByDistance(tempArray)
             MalaCourseChoosingObject.school = tempArray[0]
             self?.loadClassSchedule()
             self?.requiredCount += 1
