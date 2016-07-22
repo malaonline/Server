@@ -10,14 +10,14 @@ import android.view.View;
 import com.malalaoshi.android.core.base.BaseTitleActivity;
 
 /**
- * 我的评论
+ * 我的评价
  * Created by tianwei on 16-6-12.
  */
 public class CommentActivity extends BaseTitleActivity {
 
     @Override
     protected String getStatName() {
-        return "我的评论";
+        return "我的评价";
     }
 
     @Override

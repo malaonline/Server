@@ -208,7 +208,7 @@ public class MultiSelectFilterDialog  extends DialogFragment implements Fragment
             ivRight.setVisibility(View.GONE);
             tvTitle.setText("筛选年级");
         } else if (index==1){
-            ivRight.setVisibility(View.VISIBLE);
+            ivRight.setVisibility(View.GONE);
             ivLeft.setImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
             ivTitleIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_subject_dialog));
             tvTitle.setText("筛选科目");

@@ -7,7 +7,7 @@ import com.malalaoshi.android.course.api.CourseInfoApi;
 import com.malalaoshi.android.course.api.MoreCourseInfoApi;
 
 /**
- * 我的评论
+ * 我的评价
  * Created by tianwei on 16-6-12.
  */
 public class MyCommentListFragment extends BaseRefreshFragment<CommentResult> {

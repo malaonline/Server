@@ -40,7 +40,7 @@ public class FilterSubjectFragment extends Fragment {
     protected ExpandedHeightGridView mGridViewSubject;
     private FilterAdapter nSubjectFilterAdapter;
 
-    private Map<String, Object> selectedObj;
+    private Map<String, Object> selectedObj = new HashMap<>();
 
     private OnSubjectClickListener subjectClickListener;
 
@@ -134,12 +134,13 @@ public class FilterSubjectFragment extends Fragment {
     public void onSubjectItemClick(AdapterView<?> parent, View view, int position, long id) {
         Map<String, Object> obj = null;
         obj = mSubjects.get(position);
-        if (selectedObj!=null&&selectedObj != obj){
+        if (selectedObj != obj){
             selectedObj.put("selected",false);
             selectedObj = obj;
             obj.put("selected",true);
             nSubjectFilterAdapter.notifyDataSetChanged();
         }
+
         if (subjectClickListener!=null){
             Subject subject = new Subject();
             subject.setId((Long) obj.get("id"));

@@ -256,7 +256,7 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
                 Calendar calendar = CalendarUtils.timestampToCalendar(timestamp);
                 if (calendar!=null){
                     if (CalendarUtils.compareCurrentYear(calendar)==0){
-                        data = String.format("%02d月",calendar.get(Calendar.MONTH)+1);
+                        data = String.format("%d月",calendar.get(Calendar.MONTH)+1);
                     }else{
                         data = CalendarUtils.formatDate(calendar);
                     }
