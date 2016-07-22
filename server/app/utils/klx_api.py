@@ -66,8 +66,8 @@ def klx_subject_name(name):
 
 
 def _klx_param_hash(params, sign_key="sign"):
-    s = ''.join(['%s=%s' % (key, params[key]) for key in sorted(params)
-                        if key != sign_key and params[key] is not None and params[key] is not ''])
+    s = ''.join(['%s=%s' % (key, params[key] or '') for key in sorted(params)
+                        if key != sign_key])
     hs = hashlib.md5(s.encode('utf-8')).hexdigest()
     return hs
 
@@ -204,7 +204,7 @@ def klx_reg_student(parent, student=None):
         return o_klx_username
     role = KLX_ROLE_STUDENT
     uid = '%s_%s' % (settings.ENV_TYPE, student.user_id, )
-    name = student.name
+    name = student.name or 'mala_%s' % (student.user_id)
     password = student.user.profile.klx_password or _klx_make_password()
     klx_username = klx_register(role,uid,name,password=password)
     if klx_username:
@@ -228,7 +228,7 @@ def klx_reg_teacher(teacher):
         return o_klx_username
     role = KLX_ROLE_TEACHER
     uid = '%s_%s' % (settings.ENV_TYPE, teacher.user_id, )
-    name = teacher.name
+    name = teacher.name or 'mala_%s' % (teacher.user_id)
     password = teacher.user.profile.klx_password or _klx_make_password()
     subject = teacher.subject()
     if subject.name not in KLX_TEACHING_SUBJECTS:

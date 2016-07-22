@@ -28,6 +28,27 @@ class SimpleTest(unittest.TestCase):
         self.assertEqual(parse_date_next('2016-12-08 23:09:25', False), datetime.datetime(2016,12,8,23,9,26))
         self.assertEqual(parse_date_next('2016-12-08 23:09:59', False), datetime.datetime(2016,12,8,23,10,0))
 
+    def test_kuailexue_api0(self):
+        p = {
+            'uid': 'prd_693',
+            'password': '816593',
+            'role': 2,
+            'name': None
+        }
+        # print(p)
+        pp = klx_build_params(p, True)
+        # print(pp['sign'])
+        p = {
+            'uid': 'prd_693',
+            'password': '816593',
+            'role': 2,
+            'name': ''
+        }
+        # print(p)
+        pp2 = klx_build_params(p, True)
+        # print(pp2['sign'])
+        self.assertEqual(pp['sign'], pp2['sign'])
+
     def test_kuailexue_api(self):
         # return # 待kuailexue把接口实现后解封
         test_stu_id = 'malaprd_277_2016'
