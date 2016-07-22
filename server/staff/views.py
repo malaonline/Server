@@ -1258,8 +1258,9 @@ class StudentView(BaseStaffView):
     def get_context_data(self, **kwargs):
         parents = models.Parent.objects.all().order_by(
             '-user__date_joined')
+        count = parents.count()
         for idx, parent in enumerate(parents):
-            parent.idx = parents.count() - idx
+            parent.idx = count - idx
         kwargs['parents'] = parents
         return super(StudentView, self).get_context_data(**kwargs)
 
