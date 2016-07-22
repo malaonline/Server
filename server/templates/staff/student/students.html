@@ -6,12 +6,14 @@
 
 <table class="table table-striped table-hover table-bordered">
     <tr>
+        <th class="text-center">序号</th>
         <th class="text-center">家长手机号</th>
         <th class="text-center">学生姓名</th>
         <th class="text-center">注册时间</th>
     </tr>
     {% for parent in parents %}
         <tr align="center">
+{# 注册序号 #}<td>{{ parent.idx }}</td>
 {# 家长手机 #}<td>{{ parent.user.profile.phone }}</td>
 {# 学生姓名 #}<td>{% if parent.student_name %}{{ parent.student_name }}{% else %}<未设置>{% endif %}</td>
 {# 注册时间 #}<td>{{ parent.user.date_joined |date:"Y-m-d H:i"}}</td>
