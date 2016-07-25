@@ -1260,9 +1260,12 @@ class StudentView(BaseStaffView):
         parents = models.Parent.objects.all().order_by(
             '-user__date_joined')
         count = parents.count()
+
+        page_size = 20
+        parents, pager = paginate(parents, page, page_size)
         for idx, parent in enumerate(parents):
-            parent.idx = count - idx
-        parents, pager = paginate(parents, page)
+            parent.idx = count - page_size * (int(page) - 1) - idx
+
         kwargs['parents'] = parents
         kwargs['pager'] = pager
         return super(StudentView, self).get_context_data(**kwargs)
