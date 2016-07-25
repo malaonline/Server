@@ -699,9 +699,9 @@
 		F41A01A81D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
 		F41A01A91D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
 		F41A01AA1D20E15F0069CF29 /* KYCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */; };
-		F41A01AC1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
-		F41A01AD1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
-		F41A01AE1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */; };
+		F41A01AC1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */; };
+		F41A01AD1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */; };
+		F41A01AE1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */; };
 		F41A01B01D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
 		F41A01B11D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
 		F41A01B21D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
@@ -1041,7 +1041,7 @@
 		F40D896B1C7DB6E300BD6871 /* MalaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaConfig.swift; sourceTree = "<group>"; };
 		F40D896D1C7EAFB100BD6871 /* MalaLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaLog.swift; sourceTree = "<group>"; };
 		F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCircularProgress.swift; sourceTree = "<group>"; };
-		F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailBaseCell.swift; sourceTree = "<group>"; };
+		F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
 		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F427FF9B1CEC1CE100EAB748 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
@@ -1970,7 +1970,7 @@
 				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
 				F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */,
 				F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */,
-				F41A01AB1D212B1F0069CF29 /* TeacherDetailBaseCell.swift */,
+				F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -2690,7 +2690,7 @@
 				F40B53B21C7EF00E00C20037 /* MalaSupport.swift in Sources */,
 				F40B53C81C83F98F00C20037 /* PaymentTableView.swift in Sources */,
 				F40D896C1C7DB6E300BD6871 /* MalaConfig.swift in Sources */,
-				F41A01AC1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
+				F41A01AC1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */,
 				F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */,
 				F4B3C67F1CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				3037B5991C3BAA81005672D9 /* TeacherDetailsSubjectCell.swift in Sources */,
@@ -2902,7 +2902,7 @@
 				35FF7AA51CF8325A000A70EE /* MalaSupport.swift in Sources */,
 				35FF7AA61CF8325A000A70EE /* PaymentTableView.swift in Sources */,
 				35FF7AA71CF8325A000A70EE /* MalaConfig.swift in Sources */,
-				F41A01AD1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
+				F41A01AD1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */,
 				35FF7AA81CF8325A000A70EE /* OrderFormViewCell.swift in Sources */,
 				F4B3C6801CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				35FF7AA91CF8325A000A70EE /* TeacherDetailsSubjectCell.swift in Sources */,
@@ -3114,7 +3114,7 @@
 				35FF7B881CF83264000A70EE /* MalaSupport.swift in Sources */,
 				35FF7B891CF83264000A70EE /* PaymentTableView.swift in Sources */,
 				35FF7B8A1CF83264000A70EE /* MalaConfig.swift in Sources */,
-				F41A01AE1D212B1F0069CF29 /* TeacherDetailBaseCell.swift in Sources */,
+				F41A01AE1D212B1F0069CF29 /* MalaBaseCell.swift in Sources */,
 				35FF7B8B1CF83264000A70EE /* OrderFormViewCell.swift in Sources */,
 				F4B3C6811CFD439B00C1B423 /* SingleTopicData.swift in Sources */,
 				35FF7B8C1CF83264000A70EE /* TeacherDetailsSubjectCell.swift in Sources */,
