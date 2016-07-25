@@ -48,12 +48,15 @@ class CourseChoosingGradeCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        self.title.text = "选择授课年级"
+        adjustForCourseChoosing()
         
         // SubViews
         content.addSubview(collectionView)
         
         // Autolayout
+        content.snp_updateConstraints { (make) -> Void in
+            make.top.equalTo(headerView.snp_bottom).offset(14)
+        }
         collectionView.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(content.snp_top)
             make.left.equalTo(content.snp_left)

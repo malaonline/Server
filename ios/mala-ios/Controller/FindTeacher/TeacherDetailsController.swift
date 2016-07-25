@@ -366,7 +366,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(TeacherDetailsCellReuseId[indexPath.section]!, forIndexPath: indexPath)
-        (reuseCell as! TeacherDetailBaseCell).titleLabel.text = TeacherDetailsCellTitle[indexPath.section+1]
+        (reuseCell as! MalaBaseCell).titleLabel.text = TeacherDetailsCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:

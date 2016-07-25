@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
+class TeacherDetailsPhotosCell: MalaBaseCell {
 
     // MARK: - Property
     /// 图片URL数组
@@ -55,7 +55,6 @@ class TeacherDetailsPhotosCell: TeacherDetailBaseCell {
     private func setupUserInterface() {
         
         // SubViews
-//        tagsView.removeFromSuperview()
         headerView.addSubview(detailButton)
         content.addSubview(photoCollection)
 

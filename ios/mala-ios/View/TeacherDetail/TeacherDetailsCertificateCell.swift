@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailsCertificateCell: TeacherDetailBaseCell {
+class TeacherDetailsCertificateCell: MalaBaseCell {
 
     // MARK: - Property
     var models: [AchievementModel?] = [] {

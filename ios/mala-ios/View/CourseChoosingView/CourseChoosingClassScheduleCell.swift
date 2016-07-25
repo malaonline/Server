@@ -47,14 +47,16 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
     
     // MARK: - Private Method
     private func setupUserInterface() {
+        // Style
+        adjustForCourseChoosing()
+        
         // SubViews
         content.addSubview(classSchedule)
         content.addSubview(legendView)
         
         // Autolayout
-        // Remove margin
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(title.snp_bottom).offset(14)
+            make.top.equalTo(headerView.snp_bottom).offset(14)
         }
         classSchedule.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(content.snp_top)

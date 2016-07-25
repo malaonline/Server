@@ -1,5 +1,5 @@
 //
-//  TeacherDetailBaseCell.swift
+//  MalaBaseCell.swift
 //  mala-ios
 //
 //  Created by 王新宇 on 16/6/27.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TeacherDetailBaseCell: UITableViewCell {
+class MalaBaseCell: UITableViewCell {
 
     // MARK: - Property
     /// 标题文字
@@ -76,6 +76,20 @@ class TeacherDetailBaseCell: UITableViewCell {
             make.centerY.equalTo(headerView.snp_centerY)
             make.left.equalTo(headerView.snp_left).offset(12)
             make.height.equalTo(14)
+        }
+    }
+    
+    func adjustForCourseChoosing() {
+        titleLabel.textColor = MalaColor_333333_0
+        titleLabel.font = UIFont.systemFontOfSize(15)
+        headerView.backgroundColor = UIColor.whiteColor()
+        
+        headerView.snp_updateConstraints { (make) in
+            make.top.equalTo(contentView.snp_top).offset(15)
+            make.height.equalTo(15)
+        }
+        content.snp_updateConstraints { (make) in
+            make.top.equalTo(headerView.snp_bottom)
         }
     }
 }

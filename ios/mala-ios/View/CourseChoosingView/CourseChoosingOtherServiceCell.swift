@@ -44,6 +44,7 @@ class CourseChoosingOtherServiceCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        adjustForCourseChoosing()
         
         // SubViews
         contentView.addSubview(tableView)

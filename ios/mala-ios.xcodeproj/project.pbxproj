@@ -221,7 +221,6 @@
 		35FDCEE21CAD0A2300A25FE8 /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
 		35FDCEE31CAD0A2300A25FE8 /* AvatarPod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065061C96D363004056B1 /* AvatarPod.swift */; };
 		35FDCEE41CAD0A2300A25FE8 /* ClassScheduleViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */; };
-		35FDCEE51CAD0A2300A25FE8 /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
 		35FDCEE71CAD0A2300A25FE8 /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		35FDCEE81CAD0A2300A25FE8 /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
 		35FDCEE91CAD0A2300A25FE8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651A1C97B168004056B1 /* LoginViewController.swift */; };
@@ -431,7 +430,6 @@
 		35FF7AF41CF8325A000A70EE /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
 		35FF7AF51CF8325A000A70EE /* AvatarPod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065061C96D363004056B1 /* AvatarPod.swift */; };
 		35FF7AF61CF8325A000A70EE /* ClassScheduleViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */; };
-		35FF7AF71CF8325A000A70EE /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
 		35FF7AF81CF8325A000A70EE /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		35FF7AF91CF8325A000A70EE /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
 		35FF7AFA1CF8325A000A70EE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651A1C97B168004056B1 /* LoginViewController.swift */; };
@@ -628,7 +626,6 @@
 		35FF7BD71CF83264000A70EE /* CommonFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307AB8971C33CD5C00D8397F /* CommonFlowLayout.swift */; };
 		35FF7BD81CF83264000A70EE /* AvatarPod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065061C96D363004056B1 /* AvatarPod.swift */; };
 		35FF7BD91CF83264000A70EE /* ClassScheduleViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */; };
-		35FF7BDA1CF83264000A70EE /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
 		35FF7BDB1CF83264000A70EE /* CourseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D0D14A1C9FA60A00B25704 /* CourseModel.swift */; };
 		35FF7BDC1CF83264000A70EE /* TeacherDetailsCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B5A31C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift */; };
 		35FF7BDD1CF83264000A70EE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F460651A1C97B168004056B1 /* LoginViewController.swift */; };
@@ -881,7 +878,6 @@
 		F4B58F751C9822ED009B5B8D /* AboutTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */; };
 		F4B58F791C990247009B5B8D /* ClassScheduleViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */; };
 		F4B58F7A1C990247009B5B8D /* ClassScheduleViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */; };
-		F4B58F7D1C990274009B5B8D /* MalaBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */; };
 		F4B58F7F1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */; };
 		F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */; };
 		F4BD4FCB1C744A8E00488613 /* PullToRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */; };
@@ -1187,7 +1183,6 @@
 		F4B58F741C9822ED009B5B8D /* AboutTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutTitleView.swift; sourceTree = "<group>"; };
 		F4B58F771C990247009B5B8D /* ClassScheduleViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewCell.swift; sourceTree = "<group>"; };
 		F4B58F781C990247009B5B8D /* ClassScheduleViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewHeader.swift; sourceTree = "<group>"; };
-		F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F4B58F7E1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassScheduleViewWeekdayHeader.swift; sourceTree = "<group>"; };
 		F4BD4FC71C744A8E00488613 /* PullToRefreshOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshOption.swift; sourceTree = "<group>"; };
 		F4BD4FC81C744A8E00488613 /* PullToRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullToRefreshView.swift; sourceTree = "<group>"; };
@@ -1972,7 +1967,6 @@
 		F4B58F7B1C990274009B5B8D /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				F4B58F7C1C990274009B5B8D /* MalaBaseCell.swift */,
 				F45F27F71CA9135A00F0012C /* MalaDefaultPanel.swift */,
 				F427FFB01CEDA47700EAB748 /* MalaBaseCardCell.swift */,
 				F474E89E1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift */,
@@ -2781,7 +2775,6 @@
 				F4B3C67B1CFD416F00C1B423 /* SingleTimeIntervalData.swift in Sources */,
 				F460650A1C96D363004056B1 /* AvatarPod.swift in Sources */,
 				F4B58F7F1C99032B009B5B8D /* ClassScheduleViewWeekdayHeader.swift in Sources */,
-				F4B58F7D1C990274009B5B8D /* MalaBaseCell.swift in Sources */,
 				F4D0D14B1C9FA60A00B25704 /* CourseModel.swift in Sources */,
 				3037B5A51C3BAB52005672D9 /* TeacherDetailsCertificateCell.swift in Sources */,
 				F46065281C97B168004056B1 /* LoginViewController.swift in Sources */,
@@ -2994,7 +2987,6 @@
 				F4B3C67C1CFD416F00C1B423 /* SingleTimeIntervalData.swift in Sources */,
 				35FF7AF51CF8325A000A70EE /* AvatarPod.swift in Sources */,
 				35FF7AF61CF8325A000A70EE /* ClassScheduleViewWeekdayHeader.swift in Sources */,
-				35FF7AF71CF8325A000A70EE /* MalaBaseCell.swift in Sources */,
 				35FF7AF81CF8325A000A70EE /* CourseModel.swift in Sources */,
 				35FF7AF91CF8325A000A70EE /* TeacherDetailsCertificateCell.swift in Sources */,
 				35FF7AFA1CF8325A000A70EE /* LoginViewController.swift in Sources */,
@@ -3207,7 +3199,6 @@
 				F4B3C67D1CFD416F00C1B423 /* SingleTimeIntervalData.swift in Sources */,
 				35FF7BD81CF83264000A70EE /* AvatarPod.swift in Sources */,
 				35FF7BD91CF83264000A70EE /* ClassScheduleViewWeekdayHeader.swift in Sources */,
-				35FF7BDA1CF83264000A70EE /* MalaBaseCell.swift in Sources */,
 				35FF7BDB1CF83264000A70EE /* CourseModel.swift in Sources */,
 				35FF7BDC1CF83264000A70EE /* TeacherDetailsCertificateCell.swift in Sources */,
 				35FF7BDD1CF83264000A70EE /* LoginViewController.swift in Sources */,
@@ -3371,7 +3362,6 @@
 				35FDCEE21CAD0A2300A25FE8 /* CommonFlowLayout.swift in Sources */,
 				35FDCEE31CAD0A2300A25FE8 /* AvatarPod.swift in Sources */,
 				35FDCEE41CAD0A2300A25FE8 /* ClassScheduleViewWeekdayHeader.swift in Sources */,
-				35FDCEE51CAD0A2300A25FE8 /* MalaBaseCell.swift in Sources */,
 				35FDCEE71CAD0A2300A25FE8 /* CourseModel.swift in Sources */,
 				35FDCEE81CAD0A2300A25FE8 /* TeacherDetailsCertificateCell.swift in Sources */,
 				35FDCEE91CAD0A2300A25FE8 /* LoginViewController.swift in Sources */,

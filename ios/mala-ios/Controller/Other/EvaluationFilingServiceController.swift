@@ -54,10 +54,10 @@ class EvaluationFilingServiceController: BaseTableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(EvaluationFilingServiceCellReuseId, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(EvaluationFilingServiceCellReuseId, forIndexPath: indexPath) as! EvaluationFilingServiceCell
         cell.selectionStyle = .None
         if self.introductions?[indexPath.section] != nil {
-            (cell as! EvaluationFilingServiceCell).model = self.introductions![indexPath.section]
+            cell.model = self.introductions![indexPath.section]
         }
         return cell
     }
@@ -95,7 +95,7 @@ class EvaluationFilingServiceCell: MalaBaseCell {
     // MARK: - Property
     var model: IntroductionModel? {
         didSet {
-            title.text = model?.title
+            title = model?.title
             contentImageView.image = UIImage(named: (model?.image ?? ""))
             contentLabel.text = model?.subTitle
         }

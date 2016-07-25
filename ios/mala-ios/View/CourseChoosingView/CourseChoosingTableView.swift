@@ -124,13 +124,6 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         return true
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // 若点击【上课时间】Cell
-        if indexPath.section == 4 {
-            (tableView.cellForRowAtIndexPath(indexPath) as? CourseChoosingTimeScheduleCell)?.cellDidTap()
-        }
-    }
-    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 0 : 4
     }
@@ -152,7 +145,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let reuseCell = tableView.dequeueReusableCellWithIdentifier(CourseChoosingCellReuseId[indexPath.section]!, forIndexPath: indexPath)
         reuseCell.selectionStyle = .None
-        (reuseCell as! MalaBaseCell).title.text = CourseChoosingCellTitle[indexPath.section+1]
+        (reuseCell as! MalaBaseCell).title = CourseChoosingCellTitle[indexPath.section+1]
         
         switch indexPath.section {
         case 0:

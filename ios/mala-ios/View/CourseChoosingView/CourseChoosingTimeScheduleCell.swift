@@ -38,7 +38,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
                     make.height.equalTo(0)
                 }
             }
-            dropArrow.selected = isOpen
+            detailButton.selected = isOpen
         }
     }
     /// 当前高度
@@ -48,6 +48,14 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     // MARK: - Components
     /// 上课时间表控件
     private var timeLineView: ThemeTimeLine?
+    /// 展开按钮
+    private lazy var detailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "dropArrow"), forState: .Normal)
+        button.setImage(UIImage(named: "upArrow"), forState: .Selected)
+        button.addTarget(self, action: #selector(CourseChoosingTimeScheduleCell.detailButtonDidTap), forControlEvents: .TouchUpInside)
+        return button
+    }()
     
     
     // MARK: - Contructed
@@ -60,24 +68,25 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    
-    // MARK: - Override
-    ///  cell点击事件
-    func cellDidTap() {
-        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
-    }
     
     
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        accessory = .DropArrow
-        dropArrow.userInteractionEnabled = false
+        adjustForCourseChoosing()
         
-        // SubViews
+        // SubView
+        headerView.addSubview(detailButton)
         
         // Autolayout
+        content.snp_updateConstraints { (make) -> Void in
+            make.top.equalTo(headerView.snp_bottom).offset(14)
+        }
+        detailButton.snp_makeConstraints { (make) -> Void in
+            make.height.equalTo(13)
+            make.right.equalTo(headerView.snp_right).offset(-12)
+            make.centerY.equalTo(headerView.snp_centerY)
+        }
     }
     
     private func parseTimeSchedules() {
@@ -97,5 +106,11 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             make.bottom.equalTo(content.snp_bottom)
             make.height.equalTo(currentHeightCount*16)
         }
+    }
+    
+    
+    // MARK: - Override
+    @objc func detailButtonDidTap() {
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_OpenTimeScheduleCell, object: !isOpen)
     }
 }

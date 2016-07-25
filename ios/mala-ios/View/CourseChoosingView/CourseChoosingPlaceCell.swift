@@ -59,20 +59,20 @@ class CourseChoosingPlaceCell: MalaBaseCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // SubViews
+        adjustForCourseChoosing()
         content.addSubview(tableView)
         
         // Autolayout
-        // Remove margin
         content.snp_updateConstraints { (make) -> Void in
-            make.top.equalTo(self.title.snp_bottom)
-            make.bottom.equalTo(self.contentView.snp_bottom)
+            make.top.equalTo(headerView.snp_bottom)
+            make.bottom.equalTo(contentView.snp_bottom)
         }
         
         tableView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.content.snp_top)
-            make.left.equalTo(self.content.snp_left)
-            make.bottom.equalTo(self.content.snp_bottom)
-            make.right.equalTo(self.content.snp_right)
+            make.top.equalTo(content.snp_top)
+            make.left.equalTo(content.snp_left)
+            make.bottom.equalTo(content.snp_bottom)
+            make.right.equalTo(content.snp_right)
         }
     }
     
