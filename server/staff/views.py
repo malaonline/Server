@@ -1261,10 +1261,10 @@ class StudentView(BaseStaffView):
             '-user__date_joined')
         count = parents.count()
 
-        page_size = 20
-        parents, pager = paginate(parents, page, page_size)
+        parents, pager = paginate(parents, page)
+        page = pager.number
         for idx, parent in enumerate(parents):
-            parent.idx = count - page_size * (int(page) - 1) - idx
+            parent.idx = count - pager.page_size * (page - 1) - idx
 
         kwargs['parents'] = parents
         kwargs['pager'] = pager
