@@ -1256,12 +1256,15 @@ class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 
     def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page')
         parents = models.Parent.objects.all().order_by(
             '-user__date_joined')
         count = parents.count()
         for idx, parent in enumerate(parents):
             parent.idx = count - idx
+        parents, pager = paginate(parents, page)
         kwargs['parents'] = parents
+        kwargs['pager'] = pager
         return super(StudentView, self).get_context_data(**kwargs)
 
 
