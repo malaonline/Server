@@ -5,14 +5,21 @@ package com.malalaoshi.android.entity;
  */
 public class ScheduleCourse extends ScheduleItem {
     private Course course;
+    private boolean isFirstCourseOfDay;
 
     public ScheduleCourse(){
         this.type = TYPE_COURSE;
     }
 
-    public ScheduleCourse(Course course) {
+   /* public ScheduleCourse(Course course) {
         this.course = course;
         this.type = TYPE_COURSE;
+    }*/
+
+    public ScheduleCourse(Course course, boolean isFirstCourseOfDay) {
+        this.course = course;
+        this.type = TYPE_COURSE;
+        this.isFirstCourseOfDay = isFirstCourseOfDay;
     }
 
     public Course getCourse() {
@@ -21,5 +28,13 @@ public class ScheduleCourse extends ScheduleItem {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public boolean isFirstCourseOfDay() {
+        return isFirstCourseOfDay;
+    }
+
+    public void setFirstCourseOfDay(boolean firstCourseOfDay) {
+        isFirstCourseOfDay = firstCourseOfDay;
     }
 }

@@ -70,108 +70,6 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
     }
 
 
-   /* //添加数据
-    public void addItem(List<Course> newDatas) {
-        Collections.sort(newDatas);
-
-        int count = 0;
-        int childCount = 0;
-        int index = 0;
-        if (newDatas!=null&&newDatas.size()>0){
-            List<ScheduleItem> tempDatas = new ArrayList<>();
-            Calendar currentCalendar = null;
-            boolean flag = true;
-            for (int i = 0; i < newDatas.size(); i++) {
-                Course course = newDatas.get(i);
-                if (currentCalendar==null){
-                    currentCalendar =  CalendarUtils.timestampToCalendar(course.getStart());
-                    tempDatas.add(new ScheduleDate(course.getStart()));
-                    count++;
-                    childCount = 0;
-                }else{
-                    Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
-                    if (currentCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)){
-                        currentCalendar = start;
-                        tempDatas.add(new ScheduleDate(course.getStart()));
-                        count++;
-                        childCount = 0;
-                    }
-                }
-
-                if (course.is_passed()){
-                    childCount++;
-                    startIndex++;
-                }else{
-                    if (flag){
-                        flag = false;
-                        index = count - childCount - 1;
-                    }
-                }
-                count++;
-                if (course.is_passed()&&i==newDatas.size()-1){
-                    if (flag){
-                        flag = false;
-                        index = count - childCount - 1;
-                    }
-                }
-
-                tempDatas.add(new ScheduleCourse(course));
-            }
-            //startIndex++;
-            if (getItemCount()>0){
-                ScheduleItem scheduleItem = (ScheduleItem) getItem(0);
-                if (scheduleItem.getType()==ScheduleItem.TYPE_DATE){
-                    Calendar firstCalendar =  CalendarUtils.timestampToCalendar(((ScheduleDate)scheduleItem).getTimestamp());
-                    if (currentCalendar.get(Calendar.YEAR)==firstCalendar.get(Calendar.YEAR)&&currentCalendar.get(Calendar.MONTH)==firstCalendar.get(Calendar.MONTH)){
-                        getDataList().remove(0);
-                        count--;
-                    }
-                }
-            }
-            if (getItemCount()<=0){
-                startIndex = index;
-            } else {
-                startIndex += count;
-            }
-            getDataList().addAll(0,tempDatas);
-            notifyDataSetChanged();
-        }
-    }
-
-    public void addMoreItem(List<Course> newDatas) {
-        Collections.sort(newDatas);
-        if (newDatas!=null&&newDatas.size()>0){
-            Calendar currentCalendar = null;
-            for (int i = 0; i < newDatas.size(); i++) {
-                Course course = newDatas.get(i);
-                if (currentCalendar==null){
-                    currentCalendar =  CalendarUtils.timestampToCalendar(course.getStart());
-                    if (getItemCount()>0){
-                        ScheduleItem scheduleItem = (ScheduleItem) getItem(0);
-                        if (scheduleItem.getType()==ScheduleItem.TYPE_COURSE){
-                            Calendar lastCalendar =  CalendarUtils.timestampToCalendar(((ScheduleCourse)scheduleItem).getCourse().getStart());
-                            if (currentCalendar.get(Calendar.YEAR)!=lastCalendar.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=lastCalendar.get(Calendar.MONTH)){
-                                getDataList().add(new ScheduleDate(course.getStart()));
-                            }
-                        }else{
-                            getDataList().add(new ScheduleDate(course.getStart()));
-                        }
-                    }else{
-                        getDataList().add(new ScheduleDate(course.getStart()));
-                    }
-                }else{
-                    Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
-                    if (currentCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)){
-                        currentCalendar = start;
-                        getDataList().add(new ScheduleDate(course.getStart()));
-                    }
-                }
-                getDataList().add(new ScheduleCourse(course));
-            }
-            notifyDataSetChanged();
-        }
-    }*/
-
     abstract class ParentViewHolder extends RecyclerView.ViewHolder{
 
         public ParentViewHolder(View itemView) {
@@ -228,8 +126,13 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
             tvTeacherName.setText(data.getTeacher().getName());
             tvClassPosition.setText(data.getSchool());
             if (start!=null&&end!=null){
-                tvDay.setText(start.get(Calendar.DAY_OF_MONTH)+"");
-                tvWeek.setText(CalendarUtils.getWeekBytimestamp(data.getStart()));
+                if (((ScheduleCourse)scheduleItem).isFirstCourseOfDay()){
+                    tvDay.setText(start.get(Calendar.DAY_OF_MONTH)+"");
+                    tvWeek.setText(CalendarUtils.getWeekBytimestamp(data.getStart()));
+                }else{
+                    tvDay.setText("");
+                    tvWeek.setText("");
+                }
                 tvClassTime.setText(CalendarUtils.formatTime(start)+"-"+CalendarUtils.formatTime(end));
             }else{
                 tvDay.setText("");

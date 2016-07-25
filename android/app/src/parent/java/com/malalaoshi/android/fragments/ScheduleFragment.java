@@ -477,20 +477,34 @@ public class ScheduleFragment extends BaseFragment {
         List<ScheduleItem> tempDatas = new ArrayList<>();
         if (newDatas!=null&&newDatas.size()>0){
             Calendar currentCalendar = null;
+            boolean firstCourseOfDay = false;
+            Calendar preCalendar = null;
+
             for (int i = 0; i < newDatas.size(); i++) {
                 Course course = newDatas.get(i);
                 if (currentCalendar==null){
                     currentCalendar =  CalendarUtils.timestampToCalendar(course.getStart());
+                    preCalendar = currentCalendar;
+                    firstCourseOfDay = true;
                     tempDatas.add(new ScheduleDate(course.getStart()));
                 }else{
                     Calendar start =  CalendarUtils.timestampToCalendar(course.getStart());
+                    if (preCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)
+                            ||preCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)
+                            ||preCalendar.get(Calendar.DAY_OF_YEAR)!=start.get(Calendar.DAY_OF_YEAR)){
+                        preCalendar = start;
+                        firstCourseOfDay = true;
+                    }else{
+                        firstCourseOfDay = false;
+                    }
+
                     if (currentCalendar.get(Calendar.YEAR)!=start.get(Calendar.YEAR)||currentCalendar.get(Calendar.MONTH)!=start.get(Calendar.MONTH)){
                         currentCalendar = start;
                         tempDatas.add(new ScheduleDate(course.getStart()));
-
                     }
                 }
-                tempDatas.add(new ScheduleCourse(course));
+                tempDatas.add(new ScheduleCourse(course, firstCourseOfDay));
+
             }
         }
         return tempDatas;
