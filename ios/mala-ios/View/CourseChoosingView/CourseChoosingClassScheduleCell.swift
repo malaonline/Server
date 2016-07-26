@@ -78,7 +78,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
         legendView.addLegend(image: "legend_disabled", title: "已售")
         legendView.addLegend(image: "legend_selected", title: "已选")
         let buttonBought = legendView.addLegend(image: "legend_bought", title: "已买")
-        let ButtonDesc = legendView.addLegend(image: "desc_icon", title: "")
+        let ButtonDesc = legendView.addLegend(image: "desc_icon", offset: 3)
         buttonBought.addTarget(self, action: #selector(CourseChoosingClassScheduleCell.showBoughtDescription), forControlEvents: .TouchUpInside)
         ButtonDesc.addTarget(self, action: #selector(CourseChoosingClassScheduleCell.showBoughtDescription), forControlEvents: .TouchUpInside)
     }
@@ -95,7 +95,7 @@ class CourseChoosingClassScheduleCell: MalaBaseCell {
 public class LegendView: UIView {
     
     // MARK: - Property
-    private var currentX: CGFloat = 6
+    private var currentX: CGFloat = 3
     
     
     // MARK: - Constructed
@@ -108,19 +108,21 @@ public class LegendView: UIView {
     }
     
  
-    public func addLegend(image imageName: String, title: String) -> UIButton {
+    public func addLegend(image imageName: String, title: String? = nil, offset: CGFloat? = 12) -> UIButton {
         let button = UIButton()
         button.adjustsImageWhenHighlighted = false
-        
         button.setImage(UIImage(named: imageName), forState: .Normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 6)
+        if title != nil {
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -3, bottom: 0, right: 3)
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
+        }
         
         button.setTitle(title, forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(12)
         button.setTitleColor(MalaColor_939393_0, forState: .Normal)
         
         button.sizeToFit()
-        button.frame.origin.x = (currentX == 6 ? currentX : currentX+12)
+        button.frame.origin.x = (currentX == 3 ? currentX : currentX+(offset ?? 12)+3)
         addSubview(button)
         currentX = CGRectGetMaxX(button.frame)
         
