@@ -30,8 +30,10 @@ def money_format(amount, format='+/'):
         '+'表示如果是正数前面加'+'
         '/'表示单位为分除以100
         '0'表示不要小数输出整数
+        'a'表示自动小数有则输出,没有则是整数(优先级大于0)
     """
     i = format.find('0') >= 0
+    a = format.find('a') >= 0
     if amount is None or amount is '':
         return i and '0' or '0.00'
     if isinstance(amount, str):
@@ -41,7 +43,9 @@ def money_format(amount, format='+/'):
     sign = ''
     if format.find('+') >= 0 and amount > 0:
         sign = '+'
-    if i:
+    if a:
+        return sign+"%0.9g"%amount
+    elif i:
         return sign+"%.f"%amount
     else:
         return sign+"%.2f"%amount
