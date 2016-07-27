@@ -126,7 +126,7 @@ class OrderFormOperatingView: UIView {
     // MARK: - Private method
     private func setupUserInterface() {
         // Style
-        self.backgroundColor = MalaColor_FFFFFF_9
+        self.backgroundColor = UIColor.whiteColor()
         
         // SubViews
         addSubview(topLine)

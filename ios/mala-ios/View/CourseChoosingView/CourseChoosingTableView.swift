@@ -107,6 +107,7 @@ class CourseChoosingTableView: UITableView, UITableViewDelegate, UITableViewData
         backgroundColor = MalaColor_EDEDED_0
         estimatedRowHeight = 400
         separatorStyle = .None
+        bounces = false
         contentInset = UIEdgeInsets(top: -40, left: 0, bottom: 4, right: 0)
          
         
