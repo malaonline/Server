@@ -49,7 +49,6 @@
         <activity
             android:name=".activitys.WelcomeActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
