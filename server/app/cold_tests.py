@@ -49,7 +49,7 @@ class SimpleTest(unittest.TestCase):
         # print(pp2['sign'])
         self.assertEqual(pp['sign'], pp2['sign'])
 
-    def test_kuailexue_api(self):
+    def test_kuailexue_api1(self):
         # return # 待kuailexue把接口实现后解封
         test_stu_id = 'malaprd_277_2016'
         url = KLX_STUDY_URL_FMT.format(subject='math')
@@ -87,3 +87,17 @@ class SimpleTest(unittest.TestCase):
 
         # my-average-score 各知识点全部用户平均得分率及指定学生得分率
         _request_kuailexue_api_data('my-average-score')
+
+    def test_kuailexue_api2(self):
+        # return # 待kuailexue把接口实现后解封
+        settings.TESTING = False
+        test_stu_id = 'test_student_1'
+        test_stu_name = '测试学生1'
+        test_tea_id = 'test_teacher_1'
+        test_teat_name = '测试老师1'
+        klx_stu = klx_register(KLX_ROLE_STUDENT, test_stu_id, test_stu_name)
+        self.assertIsNotNone(klx_stu)
+        klx_tea = klx_register(KLX_ROLE_TEACHER, test_tea_id, test_teat_name)
+        self.assertIsNotNone(klx_tea)
+        ok = klx_relation(klx_tea, klx_stu)
+        self.assertTrue(ok)
