@@ -210,6 +210,7 @@ def registerKuaiLeXueUserByOrder(oid):
     :param oid: models.Order.id
     :return: True or not
     '''
+    logger.debug("[registerKuaiLeXueUserByOrder] order id: %s" % oid)
     order = Order.objects.get(pk=oid)
     parent = order.parent
     teacher = order.teacher

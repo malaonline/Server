@@ -478,7 +478,12 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         # 微信通知用户购课成功信息
         send_pay_info_to_user(open_id, order_id)
         # 把学生和老师注册到快乐学
-        registerKuaiLeXueUserByOrder.delay(order.id)
+        registerKuaiLeXueUserByOrder.apply_async((order.id,), retry=True, retry_policy={
+            'max_retries': 3,
+            'interval_start': 10,
+            'interval_step': 20,
+            'interval_max': 30,
+        })
         return 0
     except TimeSlotConflict:
         logger.warning('timeslot conflict, do refund, order_id: '+str(order_id))

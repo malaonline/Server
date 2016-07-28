@@ -126,7 +126,12 @@ class ChargeSucceeded(View):
         try:
             models.Order.objects.allocate_timeslots(order)
             # 把学生和老师注册到快乐学
-            registerKuaiLeXueUserByOrder.delay(order.id)
+            registerKuaiLeXueUserByOrder.apply_async((order.id,), retry=True, retry_policy={
+                'max_retries': 3,
+                'interval_start': 10,
+                'interval_step': 20,
+                'interval_max': 30,
+            })
             return JsonResponse({'ok': 1})
         except TimeSlotConflict:
             logger.info('timeslot conflict, do refund')

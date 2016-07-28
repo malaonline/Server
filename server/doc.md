@@ -56,7 +56,9 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 celery worker --app=server -l info
 celery -A server beat
 
-celery multi start autoconfirm --app=server  -c4  --pidfile=autoconfirm.pid --beat
+celery multi start taskman --app=server  -c2  --pidfile=taskman.pid --beat
+celery multi restart taskman --app=server  -c2  --pidfile=taskman.pid --beat
+celery multi stop taskman
 
 
 ### Kuailexue API Config

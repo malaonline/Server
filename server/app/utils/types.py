@@ -62,15 +62,12 @@ def parse_date_next(s, to_aware=True):
     if _re_date.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT)
         d += datetime.timedelta(days=1)
-        return d
     if _re_date_h.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH)
         d += datetime.timedelta(hours=1)
-        return d
     if _re_date_h_m.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT_WITH_HH_MM)
         d += datetime.timedelta(minutes=1)
-        return d
     if _re_date_full.match(s):
         d = datetime.datetime.strptime(s, DATE_P_FORMAT_FULL)
         d += datetime.timedelta(seconds=1)
