@@ -30,7 +30,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
             if isOpen {
                 timeLineView.hidden = false
                 timeLineView.snp_updateConstraints { (make) -> Void in
-                    make.height.equalTo(currentHeightCount*16)
+                    make.height.equalTo(currentHeight)
                 }
             }else {
                 timeLineView.hidden = true
@@ -42,7 +42,7 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         }
     }
     /// 当前高度
-    var currentHeightCount: Int = 0
+    var currentHeight: CGFloat = 0
     
     
     // MARK: - Components
@@ -98,13 +98,13 @@ class CourseChoosingTimeScheduleCell: MalaBaseCell {
         self.timeLineView?.removeFromSuperview()
         self.timeLineView = ThemeTimeLine(times: result.dates, descs: result.times)
         content.addSubview(timeLineView!)
-        currentHeightCount = result.heightCount
+        currentHeight = result.height
         timeLineView!.snp_makeConstraints { (make) in
             make.top.equalTo(content.snp_top)
             make.left.equalTo(content.snp_left)
             make.right.equalTo(content.snp_right)
             make.bottom.equalTo(content.snp_bottom)
-            make.height.equalTo(currentHeightCount*16)
+            make.height.equalTo(currentHeight)
         }
     }
     

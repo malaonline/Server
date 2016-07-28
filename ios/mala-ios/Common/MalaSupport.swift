@@ -329,11 +329,11 @@ func getWeekString(timeStamp: NSTimeInterval? = nil, date: NSDate? = nil) -> Str
 ///  dates:     日期字符串
 ///  times:     上课时间字符串
 ///  height:    所需高度
-func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times: [String], heightCount: Int) {
+func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times: [String], height: CGFloat) {
     
     var dateStrings = [String]()
     var timeStrings = [String]()
-    var heightCount: Int = 0
+    var height: CGFloat = 0
     var list: [TimeScheduleModel] = []
     let sortTimeSlots = timeSchedule.sort { (timeIntervals1, timeIntervals2) -> Bool in
         return (timeIntervals1.first ?? 0) < (timeIntervals2.first ?? 0)
@@ -382,17 +382,21 @@ func parseTimeSlots(timeSchedule: [[NSTimeInterval]]) -> (dates: [String], times
         }
         timeStrings.append(timeString)
         
-        // 垂直高度数
-        heightCount += slotDate.times.count > 4 ? 4 : 3
+        // 垂直高度
+        let count = slotDate.times.count
+        if (count <= 4) {
+            height += 14*2+2
+        }else {
+            height += 14*3+2*2
+        }
+        height += 20
     }
-    
-    heightCount = heightCount == 3 ? 2 : heightCount
-    
+    height -= 20
     println("日期表 : \(dateStrings)")
     println("时间表 : \(timeStrings)")
-    println("高度 : \(heightCount)")
+    println("高度 : \(height)")
  
-    return (dateStrings, timeStrings, heightCount)
+    return (dateStrings, timeStrings, height)
 }
 
 ///  解析奖学金列表数据

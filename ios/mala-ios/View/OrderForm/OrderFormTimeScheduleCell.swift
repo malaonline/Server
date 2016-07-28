@@ -174,7 +174,7 @@ class OrderFormTimeScheduleCell: UITableViewCell {
             make.left.equalTo(self.contentView.snp_left).offset(12)
             make.right.equalTo(self.contentView.snp_right).offset(-12)
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-16)
-            make.height.equalTo(CGFloat(16*result.heightCount))
+            make.height.equalTo(result.height)
         }
     }
 }
