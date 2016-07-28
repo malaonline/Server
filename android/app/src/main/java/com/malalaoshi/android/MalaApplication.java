@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.exception.CrashHandler;
 import com.malalaoshi.android.push.MalaPushClient;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -45,6 +46,7 @@ public class MalaApplication extends BaseApplication {
         MalaPushClient.getInstance().init();
         MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
         refWatcher = LeakCanary.install(this);
+        CrashHandler.getInstance().init(this);//初始化全局异常管理
     }
 
     public static RefWatcher getRefWatcher(Context context) {

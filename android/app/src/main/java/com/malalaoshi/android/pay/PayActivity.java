@@ -36,8 +36,6 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
     private CreateCourseOrderResultEntity orderEntity;
     private boolean isEvaluated;
 
-    private PayFragment payFragment;
-
     /**
      *
      * @param entity
@@ -66,9 +64,11 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
         if (orderEntity == null) {
             finish();
         }
-        payFragment = PayFragment.newInstance(orderEntity,isEvaluated);
-        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null,
-                payFragment, "payfragment");
+        if (savedInstanceState==null){
+            PayFragment payFragment = PayFragment.newInstance(orderEntity,isEvaluated);
+            FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null,
+                    payFragment, PayFragment.class.getName());
+        }
     }
 
     @Override
@@ -83,7 +83,10 @@ public class PayActivity extends BaseActivity implements TitleBarView.OnTitleBar
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        payFragment.onActivityResult(requestCode, resultCode, data);
+        PayFragment payFragment = (PayFragment) getSupportFragmentManager().findFragmentByTag(PayFragment.class.getName());
+        if (payFragment!=null){
+            payFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

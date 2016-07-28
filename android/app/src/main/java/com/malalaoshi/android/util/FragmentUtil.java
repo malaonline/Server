@@ -14,12 +14,12 @@ public final class FragmentUtil{
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (pre!=null){
             if (!newFragment.isAdded()) {    // 先判断是否被add过
-                transaction.hide(pre).add(containerViewId, newFragment).commit(); // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(pre).add(containerViewId, newFragment,fragmentTag).commit(); // 隐藏当前的fragment，add下一个到Activity中
             } else {
                 transaction.hide(pre).show(newFragment).commit(); // 隐藏当前的fragment，显示下一个
             }
         }else{
-            transaction.add(containerViewId, newFragment).commit(); // add下一个到Activity中
+            transaction.add(containerViewId, newFragment, fragmentTag).commit(); // add下一个到Activity中
         }
     }
 

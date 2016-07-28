@@ -61,7 +61,9 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
         ButterKnife.bind(this);
         titleBarView.setTitle(R.string.scholarship);
         titleBarView.setOnTitleBarClickListener(this);
-        initFragment();
+        if (savedInstanceState==null){
+            initFragment();
+        }
         if (!UserManager.getInstance().isLogin()) {
             finish();
             UserManager.getInstance().startLoginActivity();
@@ -71,7 +73,7 @@ public class CouponActivity extends BaseActivity implements TitleBarView.OnTitle
     private void initFragment() {
         fragment = (CouponListFragment) Fragment
                 .instantiate(this, CouponListFragment.class.getName(), getIntent().getExtras());
-        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null, fragment, "couponfragment");
+        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null, fragment, CouponListFragment.class.getName());
     }
 
     @Override

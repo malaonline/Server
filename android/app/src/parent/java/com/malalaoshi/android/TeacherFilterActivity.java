@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -50,9 +51,6 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
     @Bind(R.id.tv_filter_tag)
     protected TextView tvFilterTag;
 
-    //筛选结果列表
-    private TeacherListFragment filterFragment;
-
     //筛选条件
     private Grade grade;
     private Subject subject;
@@ -82,7 +80,7 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
         setContentView(R.layout.teacher_list_filter);
         ButterKnife.bind(this);
         initDatas();
-        initViews();
+        initViews(savedInstanceState);
         setEvent();
     }
 
@@ -98,18 +96,20 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
         tags = intent.getParcelableArrayListExtra(EXTRA_TAGS);
     }
 
-    private void initViews() {
+    private void initViews(Bundle savedInstanceState) {
         Long gradeId = updateFilterCondition(grade);
         Long subjectId = updateFilterCondition(subject);
         long[] tagIds = updateFilterCondition(tags);
-        filterFragment = TeacherListFragment.newInstance(gradeId, subjectId, tagIds);
-        FragmentUtil.openFragment(R.id.id_content, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
+        if (savedInstanceState==null){
+            TeacherListFragment filterFragment = TeacherListFragment.newInstance(gradeId, subjectId, tagIds);
+            FragmentUtil.openFragment(R.id.id_content, getSupportFragmentManager(), null, filterFragment, TeacherListFragment.class.getName());
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        filterFragment.setEmptyViewText("请重新设定筛选条件!");
+        ((TeacherListFragment)getSupportFragmentManager().findFragmentByTag(TeacherListFragment.class.getSimpleName())).setEmptyViewText("请重新设定筛选条件!");
     }
 
     @OnClick(R.id.tv_filter_grade)
@@ -136,6 +136,7 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
         ((RadioFilterDialog)dialogFragment).setOnRightClickListener(new RadioFilterDialog.OnRightClickListener() {
             @Override
             public void OnRightClick(View v) {
+                TeacherListFragment filterFragment = (TeacherListFragment) TeacherFilterActivity.this.getSupportFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
                 long[] tagIds = updateFilterCondition(tags);
                 filterFragment.setTagIds(tagIds);
                 filterFragment.refresh();
@@ -201,6 +202,7 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
 
     @Override
     public void onSubjectClick(Subject subject) {
+        TeacherListFragment filterFragment = (TeacherListFragment) TeacherFilterActivity.this.getSupportFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
         this.subject = subject;
         Long subjectId = updateFilterCondition(subject);
         filterFragment.setSubjectId(subjectId);
@@ -210,8 +212,10 @@ public class TeacherFilterActivity extends BaseActivity implements TitleBarView.
 
     @Override
     public void onGradeClick(Grade grade) {
+        TeacherListFragment filterFragment = (TeacherListFragment) TeacherFilterActivity.this.getSupportFragmentManager().findFragmentByTag(TeacherListFragment.class.getName());
         this.grade = grade;
         Long gradeId = updateFilterCondition(grade);
+        Log.e("TeacherFilterActivity","TeacherFilterActivity:"+gradeId+" "+this.grade+" "+filterFragment);
         filterFragment.setGradeId(gradeId);
         filterFragment.refresh();
         closeFilterDialog();

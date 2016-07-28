@@ -50,16 +50,18 @@ public class OrderInfoActivity extends BaseActivity implements TitleBarView.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        initViews();
+        initViews(savedInstanceState);
         titleView.setOnTitleBarClickListener(this);
     }
 
-    private void initViews() {
+    private void initViews(Bundle savedInstanceState) {
         Intent intent = getIntent();
         titleView.setTitle("订单详情");
         String orderId = intent.getStringExtra(EXTRA_ORDER_ID);
-        OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(orderId);
-        FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, orderDetailFragment, OrderDetailFragment.class.getName());
+        if (savedInstanceState==null){
+            OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(orderId);
+            FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, orderDetailFragment, OrderDetailFragment.class.getName());
+        }
     }
 
 

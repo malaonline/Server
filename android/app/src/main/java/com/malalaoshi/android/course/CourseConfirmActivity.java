@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.util.FragmentUtil;
@@ -30,9 +29,6 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
     private static final String TAG = "CourseConfirmActivity";
     @Bind(R.id.title_view)
     protected TitleBarView titleBarView;
-
-    private CourseConfirmFragment fragment;
-
 
     public static void open(Context context, Long teacherId, String teacherName, String teacherAvator, Subject subject){
         if (teacherId != null&&subject != null) {
@@ -63,9 +59,12 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
         Subject subject = intent.getParcelableExtra(EXTRA_SUBJECT);
         String teacherName = intent.getStringExtra(EXTRA_TEACHER_NAME);
         String teacherAvator = intent.getStringExtra(EXTRA_TEACHER_AVATOR);
-        fragment = CourseConfirmFragment.newInstance(teacherId, teacherName,teacherAvator, subject);
-        FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null
-                , fragment, "couponfragment");
+        if (savedInstanceState==null){
+            CourseConfirmFragment fragment = CourseConfirmFragment.newInstance(teacherId, teacherName,teacherAvator, subject);
+            FragmentUtil.openFragment(R.id.container, getSupportFragmentManager(), null
+                    , fragment, CourseConfirmFragment.class.getName());
+        }
+
         titleBarView.setOnTitleBarClickListener(this);
     }
 
@@ -81,7 +80,10 @@ public class CourseConfirmActivity extends BaseActivity implements TitleBarView.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        fragment.onActivityResult(requestCode, resultCode, data);
+        CourseConfirmFragment fragment = (CourseConfirmFragment) getSupportFragmentManager().findFragmentByTag(CourseConfirmFragment.class.getName());
+        if (fragment!=null){
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

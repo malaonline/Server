@@ -2,7 +2,6 @@ package com.malalaoshi.android.activitys;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.core.view.TitleBarView;
@@ -26,14 +25,17 @@ public class OrderListActivity extends BaseActivity implements TitleBarView.OnTi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        initViews();
+        initViews(savedInstanceState);
         titleView.setOnTitleBarClickListener(this);
     }
-    private void initViews() {
+    private void initViews(Bundle savedInstanceState) {
         titleView.setTitle("我的订单");
-        orderListFragment = OrderListFragment.newInstance();
-        FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, orderListFragment, OrderListFragment.class.getName());
+        if (savedInstanceState==null){
+            orderListFragment = OrderListFragment.newInstance();
+            FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, orderListFragment, OrderListFragment.class.getName());
+        }
     }
+
     @Override
     protected String getStatName() {
         return "订单列表页";

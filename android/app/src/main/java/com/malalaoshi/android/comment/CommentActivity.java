@@ -24,7 +24,9 @@ public class CommentActivity extends BaseTitleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getTitleBar().setRightVisibility(View.GONE);
-        replaceFragment(Fragment.instantiate(this, MyCommentListFragment.class.getName(), getIntent().getExtras()));
+        if(savedInstanceState==null){
+            replaceFragment(Fragment.instantiate(this, MyCommentListFragment.class.getName(), getIntent().getExtras()));
+        }
     }
 
     public static void launch(Activity activity) {

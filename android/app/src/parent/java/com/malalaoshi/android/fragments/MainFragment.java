@@ -1,6 +1,9 @@
 package com.malalaoshi.android.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +35,7 @@ public class MainFragment extends BaseFragment implements MultiSelectFilterDialo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.teacher_list, container, false);
         ButterKnife.bind(this, view);
-        initViews();
+        initViews(savedInstanceState);
         initData();
         return view;
     }
@@ -41,9 +44,11 @@ public class MainFragment extends BaseFragment implements MultiSelectFilterDialo
 
     }
 
-    private void initViews() {
-        TeacherListFragment fragment = TeacherListFragment.newInstance();
-        FragmentUtil.openFragment(R.id.id_content, getChildFragmentManager(), null, fragment, TeacherListFragment.class.getSimpleName());
+    private void initViews(Bundle savedInstanceState) {
+        if (savedInstanceState==null){
+            TeacherListFragment fragment = TeacherListFragment.newInstance();
+            FragmentUtil.openFragment(R.id.id_content, getChildFragmentManager(), null, fragment, TeacherListFragment.class.getName());
+        }
     }
 
     //筛选
@@ -52,7 +57,7 @@ public class MainFragment extends BaseFragment implements MultiSelectFilterDialo
         StatReporter.ClickTeacherFilter();
         MultiSelectFilterDialog newFragment = MultiSelectFilterDialog.newInstance();
         newFragment.setOnRightClickListener(this);
-        newFragment.show(getFragmentManager(), MultiSelectFilterDialog.class.getSimpleName());
+        newFragment.show(getFragmentManager(), MultiSelectFilterDialog.class.getName());
     }
 
     @Override

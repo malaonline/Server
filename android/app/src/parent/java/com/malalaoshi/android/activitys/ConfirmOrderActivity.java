@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -55,11 +56,11 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ButterKnife.bind(this);
-        initViews();
+        initViews(savedInstanceState);
         titleView.setOnTitleBarClickListener(this);
     }
 
-    private void initViews() {
+    private void initViews(Bundle savedInstanceState) {
         Intent intent = getIntent();
         titleView.setTitle("确认订单");
         Order order = intent.getParcelableExtra(EXTRA_ORDER_INFO);
@@ -68,8 +69,10 @@ public class ConfirmOrderActivity extends BaseActivity implements TitleBarView.O
         String weeklyTimeSlots = intent.getStringExtra(EXTRA_ORDER_WEEKLY_TIME_SLOTS);
         long teacherId = intent.getLongExtra(EXTRA_ORDER_TEACHER_ID,0);
         boolean isEvaluated = intent.getBooleanExtra(EXTRA_IS_EVALUATED,true);
-        ConfirmOrderFragment confirmOrderFragment = ConfirmOrderFragment.newInstance(order,entity,hours,weeklyTimeSlots.toString(),teacherId,isEvaluated);
-        FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, confirmOrderFragment, OrderDetailFragment.class.getName());
+        if (savedInstanceState==null){
+            ConfirmOrderFragment confirmOrderFragment = ConfirmOrderFragment.newInstance(order,entity,hours,weeklyTimeSlots.toString(),teacherId,isEvaluated);
+            FragmentUtil.openFragment(R.id.order_fragment, getSupportFragmentManager(), null, confirmOrderFragment, OrderDetailFragment.class.getName());
+        }
     }
 
 

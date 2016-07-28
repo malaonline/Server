@@ -16,8 +16,10 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.core__activity_login);
-        LoginFragment fragment = new LoginFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commit();
+        if (savedInstanceState==null){
+            LoginFragment fragment = new LoginFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commit();
+        }
     }
 
     @Override

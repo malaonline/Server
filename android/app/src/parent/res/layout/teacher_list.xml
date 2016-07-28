@@ -3,21 +3,7 @@
     android:id="@+id/fl_teacher_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/teacher_list_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/teacher_main_bg"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/teacher_list_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarSize="1dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical" />
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>-->
+
     <FrameLayout
         android:id="@+id/id_content"
         android:background="@color/teacher_main_bg"

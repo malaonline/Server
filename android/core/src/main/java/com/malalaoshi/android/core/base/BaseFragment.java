@@ -2,7 +2,10 @@ package com.malalaoshi.android.core.base;
 
 
 import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 import com.malalaoshi.android.core.stat.StatReporter;
 
@@ -11,12 +14,37 @@ import com.malalaoshi.android.core.stat.StatReporter;
  * Created by tianwei on 3/5/16.
  */
 public abstract class BaseFragment extends Fragment {
+    private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
+
     public abstract String getStatName();
 
     protected ProgressDialog progressDialog;
     private boolean isShowProcessDialog = false;
     private String processMessage = "正在加载数据···";
     private boolean isResume = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            if (isSupportHidden) {
+                ft.hide(this);
+            } else {
+                ft.show(this);
+            }
+            ft.commit();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_SAVE_IS_HIDDEN, isHidden());
+    }
+
     @Override
     public void onResume() {
         super.onResume();

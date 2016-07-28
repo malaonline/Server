@@ -65,9 +65,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private NetworkStateReceiver mNetworkStateReceiver;
 
-
-    private FragmentGroupAdapter mHomeFragmentAdapter;
-
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
@@ -88,8 +85,17 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         initLocation();
         initData();
         initViews();
-
         setEvent();
+        if (savedInstanceState!=null){
+            List<Fragment> fragments = getSupportFragmentManager().getFragments();
+            for (int i=0;fragments!=null&&i<fragments.size();i++){
+                Fragment fragment = fragments.get(i);
+                if (fragment instanceof ScheduleFragment){
+                    ((ScheduleFragment)fragment).setOnClickEmptyCourse(this);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -184,8 +190,8 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     private void initData() {
         indicatorTabs.setTitles(new String[]{"找老师","课表","会员专享","我的"});
 
-        mHomeFragmentAdapter = new FragmentGroupAdapter(this, getSupportFragmentManager(), this);
-        vpHome.setAdapter(mHomeFragmentAdapter);
+        FragmentGroupAdapter homeFragmentAdapter = new FragmentGroupAdapter(this, getSupportFragmentManager(), this);
+        vpHome.setAdapter(homeFragmentAdapter);
         vpHome.setOffscreenPageLimit(3);//缓存页面
         vpHome.setCurrentItem(pageIndex);
     }
@@ -328,7 +334,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                     break;
             }
         }
-        fragments.put(position, fragment);
         return fragment;
     }
 
