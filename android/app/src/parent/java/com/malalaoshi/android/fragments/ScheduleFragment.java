@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,14 +96,14 @@ public class ScheduleFragment extends BaseFragment {
     public void onEventMainThread(BusEvent event) {
         switch (event.getEventType()) {
             case BusEvent.BUS_EVENT_LOGOUT_SUCCESS:
-                adapter.clear();
-                loadData();
-                break;
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
             case BusEvent.BUS_EVENT_RELOAD_TIMETABLE_DATA:
             case BusEvent.BUS_EVENT_PAY_SUCCESS:
-                adapter.clear();
                 loadData();
+                break;
+            case BusEvent.BUS_EVENT_BACKGROUND_LOAD_TIMETABLE_DATA:
+                loadDataBackground();
+                Log.d("ScheduleFragment","start loadDataBackground");
                 break;
         }
     }
@@ -182,6 +183,7 @@ public class ScheduleFragment extends BaseFragment {
 
     private void loadData() {
         if (!UserManager.getInstance().isLogin()){
+            adapter.clear();
             setLayout(LayoutType.UNSIGNUP);
         }else{
             //刷新
@@ -191,6 +193,14 @@ public class ScheduleFragment extends BaseFragment {
                     autoRefresh();
                 }
             });
+        }
+    }
+
+    private void loadDataBackground(){
+        if (!UserManager.getInstance().isLogin()){
+            setLayout(LayoutType.UNSIGNUP);
+        }else{
+            ApiExecutor.exec(new LoadTimeTable(this,1));
         }
     }
 
@@ -285,7 +295,7 @@ public class ScheduleFragment extends BaseFragment {
                 ApiExecutor.exec(new PullTimeTable(this,hostPreviousUrl));
             }
         }else{
-            ApiExecutor.exec(new LoadTimeTable(this));
+            ApiExecutor.exec(new LoadTimeTable(this,0));
         }
     }
 
@@ -397,8 +407,10 @@ public class ScheduleFragment extends BaseFragment {
 
     private static final class LoadTimeTable extends BaseApiContext<ScheduleFragment, CourseListResult> {
 
-        public LoadTimeTable(ScheduleFragment scheduleFragment) {
+        private int requestType; //1:后台跟新,更新失败不修改UI
+        public LoadTimeTable(ScheduleFragment scheduleFragment, int requestType) {
             super(scheduleFragment);
+            this.requestType = requestType;
         }
 
         @Override
@@ -413,10 +425,17 @@ public class ScheduleFragment extends BaseFragment {
 
         @Override
         public void onApiFailure(Exception exception) {
-            MiscUtil.toast("加载失败,请检查网络连接!");
-            get().refreshFinish(null);
+            if (requestType!=1){
+                MiscUtil.toast("加载失败,请检查网络连接!");
+                get().refreshFinish(null);
+            }
         }
 
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            Log.d("ScheduleFragment","loadDataBackground complete");
+        }
     }
 
     private static final class LoadMoreTimeTable extends BaseApiContext<ScheduleFragment, CourseListResult> {

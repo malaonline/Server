@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,7 +119,15 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
             showNotSignInView();
         } else {
             showLoadingView();
-            ApiExecutor.exec(new FetchReportRequest(this));
+            ApiExecutor.exec(new FetchReportRequest(this,0));
+        }
+    }
+
+    private void loadDataBackground(){
+        if (!UserManager.getInstance().isLogin()) {
+            showNotSignInView();
+        } else {
+            ApiExecutor.exec(new FetchReportRequest(this,1));
         }
     }
 
@@ -129,7 +138,10 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
             case BusEvent.BUS_EVENT_PAY_SUCCESS:
                 reloadData();
                 break;
-
+            case BusEvent.BUS_EVENT_BACKGROUND_LOAD_REPORT_DATA:
+                Log.d("MemberServiceFragment","start loadDataBackground");
+                loadDataBackground();
+                break;
         }
     }
 
@@ -268,9 +280,11 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
 
     private static final class FetchReportRequest extends BaseApiContext<MemberServiceFragment, ReportListResult> {
+        private int requestType;  //1:后台更新,获取数据才更新UI
 
-        public FetchReportRequest(MemberServiceFragment memberServiceFragment) {
+        public FetchReportRequest(MemberServiceFragment memberServiceFragment,int requestType) {
             super(memberServiceFragment);
+            this.requestType = requestType;
         }
 
         @Override
@@ -285,9 +299,16 @@ public class MemberServiceFragment extends BaseFragment implements View.OnClickL
 
         @Override
         public void onApiFailure(Exception exception) {
-            get().showLoadFailedView();
+            if (requestType!=1){
+                get().showLoadFailedView();
+            }
         }
 
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            Log.d("MemberServiceFragment","loadDataBackground complete");
+        }
     }
 
     /*************************

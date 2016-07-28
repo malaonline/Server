@@ -68,7 +68,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     //具体数据内容页面
     private Map<Integer, Fragment> fragments = new HashMap<>();
 
-
     //定位相关对象
     private LocManager locManager;
 
@@ -222,14 +221,17 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
                 StatReporter.teacherListPage();
                 break;
             case PAGE_INDEX_COURSES:
+                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_BACKGROUND_LOAD_TIMETABLE_DATA));
                 tvTitleLocation.setVisibility(View.GONE);
                 StatReporter.coursePage();
                 break;
             case PAGE_INDEX_MEMBER_SERVICE:
+                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_BACKGROUND_LOAD_REPORT_DATA));
                 tvTitleLocation.setVisibility(View.GONE);
                 StatReporter.memberServicePage();
                 break;
             case PAGE_INDEX_USER:
+                EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_BACKGROUND_LOAD_USERCENTER_DATA));
                 tvTitleLocation.setVisibility(View.GONE);
                 StatReporter.myPage();
                 break;
@@ -253,7 +255,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     protected void onClickBarBtnLocation() {
 //        Toast.makeText(this,"TODO: 提示目前只支持郑州市，换成Dialog", Toast.LENGTH_SHORT).show();
         SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持郑州市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
-        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getSimpleName());
+        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getName());
     }
 
 
