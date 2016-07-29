@@ -31,7 +31,6 @@ import com.malalaoshi.android.fragments.MainFragment;
 import com.malalaoshi.android.fragments.UserFragment;
 import com.malalaoshi.android.receiver.NetworkStateReceiver;
 import com.malalaoshi.android.util.DialogUtil;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.view.tabindicator.ViewPagerIndicator;
@@ -302,7 +301,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     @Override
     protected void onPause() {
         super.onPause();
-        ImageCache.getInstance(this).flush();
         isResume = false;
     }
 
@@ -312,7 +310,6 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
         if (mNetworkStateReceiver != null) {
             unregisterReceiver(mNetworkStateReceiver);
         }
-        ImageCache.getInstance(this).close();
         EventBus.getDefault().unregister(this);
     }
 

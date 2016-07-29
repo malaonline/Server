@@ -1,4 +1,4 @@
-package com.malalaoshi.android.net;
+package com.malalaoshi.android.api;
 
 import com.malalaoshi.android.core.network.api.BaseApi;
 import com.malalaoshi.android.result.TeacherListResult;

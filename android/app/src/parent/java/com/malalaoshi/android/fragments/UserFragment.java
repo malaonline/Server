@@ -25,13 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.malalaoshi.android.MalaApplication;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
+import com.malalaoshi.android.api.PostAvatarApi;
 import com.malalaoshi.android.api.StudentInfoApi;
 import com.malalaoshi.android.comment.CommentActivity;
 import com.malalaoshi.android.core.MalaContext;
@@ -50,24 +49,19 @@ import com.malalaoshi.android.dialog.SingleChoiceDialog;
 import com.malalaoshi.android.dialogs.PromptDialog;
 import com.malalaoshi.android.dialogs.SingleEditDialog;
 import com.malalaoshi.android.entity.BaseEntity;
+import com.malalaoshi.android.entity.DoneModel;
 import com.malalaoshi.android.entity.User;
 import com.malalaoshi.android.events.EventType;
 import com.malalaoshi.android.events.NoticeEvent;
-import com.malalaoshi.android.net.Constants;
-import com.malalaoshi.android.net.NetworkListener;
-import com.malalaoshi.android.net.NetworkSender;
 import com.malalaoshi.android.pay.coupon.CouponActivity;
 import com.malalaoshi.android.result.UserListResult;
 import com.malalaoshi.android.util.AuthUtils;
 import com.malalaoshi.android.util.DialogUtil;
-import com.malalaoshi.android.util.ImageCache;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
 
 import de.greenrobot.event.EventBus;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -117,7 +111,13 @@ public class UserFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             if (UserManager.ACTION_LOGINED.equals(intent.getAction()) ||
                     UserManager.ACTION_LOGOUT.equals(intent.getAction())) {
-                updateUI();
+                if (!UserManager.getInstance().isLogin()){
+                    setUserLoginOutInfo();
+                    setUserLoginOutAvatar();
+                }else{
+                    loadLocalViews();
+                    loadData();
+                }
             }
         }
     };
@@ -185,21 +185,25 @@ public class UserFragment extends BaseFragment {
     }
 
     private void initViews() {
-        //先添加缓存数据
-        updateUI();
+        loadLocalViews();
     }
 
-    private void updateUI() {
-        updateUserInfoUI();
-        updateUserAvatarUI();
+    private void loadLocalViews(){
+        if (UserManager.getInstance().isLogin()){
+            setUserLoginInAvatar(UserManager.getInstance().getAvatorUrl());
+            setUserLoginInInfo();
+        }else{
+            setUserLoginOutInfo();
+            setUserLoginOutAvatar();
+        }
     }
 
     public void reloadData() {
         if (UserManager.getInstance().isLogin()) {
-            updateUI();
+            loadLocalViews();
             loadData();
         } else {
-            updateUI();
+            loadLocalViews();
         }
     }
 
@@ -208,102 +212,40 @@ public class UserFragment extends BaseFragment {
         ApiExecutor.exec(new FetchStudentInfoRequest(this));
     }
 
-    private static final class LoadUserProfileRequest extends BaseApiContext<UserFragment, UserProfile> {
-
-        public LoadUserProfileRequest(UserFragment userFragment) {
-            super(userFragment);
-        }
-
-        @Override
-        public UserProfile request() throws Exception {
-            return new UserProfileApi().get();
-        }
-
-        @Override
-        public void onApiSuccess(@NonNull UserProfile user) {
-            get().updateUserProfile(user);
-        }
-
-        @Override
-        public void onApiFailure(Exception exception) {
-            get().loadProfileFailed();
-        }
-    }
-
-    private void loadProfileFailed() {
+    private void onLoadProfileFailed() {
         //MiscUtil.toast(R.string.load_user_info_failed);
     }
 
-    private void updateUserProfile(UserProfile user) {
-        updateUserAvatar(user.getAvatar());
-        updateUserAvatarUI();
-    }
-
-    private void updateUserAvatar(String avatarUrl) {
-        if (!TextUtils.isEmpty(avatarUrl)) {
-            UserManager.getInstance().setAvatorUrl(avatarUrl);
-        }
-    }
-
-    private void updateUserAvatarUI() {
-        if (UserManager.getInstance().isLogin()) {
-            String string = UserManager.getInstance().getAvatorUrl();
-            Glide.with(this)
-                    .load(string)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.default_avatar)
-                    .crossFade()
-                    .into(ivAvatar);
-        } else {
-            Glide.with(this)
-                    .load(R.drawable.default_avatar)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade()
-                    .into(ivAvatar);
+    private void onUpdateUserProfile(UserProfile user) {
+        if (user!=null){
+            if (!user.getAvatar().equals(UserManager.getInstance().getAvatorUrl())){
+                setUserLoginInAvatar(user.getAvatar());
+            }
         }
     }
 
     private void onLoadUserInfoSuccess(@NonNull UserListResult result) {
         if (result.getResults() != null && result.getResults().get(0) != null) {
             updateUserInfo(result.getResults().get(0));
-            updateUserInfoUI();
+            setUserLoginInInfo();
         } else {
-            loadInfoFailed();
+            onLoadInfoFailed();
         }
     }
 
-    private void loadInfoFailed() {
+    private void onLoadInfoFailed() {
         MiscUtil.toast(R.string.load_user_info_failed);
     }
 
-    private void updateUserInfo(User user) {
-        updateStuName(user.getStudent_name());
-        updateSchool(user.getStudent_school_name());
-    }
-
-    private void updateSchool(String school) {
+    private void updateUserInfo(User user){
+        String school = user.getStudent_school_name();
         if (!TextUtils.isEmpty(school)) {
             UserManager.getInstance().setSchool(school);
         }
-    }
-
-    private void updateStuName(String name) {
+        String name = user.getStudent_name();
         if (!TextUtils.isEmpty(name)) {
             UserManager.getInstance().setStuName(name);
         }
-    }
-
-    private void updateUserInfoUI() {
-        if (UserManager.getInstance().isLogin()) {
-            tvUserName.setText(UserManager.getInstance().getStuName());
-            btnLogout.setVisibility(View.VISIBLE);
-        } else {
-            tvUserName.setText("点击登录");
-            btnLogout.setVisibility(View.GONE);
-        }
-
     }
 
     @OnClick(R.id.iv_user_avatar)
@@ -390,7 +332,6 @@ public class UserFragment extends BaseFragment {
     }
 
     private void openSysGallay() {
-
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -435,8 +376,6 @@ public class UserFragment extends BaseFragment {
         }
     }
 
-
-
     @OnClick(R.id.tv_user_name)
     public void OnClickUserName(View view) {
         if (checkLogin() == false) return;
@@ -455,14 +394,19 @@ public class UserFragment extends BaseFragment {
                 }, false, true);
     }
 
-
-
     private void onChangeStudentNameSuccess(AddStudentName data) {
         if (data.isDone()) {
             MiscUtil.toast(R.string.usercenter_set_student_succeed);
-            updateStuName();
+            updateStuName(strUserName);
+            setUserLoginInInfo();
         } else {
             MiscUtil.toast(R.string.usercenter_set_student_failed);
+        }
+    }
+
+    private void updateStuName(String strUserName) {
+        if (!TextUtils.isEmpty(strUserName)) {
+            UserManager.getInstance().setStuName(strUserName);
         }
     }
 
@@ -474,18 +418,10 @@ public class UserFragment extends BaseFragment {
         ApiExecutor.exec(new ModifyStudentNameRequest(this,strUserName));
     }
 
-    private void updateStuName() {
-        if (!TextUtils.isEmpty(strUserName)) {
-            UserManager.getInstance().setStuName(strUserName);
-            tvUserName.setText(strUserName);
-        }
-    }
-
     @OnClick(R.id.iv_my_collection)
     public void OnClickUserCollection(View view) {
         if (checkLogin() == false) return;
         MiscUtil.toast(R.string.coming_soon);
-
     }
 
     @OnClick(R.id.iv_my_orders)
@@ -525,7 +461,7 @@ public class UserFragment extends BaseFragment {
                         //清除本地登录信息
                         UserManager.getInstance().logout();
                         //更新UI
-                        updateUI();
+                        loadLocalViews();
                         //跳转到登录页面
                         //AuthUtils.redirectLoginActivity(getContext());
                         StatReporter.userLogOut();
@@ -582,8 +518,7 @@ public class UserFragment extends BaseFragment {
         if (path != null && !path.isEmpty()) {
             int width = getResources().getDimensionPixelSize(R.dimen.avatar_width);
             int height = getResources().getDimensionPixelSize(R.dimen.avatar_height);
-            Bitmap bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height, ImageCache.getInstance
-                    (MalaApplication.getInstance()));
+            Bitmap bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height);
             String cachePath = ImageUtil.getAppDir("cache");
             if (cachePath != null) {
                 String [] result = path.split("/");
@@ -599,80 +534,58 @@ public class UserFragment extends BaseFragment {
         }
     }
 
-
-    private static final class UploadAvatar extends BaseApiContext<UserFragment, String> {
-
-        public UploadAvatar(UserFragment userFragment) {
-            super(userFragment);
-        }
-
-        @Override
-        public String request() throws Exception {
-            return null;
-        }
-
-        @Override
-        public void onApiSuccess(@NonNull String response) {
-
-        }
-    }
-
-
     private void uploadFile() {
         startProcessDialog("正在上传...");
-
-        NetworkSender.setUserAvatar(strAvatarLocPath, new NetworkListener() {
-            @Override
-            public void onSucceed(Object json) {
-                if (json == null || json.toString().isEmpty()) {
-                    setAvatarFailed(-1);
-                    return;
-                }
-                try {
-                    JSONObject jo = new JSONObject(json.toString());
-                    if (jo != null && jo.optBoolean(Constants.DONE, false)) {
-                        Log.i("UserFragment", "Set user avator succeed : " + json.toString());
-                        setAvatarSucceeded();
-                        return;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                setAvatarFailed(-1);
-            }
-
-            @Override
-            public void onFailed(VolleyError error) {
-                if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 409) {
-                    setAvatarFailed(error.networkResponse.statusCode);
-                    return;
-                }
-                setAvatarFailed(-1);
-            }
-        });
+        ApiExecutor.exec(new UploadAvatar(this, strAvatarLocPath));
     }
 
-    private void setAvatarSucceeded() {
-        String url = strAvatarLocPath;
+    private void onSetAvatarSuccess(DoneModel response){
+        if (response != null && response.isDone()) {
+            setUserLoginInAvatar(strAvatarLocPath);
+            MiscUtil.toast(R.string.usercenter_set_avator_succeed);
+            return;
+        }
+        onSetAvatarFailed(-1);
+    }
+
+    private void onSetAvatarFailed(int errorCode) {
+        if (errorCode == 409) {
+            MiscUtil.toast(R.string.usercenter_set_avator_failed_no_permission);
+        } else {
+            MiscUtil.toast(R.string.usercenter_set_avator_failed);
+        }
+    }
+
+    private void setUserLoginInInfo() {
+        tvUserName.setText(UserManager.getInstance().getStuName());
+        btnLogout.setVisibility(View.VISIBLE);
+    }
+
+    private void setUserLoginOutInfo() {
+        tvUserName.setText("点击登录");
+        btnLogout.setVisibility(View.GONE);
+    }
+
+    private void setUserLoginInAvatar(String url){
         Glide.with(this)
-                .load(strAvatarLocPath)
+                .load(url)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_default_teacher_avatar)
                 .crossFade()
                 .into(ivAvatar);
         UserManager.getInstance().setAvatorUrl(url);
-        MiscUtil.toast(R.string.usercenter_set_avator_succeed);
-        stopProcessDialog();
     }
 
-    private void setAvatarFailed(int errorCode) {
-        if (errorCode == 409) {
-            MiscUtil.toast(R.string.usercenter_set_avator_failed_no_permission);
-        } else {
-            MiscUtil.toast(R.string.usercenter_set_avator_failed);
-        }
-        stopProcessDialog();
+
+    private void setUserLoginOutAvatar(){
+        Glide.with(this)
+                .load(R.drawable.default_avatar)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .crossFade()
+                .into(ivAvatar);
+        UserManager.getInstance().setAvatorUrl("");
     }
 
     private boolean checkLogin() {
@@ -687,6 +600,29 @@ public class UserFragment extends BaseFragment {
     @Override
     public String getStatName() {
         return "我的页面";
+    }
+
+
+    private static final class LoadUserProfileRequest extends BaseApiContext<UserFragment, UserProfile> {
+
+        public LoadUserProfileRequest(UserFragment userFragment) {
+            super(userFragment);
+        }
+
+        @Override
+        public UserProfile request() throws Exception {
+            return new UserProfileApi().get();
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull UserProfile user) {
+            get().onUpdateUserProfile(user);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            get().onLoadProfileFailed();
+        }
     }
 
     private static final class FetchStudentInfoRequest extends BaseApiContext<UserFragment, UserListResult> {
@@ -707,7 +643,7 @@ public class UserFragment extends BaseFragment {
 
         @Override
         public void onApiFailure(Exception exception) {
-            get().loadInfoFailed();
+            get().onLoadInfoFailed();
         }
     }
 
@@ -735,4 +671,36 @@ public class UserFragment extends BaseFragment {
             super.onApiFailure(exception);
         }
     }
+
+
+    private static final class UploadAvatar extends BaseApiContext<UserFragment, DoneModel> {
+        private String filePath;
+        public UploadAvatar(UserFragment userFragment ,String filePath) {
+            super(userFragment);
+            this.filePath = filePath;
+        }
+
+        @Override
+        public DoneModel request() throws Exception {
+            return new PostAvatarApi().post(filePath);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull DoneModel response) {
+            get().onSetAvatarSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
+            get().onSetAvatarFailed(exception.hashCode());
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().stopProcessDialog();
+        }
+    }
+
 }

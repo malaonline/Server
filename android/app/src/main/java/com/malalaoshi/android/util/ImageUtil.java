@@ -50,12 +50,11 @@ public class ImageUtil {
      * @param resId The resource id of the image data
      * @param reqWidth The requested width of the resulting bitmap
      * @param reqHeight The requested height of the resulting bitmap
-     * @param cache The ImageCache used to find candidate bitmaps for use with inBitmap
      * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
      *         that are equal to or greater than the requested width and height
      */
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-            int reqWidth, int reqHeight, ImageCache cache) {
+            int reqWidth, int reqHeight) {
 
         // BEGIN_INCLUDE (read_bitmap_dimensions)
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -66,9 +65,6 @@ public class ImageUtil {
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         // END_INCLUDE (read_bitmap_dimensions)
-
-        // If we're running on Honeycomb or newer, try to use inBitmap
-        addInBitmapOptions(options, cache);
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
@@ -81,12 +77,11 @@ public class ImageUtil {
      * @param filename The full path of the file to decode
      * @param reqWidth The requested width of the resulting bitmap
      * @param reqHeight The requested height of the resulting bitmap
-     * @param cache The ImageCache used to find candidate bitmaps for use with inBitmap
      * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
      *         that are equal to or greater than the requested width and height
      */
     public static Bitmap decodeSampledBitmapFromFile(String filename,
-            int reqWidth, int reqHeight, ImageCache cache) {
+            int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -97,7 +92,6 @@ public class ImageUtil {
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
         // If we're running on Honeycomb or newer, try to use inBitmap
-        addInBitmapOptions(options, cache);
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
@@ -110,12 +104,11 @@ public class ImageUtil {
      * @param fileDescriptor The file descriptor to read from
      * @param reqWidth The requested width of the resulting bitmap
      * @param reqHeight The requested height of the resulting bitmap
-     * @param cache The ImageCache used to find candidate bitmaps for use with inBitmap
      * @return A bitmap sampled down from the original with the same aspect ratio and dimensions
      *         that are equal to or greater than the requested width and height
      */
     public static Bitmap decodeSampledBitmapFromDescriptor(
-            FileDescriptor fileDescriptor, int reqWidth, int reqHeight, ImageCache cache) {
+            FileDescriptor fileDescriptor, int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -129,27 +122,9 @@ public class ImageUtil {
         options.inJustDecodeBounds = false;
 
         // If we're running on Honeycomb or newer, try to use inBitmap
-        addInBitmapOptions(options, cache);
-
-        return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private static void addInBitmapOptions(BitmapFactory.Options options, ImageCache cache) {
-        //BEGIN_INCLUDE(add_bitmap_options)
-        // inBitmap only works with mutable bitmaps so force the decoder to
-        // return mutable bitmaps.
         options.inMutable = true;
 
-        if (cache != null) {
-            // Try and find a bitmap to use for inBitmap
-            Bitmap inBitmap = cache.getBitmapFromReusableSet(options);
-
-            if (inBitmap != null) {
-                options.inBitmap = inBitmap;
-            }
-        }
-        //END_INCLUDE(add_bitmap_options)
+        return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
     }
 
     /**

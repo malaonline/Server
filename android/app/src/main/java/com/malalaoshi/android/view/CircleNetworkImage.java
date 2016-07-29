@@ -22,23 +22,15 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
-import com.android.volley.toolbox.NetworkImageView;
 import com.malalaoshi.android.R;
+import android.widget.ImageView;
 
-
-
-
-import android.text.TextUtils;
-import android.view.ViewGroup;
-
-
-import java.lang.reflect.InvocationTargetException;
 /**
  *
  * 圆形的NetworkImageview
  *
  */
-public class CircleNetworkImage extends NetworkImageView {
+public class CircleNetworkImage extends ImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 

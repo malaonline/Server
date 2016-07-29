@@ -3,8 +3,6 @@ package com.malalaoshi.android;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.exception.CrashHandler;
@@ -20,7 +18,6 @@ public class MalaApplication extends BaseApplication {
     private static String TAG = "MalaApplication";
     private static MalaApplication instance;
 
-    private RequestQueue mRequestQueue;
     private String mMalaHost = BuildConfig.API_HOST;
 
     // 运行信息
@@ -58,16 +55,6 @@ public class MalaApplication extends BaseApplication {
         return instance;
     }
 
-    public static RequestQueue getHttpRequestQueue() {
-        return getInstance().getRequestQueue();
-    }
-
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-        }
-        return mRequestQueue;
-    }
 
     public String getMalaHost() {
         return mMalaHost;

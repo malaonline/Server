@@ -10,11 +10,16 @@ import com.malalaoshi.android.core.utils.JsonUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -106,6 +111,22 @@ public abstract class BaseApi {
         final Request.Builder builder = new okhttp3.Request.Builder()
                 .url(getUrl(url))
                 .patch(body);
+        return http(builder, cls);
+    }
+
+    public <T> T httpPatchImg(final String url, String json, final Class<T> cls) throws Exception {
+        File file = new File(json);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
+        //构造上传请求，类似web表单
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("avatar", file.getName(), fileBody)
+                .build();
+
+        final Request.Builder builder = new okhttp3.Request.Builder()
+                .url(getUrl(url))
+                .patch(requestBody);
+
         return http(builder, cls);
     }
 

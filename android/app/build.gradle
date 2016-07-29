@@ -38,9 +38,6 @@ android {
         }
     }
 
-    // necessary for volley.jar and jpush, as sdk 23 has removed org.apache.http.
-    useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
         applicationId "com.malalaoshi.android"
         minSdkVersion 16
