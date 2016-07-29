@@ -64,6 +64,13 @@ class MemberPrivilegesViewController: UITableViewController {
         }
         isPushed = false
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if !isPushed {
+            sendScreenTrack(SAStudyReportViewName)
+        }
+    }
 
     
     // MARK: - Private Method

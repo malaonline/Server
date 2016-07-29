@@ -55,6 +55,15 @@ class OrderFormInfoViewController: BaseViewController, OrderFormOperatingViewDel
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if isForConfirm {
+            sendScreenTrack(SAOrderViewName)
+        }else {
+            sendScreenTrack(SAOrderInfoViewName)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

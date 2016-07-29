@@ -45,6 +45,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        sendScreenTrack(SAHomeViewName)
     }
     
     override func viewDidAppear(animated: Bool) {

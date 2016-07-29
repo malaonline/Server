@@ -108,6 +108,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         super.viewWillAppear(animated)
         // 设置 NavigationBar 透明色
         // makeStatusBarWhite()
+        sendScreenTrack(SATeacherDetailName)
         self.navigationController?.navigationBarHidden = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()

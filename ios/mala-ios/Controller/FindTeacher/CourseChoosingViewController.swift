@@ -123,6 +123,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         makeStatusBarBlack()
+        sendScreenTrack(SACourseChoosingViewName)
         navigationController?.navigationBar.shadowImage = nil
     }
 

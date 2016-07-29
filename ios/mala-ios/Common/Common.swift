@@ -56,6 +56,20 @@ let MalaNotification_PushProfileItemController = "com.malalaoshi.app.PushProfile
 let MalaNotification_ReloadLearningReport = "com.malalaoshi.app.ReloadLearningReport"
 
 
+// MARK: - Screen Name For Analytics
+let SAHomeViewName = "找老师(iOS)"
+let SATeacherDetailName = "老师详情(iOS)"
+let SACourseChoosingViewName = "课程购买(iOS)"
+let SAOrderViewName = "订单预览(iOS)"
+let SAOrderInfoViewName = "订单详情(iOS)"
+let SAPaymentViewName = "支付页面(iOS)"
+let SAMyCourseViewName = "我的课表(iOS)"
+let SAStudyReportViewName = "学习报告(iOS)"
+let SAProfileViewName = "个人页(iOS)"
+let SAMyOrdersViewName = "我的订单(iOS)"
+let SAMyCommentsViewName = "我的评价(iOS)"
+
+
 // MARK: - Error Detail
 let MalaErrorDetail_InvalidPage = "Invalid page"
 

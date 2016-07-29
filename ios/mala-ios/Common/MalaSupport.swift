@@ -503,3 +503,14 @@ func adjustTopicScoreData(data: [SingleTopicScoreData]) -> [SingleTopicScoreData
     sortData.append(SingleTopicScoreData(id: "9999", name: "其它", score: NSNumber(double: myScore), aveScore: NSNumber(double: aveScore)))
     return sortData
 }
+
+///  发送屏幕浏览信息（用于GoogleAnalytics屏幕浏览量数据分析）
+///
+///  - parameter value: 屏幕名称
+func sendScreenTrack(value: String? = "其它页面") {
+    let tracker = GAI.sharedInstance().defaultTracker
+    tracker.set(kGAIScreenName, value: value)
+    
+    let builder = GAIDictionaryBuilder.createScreenView()
+    tracker.send(builder.build() as [NSObject : AnyObject])
+}

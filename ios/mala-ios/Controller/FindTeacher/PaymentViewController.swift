@@ -39,6 +39,11 @@ class PaymentViewController: BaseViewController, PaymentBottomViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        sendScreenTrack(SAPaymentViewName)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

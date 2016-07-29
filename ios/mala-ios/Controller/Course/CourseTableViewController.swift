@@ -116,6 +116,11 @@ public class CourseTableViewController: UIViewController, UITableViewDataSource,
         loadStudentCourseTable()
     }
     
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        sendScreenTrack(SAMyCourseViewName)
+    }
+    
     // MARK: - Private Method
     private func configure() {
         // tableView

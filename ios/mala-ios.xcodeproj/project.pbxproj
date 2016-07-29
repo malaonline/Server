@@ -829,6 +829,9 @@
 		F48C59FD1C8701FA0024EE17 /* JSSAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */; };
 		F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
 		F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */; };
+		F48D4E931D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F48D4E921D4B3FA5002C3A99 /* GoogleService-Info.plist */; };
+		F48D4E941D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F48D4E921D4B3FA5002C3A99 /* GoogleService-Info.plist */; };
+		F48D4E951D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F48D4E921D4B3FA5002C3A99 /* GoogleService-Info.plist */; };
 		F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */; };
 		F49432D81D237B34001C4D22 /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432D71D237B34001C4D22 /* FilterBar.swift */; };
 		F49432D91D237B34001C4D22 /* FilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49432D71D237B34001C4D22 /* FilterBar.swift */; };
@@ -1153,6 +1156,7 @@
 		F48C59FC1C8701FA0024EE17 /* JSSAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSSAlertView.swift; sourceTree = "<group>"; };
 		F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaEnum.swift; sourceTree = "<group>"; };
 		F48C5A051C87F7EF0024EE17 /* CouponViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponViewCell.swift; sourceTree = "<group>"; };
+		F48D4E921D4B3FA5002C3A99 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F491A8B91C73439F00B5D520 /* refreshImage@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "refreshImage@3x.gif"; sourceTree = "<group>"; };
 		F491A8BC1C734EB500B5D520 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
 		F491A8BD1C734EB500B5D520 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
@@ -1333,6 +1337,7 @@
 				35FF7C021CF83568000A70EE /* parent-stage-Info.plist */,
 				35FF7C031CF83568000A70EE /* parent-prd-Info.plist */,
 				35FF7C041CF83568000A70EE /* parent-dev-Info.plist */,
+				F48D4E921D4B3FA5002C3A99 /* GoogleService-Info.plist */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -2241,6 +2246,7 @@
 				F4C5C24C1C75D37000FB833B /* EvaluationFiling1@2x.png in Resources */,
 				F4C5C24D1C75D37000FB833B /* EvaluationFiling1@3x.png in Resources */,
 				F4C5C2451C75D35400FB833B /* EvaluationFiling.plist in Resources */,
+				F48D4E931D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */,
 				F491A8BA1C73439F00B5D520 /* refreshImage@3x.gif in Resources */,
 				F45E69D41C8A85DC00BD0859 /* refreshImage@2x.gif in Resources */,
 				F4D0D1A31CA2C02400B25704 /* PushConfig.plist in Resources */,
@@ -2267,6 +2273,7 @@
 				35FF7A551CF8325A000A70EE /* SKPhotoBrowser.bundle in Resources */,
 				35FF7A561CF8325A000A70EE /* FilterCondition.plist in Resources */,
 				35FF7A571CF8325A000A70EE /* Assets.xcassets in Resources */,
+				F48D4E941D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2287,6 +2294,7 @@
 				35FF7B381CF83264000A70EE /* SKPhotoBrowser.bundle in Resources */,
 				35FF7B391CF83264000A70EE /* FilterCondition.plist in Resources */,
 				35FF7B3A1CF83264000A70EE /* Assets.xcassets in Resources */,
+				F48D4E951D4B3FA5002C3A99 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

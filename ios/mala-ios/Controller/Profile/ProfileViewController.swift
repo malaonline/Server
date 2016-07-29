@@ -89,6 +89,12 @@ class ProfileViewController: UITableViewController, UIImagePickerControllerDeleg
         self.navigationController?.showTabBadgePoint = MalaUnpaidOrderCount > 0
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        sendScreenTrack(SAProfileViewName)
+    }
+    
+    
     // MARK: - Private Method
     private func configure() {
                 

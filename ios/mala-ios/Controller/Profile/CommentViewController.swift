@@ -48,6 +48,11 @@ class CommentViewController: BaseTableViewController {
         loadCourse()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        sendScreenTrack(SAMyCommentsViewName)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

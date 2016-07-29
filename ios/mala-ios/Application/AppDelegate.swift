@@ -10,6 +10,7 @@ import UIKit
 import IQKeyboardManagerSwift
 
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -158,15 +159,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - SDK Configuration
     func registerThirdParty() {
-        
-//        // 友盟 - 发送启动通知(channelId 默认为 "App Store")
-//        let UMConfigInstance = UMAnalyticsConfig();
-//        UMConfigInstance.appKey = Mala_Umeng_AppKey;
-//        UMConfigInstance.channelId = nil;
-//        UMConfigInstance.bCrashReportEnabled = true;
-//
-//        MobClick.startWithConfigure(UMConfigInstance);
 
+        // Configure tracker from GoogleService-Info.plist.
+        var configureError:NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        // Optional: configure GAI options.
+        let gai = GAI.sharedInstance()
+        gai.trackUncaughtExceptions = true  // report uncaught exceptions
+        #if DevDebug
+            gai.logger.logLevel = GAILogLevel.Verbose
+        #endif
+        
+        
+        
         // Ping++ - 开启DEBUG模式log
         Pingpp.setDebugMode(true)
         
