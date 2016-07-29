@@ -551,15 +551,25 @@ class Teacher(BaseModel):
                 order__teacher=teacher, start__gte=date, deleted=False)
         occupied = occupied.filter(
                 ~Q(order__parent=parent, order__school=school))
-        occupied = [
-                (x if x.transferred_from is None else x.transferred_from)
-                for x in occupied]
+        # 获取老师被占用的 slot, 包括调课前和调课后的
+        temp_list = []
+        for x in occupied:
+            temp_list.append(x)
+            if x.transferred_from is not None:
+                temp_list.append(x.transferred_from)
+        occupied = temp_list
+
+        # 获取家长被其他老师被占用的 slot, 包括调课前和调课后的
         self_occupied = TimeSlot.objects.filter(
                 order__parent=parent, start__gte=date, deleted=False).filter(
                         ~Q(order__teacher=teacher))
-        self_occupied = [
-                (x if x.transferred_from is None else x.transferred_from)
-                for x in self_occupied]
+        temp_list = []
+        for x in self_occupied:
+            temp_list.append(x)
+            if x.transferred_from is not None:
+                temp_list.append(x.transferred_from)
+        self_occupied = temp_list
+
         occupied += self_occupied
 
         segtree = SegmentTree(0, 7 * 24 * 60 - 1)
