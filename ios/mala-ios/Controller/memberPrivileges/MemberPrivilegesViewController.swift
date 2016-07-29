@@ -98,6 +98,14 @@ class MemberPrivilegesViewController: UITableViewController {
                 self?.navigationController?.pushViewController(viewController, animated: true)
             }
         }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            MalaNotification_ReloadLearningReport,
+            object: nil,
+            queue: nil) { [weak self] (notification) in
+                self?.loadStudyReportOverview()
+        }
+        
         NSNotificationCenter.defaultCenter().addObserverForName(
             MalaNotification_ShowLearningReport,
             object: nil,
@@ -153,7 +161,7 @@ class MemberPrivilegesViewController: UITableViewController {
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self?.reportStatus = .UnSigned
+                self?.reportStatus = .Error
                 self?.ShowTost("当前无法访问题目数据，请稍后再试")
             })
             
@@ -201,7 +209,7 @@ class MemberPrivilegesViewController: UITableViewController {
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self?.reportStatus = .UnSigned
+                self?.reportStatus = .Error
                 self?.ShowTost("当前无法访问题目数据，请稍后再试")
             })
         }, completion: { [weak self] (report) in
@@ -294,5 +302,6 @@ class MemberPrivilegesViewController: UITableViewController {
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_PushIntroduction, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ShowLearningReport, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MalaNotification_ReloadLearningReport, object: nil)
     }
 }

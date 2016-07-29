@@ -116,12 +116,14 @@ public enum CourseStatus: String {
 // MARK: - Study Report
 ///  学习报告状态
 ///
+///  - Error:        数据获取错误
 ///  - LoggingIn:    登录中
 ///  - UnLogged:     未登录
 ///  - UnSigned:     登录未报名
 ///  - UnSignedMath: 报名非数学
 ///  - MathSigned:   报名数学
 enum MalaLearningReportStatus: String {
+    case Error = "er"
     case LoggingIn = "li"
     case UnLogged = "ul"
     case UnSigned = "l"

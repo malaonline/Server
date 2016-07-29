@@ -269,9 +269,23 @@ class LearningReportCell: UITableViewCell {
         button.removeTarget(self, action: #selector(LearningReportCell.login), forControlEvents: .TouchUpInside)
         button.removeTarget(self, action: #selector(LearningReportCell.showReportDemo), forControlEvents: .TouchUpInside)
         button.removeTarget(self, action: #selector(LearningReportCell.showMyReport), forControlEvents: .TouchUpInside)
+        button.removeTarget(self, action: #selector(LearningReportCell.reloadStatus), forControlEvents: .TouchUpInside)
         
         /// 渲染UI样式
         switch  self.reportStatus {
+        case .Error:
+            
+            // 数据获取错误
+            titleLabel.hidden = true
+            subjectLabel.hidden = true
+            layerView.hidden = false
+            loadingView.hidden = false
+            loadingView.stopAnimating()
+            
+            layerLabel.text = "学习报告数据获取失败"
+            button.setTitle("重新获取", forState: .Normal)
+            button.addTarget(self, action: #selector(LearningReportCell.reloadStatus), forControlEvents: .TouchUpInside)
+            break
            
         case .LoggingIn:
             
@@ -355,5 +369,10 @@ class LearningReportCell: UITableViewCell {
     @objc private func showMyReport() {
         println("报告")
         NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ShowLearningReport, object: 1)
+    }
+    /// 重新获取学习报告
+    @objc private func reloadStatus() {
+        println("重新获取")
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_ReloadLearningReport, object: nil)
     }
 }

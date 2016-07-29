@@ -7,6 +7,7 @@
 //
 
 
+#import <Google/Analytics.h>
 #import "Pingpp.h"
 #import "JPUSHService.h"
 #import "WZLBadgeImport.h"
