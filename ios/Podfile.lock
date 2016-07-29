@@ -31,7 +31,6 @@ PODS:
   - Pingpp/Wx (2.2.4):
     - Pingpp/Core
   - SnapKit (0.20.0)
-  - UMengAnalytics-NO-IDFA (4.0.3)
 
 DEPENDENCIES:
   - Alamofire (~> 3.3.0)
@@ -43,7 +42,6 @@ DEPENDENCIES:
   - Pingpp/Alipay (~> 2.2.0)
   - Pingpp/Wx (~> 2.2.0)
   - SnapKit (~> 0.20.0)
-  - UMengAnalytics-NO-IDFA
 
 SPEC CHECKSUMS:
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
@@ -60,8 +58,7 @@ SPEC CHECKSUMS:
   Kingfisher: 7e8de5b0cf7b5dc8ec559d193029a0859df93ef1
   Pingpp: 89c262bc06cd559b318595c43af3926f1d851334
   SnapKit: 5fce3c1bbbf1fbd31de9aa92f33eb9fa03f15650
-  UMengAnalytics-NO-IDFA: 173a5a2541536225f4c947935560975136f18a34
 
-PODFILE CHECKSUM: c9db887557fee143a522a5347c0efb085875bacf
+PODFILE CHECKSUM: c8f2e9052bc20db805b7f61cc3d6cc8fc005e351
 
 COCOAPODS: 1.0.0
