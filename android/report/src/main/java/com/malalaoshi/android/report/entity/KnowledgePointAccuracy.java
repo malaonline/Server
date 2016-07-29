@@ -1,12 +1,14 @@
 package com.malalaoshi.android.report.entity;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
  * 知识点正确率
  * Created by tianwei on 6/4/16.
  */
-public class KnowledgePointAccuracy implements Serializable {
+public class KnowledgePointAccuracy implements Serializable, Comparable<KnowledgePointAccuracy> {
     private String id;
     private String name;
     private int total_item;
@@ -48,5 +50,10 @@ public class KnowledgePointAccuracy implements Serializable {
 
     public void setRight_item(int right_item) {
         this.right_item = right_item;
+    }
+
+    @Override
+    public int compareTo(@NonNull KnowledgePointAccuracy another) {
+        return total_item >= another.total_item ? -1 : 1;
     }
 }

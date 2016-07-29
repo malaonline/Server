@@ -15,6 +15,7 @@ import com.malalaoshi.android.report.entity.KnowledgePointAccuracy;
 import com.malalaoshi.android.report.view.HorizontalLineView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,13 +47,28 @@ public class ReportKnowledgePage extends RelativeLayout {
     }
 
     private void initView() {
+        final int threshold = 9;
         lineView = (HorizontalLineView) findViewById(R.id.view_chart);
-        List<AxisModel> list = new ArrayList<>();
         if (EmptyUtils.isEmpty(data)) {
             return;
         }
+        boolean needMerge = data.size() > threshold;
+        int size = needMerge ? threshold : data.size();
+        List<AxisModel> list = new ArrayList<>(size);
+        Collections.sort(data);
+        int total = 0;
+        int correct = 0;
         for (KnowledgePointAccuracy item : data) {
-            list.add(new AxisModel(item.getRight_item(), item.getTotal_item(), item.getName()));
+            if (list.size() == threshold - 1 && data.size() != threshold) {
+                total += item.getTotal_item();
+                correct += item.getRight_item();
+            } else {
+                list.add(new AxisModel(item.getRight_item(), item.getTotal_item(), item.getName()));
+            }
+        }
+        Collections.shuffle(list);
+        if (total != 0) {
+            list.add(new AxisModel(correct, total, "其它"));
         }
         lineView.setList(list);
         initTest();
