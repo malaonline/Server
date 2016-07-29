@@ -60,6 +60,7 @@ import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.ImageUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
+import com.malalaoshi.android.util.StringUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -218,7 +219,7 @@ public class UserFragment extends BaseFragment {
 
     private void onUpdateUserProfile(UserProfile user) {
         if (user!=null){
-            if (!user.getAvatar().equals(UserManager.getInstance().getAvatorUrl())){
+            if (!StringUtil.compareUrls(user.getAvatar(),UserManager.getInstance().getAvatorUrl())){
                 setUserLoginInAvatar(user.getAvatar());
             }
         }

@@ -52,4 +52,16 @@ public class StringUtil {
 
         return sb.toString();
     }
+
+    public static boolean compareUrls(String url1,String url2){
+        boolean res = false;
+        if (url1!=null&&url2!=null){
+            String str1[] = url1.split("\\?");
+            String str2[] = url2.split("\\?");
+            if (str2[0].equals(str1[0])){
+                res = true;
+            }
+        }
+        return res;
+    }
 }
