@@ -159,13 +159,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - SDK Configuration
     func registerThirdParty() {
         
-        // 友盟 - 发送启动通知(channelId 默认为 "App Store")
-        let UMConfigInstance = UMAnalyticsConfig();
-        UMConfigInstance.appKey = Mala_Umeng_AppKey;
-        UMConfigInstance.channelId = nil;
-        UMConfigInstance.bCrashReportEnabled = true;
-
-        MobClick.startWithConfigure(UMConfigInstance);
+//        // 友盟 - 发送启动通知(channelId 默认为 "App Store")
+//        let UMConfigInstance = UMAnalyticsConfig();
+//        UMConfigInstance.appKey = Mala_Umeng_AppKey;
+//        UMConfigInstance.channelId = nil;
+//        UMConfigInstance.bCrashReportEnabled = true;
+//
+//        MobClick.startWithConfigure(UMConfigInstance);
 
         // Ping++ - 开启DEBUG模式log
         Pingpp.setDebugMode(true)

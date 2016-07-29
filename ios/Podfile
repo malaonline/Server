@@ -15,6 +15,7 @@ pod 'Charts', '~> 2.2.4'
 pod 'UMengAnalytics-NO-IDFA'
 pod 'Pingpp/Alipay', '~> 2.2.0'
 pod 'Pingpp/Wx', '~> 2.2.0'
+pod 'Google/Analytics'
 
 target 'parent-dev' do
   target 'parentTests' do
