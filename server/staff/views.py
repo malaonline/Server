@@ -200,6 +200,7 @@ class AnalysisView(BaseStaffView):
         context = dict(
                 teachers=models.Teacher.objects.count(),
                 parents=models.Parent.objects.count(),
+                orders=models.Order.objects.filter(status=models.Order.PAID, to_pay__gt=1000).count(),
                 )
         return render(request, self.template_name, context)
 
