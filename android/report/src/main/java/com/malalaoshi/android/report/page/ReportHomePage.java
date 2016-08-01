@@ -18,6 +18,7 @@ public class ReportHomePage extends LinearLayout {
     private TextView nameView;
     private TextView gradeView;
     private TextView dateView;
+    private TextView titleView;
 
     public ReportHomePage(Context context) {
         super(context);
@@ -51,6 +52,7 @@ public class ReportHomePage extends LinearLayout {
         nameView = (TextView) findViewById(R.id.tv_name);
         gradeView = (TextView) findViewById(R.id.tv_grade);
         dateView = (TextView) findViewById(R.id.tv_time);
+        titleView = (TextView) findViewById(R.id.tv_title);
     }
 
     public void setStudent(String student) {
@@ -59,5 +61,9 @@ public class ReportHomePage extends LinearLayout {
 
     public void setGrade(String grade) {
         gradeView.setText(grade);
+    }
+
+    public void setSubject(String title) {
+        titleView.setText(title);
     }
 }

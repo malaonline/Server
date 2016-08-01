@@ -1,17 +1,20 @@
 package com.malalaoshi.android.report;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.base.BaseTitleActivity;
+import com.malalaoshi.android.core.contants.Subject;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.usercenter.UserManager;
@@ -41,7 +44,6 @@ import java.util.List;
  */
 public class ReportFragment extends BaseFragment {
 
-
     //页面上的点
     private View dotView;
     //页面上的点的容器
@@ -49,9 +51,14 @@ public class ReportFragment extends BaseFragment {
     //科目
     private long subjectId;
     private ReportHomePage homePage;
+    private TextView statusButton;
+    private ImageView statusImageView;
+    private View statusLayout;
 
     private List<View> pageList;
     private ViewPager viewPager;
+
+    private AnimationDrawable animationDrawable;
 
     @Nullable
     @Override
@@ -61,6 +68,7 @@ public class ReportFragment extends BaseFragment {
         dotView = view.findViewById(R.id.dot_view);
         dotViewContainer = view.findViewById(R.id.dot_view_container);
         initIntent();
+        initStatusView(view);
         initViewPager(view);
         requestData();
         return view;
@@ -76,6 +84,24 @@ public class ReportFragment extends BaseFragment {
             MiscUtil.toast("哎呀，这个报告找不到了。");
             getActivity().finish();
         }
+    }
+
+    private void initStatusView(View view) {
+        animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.core__refresh_refreshing);
+        statusButton = (TextView) view.findViewById(R.id.tv_status);
+        statusLayout = view.findViewById(R.id.ll_status);
+        statusImageView = (ImageView) view.findViewById(R.id.iv_status);
+        statusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beginLoadData();
+            }
+        });
+    }
+
+    private void beginLoadData() {
+        ApiExecutor.exec(new FetchSubjectReport(ReportFragment.this, subjectId));
+        updateUI(0);
     }
 
     private void initViewPager(View view) {
@@ -97,6 +123,11 @@ public class ReportFragment extends BaseFragment {
 
             }
         });
+        if (getActivity() instanceof BaseTitleActivity) {
+            String title = UserManager.getInstance().getStuName() + "的";
+            title += Subject.getSubjectName(subjectId) + "报告";
+            ((BaseTitleActivity) getActivity()).setTitle(title);
+        }
     }
 
     private void fillPages(SubjectReport response) {
@@ -121,10 +152,9 @@ public class ReportFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
         homePage.setStudent(UserManager.getInstance().getStuName());
         homePage.setGrade(GradeUtils.getGradeName(response.getGrade_id()));
+        String title = "麻辣老师学生的" + Subject.getSubjectName(subjectId) + "报告";
+        homePage.setSubject(title);
         homePage.setReportTime(reportTime);
-        if (getActivity() instanceof BaseTitleActivity) {
-            ((BaseTitleActivity) getActivity()).setTitle("学习报告");
-        }
     }
 
     private String getReportDatetime(List<ExerciseMonthTrend> month_trend) {
@@ -146,7 +176,7 @@ public class ReportFragment extends BaseFragment {
             homePage.setGrade(MathReportTemplate.getGrade());
             return;
         }
-        ApiExecutor.exec(new FetchSubjectReport(this, subjectId));
+        beginLoadData();
     }
 
 
@@ -176,6 +206,31 @@ public class ReportFragment extends BaseFragment {
         dotView.setLayoutParams(params);
     }
 
+    private void updateUI(int status) {
+        switch (status) {
+            case 0: //loading
+                statusLayout.setVisibility(View.VISIBLE);
+                statusImageView.setImageDrawable(animationDrawable);
+                animationDrawable.start();
+                statusButton.setText("正在获取学习报告数据");
+                statusButton.setBackground(null);
+                break;
+            case 1: //finished
+                statusLayout.setVisibility(View.GONE);
+                animationDrawable.stop();
+                statusButton.setText("学习报告加载失败，点击刷新");
+                statusButton.setBackgroundResource(R.drawable.report__bk_round_gray);
+                break;
+            case -1: //failed
+                statusLayout.setVisibility(View.VISIBLE);
+                animationDrawable.stop();
+                animationDrawable.selectDrawable(3);
+                statusButton.setText("学习报告加载失败，点击刷新");
+                statusButton.setBackgroundResource(R.drawable.report__bk_round_gray);
+                break;
+        }
+    }
+
     private static final class FetchSubjectReport extends BaseApiContext<ReportFragment, SubjectReport> {
 
         private long subjectId;
@@ -192,12 +247,14 @@ public class ReportFragment extends BaseFragment {
 
         @Override
         public void onApiSuccess(@NonNull SubjectReport response) {
+            get().updateUI(1);
             get().fillPages(response);
         }
 
         @Override
         public void onApiFailure(Exception exception) {
-            Log.i("mala", "error: " + exception.getMessage());
+            MiscUtil.toast("当前无法访问题目数据，请稍后再试");
+            get().updateUI(-1);
         }
     }
 }
