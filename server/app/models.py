@@ -2760,3 +2760,12 @@ class StaffPermission(BaseModel):
 
     def __str__(self):
         return '%s' % self.allowed_url_name
+
+
+class Favorite(BaseModel):
+    parent = models.ForeignKey(Parent)
+    teacher = models.ForeignKey(Teacher)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s is favored by %s' % (self.teacher.name, self.parent.student_name)
