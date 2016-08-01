@@ -22,8 +22,6 @@ $('.ext_btn_primary').click(function(){
   if(!itm.hasClass('ext_btn_disabled')){
     if(checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined){
       itm.addClass('ext_btn_disabled');
-      TimeEvent.start();
-      $('.ext_btn_primary').html('60秒');
       getSMSFromServer();
     }else{
       itm.removeClass('ext_btn_disabled');
@@ -58,10 +56,21 @@ function checkMobile(phone_val){
 }
 //得到sms
 function getSMSFromServer(){
+    var $btn = $('.ext_btn_primary');
     var phone_code = $('#phoneCode').val();
+    $.ajaxSettings.error = function(){ // in zepto.js
+        showToast("网络出现故障");
+        $btn.removeClass('ext_btn_disabled');
+    };
     $.post("/api/v1/sms",
       {action:"send", phone:phone_code},
       function(data){
+        if (data && data.sent) {
+            TimeEvent.start();
+        } else {
+            showToast("请稍后重试或联系客服");
+            $btn.removeClass('ext_btn_disabled');
+        }
       }
     );
 }

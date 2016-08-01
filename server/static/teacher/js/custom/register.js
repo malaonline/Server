@@ -20,10 +20,8 @@ $(
         get_sms_code_button.click(function(eventObject){
             eventObject.preventDefault();
             DisableGetSMSButton(true);
-            TimeEvent.start();
-            SetSMSButtonText(TimeEvent.rest_time() + "秒");
-            getSMSFromServer();
             ErrorOutputClear();
+            getSMSFromServer();
         });
 
         var agree_and_continue_button = $("#agree-and-continue");
@@ -219,6 +217,12 @@ function getSMSFromServer(){
     $.post("/api/v1/sms", {action:"send", phone:phone_code},
     function(data){
         console.log(data);
+        if (data && data.sent) {
+            TimeEvent.start();
+        } else {
+            ErrorOutput("请稍后重试或联系客服");
+            DisableGetSMSButton(false);
+        }
     });
 }
 

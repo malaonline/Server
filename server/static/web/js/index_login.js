@@ -12,10 +12,14 @@ $(
         sms_button.click(function(){
             var phone_val = _.extend(_.clone(InputVal), {element: "phone_input"});
             if(CheckInput.check() == true){
-                TimeEvent.start();
                 $.post("/api/v1/sms", {action:"send", phone:phone_val.val()},
                     function(data){
                         console.log(data);
+                        if (data && data.sent) {
+                            TimeEvent.start();
+                        } else {
+                            OutputVal.setVal("请稍后重试或联系客服");
+                        }
                     }
                 ).fail(function(){
                     OutputVal.setVal("网络出现故障");
