@@ -101,7 +101,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
     public var displayBackAndForwardButton: Bool = true
     public var disableVerticalSwipe: Bool = false
     public var displayDeleteButton = false
-    public var displayCloseButton = true // default is true
+    public var displayCloseButton = false // default is false
     /// If it is true displayCloseButton will be false
     public var displayCustomCloseButton = false
     /// If it is true displayDeleteButton will be false
