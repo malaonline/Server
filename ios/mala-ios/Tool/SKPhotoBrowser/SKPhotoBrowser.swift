@@ -126,6 +126,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
     private var toolNextButton: UIBarButtonItem!
     private var pagingScrollView: UIScrollView!
     private var panGesture: UIPanGestureRecognizer!
+    private var tapGesture: UITapGestureRecognizer!
     // MARK: close button
     private var closeButton: UIButton!
     private var closeButtonShowFrame: CGRect!
@@ -319,6 +320,8 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
         toolActionButton.tintColor = .whiteColor()
         
         // gesture
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(SKPhotoBrowser.closeButtonPressed(_:)))
+        view.addGestureRecognizer(tapGesture)
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(SKPhotoBrowser.panGestureRecognized(_:)))
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 1
@@ -1127,7 +1130,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate {
     }
     
     public func toggleControls() {
-        setControlsHidden(!areControlsHidden(), animated: true, permanent: false)
+        setControlsHidden(/*!areControlsHidden()*/false, animated: true, permanent: false)
     }
     
     public func setControlsHidden(hidden: Bool, animated: Bool, permanent: Bool) {
