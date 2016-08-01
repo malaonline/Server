@@ -65,6 +65,9 @@ class TeacherDetailsHeaderView: UIView {
         imageView.layer.cornerRadius = (MalaLayout_AvatarSize-5)*0.5
         imageView.layer.masksToBounds = true
         imageView.contentMode = .ScaleAspectFill
+        imageView.tag = 999
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsHeaderView.avatarDidTap)))
         return imageView
     }()
     /// 头像背景
@@ -325,6 +328,9 @@ class TeacherDetailsHeaderView: UIView {
         }
     }
     
+    @objc private func avatarDidTap() {
+        NSNotificationCenter.defaultCenter().postNotificationName(MalaNotification_PushPhotoBrowser, object: avatarView)
+    }
     
     deinit {
         println("TeacherDetailsHeaderView Deinit")

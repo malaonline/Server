@@ -219,11 +219,19 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                 // 相册图片
                 if let imageView = notification.object as? UIImageView, originImage = imageView.image {
                     
-                    let images = self?.model.photo_set?.map({ (imageURL) -> SKPhoto in
-                        let image = SKPhoto.photoWithImageURL(imageURL)
+                    var images: [SKPhoto]? = []
+                    
+                    if imageView.tag == 999 {
+                        let image = SKPhoto.photoWithImage(originImage)
                         image.shouldCachePhotoURLImage = true
-                        return image
-                    })
+                        images = [image]
+                    }else {
+                        images = self?.model.photo_set?.map({ (imageURL) -> SKPhoto in
+                            let image = SKPhoto.photoWithImageURL(imageURL)
+                            image.shouldCachePhotoURLImage = true
+                            return image
+                        })
+                    }
                     
                     /// 图片浏览器
                     let browser = SKPhotoBrowser(originImage: originImage, photos: images ?? [], animatedFromView: imageView)
