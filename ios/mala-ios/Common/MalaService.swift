@@ -503,6 +503,68 @@ func getUserNewMessageCount(failureHandler: ((Reason, String?) -> Void)?, comple
     }
 }
 
+///  获取用户收藏老师列表
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func getFavoriteTeachers(failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
+    
+    let parse: JSONDictionary -> [TeacherModel] = { data in
+        return parseFavoriteTeacherResult(data)
+    }
+    
+    let resource = authJsonResource(path: "/favorites", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  收藏老师
+///
+///  - parameter id:             老师id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func addFavoriteTeacher(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    let requestParameters = [
+        "teacher": id,
+        ]
+    
+    let parse: JSONDictionary -> Bool = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/favorites", method: .POST, requestParameters: requestParameters, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+///  取消收藏老师
+///
+///  - parameter id:             老师id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func removeFavoriteTeacher(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    let parse: JSONDictionary -> Bool = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/favorites/\(id)", method: .DELETE, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 
 // MARK: - Teacher
 ///  获取[指定老师]在[指定上课地点]的可用时间表
@@ -1180,4 +1242,16 @@ let parseSchoolsResult: JSONDictionary -> [SchoolModel] = { resultInfo in
         }
     }
     return schools
+}
+/// 老师收藏列表JSON解析器
+let parseFavoriteTeacherResult: JSONDictionary -> [TeacherModel] = { resultInfo in
+    
+    var teachers: [TeacherModel] = []
+    
+    if let results = resultInfo["results"] as? [JSONDictionary] where results.count > 0 {
+        for teacher in results {
+            teachers.append(TeacherModel(dict: teacher))
+        }
+    }
+    return teachers
 }

@@ -152,7 +152,9 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
     
     // MARK: - override
     override func reloadData() {
-        super.reloadData()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            super.reloadData()
+        })
         self.stopPullToRefresh()
     }
 }

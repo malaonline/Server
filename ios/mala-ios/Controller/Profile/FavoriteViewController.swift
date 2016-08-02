@@ -10,6 +10,13 @@ import UIKit
 
 class FavoriteViewController: BaseViewController {
 
+    // MARK: - Property
+    var model: [TeacherModel] = [] {
+        didSet {
+            tableView.teachers = model
+        }
+    }
+    
     // MARK: - Components
     /// 老师信息tableView
     private lazy var tableView: TeacherTableView = {
@@ -23,6 +30,7 @@ class FavoriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUserInterface()
+        loadFavoriteTeachers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,4 +54,22 @@ class FavoriteViewController: BaseViewController {
             make.bottom.equalTo(self.view.snp_bottom)
         }
     }
+    
+    private func loadFavoriteTeachers() {
+        println("获取收藏列表")
+        ///  获取学生课程信息
+        getFavoriteTeachers({ [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("FavoriteViewController - loadFavoriteTeachers Error \(errorMessage)")
+            }
+            // 显示缺省值
+            self?.model = []
+        }, completion: { [weak self] (teachers) in
+            println("收藏列表 － \(teachers)")
+            self?.model = teachers
+        })
+    }
+    
 }
