@@ -54,9 +54,9 @@ def sendCheckcode(phone, code):
     # msg = "【麻辣老师】您的验证码是{code}".format(check_code=str(code))
     # return sendSms(phone, msg)
     # 用模板	1273789【麻辣老师】您的验证码为#code#，请在1分钟内正确填写，请勿向任何人泄露。
-    # data = {'#code#': code}
-    # return _tpl_send_sms(phone, 1273789, data)
-    return try_send_sms(phone, 1273789, {'code': code}, 2)
+    data = {'#code#': code}
+    return _tpl_send_sms(phone, 1273789, data)
+    # return try_send_sms(phone, 1273789, {'code': code}, 2)
 
 
 def _tpl_send_sms(phone, tpl_id, tpl_value):
