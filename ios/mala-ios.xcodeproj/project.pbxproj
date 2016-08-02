@@ -157,7 +157,7 @@
 		35FDCE9B1CAD0A2300A25FE8 /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
 		35FDCE9C1CAD0A2300A25FE8 /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
 		35FDCE9D1CAD0A2300A25FE8 /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
-		35FDCE9E1CAD0A2300A25FE8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* HomeViewController.swift */; };
+		35FDCE9E1CAD0A2300A25FE8 /* FindTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* FindTeacherViewController.swift */; };
 		35FDCE9F1CAD0A2300A25FE8 /* TeacherDetailsHighScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */; };
 		35FDCEA01CAD0A2300A25FE8 /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
 		35FDCEA11CAD0A2300A25FE8 /* MalaSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40B53B11C7EF00E00C20037 /* MalaSupport.swift */; };
@@ -349,7 +349,7 @@
 		35FF7A9E1CF8325A000A70EE /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
 		35FF7A9F1CF8325A000A70EE /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
 		35FF7AA01CF8325A000A70EE /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
-		35FF7AA11CF8325A000A70EE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* HomeViewController.swift */; };
+		35FF7AA11CF8325A000A70EE /* FindTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* FindTeacherViewController.swift */; };
 		35FF7AA21CF8325A000A70EE /* TeacherDetailsHighScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */; };
 		35FF7AA31CF8325A000A70EE /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
 		35FF7AA41CF8325A000A70EE /* ThemeHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F0DDC1CF6E142004DC1A6 /* ThemeHorizontalBarChartView.swift */; };
@@ -545,7 +545,7 @@
 		35FF7B811CF83264000A70EE /* MalaLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F27EB1CA53A2900F0012C /* MalaLocationService.swift */; };
 		35FF7B821CF83264000A70EE /* UIScrollViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BD4FC91C744A8E00488613 /* UIScrollViewExtension.swift */; };
 		35FF7B831CF83264000A70EE /* MalaEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F48C59FE1C8703EA0024EE17 /* MalaEnum.swift */; };
-		35FF7B841CF83264000A70EE /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* HomeViewController.swift */; };
+		35FF7B841CF83264000A70EE /* FindTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* FindTeacherViewController.swift */; };
 		35FF7B851CF83264000A70EE /* TeacherDetailsHighScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3037B59D1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift */; };
 		35FF7B861CF83264000A70EE /* CourseChoosingServiceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5C2361C757EF600FB833B /* CourseChoosingServiceTableView.swift */; };
 		35FF7B871CF83264000A70EE /* ThemeHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45F0DDC1CF6E142004DC1A6 /* ThemeHorizontalBarChartView.swift */; };
@@ -788,7 +788,7 @@
 		F460650C1C96D363004056B1 /* UIImageView+Navi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065081C96D363004056B1 /* UIImageView+Navi.swift */; };
 		F46065201C97B168004056B1 /* CourseChoosingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065101C97B168004056B1 /* CourseChoosingViewController.swift */; };
 		F46065211C97B168004056B1 /* FilterResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065111C97B168004056B1 /* FilterResultController.swift */; };
-		F46065221C97B168004056B1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* HomeViewController.swift */; };
+		F46065221C97B168004056B1 /* FindTeacherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065121C97B168004056B1 /* FindTeacherViewController.swift */; };
 		F46065231C97B168004056B1 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065131C97B168004056B1 /* PaymentViewController.swift */; };
 		F46065241C97B168004056B1 /* TeacherDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065141C97B168004056B1 /* TeacherDetailsController.swift */; };
 		F46065251C97B168004056B1 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46065161C97B168004056B1 /* MainNavigationController.swift */; };
@@ -1130,7 +1130,7 @@
 		F46065081C96D363004056B1 /* UIImageView+Navi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Navi.swift"; sourceTree = "<group>"; };
 		F46065101C97B168004056B1 /* CourseChoosingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseChoosingViewController.swift; sourceTree = "<group>"; };
 		F46065111C97B168004056B1 /* FilterResultController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterResultController.swift; sourceTree = "<group>"; };
-		F46065121C97B168004056B1 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		F46065121C97B168004056B1 /* FindTeacherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindTeacherViewController.swift; sourceTree = "<group>"; };
 		F46065131C97B168004056B1 /* PaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		F46065141C97B168004056B1 /* TeacherDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeacherDetailsController.swift; sourceTree = "<group>"; };
 		F46065161C97B168004056B1 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
@@ -1838,7 +1838,7 @@
 			children = (
 				F46065101C97B168004056B1 /* CourseChoosingViewController.swift */,
 				F46065111C97B168004056B1 /* FilterResultController.swift */,
-				F46065121C97B168004056B1 /* HomeViewController.swift */,
+				F46065121C97B168004056B1 /* FindTeacherViewController.swift */,
 				F46065131C97B168004056B1 /* PaymentViewController.swift */,
 				F46065141C97B168004056B1 /* TeacherDetailsController.swift */,
 			);
@@ -2696,7 +2696,7 @@
 				F45F27EC1CA53A2900F0012C /* MalaLocationService.swift in Sources */,
 				F4BD4FCC1C744A8E00488613 /* UIScrollViewExtension.swift in Sources */,
 				F48C59FF1C8703EA0024EE17 /* MalaEnum.swift in Sources */,
-				F46065221C97B168004056B1 /* HomeViewController.swift in Sources */,
+				F46065221C97B168004056B1 /* FindTeacherViewController.swift in Sources */,
 				3037B59F1C3BAACB005672D9 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				F4C5C2371C757EF600FB833B /* CourseChoosingServiceTableView.swift in Sources */,
 				F45F0DDD1CF6E142004DC1A6 /* ThemeHorizontalBarChartView.swift in Sources */,
@@ -2909,7 +2909,7 @@
 				35FF7A9E1CF8325A000A70EE /* MalaLocationService.swift in Sources */,
 				35FF7A9F1CF8325A000A70EE /* UIScrollViewExtension.swift in Sources */,
 				35FF7AA01CF8325A000A70EE /* MalaEnum.swift in Sources */,
-				35FF7AA11CF8325A000A70EE /* HomeViewController.swift in Sources */,
+				35FF7AA11CF8325A000A70EE /* FindTeacherViewController.swift in Sources */,
 				35FF7AA21CF8325A000A70EE /* TeacherDetailsHighScoreCell.swift in Sources */,
 				35FF7AA31CF8325A000A70EE /* CourseChoosingServiceTableView.swift in Sources */,
 				35FF7AA41CF8325A000A70EE /* ThemeHorizontalBarChartView.swift in Sources */,
@@ -3122,7 +3122,7 @@
 				35FF7B811CF83264000A70EE /* MalaLocationService.swift in Sources */,
 				35FF7B821CF83264000A70EE /* UIScrollViewExtension.swift in Sources */,
 				35FF7B831CF83264000A70EE /* MalaEnum.swift in Sources */,
-				35FF7B841CF83264000A70EE /* HomeViewController.swift in Sources */,
+				35FF7B841CF83264000A70EE /* FindTeacherViewController.swift in Sources */,
 				35FF7B851CF83264000A70EE /* TeacherDetailsHighScoreCell.swift in Sources */,
 				35FF7B861CF83264000A70EE /* CourseChoosingServiceTableView.swift in Sources */,
 				35FF7B871CF83264000A70EE /* ThemeHorizontalBarChartView.swift in Sources */,
@@ -3314,7 +3314,7 @@
 				35FDCE9B1CAD0A2300A25FE8 /* MalaLocationService.swift in Sources */,
 				35FDCE9C1CAD0A2300A25FE8 /* UIScrollViewExtension.swift in Sources */,
 				35FDCE9D1CAD0A2300A25FE8 /* MalaEnum.swift in Sources */,
-				35FDCE9E1CAD0A2300A25FE8 /* HomeViewController.swift in Sources */,
+				35FDCE9E1CAD0A2300A25FE8 /* FindTeacherViewController.swift in Sources */,
 				35FDCE9F1CAD0A2300A25FE8 /* TeacherDetailsHighScoreCell.swift in Sources */,
 				35FDCEA01CAD0A2300A25FE8 /* CourseChoosingServiceTableView.swift in Sources */,
 				35FDCEA11CAD0A2300A25FE8 /* MalaSupport.swift in Sources */,

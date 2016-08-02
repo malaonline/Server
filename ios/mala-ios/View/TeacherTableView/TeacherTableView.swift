@@ -85,7 +85,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
             return teachers.count ?? 0
             
         case Section.LoadMore.rawValue:
-            if (controller as? HomeViewController)?.allTeacherCount == teachers.count {
+            if (controller as? FindTeacherViewController)?.allTeacherCount == teachers.count {
                 return 0
             }else if (controller as? FilterResultController)?.allTeacherCount == teachers.count {
                 return 0
@@ -132,7 +132,7 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
                     cell.activityIndicator.startAnimating()
                 }
                 
-                if let viewController = (controller as? HomeViewController) {
+                if let viewController = (controller as? FindTeacherViewController) {
                     viewController.loadTeachers(isLoadMore: true, finish: { [weak cell] in
                         cell?.activityIndicator.stopAnimating()
                         })

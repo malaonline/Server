@@ -12,7 +12,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     // MARK: - Property
     enum FlowLayoutType {
-        case HomeView
+        case findTeacherView
         case FilterView
         case SubjectView
         case GradeSelection
@@ -27,8 +27,8 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
         
         // 根据Type来应用对应的布局样式
         switch layoutType {
-        case .HomeView:
-            homeViewFlowLayout()
+        case .findTeacherView:
+            findTeacherViewFlowLayout()
         case .FilterView:
             filterViewFlowLayout()
         case .SubjectView:
@@ -48,7 +48,7 @@ class CommonFlowLayout: UICollectionViewFlowLayout {
     
     
     // MARK: - Private Method
-    private func homeViewFlowLayout() {
+    private func findTeacherViewFlowLayout() {
         scrollDirection = .Vertical
         let itemWidth: CGFloat = MalaScreenWidth*0.47
         let itemHeight: CGFloat = itemWidth*1.28

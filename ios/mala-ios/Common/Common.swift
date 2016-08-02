@@ -57,7 +57,7 @@ let MalaNotification_ReloadLearningReport = "com.malalaoshi.app.ReloadLearningRe
 
 
 // MARK: - Screen Name For Analytics
-let SAHomeViewName = "找老师(iOS)"
+let SAfindTeacherName = "找老师(iOS)"
 let SATeacherDetailName = "老师详情(iOS)"
 let SACourseChoosingViewName = "课程购买(iOS)"
 let SAOrderViewName = "订单预览(iOS)"

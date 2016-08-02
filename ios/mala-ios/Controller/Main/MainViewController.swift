@@ -13,9 +13,9 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: - Components
     /// 首页
-    private lazy var homeViewController: MainNavigationController = {
+    private lazy var findTeacherViewController: MainNavigationController = {
         let naviVC = self.getNaviController(
-            HomeViewController(),
+            FindTeacherViewController(),
             title: MalaCommonString_FindTeacher,
             imageName: "search_normal"
         )
@@ -96,7 +96,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     private func setupTabBar() {
         let viewControllers: [UIViewController] = [
-            homeViewController,
+            findTeacherViewController,
             classScheduleViewController,
             memberPrivilegesViewController,
             profileViewController

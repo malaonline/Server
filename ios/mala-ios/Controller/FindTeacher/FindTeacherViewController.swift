@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  FindTeacherViewController.swift
 //  mala-ios
 //
 //  Created by Elors on 12/18/15.
@@ -10,7 +10,7 @@ import UIKit
 
 private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 
-class HomeViewController: UIViewController {
+class FindTeacherViewController: UIViewController {
     
     // MARK: - Property
     private var filterResultDidShow: Bool = false
@@ -45,7 +45,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        sendScreenTrack(SAHomeViewName)
+        sendScreenTrack(SAfindTeacherName)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -104,7 +104,7 @@ class HomeViewController: UIViewController {
                 imageName: "location_normal",
                 highlightImageName: "location_press",
                 target: self,
-                action: #selector(HomeViewController.profileButtonDidClick)
+                action: #selector(FindTeacherViewController.profileButtonDidClick)
             )
         )
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
@@ -115,7 +115,7 @@ class HomeViewController: UIViewController {
                 imageName: "filter_normal",
                 highlightImageName: "filter_press",
                 target: self,
-                action: #selector(HomeViewController.filterButtonDidClick)
+                action: #selector(FindTeacherViewController.filterButtonDidClick)
             )
         )
         navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
@@ -140,11 +140,11 @@ class HomeViewController: UIViewController {
         }
         MalaNetworking.sharedTools.loadTeachers(filters, page: currentPageIndex) { [weak self] result, error in
             if error != nil {
-                println("HomeViewController - loadTeachers Request Error")
+                println("FindTeacherViewController - loadTeachers Request Error")
                 return
             }
             guard let dict = result as? [String: AnyObject] else {
-                println("HomeViewController - loadTeachers Format Error")
+                println("FindTeacherViewController - loadTeachers Format Error")
                 return
             }
             
