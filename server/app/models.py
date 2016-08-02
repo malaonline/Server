@@ -2772,3 +2772,7 @@ class Favorite(BaseModel):
 
     def __str__(self):
         return '%s is favored by %s' % (self.teacher.name, self.parent.student_name)
+
+    @staticmethod
+    def isFavorite(parent, teacher):
+        return Favorite.objects.filter(parent=parent, teacher=teacher).exists()

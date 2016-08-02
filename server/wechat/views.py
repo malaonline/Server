@@ -75,8 +75,8 @@ class TeachersView(ListView):
         return teacher_list
 
 
-class TeacherDetailView(DetailView):
-    model = models.Teacher
+# class TeacherDetailView(DetailView):
+#     model = models.Teacher
 
 
 class SchoolsView(ListView):
@@ -655,6 +655,7 @@ def teacher_view(request):
 
     teacher = None
     gender = None
+    parent = _get_parent(request)
     try:
         teacher = models.Teacher.objects.get(id=teacherid)
         profile = models.Profile.objects.get(user=teacher.user)
@@ -718,7 +719,10 @@ def teacher_view(request):
         "grades_tree": grades_tree,
         "teacher_grade_ids": teacher_grade_ids,
         "teacher": teacher,
-        "schools": schools
+        "schools": schools,
+        "hasLogin": parent and True or False,
+        "isFavorite": parent and models.Favorite.isFavorite(parent, teacher) or False,
+        "isTesting": settings.TESTING
     }
 
     return render(request, template_name, context)
@@ -777,12 +781,20 @@ def calculateDistance(pointA, pointB):
 @csrf_exempt
 def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
+    teacherId = request.GET.get('state', None) # 注册, 报名, 收藏
 
     openid = request.GET.get("openid", None)
     if not openid:
         openid = request.POST.get("openid", None)
+    if not openid and settings.TESTING:
+        # the below line is real wx_openid, but not related with ours server
+        openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
+
+    nextpage = _get_reg_next_page(teacherId, openid)
     context = {
-        "openid": openid
+        "openid": openid,
+        "teacherId": teacherId,
+        "nextpage": nextpage
     }
     return render(request, template_name, context)
 
@@ -810,7 +822,7 @@ def add_openid(request):
     Parent = models.Parent
     try:
         profile = Profile.objects.get(phone=phone)
-        if profile.wx_openid == openid:
+        if profile.wx_openid != openid:
             return JsonResponse({
                 "result": False,
                 "code": -3
@@ -818,7 +830,6 @@ def add_openid(request):
         profile.wx_openid = openid
         profile.save()
         user = profile.user
-        user.backend = _get_default_bankend_path()
         parent = Parent.objects.get(user=user)
     except Profile.DoesNotExist:
         # new user
@@ -832,16 +843,31 @@ def add_openid(request):
         parent = Parent(user=user)
         parent.save()
 
+    parent.user.backend = _get_default_bankend_path()
+    login(request, parent.user)
+
     return JsonResponse({
         "result": True
     })
+
+
+def _get_reg_next_page(state, openid):
+    '''
+    微信注册后的下一个页面
+    '''
+    if not state or state == 'ONLY_REGISTER':
+        return reverse('wechat:register')+'?step=success'
+    if state.startswith('FAVORITE_'):
+        id = state[len('FAVORITE_'):]
+        return reverse('wechat:teacher')+'?teacherid='+str(id)
+    return reverse('wechat:order-course-choosing')+'?teacher_id='+str(state)+'&openid='+str(openid)
 
 
 @csrf_exempt
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
     wx_code = request.GET.get('code', None)
-    teacherId = request.GET.get('state', None)
+    teacherId = request.GET.get('state', None) # 注册, 报名, 收藏
 
     if wx_code is None or wx_code == 'None' or wx_code == '':
         return HttpResponse(json.dumps({
@@ -865,10 +891,7 @@ def check_phone(request):
     else:
         logger.debug(req.status_code)
 
-    if teacherId == 'ONLY_REGISTER':
-        nextpage = reverse('wechat:register')+'?step=success'
-    else:
-        nextpage = reverse('wechat:order-course-choosing')+'?teacher_id='+str(teacherId)+'&openid='+str(openid)
+    nextpage = _get_reg_next_page(teacherId, openid)
 
     if openid:
         profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')

@@ -454,6 +454,19 @@ if(window.jQuery || window.Zepto){
     }
   })( window.jQuery || window.Zepto )
 }
+
+function showToast(txt){
+  var $toast = $('#toast');
+  if ($toast.css('display') != 'none'){
+    return;
+  }
+  $('.weui_toast').html(txt);
+  $toast.show();
+  setTimeout(function(){
+    $toast.hide();
+  }, 1500);
+}
+
 var middlefyImg = function (img_ele) {
     var h = img_ele.height;
     if (!h || isNaN(h)) return;
@@ -606,4 +619,29 @@ $('.ext_weui_btn_submit').click(function(){
               +'&connect_redirect=1#wechat_redirect'
 
   location.href = href;
+});
+$('.ext_weui_btn_like').click(function(){
+  if (!hasLogin) {
+    var state = "FAVORITE_"+teacherid;
+    if (isTesting) {
+      href = phonePage + '?state='+state;
+    } else {
+      href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wx_appid
+              +'&redirect_uri=' + encodeURI(checkPhoneURI)
+              +'&response_type=code'
+              +'&scope=snsapi_base'
+              +'&state=' + state
+              +'&connect_redirect=1#wechat_redirect';
+    }
+    location.href = href;
+    return;
+  }
+  var $icHeart = $('#icHeart');
+  if ($icHeart.attr('src')==icHeartUrl) {
+    showToast("收藏成功, 请下载APP查看收藏列表");
+    $icHeart.attr('src', icHeartRedUrl);
+  } else {
+    showToast("取消收藏成功");
+    $icHeart.attr('src', icHeartUrl);
+  }
 });

@@ -13,7 +13,7 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}?v=2.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'wechat/less/teacher/teacher.less'|compile %}?v=2.1">
     <script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
         var wx_appid = '{{ WX_APPID }}';
@@ -39,6 +39,9 @@
                 }
             });
         });
+        var hasLogin = {% if hasLogin %}true{% else %}false{% endif %};
+        var isTesting = {% if isTesting %}true{% else %}false{% endif %};
+        var phonePage = '{% if isTesting %}{% url 'wechat:phone_page' %}{% endif %}';
         var teacherid = "{{teacher.id}}";
         var userPhotos = [];
         var schoolPhotos = [];
@@ -46,6 +49,8 @@
         var pullDownImg = '{% static "common/icons/pull_down.png" %}';
         var pullUpImg = '{% static "common/icons/pull_up.png" %}';
         var moreImg = '{% static "common/icons/more.png" %}';
+        var icHeartUrl = '{% static 'wechat/images/ic_heart.png' %}';
+        var icHeartRedUrl = '{% static 'wechat/images/ic_heart_red.png' %}';
         {% if teacher.photo_set.all%}
             {% for photo in teacher.photo_set.all %}
                 userPhotos[userPhotos.length] = "{{ photo.img_url|safe }}";
@@ -112,7 +117,11 @@
             $('#moreSchoolDown').attr('src', pullDownImg);
             $('#moreSchoolUp').attr('src', pullUpImg);
             $('#morePhotos').attr('src', moreImg);
-            $('#icHeart').attr('src', '{% static 'wechat/images/ic_heart.png' %}');
+            {% if isFavorite %}
+                $('#icHeart').attr('src', icHeartRedUrl);
+            {% else %}
+                $('#icHeart').attr('src', icHeartUrl);
+            {% endif %}
         };
         function pageload(){
             initIcons();
@@ -345,7 +354,12 @@
     <div class="swipe-wrap">
     </div>
 </div>
+<div id="toast" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+    </div>
+</div>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script src="{% static 'wechat/js/teacher/teacher.js' %}?v=2.0"></script>
+<script src="{% static 'wechat/js/teacher/teacher.js' %}?v=2.1"></script>
 </body>
 </html>

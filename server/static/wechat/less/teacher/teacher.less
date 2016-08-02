@@ -15,6 +15,10 @@
 // card
 @import "../../../common/less/weui/widget/weui_panel/weui_panel";
 
+// tips
+@import "../../../common/less/weui/widget/weui_tips/weui_toast";
+@import "../../../common/less/weui/widget/weui_tips/weui_mask";
+
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, del, dfn, em, img, ins, kbd, q, samp, small, strong, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, footer, header, nav, section {
   margin:0;
   padding:0;
@@ -397,6 +401,16 @@ a{
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     overflow: hidden;
 }
+.weui_toast{
+    padding: 0 30px;
+    width: auto;
+    min-height: 3.6em;
+    max-height: 7.2em;
+    height: auto;
+    line-height: 3.6em;
+    left: 33%;
+    top: 88%;
+}
 .submit_content{
   text-align: center;
   width: 100%;
@@ -408,8 +422,7 @@ a{
   >div{
     float: left;
     &.like {
-      display: none;
-      width: 0;
+      width: 45%;
       padding: 3px 0;
       font-size: 14px;
       color: #6c6c6c;
@@ -419,7 +432,7 @@ a{
       }
     }
     &.go {
-      width: 100%;
+      width: 55%;
       background-color: #77b4da;
     }
   }
