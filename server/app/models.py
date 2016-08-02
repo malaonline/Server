@@ -2763,6 +2763,9 @@ class StaffPermission(BaseModel):
 
 
 class Favorite(BaseModel):
+    class Meta:
+        ordering = ["-created_at"]
+
     parent = models.ForeignKey(Parent)
     teacher = models.ForeignKey(Teacher)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1464,3 +1464,48 @@ class StudyReportView(ParentBasedMixin, APIView):
             raise KuailexueDataError(
                     'get kuailexue wrong data, CODE: %s, MSG: %s'
                     % (ret_json.get('code'), ret_json.get('message')))
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Favorite
+        fields = ('teacher',)
+
+
+class FavoriteViewSet(ParentBasedMixin,
+                      mixins.CreateModelMixin,
+                      mixins.ListModelMixin,
+                      mixins.DestroyModelMixin,
+                      viewsets.GenericViewSet):
+    queryset = models.Teacher.objects.all()
+    serializer_class = FavoriteSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        parent = self.get_parent()
+        queryset = models.Favorite.objects.filter(parent=parent)
+        if self.action == 'list':
+            # 返回被收藏老师列表
+            return [f.teacher for f in queryset]
+        if self.action == 'destroy':
+            # 取消收藏, 给的是老师 id, queryset 用老师的
+            return models.Teacher.objects.all()
+        return queryset
+
+    def perform_create(self, serializer):
+        parent = self.get_parent()
+        serializer.save(parent=parent)
+
+    def destroy(self, request, *args, **kwargs):
+        # 取消收藏, 给的是老师 id
+        teacher = self.get_object()
+        parent = self.get_parent()
+        models.Favorite.objects.filter(teacher=teacher, parent=parent).delete()
+        return JsonResponse({'ok': True})
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            # 收藏列表用老师序列化接口
+            return TeacherSerializer
+        # 新增、删除, 用收藏序列化接口
+        return FavoriteSerializer
