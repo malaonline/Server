@@ -103,7 +103,26 @@ tags=1+3+2
 ```
 
 ```
-return same as "Teacher Instance"
+{
+    "count": 2,
+    "next": "http://127.0.0.1:8000/api/v1/teachers?page=2",
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "avatar": "https:/stnhsh.sths.....",
+            "gender": "m",
+            "name": "lll",
+            "level": 2,
+            "min_price": 90,
+            "max_price": 200,
+            "subject": "语文",
+            "grades_shortname": "小初"
+            "tags": ["幽默", "亲切"],
+        },
+        ...
+    ]
+}
 ```
 
 ### Teacher Instance

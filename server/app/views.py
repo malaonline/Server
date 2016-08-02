@@ -1508,7 +1508,7 @@ class FavoriteViewSet(ParentBasedMixin,
 
     def get_serializer_class(self):
         if self.action == 'list':
-            # 收藏列表用老师序列化接口
-            return TeacherSerializer
+            # 收藏列表用老师列表序列化接口
+            return TeacherListSerializer
         # 新增、删除, 用收藏序列化接口
         return FavoriteSerializer
