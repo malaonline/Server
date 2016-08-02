@@ -182,7 +182,9 @@ GET /api/v1/teachers/{teacher id}
         }
     ],
     "min_price": 90,
-    "max_price": 200
+    "max_price": 200,
+    "published": true,
+    "favorite": false
 }
 ```
 

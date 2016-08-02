@@ -555,13 +555,26 @@ class TeacherSerializer(serializers.ModelSerializer):
     subject = SubjectNameSerializer()
     highscore_set = HighscoreSerializer(many=True)
     photo_set = PhotoUrlSerializer(many=True)
+    # Create a custom method field
+    favorite = serializers.SerializerMethodField('_favorite')
+
+    # Use this method for the custom field
+    def _favorite(self, obj):
+        teacher = obj
+        try:
+            parent = self.context['request'].user.parent
+            if teacher.favorite_set.all().filter(parent=parent).count() > 0:
+                return True
+        except (AttributeError, exceptions.ObjectDoesNotExist):
+            pass
+        return False
 
     class Meta:
         model = models.Teacher
         fields = ('id', 'avatar', 'gender', 'name', 'degree', 'teaching_age',
                   'level', 'subject', 'grades', 'tags', 'achievement_set',
                   'photo_set', 'highscore_set', 'prices', 'min_price',
-                  'max_price')
+                  'max_price', 'published', 'favorite',)
 
 
 class TeacherNameSerializer(serializers.ModelSerializer):
@@ -573,10 +586,12 @@ class TeacherNameSerializer(serializers.ModelSerializer):
 
 
 class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Teacher.objects.filter(published=True)
+    queryset = models.Teacher.objects.all()
 
     def get_queryset(self):
         queryset = self.queryset
+        if self.action == 'list':
+            queryset = queryset.filter(published=True)
 
         grade = self.request.query_params.get('grade', None) or None
         if grade is not None:
