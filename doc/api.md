@@ -1028,12 +1028,19 @@ return same as "Teacher List"
 ### Add Favorite Teacher
 
 ```
-POST /api/v1/favorites/teacher={teacher id}
+POST /api/v1/favorites
 ```
 
 header data:
 ```
 HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+data:
+```
+{
+    'teacher': {teacher id},
+}
 ```
 
 result:
