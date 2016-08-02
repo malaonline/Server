@@ -8,8 +8,16 @@
 
 import UIKit
 
-class FavoriteViewController: BaseTableViewController {
+class FavoriteViewController: BaseViewController {
 
+    // MARK: - Components
+    /// 老师信息tableView
+    private lazy var tableView: TeacherTableView = {
+        let tableView = TeacherTableView(frame: self.view.frame, style: .Plain)
+        tableView.controller = self
+        return tableView
+    }()
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -28,9 +36,14 @@ class FavoriteViewController: BaseTableViewController {
         view.backgroundColor = UIColor.whiteColor()
         
         // SubViews
-        
+        view.addSubview(tableView)
         
         // AutoLayout
-    
+        tableView.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(self.view.snp_top)
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
+            make.bottom.equalTo(self.view.snp_bottom)
+        }
     }
 }
