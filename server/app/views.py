@@ -1477,7 +1477,7 @@ class FavoriteViewSet(ParentBasedMixin,
                       mixins.ListModelMixin,
                       mixins.DestroyModelMixin,
                       viewsets.GenericViewSet):
-    queryset = models.Teacher.objects.all()
+    queryset = models.Favorite.objects.all()
     serializer_class = FavoriteSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -1494,7 +1494,10 @@ class FavoriteViewSet(ParentBasedMixin,
 
     def perform_create(self, serializer):
         parent = self.get_parent()
-        serializer.save(parent=parent)
+        teacher = self.request.POST.get('teacher', None)
+        if models.Favorite.objects.filter(teacher=teacher,
+                                          parent=parent).count() == 0:
+            serializer.save(parent=parent)
 
     def destroy(self, request, *args, **kwargs):
         # 取消收藏, 给的是老师 id
