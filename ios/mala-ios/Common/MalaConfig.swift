@@ -190,13 +190,11 @@ public class MalaConfig {
             [
                 ProfileElementModel(
                     id: 0,
-                    controller: OrderFormViewController.self,
+                    controller: FavoriteViewController.self,
                     controllerTitle: "我的收藏",
                     type: nil,
                     iconName: "profile_collect",
-                    newMessageIconName: "",
-                    disabled: true,
-                    disabledMessage: "敬请期待"
+                    newMessageIconName: ""
                 ),
                 ProfileElementModel(
                     id: 1,

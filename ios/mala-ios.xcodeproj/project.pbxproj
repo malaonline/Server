@@ -705,6 +705,9 @@
 		F41A01B01D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
 		F41A01B11D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
 		F41A01B21D2220AF0069CF29 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */; };
+		F4215D6B1D50521A0014B653 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4215D6A1D50521A0014B653 /* FavoriteViewController.swift */; };
+		F4215D6C1D50521A0014B653 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4215D6A1D50521A0014B653 /* FavoriteViewController.swift */; };
+		F4215D6D1D50521A0014B653 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4215D6A1D50521A0014B653 /* FavoriteViewController.swift */; };
 		F427FF9A1CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */; };
 		F427FF9C1CEC1CE100EAB748 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9B1CEC1CE100EAB748 /* PageControl.swift */; };
 		F427FF9E1CEC1DFA00EAB748 /* ThemeIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */; };
@@ -1046,6 +1049,7 @@
 		F41A01A71D20E15F0069CF29 /* KYCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KYCircularProgress.swift; sourceTree = "<group>"; };
 		F41A01AB1D212B1F0069CF29 /* MalaBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MalaBaseCell.swift; sourceTree = "<group>"; };
 		F41A01AF1D2220AF0069CF29 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
+		F4215D6A1D50521A0014B653 /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 		F427FF991CEB0B5C00EAB748 /* MemberSerivceCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberSerivceCollectionView.swift; sourceTree = "<group>"; };
 		F427FF9B1CEC1CE100EAB748 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		F427FF9D1CEC1DFA00EAB748 /* ThemeIntroductionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeIntroductionView.swift; sourceTree = "<group>"; };
@@ -1869,6 +1873,7 @@
 				F460651E1C97B168004056B1 /* ProfileViewController.swift */,
 				F460652C1C97B1C8004056B1 /* AboutViewController.swift */,
 				F43F44C01D06B14A00B7A358 /* CommentViewController.swift */,
+				F4215D6A1D50521A0014B653 /* FavoriteViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2706,6 +2711,7 @@
 				F48C5A061C87F7EF0024EE17 /* CouponViewCell.swift in Sources */,
 				3037B5A81C3BAC4F005672D9 /* TeacherDetailsPlaceCell.swift in Sources */,
 				F40D896A1C7DB50700BD6871 /* MalaUserDefaults.swift in Sources */,
+				F4215D6B1D50521A0014B653 /* FavoriteViewController.swift in Sources */,
 				F43F44C51D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				F427FFAD1CEDA36500EAB748 /* LearningReportAbilityStructureCell.swift in Sources */,
 				F460650B1C96D363004056B1 /* UIImage+Navi.swift in Sources */,
@@ -2918,6 +2924,7 @@
 				35FF7AAA1CF8325A000A70EE /* CouponViewCell.swift in Sources */,
 				35FF7AAB1CF8325A000A70EE /* TeacherDetailsPlaceCell.swift in Sources */,
 				35FF7AAC1CF8325A000A70EE /* MalaUserDefaults.swift in Sources */,
+				F4215D6C1D50521A0014B653 /* FavoriteViewController.swift in Sources */,
 				F43F44C61D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				35FF7AAD1CF8325A000A70EE /* LearningReportAbilityStructureCell.swift in Sources */,
 				35FF7AAE1CF8325A000A70EE /* UIImage+Navi.swift in Sources */,
@@ -3130,6 +3137,7 @@
 				35FF7B8D1CF83264000A70EE /* CouponViewCell.swift in Sources */,
 				35FF7B8E1CF83264000A70EE /* TeacherDetailsPlaceCell.swift in Sources */,
 				35FF7B8F1CF83264000A70EE /* MalaUserDefaults.swift in Sources */,
+				F4215D6D1D50521A0014B653 /* FavoriteViewController.swift in Sources */,
 				F43F44C71D06B66800B7A358 /* CommentViewCell.swift in Sources */,
 				35FF7B901CF83264000A70EE /* LearningReportAbilityStructureCell.swift in Sources */,
 				35FF7B911CF83264000A70EE /* UIImage+Navi.swift in Sources */,
@@ -3475,7 +3483,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3504,7 +3512,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3589,7 +3597,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3618,7 +3626,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
