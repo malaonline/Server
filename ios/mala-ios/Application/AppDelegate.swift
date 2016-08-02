@@ -166,11 +166,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assert(configureError == nil, "Error configuring Google services: \(configureError)")
         
         // Optional: configure GAI options.
-        let gai = GAI.sharedInstance()
+        // let gai = GAI.sharedInstance()
         // gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        #if DevDebug
-            gai.logger.logLevel = GAILogLevel.Verbose
-        #endif
+        // gai.logger.logLevel = GAILogLevel.Verbose
         
         
         
