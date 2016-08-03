@@ -329,6 +329,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         }
     }
     
+    func likeButtonDidTap(sender: UIButton) {
+        println("like button did tap")
+    }
+    
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let displacement = scrollView.contentOffset.y
         

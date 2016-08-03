@@ -11,6 +11,7 @@ import UIKit
 // MARK: - SignupButtonDelegate
 protocol SignupButtonDelegate: class, NSObjectProtocol {
     func signupButtonDidTap(sender: UIButton)
+    func likeButtonDidTap(sender: UIButton)
 }
 
 // MARK: - TeacherDetailsSignupView
@@ -37,6 +38,7 @@ class TeacherDetailsSignupView: UIView {
         button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
         button.imageEdgeInsets = UIEdgeInsets(top: -8, left: 10.35, bottom: 8, right: -10.35)
         button.titleEdgeInsets = UIEdgeInsets(top: 8, left: -10.25, bottom: -8, right: 10.25)
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
     /// 报名按钮
@@ -47,7 +49,7 @@ class TeacherDetailsSignupView: UIView {
             backgroundColor: MalaColor_7FB4DC_0
         )
         // button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
-        button.addTarget(self, action: #selector(TeacherDetailsSignupView.buttonDidTap), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
     
@@ -70,7 +72,7 @@ class TeacherDetailsSignupView: UIView {
 
         // SubViews
         self.addSubview(topLine)
-        // self.addSubview(likeButton)  //TODO: 暂时不加入收藏功能
+         self.addSubview(likeButton)
         self.addSubview(button)
         
         // Autolayout
@@ -80,17 +82,15 @@ class TeacherDetailsSignupView: UIView {
             make.top.equalTo(self.snp_top)
             make.height.equalTo(MalaScreenOnePixel)
         })
-        // likeButton.snp_makeConstraints(closure: { (make) -> Void in
-            // make.top.equalTo(topLine.snp_bottom)
-            // make.left.equalTo(self.snp_left)
-            // make.bottom.equalTo(self.snp_bottom)
-            // make.right.equalTo(self.snp_right).multipliedBy(0.422)
-        // })
+         likeButton.snp_makeConstraints(closure: { (make) -> Void in
+             make.top.equalTo(topLine.snp_bottom)
+             make.left.equalTo(self.snp_left)
+             make.bottom.equalTo(self.snp_bottom)
+             make.right.equalTo(self.snp_right).multipliedBy(0.422)
+         })
         button.snp_makeConstraints(closure: { (make) -> Void in
-            // make.top.equalTo(topLine.snp_bottom)
-            // make.left.equalTo(likeButton.snp_right)
-            make.top.equalTo(self.snp_top)
-            make.left.equalTo(self.snp_left)
+            make.top.equalTo(topLine.snp_bottom)
+            make.left.equalTo(likeButton.snp_right)
             make.bottom.equalTo(self.snp_bottom)
             make.right.equalTo(self.snp_right)
         })
@@ -98,10 +98,13 @@ class TeacherDetailsSignupView: UIView {
     
     
     // MARK: - Event Response
-    @objc private func buttonDidTap() {
+    @objc private func signupButtonDidTap() {
         delegate?.signupButtonDidTap(self.button)
     }
 
+    @objc private func likeButtonDidTap() {
+        delegate?.likeButtonDidTap(self.button)
+    }
     
     deinit {
         println("TeacherDetailsSignupView Deinit")
