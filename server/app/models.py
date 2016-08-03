@@ -2135,7 +2135,7 @@ class TimeSlot(BaseModel):
     TRAFFIC_TIME = datetime.timedelta(hours=1)
     RENEW_TIME = datetime.timedelta(hours=12)
     SHORTTERM = datetime.timedelta(days=7)
-    GRACE_TIME = datetime.timedelta(days=2)
+    GRACE_TIME = datetime.timedelta(days=0)  # 测评建档时间暂时拿掉
     CONFIRM_TIME = datetime.timedelta(hours=2)
     REMIND_TIME = datetime.timedelta(hours=2)
     COMMENT_DELAY = datetime.timedelta(days=15)
