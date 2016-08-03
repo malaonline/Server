@@ -365,7 +365,6 @@ public class TeacherInfoActivity extends BaseActivity
     private void loadTeacherInfoSuccess(@NonNull Teacher teacher) {
         mTeacher = teacher;
         updateUI(mTeacher);
-        tvSignUp.setEnabled(true);
     }
 
     private void updateBlurImage(final String url) {
@@ -469,6 +468,14 @@ public class TeacherInfoActivity extends BaseActivity
                 tvCollection.setCompoundDrawables(null, drawCollection,null,null);
             }else{
                 tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+            }
+
+            if (mTeacher.isPublished()){
+                tvSignUp.setEnabled(true);
+            }else
+            {
+                tvSignUp.setEnabled(false);
+                tvSignUp.setText("已下架");
             }
 
         }
