@@ -571,6 +571,33 @@ func removeFavoriteTeacher(id: Int, failureHandler: ((Reason, String?) -> Void)?
 
 
 // MARK: - Teacher
+///  获取老师详情数据
+///
+///  - parameter id:             老师id
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func loadTeacherDetailData(id: Int, failureHandler: ((Reason, String?) -> Void)?, completion: TeacherDetailModel? -> Void) {
+    
+    let parse: JSONDictionary -> TeacherDetailModel? = { data in
+        let model: TeacherDetailModel?
+        model = TeacherDetailModel(dict: data)
+        return model
+    }
+    
+    var resource: Resource<TeacherDetailModel>?
+    
+    if MalaUserDefaults.isLogined {
+        resource = authJsonResource(path: "/teachers/\(id)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    }else {
+        resource = jsonResource(path: "/teachers/\(id)", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    }
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource!, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource!, failure: defaultFailureHandler, completion: completion)
+    }
+}
 ///  获取[指定老师]在[指定上课地点]的可用时间表
 ///
 ///  - parameter teacherID:      老师id

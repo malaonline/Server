@@ -32,13 +32,22 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     var teacherID: Int = 0
     var model: TeacherDetailModel = MalaConfig.defaultTeacherDetail() {
         didSet {
-            MalaOrderOverView.avatarURL = model.avatar
-            MalaOrderOverView.teacherName = model.name
-            MalaOrderOverView.subjectName = model.subject
-            MalaOrderOverView.teacher = model.id
-            
-            tableHeaderView.model = model
-            tableView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
+                
+                guard let strongSelf = self else {
+                    return
+                }
+                MalaOrderOverView.avatarURL = strongSelf.model.avatar
+                MalaOrderOverView.teacherName = strongSelf.model.name
+                MalaOrderOverView.subjectName = strongSelf.model.subject
+                MalaOrderOverView.teacher = strongSelf.model.id
+                
+                strongSelf.tableHeaderView.model = strongSelf.model
+                strongSelf.tableView.reloadData()
+                
+                strongSelf.signupView.isPublished = strongSelf.model.published
+                strongSelf.signupView.isFavorite = strongSelf.model.favorite
+            })
         }
     }
     var schoolArray: [SchoolModel] = [SchoolModel(id: 0, name: "线下体验店", address: "----")] {
@@ -248,17 +257,19 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     private func loadTeacherDetail() {
-        MalaNetworking.sharedTools.loadTeacherDetail(self.teacherID, finished: {[weak self] (result, error) -> () in
+        
+        loadTeacherDetailData(teacherID, failureHandler: { (reason, errorMessage) in
             ThemeHUD.hideActivityIndicator()
-            if error != nil {
-                println("TeahcerDeatilsController - loadTeacherDetail Request Error")
-                return
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadTeacherDetail Error \(errorMessage)")
             }
-            guard let dict = result as? [String: AnyObject] else {
-                println("TeahcerDeatilsController - loadTeacherDetail Format Error")
-                return
+        }, completion: { [weak self] (model) in
+            ThemeHUD.hideActivityIndicator()
+            if let model = model {
+                self?.model = model
             }
-            self?.model = TeacherDetailModel(dict: dict)
             self?.requiredCount += 1
         })
     }
@@ -280,8 +291,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         })
     }
     
-    private func likeTeacher(id: Int = 1) {
-        addFavoriteTeacher(id, failureHandler: { (reason, errorMessage) in
+    private func likeTeacher() {
+        addFavoriteTeacher(teacherID, failureHandler: { (reason, errorMessage) in
             // 错误处理
             if let errorMessage = errorMessage {
                 println("TeacherDetailsController - likeTeacher Error \(errorMessage)")
@@ -291,8 +302,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         })
     }
     
-    private func dislikeTeacher(id: Int = 1) {
-        removeFavoriteTeacher(id, failureHandler: { (reason, errorMessage) in
+    private func dislikeTeacher() {
+        removeFavoriteTeacher(teacherID, failureHandler: { (reason, errorMessage) in
             // 错误处理
             if let errorMessage = errorMessage {
                 println("TeacherDetailsController - likeTeacher Error \(errorMessage)")
@@ -352,7 +363,11 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     func likeButtonDidTap(sender: UIButton) {
-        println("like button did tap")
+        if model.favorite {
+            dislikeTeacher()
+        }else {
+            likeTeacher()
+        }
     }
     
     

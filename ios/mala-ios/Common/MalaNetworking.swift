@@ -480,5 +480,3 @@ extension MalaNetworking {
         }
     }
 }
-
-

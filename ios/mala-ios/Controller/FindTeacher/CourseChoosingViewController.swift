@@ -166,21 +166,19 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
             return
         }
         
-        MalaNetworking.sharedTools.loadTeacherDetail(id, finished: {[weak self] (result, error) -> () in     
+        loadTeacherDetailData(id, failureHandler: { (reason, errorMessage) in
             ThemeHUD.hideActivityIndicator()
+            defaultFailureHandler(reason, errorMessage: errorMessage)
             
-            if error != nil {
-                println("TeahcerDeatilsController - loadTeacherDetail Request Error")
-                return
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("CourseChoosingViewController - loadTeacherDetail Error \(errorMessage)")
             }
-            guard let dict = result as? [String: AnyObject] else {
-                println("TeahcerDeatilsController - loadTeacherDetail Format Error")
-                return
-            }
-            
-            self?.teacherModel = TeacherDetailModel(dict: dict)
+        }, completion: { [weak self] (model) in
+            ThemeHUD.hideActivityIndicator()
+            self?.teacherModel = model
             self?.requiredCount += 1
-            })
+        })
     }
     
     private func loadSchoolsData() {

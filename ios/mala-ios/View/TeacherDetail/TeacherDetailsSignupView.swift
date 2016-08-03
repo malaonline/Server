@@ -22,12 +22,14 @@ class TeacherDetailsSignupView: UIView {
     /// 是否已上架标识
     var isPublished: Bool = false {
         didSet {
+            println("已上架标识 - \(isPublished)")
             adjustUIWithPublished()
         }
     }
-    /// 是否已收藏
+    /// 是否已收藏标识
     var isFavorite: Bool = false {
         didSet {
+            println("已收藏标识 - \(isFavorite)")
             adjustUIWithFavorite()
         }
     }
@@ -114,21 +116,21 @@ class TeacherDetailsSignupView: UIView {
     ///  根据上架情况调整UI
     private func adjustUIWithPublished() {
         if isPublished {
-            button.enabled = false
-            button.userInteractionEnabled = false
-        }else {
             button.enabled = true
             button.userInteractionEnabled = true
+        }else {
+            button.enabled = false
+            button.userInteractionEnabled = false
         }
     }
     ///  根据收藏情况调整UI
     private func adjustUIWithFavorite() {
         if isFavorite {
             likeButton.selected = true
-            button.setTitle("已收藏", forState: .Highlighted)
+            likeButton.setTitle("已收藏", forState: .Highlighted)
         }else {
             likeButton.selected = false
-            button.setTitle("收藏", forState: .Highlighted)
+            likeButton.setTitle("收藏", forState: .Highlighted)
         }
     }
     

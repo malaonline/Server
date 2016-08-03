@@ -25,6 +25,9 @@ class TeacherDetailModel: BaseObjectModel {
     var prices: [GradePriceModel?] = []
     var min_price: Int = 0
     var max_price: Int = 0
+    var published: Bool = false
+    var favorite: Bool = false
+    
     
     // 视图变量
     var teachingAgeString: String {
@@ -117,7 +120,7 @@ class TeacherDetailModel: BaseObjectModel {
     // MARK: - Description
     override var description: String {
         let keys = ["avatar", "gender", "degree", "teaching_age", "level", "subject", "grades", "tags",
-            "photo_set", "achievement_set", "highscore_set", "prices", "min_price", "max_price"]
+            "photo_set", "achievement_set", "highscore_set", "prices", "min_price", "max_price", "published", "favorite"]
         return super.description + dictionaryWithValuesForKeys(keys).description
     }
 }
