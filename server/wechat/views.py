@@ -193,7 +193,7 @@ class CourseChoosingView(OrderBaseView):
         prices.sort(key=lambda x: x.ability.grade_id)
         kwargs['prices'] = prices
         # schools = teacher.schools.all()
-        schools = list(models.School.objects.all())
+        schools = list(models.School.objects.filter(opened=True))
         kwargs['schools'] = schools
         kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         now = timezone.now()
@@ -363,7 +363,7 @@ class CourseChoosingView(OrderBaseView):
         lat = float(lat)
         lng = float(lng)
         # schools = teacher.schools.all()
-        schools = models.School.objects.all()
+        schools = models.School.objects.filter(opened=True)
         distances = []
         p = {'lat': lat, 'lng': lng}
         for school in schools:
@@ -700,7 +700,7 @@ def teacher_view(request):
             grades_tree.append(_grade)
     grades_tree.sort(key=lambda x: x['id'])
 
-    schools = models.School.objects.all()
+    schools = models.School.objects.filter(opened=True)
 
     cur_url = request.build_absolute_uri()
     sign_data = _jssdk_sign(cur_url)
@@ -745,7 +745,7 @@ def getSchoolsWithDistance(request):
 
     if not point:
         JsonResponse({'ok': False, 'msg': 'no lat,lng', 'code': -1})
-    schools = models.School.objects.all()
+    schools = models.School.objects.filter(opened=True)
     ret = []
     for school in schools:
         pointB = None
