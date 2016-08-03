@@ -280,6 +280,28 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         })
     }
     
+    private func likeTeacher(id: Int = 1) {
+        addFavoriteTeacher(id, failureHandler: { (reason, errorMessage) in
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("TeacherDetailsController - likeTeacher Error \(errorMessage)")
+            }
+        }, completion: { (bool) in
+            println("收藏老师 - \(bool)")
+        })
+    }
+    
+    private func dislikeTeacher(id: Int = 1) {
+        removeFavoriteTeacher(id, failureHandler: { (reason, errorMessage) in
+            // 错误处理
+            if let errorMessage = errorMessage {
+                println("TeacherDetailsController - likeTeacher Error \(errorMessage)")
+            }
+        }, completion: { (bool) in
+            println("取消收藏老师 - \(bool)")
+        })
+    }
+    
     private func showBackground() {
         // makeStatusBarBlack()
         title = model.name
