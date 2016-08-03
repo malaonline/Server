@@ -11,6 +11,7 @@ import urllib
 from django.conf import settings
 
 from app.models import Student
+from app.utils import random_chars
 from app.utils.algorithm import verify_sha1_sig, sign_sha1
 
 __all__ = [
@@ -203,7 +204,7 @@ def klx_reg_student(parent, student=None):
             student.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_STUDENT
-    uid = '%s_%s' % (settings.ENV_TYPE, student.user_id, )
+    uid = '%s_%s_%s' % (settings.ENV_TYPE, student.user_id, random_chars(5))
     name = student.name or 'mala_%s' % (student.user_id)
     password = student.user.profile.klx_password or _klx_make_password()
     klx_username = klx_register(role,uid,name,password=password)
@@ -227,7 +228,7 @@ def klx_reg_teacher(teacher):
             teacher.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_TEACHER
-    uid = '%s_%s' % (settings.ENV_TYPE, teacher.user_id, )
+    uid = '%s_%s_%s' % (settings.ENV_TYPE, teacher.user_id, random_chars(5))
     name = teacher.name or 'mala_%s' % (teacher.user_id)
     password = teacher.user.profile.klx_password or _klx_make_password()
     subject = teacher.subject()
