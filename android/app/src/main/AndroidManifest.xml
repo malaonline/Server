@@ -82,6 +82,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activitys.CollcetionListActivity"
+            android:label="收藏列表"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name="com.malalaoshi.android.activitys.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AnimationFullscreen"></activity>

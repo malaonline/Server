@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.AboutActivity;
+import com.malalaoshi.android.activitys.CollcetionListActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.api.PostAvatarApi;
 import com.malalaoshi.android.api.StudentInfoApi;
@@ -422,7 +423,7 @@ public class UserFragment extends BaseFragment {
     @OnClick(R.id.iv_my_collection)
     public void OnClickUserCollection(View view) {
         if (checkLogin() == false) return;
-        MiscUtil.toast(R.string.coming_soon);
+        CollcetionListActivity.launch(getActivity());
     }
 
     @OnClick(R.id.iv_my_orders)
