@@ -53,7 +53,7 @@ class TeacherDetailsSignupView: UIView {
         button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
         button.imageEdgeInsets = UIEdgeInsets(top: -8, left: 10.35, bottom: 8, right: -10.35)
         button.titleEdgeInsets = UIEdgeInsets(top: 8, left: -10.25, bottom: -8, right: 10.25)
-        button.addTarget(self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
     /// 报名按钮
@@ -66,7 +66,7 @@ class TeacherDetailsSignupView: UIView {
         button.setBackgroundImage(UIImage.withColor(MalaColor_7FB4DC_0), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_0), forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
-        button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
     
@@ -136,12 +136,11 @@ class TeacherDetailsSignupView: UIView {
     
     
     // MARK: - Event Response
-    @objc private func signupButtonDidTap() {
+    @objc private func signupButtonDidTap(sender: UIButton) {
         delegate?.signupButtonDidTap(self.button)
     }
 
-    @objc private func likeButtonDidTap() {
-        likeButton.selected = !likeButton.selected
+    @objc private func likeButtonDidTap(sender: UIButton) {
         likeButton.userInteractionEnabled = false
         delay(1.25) { 
             self.likeButton.userInteractionEnabled = true

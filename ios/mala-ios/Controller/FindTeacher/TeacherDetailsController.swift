@@ -340,6 +340,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     
     
     // MARK: - Deleagte
+    ///［立即报名］点击事件
     func signupButtonDidTap(sender: UIButton) {
         
         // 未登陆则进行登陆动作
@@ -362,11 +363,37 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         }
     }
     
+    ///［收藏按钮］点击事件
     func likeButtonDidTap(sender: UIButton) {
-        if model.favorite {
-            dislikeTeacher()
+        
+        
+        // 收藏／取消收藏
+        let action = { [weak self] in
+            sender.selected = !sender.selected
+            if self?.model.favorite == true {
+                self?.dislikeTeacher()
+            }else {
+                self?.likeTeacher()
+            }
+        }
+        
+        // 未登陆则进行登陆动作
+        if !MalaUserDefaults.isLogined {
+            
+            let loginController = LoginViewController()
+            loginController.popAction = {
+                if MalaUserDefaults.isLogined {
+                    action()
+                }
+            }
+            
+            self.presentViewController(
+                UINavigationController(rootViewController: loginController),
+                animated: true,
+                completion: nil)
+            
         }else {
-            likeTeacher()
+            action()
         }
     }
     
