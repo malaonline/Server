@@ -1,5 +1,5 @@
 requests
-Django
+Django==1.9.8
 djangorestframework
 psycopg2
 django-s3-storage-patched
