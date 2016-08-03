@@ -38,6 +38,7 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
@@ -286,6 +287,7 @@ public class TeacherInfoActivity extends BaseActivity
         titleBarView.setOnTitleBarClickListener(this);
         gvGallery.setOnItemClickListener(this);
         tvCollection.setOnClickListener(this);
+        mHeadPortrait.setOnClickListener(this);
     }
 
     private void initData() {
@@ -672,6 +674,18 @@ public class TeacherInfoActivity extends BaseActivity
                 break;
             case R.id.tv_collection:
                 onCollection();
+                break;
+            case R.id.parent_teacher_detail_head_portrait:
+                onClickTeacherAvatar();
+                break;
+        }
+    }
+
+    private void onClickTeacherAvatar() {
+        if (mTeacher!=null&& !EmptyUtils.isEmpty(mTeacher.getAvatar())){
+            Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
+            intent.putExtra(GalleryActivity.GALLERY_URLS, new String[]{mTeacher.getAvatar()});
+            startActivity(intent);
         }
     }
 
