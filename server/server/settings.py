@@ -237,6 +237,11 @@ LOGGING = {
             'filename': 'log.log',
             'formatter': 'verbose'
         },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
         'tasks': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -245,6 +250,11 @@ LOGGING = {
         },
     },
     'loggers': {
+        'console': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
         'django': {
             'handlers': ['file'],
             'propagate': True,

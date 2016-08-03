@@ -32,6 +32,7 @@ __all__ = [
     "klx_reg_teacher",
     ]
 _logger = logging.getLogger('app')
+_console = logging.getLogger('console')
 
 KLX_WEB_SITE = settings.KUAILEXUE_WEB_SITE
 KLX_STUDY_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
@@ -49,6 +50,14 @@ _klx_default_password = '123456'
 
 KLX_ROLE_TEACHER = 1
 KLX_ROLE_STUDENT = 2
+
+
+_ctx = {'_is_cold_testing': None}
+def _get_is_cold_testing():
+    if _ctx['_is_cold_testing'] is None:
+        _console.debug('_init_is_cold_testing')
+        _ctx['_is_cold_testing'] = hasattr(settings, "COLD_TESTING") and settings.COLD_TESTING
+    return _ctx['_is_cold_testing']
 
 
 def klx_subject_name(name):
@@ -132,9 +141,11 @@ def klx_register(role, uid, name, password=None, subject=None):
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return None
-    if hasattr(settings, "COLD_TESTING") and settings.COLD_TESTING:
-        print(klx_url+'?'+urllib.parse.urlencode(params))
+    if _get_is_cold_testing():
+        _console.warning(klx_url+'?'+urllib.parse.urlencode(params))
     ret_json = json.loads(resp.content.decode('utf-8'))
+    if _get_is_cold_testing():
+        _console.info(ret_json)
     if ret_json.get('data') is not None: # code == 0, 用户已存在时code != 0
         ret_data = ret_json.get('data')
         return ret_data.get('username')  # (仅供参考)目前返回格式是 KUAILEXUE_PARTNER+uid+'_'+${YYYY}
@@ -167,13 +178,15 @@ def klx_relation(klx_teacher, klx_students):
         _logger.error('cannot reach kuailexue server')
         _logger.exception(err)
         return False
-    if hasattr(settings, "COLD_TESTING") and settings.COLD_TESTING:
-        print('\n%s'%(resp.url))
+    if _get_is_cold_testing():
+        _console.warning('\n%s'%(resp.url))
     if resp.status_code != 200:
         _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return False
     ret_json = json.loads(resp.content.decode('utf-8'))
+    if _get_is_cold_testing():
+        _console.info(ret_json)
     if ret_json.get('code') == 0 or ret_json.get('message', '').lower() == 'success':
         return True
     else:

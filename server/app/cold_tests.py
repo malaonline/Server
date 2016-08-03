@@ -2,12 +2,16 @@ import datetime
 import unittest
 import requests
 import json
+import logging
 
 from django.conf import settings
 from django.utils import timezone
 
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.klx_api import *
+
+
+_console = logging.getLogger('console')
 
 
 class SimpleTest(unittest.TestCase):
@@ -35,18 +39,18 @@ class SimpleTest(unittest.TestCase):
             'role': 2,
             'name': None
         }
-        # print(p)
+        _console.info(p)
         pp = klx_build_params(p, True)
-        # print(pp['sign'])
+        _console.info(pp['sign'])
         p = {
             'uid': 'prd_693',
             'password': '816593',
             'role': 2,
             'name': ''
         }
-        # print(p)
+        _console.info(p)
         pp2 = klx_build_params(p, True)
-        # print(pp2['sign'])
+        _console.info(pp2['sign'])
         self.assertEqual(pp['sign'], pp2['sign'])
 
     def test_kuailexue_api1(self):
@@ -54,18 +58,18 @@ class SimpleTest(unittest.TestCase):
         test_stu_id = 'malaprd_277_2016'
         url = KLX_STUDY_URL_FMT.format(subject='math')
         params = klx_build_params({'username': test_stu_id}, True)
-        print(url)
+        _console.warning(url)
 
         def _request_kuailexue_api_data(type):
             resp = requests.get(url + '/' + type, params=params)
             if resp.status_code != 200:
-                print('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
-            print(resp.url)
+                _console.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+            _console.warning(resp.url)
             ret_json = json.loads(resp.content.decode('utf-8'))
             if ret_json.get('code') == 0 and ret_json.get('data') is not None:
-                print(ret_json.get('data'))
+                _console.info(ret_json.get('data'))
             else:
-                print('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+                _console.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
 
         # total-item-nums 指定学生累计答题数、正确答题数
         _request_kuailexue_api_data('total-item-nums')
@@ -93,11 +97,14 @@ class SimpleTest(unittest.TestCase):
         settings.TESTING = False
         test_stu_id = 'test_student_1'
         test_stu_name = '测试学生1'
-        test_tea_id = 'test_teacher_1'
+        test_tea_id = 'debug_210_7VQy5'
         test_teat_name = '测试老师1'
+        test_teat_pswd = '892673'
         klx_stu = klx_register(KLX_ROLE_STUDENT, test_stu_id, test_stu_name)
+        _console.info(klx_stu)
         self.assertIsNotNone(klx_stu)
-        klx_tea = klx_register(KLX_ROLE_TEACHER, test_tea_id, test_teat_name)
+        klx_tea = klx_register(KLX_ROLE_TEACHER, test_tea_id, test_teat_name, test_teat_pswd)
+        _console.info(klx_tea)
         self.assertIsNotNone(klx_tea)
         ok = klx_relation(klx_tea, klx_stu)
         self.assertTrue(ok)
