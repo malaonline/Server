@@ -19,7 +19,7 @@ public class TeacherInfoApi extends BaseApi {
 
     @Override
     protected boolean addAuthHeader() {
-        return false;
+        return true;
     }
 
     public Teacher get(long teacherId) throws Exception {

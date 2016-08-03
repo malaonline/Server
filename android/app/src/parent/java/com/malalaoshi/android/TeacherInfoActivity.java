@@ -28,6 +28,8 @@ import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.GalleryAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
+import com.malalaoshi.android.api.CollectTeacherApi;
+import com.malalaoshi.android.api.CancelCollectTeacherApi;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
 import com.malalaoshi.android.core.base.BaseActivity;
@@ -36,10 +38,10 @@ import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.LoginActivity;
 import com.malalaoshi.android.core.usercenter.UserManager;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.view.TitleBarView;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Achievement;
+import com.malalaoshi.android.entity.DoneModel;
 import com.malalaoshi.android.entity.Grade;
 import com.malalaoshi.android.entity.HighScore;
 import com.malalaoshi.android.entity.School;
@@ -49,6 +51,7 @@ import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.SchoolListResult;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
+import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
@@ -209,6 +212,12 @@ public class TeacherInfoActivity extends BaseActivity
     @Bind(R.id.iv_teacher_bk)
     protected ImageView teacherView;
 
+    @Bind(R.id.tv_collection)
+    protected TextView tvCollection;
+
+    private Drawable drawCollection;
+    private Drawable drawUnCollection;
+
     private SchoolAdapter mSchoolAdapter;
 
     private boolean isShowAllSchools = false;
@@ -263,6 +272,10 @@ public class TeacherInfoActivity extends BaseActivity
     private void initViews() {
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
+        drawCollection = getResources().getDrawable(R.drawable.ic_collection);
+        drawCollection.setBounds(0, 0, drawCollection.getMinimumWidth(), drawCollection.getMinimumHeight());
+        drawUnCollection = getResources().getDrawable(R.drawable.ic_uncollection);
+        drawUnCollection.setBounds(0, 0, drawUnCollection.getMinimumWidth(), drawUnCollection.getMinimumHeight());
     }
 
     private void setEvent() {
@@ -272,6 +285,7 @@ public class TeacherInfoActivity extends BaseActivity
         scrollView.setScrollViewListener(this);
         titleBarView.setOnTitleBarClickListener(this);
         gvGallery.setOnItemClickListener(this);
+        tvCollection.setOnClickListener(this);
     }
 
     private void initData() {
@@ -449,6 +463,12 @@ public class TeacherInfoActivity extends BaseActivity
                 viewTeacherSeniority.setProgress(teachAge);
                 tvTeacherSeniority.setText(teachAge.toString() + "年");
             }
+            if (mTeacher.isFavorite()){
+                tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+            }else{
+                tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+            }
+
         }
     }
 
@@ -633,7 +653,11 @@ public class TeacherInfoActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.parent_teacher_signup_btn:
                 //
-                signUp();
+                if (mTeacher.isPublished()){
+                    signUp();
+                }else{
+                    MiscUtil.toast("该老师已经下架!");
+                }
                 break;
             case R.id.tv_gallery_more:
                 //查看更多照片
@@ -646,7 +670,35 @@ public class TeacherInfoActivity extends BaseActivity
                 changeSchoolsShow();
                 StatReporter.moreSchool();
                 break;
+            case R.id.tv_collection:
+                onCollection();
         }
+    }
+
+    private void onCollection() {
+        if (UserManager.getInstance().isLogin()) {
+            if(mTeacher.isFavorite()){
+                onCancelCollectTeacher(mTeacher.getId());
+                tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+            }else{
+                onCollectTeacher(mTeacher.getId());
+                tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+            }
+        } else {
+            //跳转登录页
+            startSmsActivity();
+        }
+    }
+
+    //收藏教师
+    private void onCollectTeacher(Long id) {
+        ApiExecutor.exec(new CollectTeacherRequest(this, mTeacher.getId()));
+
+    }
+
+    //取消收藏老师
+    private void onCancelCollectTeacher(Long id) {
+        ApiExecutor.exec(new CancelCollectTeacherRequest(this,mTeacher.getId()));
     }
 
     private void changeSchoolsShow() {
@@ -706,6 +758,12 @@ public class TeacherInfoActivity extends BaseActivity
         startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 
+    private void startSmsActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     //启动购买课程页
     private void startCourseConfirmActivity() {
         Subject subject = Subject.getSubjectIdByName(mTeacher.getSubject());
@@ -758,6 +816,35 @@ public class TeacherInfoActivity extends BaseActivity
         intent.putExtra(GalleryActivity.GALLERY_URLS, mTeacher.getPhoto_set());
         intent.putExtra(GalleryActivity.GALLERY_CURRENT_INDEX, position);
         startActivity(intent);
+    }
+
+
+    private void onCollectFailed() {
+        MiscUtil.toast("收藏失败");
+        tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+    }
+
+    private void onCollectSuccess(DoneModel response) {
+        if (response!=null&&response.getTeacher()==mTeacher.getId()){
+            mTeacher.setFavorite(true);
+            MiscUtil.toast("收藏成功");
+            return;
+        }
+        onCollectFailed();
+    }
+
+    private void onCancelCollcetFailed() {
+        MiscUtil.toast("取消失败");
+        tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+    }
+
+    private void onCancelCollcetSuccess(DoneModel response) {
+        if (response!=null&&response.isOk()){
+            mTeacher.setFavorite(false);
+            MiscUtil.toast("取消收藏");
+            return;
+        }
+        onCancelCollcetFailed();
     }
 
 
@@ -816,6 +903,79 @@ public class TeacherInfoActivity extends BaseActivity
             get().stopProcess();
         }
 
+    }
+
+    private static final class CollectTeacherRequest extends BaseApiContext<TeacherInfoActivity, DoneModel> {
+        private Long id;
+        public CollectTeacherRequest(TeacherInfoActivity teacherInfoActivity, Long id) {
+            super(teacherInfoActivity);
+            this.id = id;
+        }
+
+        @Override
+        public DoneModel request() throws Exception {
+            return new CollectTeacherApi().post(id);
+        }
+
+        @Override
+        public void onApiStarted() {
+            super.onApiStarted();
+            get().tvCollection.setOnClickListener(null);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull DoneModel response) {
+            get().onCollectSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
+            get().onCollectFailed();
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().tvCollection.setOnClickListener(get());
+        }
+    }
+
+    private static final class CancelCollectTeacherRequest extends BaseApiContext<TeacherInfoActivity, DoneModel> {
+        private Long id;
+
+        public CancelCollectTeacherRequest(TeacherInfoActivity teacherInfoActivity, Long id) {
+            super(teacherInfoActivity);
+            this.id = id;
+        }
+
+        @Override
+        public DoneModel request() throws Exception {
+            return new CancelCollectTeacherApi().delete(id);
+        }
+
+        @Override
+        public void onApiStarted() {
+            super.onApiStarted();
+            get().tvCollection.setOnClickListener(null);
+        }
+
+        @Override
+        public void onApiSuccess(@NonNull DoneModel response) {
+            get().onCancelCollcetSuccess(response);
+        }
+
+        @Override
+        public void onApiFailure(Exception exception) {
+            super.onApiFailure(exception);
+            get().onCancelCollcetFailed();
+        }
+
+        @Override
+        public void onApiFinished() {
+            super.onApiFinished();
+            get().tvCollection.setOnClickListener(get());
+        }
     }
 
     @Override

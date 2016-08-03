@@ -70,7 +70,9 @@ public abstract class BaseApi {
 
     private void addHeaders(Request.Builder builder) {
         if (addAuthHeader()) {
-            builder.addHeader(Constants.AUTH, getToken());
+            if (!EmptyUtils.isEmpty(UserManager.getInstance().getToken())){
+                builder.addHeader(Constants.AUTH, getToken());
+            }
         }
         if (EmptyUtils.isNotEmpty(getHeaders())) {
             for (Map.Entry<String, String> item : getHeaders().entrySet()) {

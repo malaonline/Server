@@ -75,15 +75,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/btn_collect"
+            android:id="@+id/tv_collection"
             android:layout_width="0dp"
             android:layout_weight="27"
             android:layout_height="49dp"
-            android:visibility="gone"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:background="@color/white"
-            android:drawableTop="@drawable/ic_uncollect"
+            android:drawableTop="@drawable/ic_uncollection"
             android:drawablePadding="1dp"
             android:text="收藏"
             android:gravity="center"

@@ -29,4 +29,5 @@ public final class Constants {
     public static final String AVATOR = "avatar";
     public static final String STUD_NAME = "student_name";
     public static final String SCHOOL_NAME = "student_school_name";
+    public static final String TEACHER_ID = "teacher";
 }

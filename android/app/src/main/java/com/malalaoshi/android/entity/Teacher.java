@@ -33,6 +33,9 @@ public class Teacher extends BaseEntity {
         return achievement_set;
     }
 
+    private boolean published;
+    private boolean favorite;
+
     public void setAchievement_set(List<Achievement> achievement_set) {
         this.achievement_set = achievement_set;
     }
@@ -165,27 +168,22 @@ public class Teacher extends BaseEntity {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "avatar='" + avatar + '\'' +
-                ", gender=" + gender +
-                ", degree=" + degree +
-                ", user=" + user +
-                ", min_price=" + min_price +
-                ", max_price=" + max_price +
-                ", teaching_age=" + teaching_age +
-                ", level='" + level + '\'' +
-                ", subject='" + subject + '\'' +
-                ", grades_shortname='" + grades_shortname + '\'' +
-                ", grades=" + Arrays.toString(grades) +
-                ", tags=" + Arrays.toString(tags) +
-                ", photo_set=" + Arrays.toString(photo_set) +
-                ", achievement_set=" + achievement_set +
-                ", highscore_set=" + highscore_set +
-                ", prices=" + prices +
-                '}';
+    public boolean isPublished() {
+        return published;
     }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
 
     @Override
     public int describeContents() {
@@ -208,9 +206,11 @@ public class Teacher extends BaseEntity {
         dest.writeStringArray(this.grades);
         dest.writeStringArray(this.tags);
         dest.writeStringArray(this.photo_set);
-        dest.writeTypedList(achievement_set);
+        dest.writeTypedList(this.achievement_set);
         dest.writeList(this.highscore_set);
-        dest.writeTypedList(prices);
+        dest.writeTypedList(this.prices);
+        dest.writeByte(this.published ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.favorite ? (byte) 1 : (byte) 0);
     }
 
     public Teacher() {
@@ -233,17 +233,45 @@ public class Teacher extends BaseEntity {
         this.photo_set = in.createStringArray();
         this.achievement_set = in.createTypedArrayList(Achievement.CREATOR);
         this.highscore_set = new ArrayList<HighScore>();
-        in.readList(this.highscore_set, List.class.getClassLoader());
+        in.readList(this.highscore_set, HighScore.class.getClassLoader());
         this.prices = in.createTypedArrayList(CoursePrice.CREATOR);
+        this.published = in.readByte() != 0;
+        this.favorite = in.readByte() != 0;
     }
 
     public static final Creator<Teacher> CREATOR = new Creator<Teacher>() {
+        @Override
         public Teacher createFromParcel(Parcel source) {
             return new Teacher(source);
         }
 
+        @Override
         public Teacher[] newArray(int size) {
             return new Teacher[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "avatar='" + avatar + '\'' +
+                ", gender='" + gender + '\'' +
+                ", degree='" + degree + '\'' +
+                ", user=" + user +
+                ", min_price=" + min_price +
+                ", max_price=" + max_price +
+                ", teaching_age=" + teaching_age +
+                ", level=" + level +
+                ", subject='" + subject + '\'' +
+                ", grades_shortname='" + grades_shortname + '\'' +
+                ", grades=" + Arrays.toString(grades) +
+                ", tags=" + Arrays.toString(tags) +
+                ", photo_set=" + Arrays.toString(photo_set) +
+                ", achievement_set=" + achievement_set +
+                ", highscore_set=" + highscore_set +
+                ", prices=" + prices +
+                ", published=" + published +
+                ", favorite=" + favorite +
+                '}';
+    }
 }
