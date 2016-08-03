@@ -373,7 +373,7 @@ class SchoolNameSerializer(serializers.ModelSerializer):
 
 
 class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.School.objects.all()
+    queryset = models.School.objects.all().filter(opened=True)
     serializer_class = SchoolSerializer
 
     def get_queryset(self):
@@ -381,7 +381,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
 
         region = self.request.query_params.get('region', None) or None
         if region is not None:
-            queryset = queryset.filter(region__id=region)
+            queryset = queryset.filter(region__id=region, region__opened=True)
 
         queryset = queryset.extra(order_by=['-center'])
         return queryset
