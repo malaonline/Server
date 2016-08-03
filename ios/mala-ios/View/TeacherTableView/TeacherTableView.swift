@@ -104,7 +104,6 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
 
         case Section.Teacher.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(TeacherTableViewCellReusedId, forIndexPath: indexPath) as! TeacherTableViewCell
-            cell.selectionStyle = .None
             cell.model = teachers[indexPath.row]
             return cell
             

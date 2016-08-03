@@ -507,13 +507,17 @@ func getUserNewMessageCount(failureHandler: ((Reason, String?) -> Void)?, comple
 ///
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
-func getFavoriteTeachers(failureHandler: ((Reason, String?) -> Void)?, completion: [TeacherModel] -> Void) {
+func getFavoriteTeachers(page: Int = 1, failureHandler: ((Reason, String?) -> Void)?, completion: ([TeacherModel], Int) -> Void) {
     
-    let parse: JSONDictionary -> [TeacherModel] = { data in
+    let requestParameters = [
+        "page": page,
+        ]
+    
+    let parse: JSONDictionary -> ([TeacherModel], Int) = { data in
         return parseFavoriteTeacherResult(data)
     }
     
-    let resource = authJsonResource(path: "/favorites", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    let resource = authJsonResource(path: "/favorites", method: .GET, requestParameters: requestParameters, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -1244,14 +1248,16 @@ let parseSchoolsResult: JSONDictionary -> [SchoolModel] = { resultInfo in
     return schools
 }
 /// 老师收藏列表JSON解析器
-let parseFavoriteTeacherResult: JSONDictionary -> [TeacherModel] = { resultInfo in
+let parseFavoriteTeacherResult: JSONDictionary -> ([TeacherModel], Int) = { resultInfo in
     
     var teachers: [TeacherModel] = []
+    var count = 0
     
-    if let results = resultInfo["results"] as? [JSONDictionary] where results.count > 0 {
+    if let allCount = resultInfo["count"] as? Int, results = resultInfo["results"] as? [JSONDictionary] where results.count > 0 {
+        count = allCount
         for teacher in results {
             teachers.append(TeacherModel(dict: teacher))
         }
     }
-    return teachers
+    return (teachers, count)
 }

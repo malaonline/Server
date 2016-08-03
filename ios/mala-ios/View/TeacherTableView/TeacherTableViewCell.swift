@@ -132,6 +132,7 @@ class TeacherTableViewCell: UITableViewCell {
     private func setupUserInterface() {
         // Style
         contentView.backgroundColor = MalaColor_EDEDED_0
+        selectionStyle = .None
         
         // SubViews
         contentView.addSubview(content)
