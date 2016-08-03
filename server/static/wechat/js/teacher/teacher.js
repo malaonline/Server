@@ -611,6 +611,10 @@ function ajaxLoadSchool(lat, lng){
     });
 }
 $('.ext_weui_btn_submit').click(function(){
+  if (isTesting) {
+    location.href = phonePage + '?state='+teacherid;
+    return;
+  }
   var href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wx_appid
               +'&redirect_uri=' + encodeURI(checkPhoneURI)
               +'&response_type=code'
@@ -638,10 +642,22 @@ $('.ext_weui_btn_like').click(function(){
   }
   var $icHeart = $('#icHeart');
   if ($icHeart.attr('src')==icHeartUrl) {
-    showToast("收藏成功, 请下载APP查看收藏列表");
-    $icHeart.attr('src', icHeartRedUrl);
+    $.ajax({ // 收藏
+      'type': "POST", 'url': '/api/v1/favorites', 'data': {'teacher': teacherid}, 'success': function(){
+        showToast("收藏成功, 请下载APP查看收藏列表");
+        $icHeart.attr('src', icHeartRedUrl);
+      }, 'error': function(){
+        showToast("请稍后重试");
+      }
+    });
   } else {
-    showToast("取消收藏成功");
-    $icHeart.attr('src', icHeartUrl);
+    $.ajax({ // 取消收藏
+      'type': "DELETE", 'url': '/api/v1/favorites/'+teacherid, 'success': function(){
+        showToast("取消收藏成功");
+        $icHeart.attr('src', icHeartUrl);
+      }, 'error': function(){
+        showToast("请稍后重试");
+      }
+    });
   }
 });

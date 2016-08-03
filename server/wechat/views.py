@@ -786,11 +786,16 @@ def phone_page(request):
     openid = request.GET.get("openid", None)
     if not openid:
         openid = request.POST.get("openid", None)
+
+    nextpage = _get_reg_next_page(teacherId, openid)
+    parent = _get_parent(request)
+    if parent:
+        return HttpResponseRedirect(nextpage)
+
     if not openid and settings.TESTING:
         # the below line is real wx_openid, but not related with ours server
         openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
 
-    nextpage = _get_reg_next_page(teacherId, openid)
     context = {
         "openid": openid,
         "teacherId": teacherId,
