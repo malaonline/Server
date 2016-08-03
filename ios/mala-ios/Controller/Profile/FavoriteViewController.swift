@@ -64,8 +64,9 @@ class FavoriteViewController: BaseTableViewController {
     // MARK: - Private Method
     private func configure() {
         title = "我的收藏"
-        defaultView.imageName = "no_order"
-        defaultView.text = "还没有收藏老师哦"
+        defaultView.imageName = "collect_noData"
+        defaultView.text = "您收藏的老师会出现在这里哦"
+        defaultView.descText = "快去老师详情页收藏吧"
         
         tableView.backgroundColor = MalaColor_EDEDED_0
         tableView.separatorStyle = .None
