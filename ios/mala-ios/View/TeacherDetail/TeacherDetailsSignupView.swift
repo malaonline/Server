@@ -19,6 +19,18 @@ class TeacherDetailsSignupView: UIView {
     
     // MARK: - Property
     weak var delegate: SignupButtonDelegate?
+    /// 是否已上架标识
+    var isPublished: Bool = false {
+        didSet {
+            adjustUIWithPublished()
+        }
+    }
+    /// 是否已收藏
+    var isFavorite: Bool = false {
+        didSet {
+            adjustUIWithFavorite()
+        }
+    }
     
     
     // MARK: - Components
@@ -35,6 +47,7 @@ class TeacherDetailsSignupView: UIView {
         button.titleLabel?.font = UIFont.systemFontOfSize(10)
         button.setImage(UIImage(named: "like_icon"), forState: .Normal)
         button.setTitle("收藏", forState: .Normal)
+        button.setTitle("已收藏", forState: .Selected)
         button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
         button.imageEdgeInsets = UIEdgeInsets(top: -8, left: 10.35, bottom: 8, right: -10.35)
         button.titleEdgeInsets = UIEdgeInsets(top: 8, left: -10.25, bottom: -8, right: 10.25)
@@ -43,12 +56,14 @@ class TeacherDetailsSignupView: UIView {
     }()
     /// 报名按钮
     private lazy var button: UIButton = {
-        let button = UIButton(
-            title: "马上报名",
-            titleColor: MalaColor_FFFFFF_9,
-            backgroundColor: MalaColor_7FB4DC_0
-        )
-        // button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
+        let button = UIButton()
+        button.setTitle("马上报名", forState: .Normal)
+        button.setTitle("该老师已下架", forState: .Disabled)
+        button.setTitleColor(MalaColor_FFFFFF_9, forState: .Normal)
+        button.setTitleColor(MalaColor_FFFFFF_9, forState: .Disabled)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_7FB4DC_0), forState: .Normal)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_0), forState: .Disabled)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
         button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -96,6 +111,27 @@ class TeacherDetailsSignupView: UIView {
         })
     }
     
+    ///  根据上架情况调整UI
+    private func adjustUIWithPublished() {
+        if isPublished {
+            button.enabled = false
+            button.userInteractionEnabled = false
+        }else {
+            button.enabled = true
+            button.userInteractionEnabled = true
+        }
+    }
+    ///  根据收藏情况调整UI
+    private func adjustUIWithFavorite() {
+        if isFavorite {
+            likeButton.selected = true
+            button.setTitle("已收藏", forState: .Highlighted)
+        }else {
+            likeButton.selected = false
+            button.setTitle("收藏", forState: .Highlighted)
+        }
+    }
+    
     
     // MARK: - Event Response
     @objc private func signupButtonDidTap() {
@@ -103,6 +139,11 @@ class TeacherDetailsSignupView: UIView {
     }
 
     @objc private func likeButtonDidTap() {
+        likeButton.selected = !likeButton.selected
+        likeButton.userInteractionEnabled = false
+        delay(1.25) { 
+            self.likeButton.userInteractionEnabled = true
+        }
         delegate?.likeButtonDidTap(self.button)
     }
     
