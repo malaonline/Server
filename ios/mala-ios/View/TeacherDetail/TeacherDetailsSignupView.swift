@@ -62,9 +62,8 @@ class TeacherDetailsSignupView: UIView {
         button.setTitle("马上报名", forState: .Normal)
         button.setTitle("该老师已下架", forState: .Disabled)
         button.setTitleColor(MalaColor_FFFFFF_9, forState: .Normal)
-        button.setTitleColor(MalaColor_FFFFFF_9, forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_7FB4DC_0), forState: .Normal)
-        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_0), forState: .Disabled)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_E0E0E0_0), forState: .Disabled)
         button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
         button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return button
@@ -137,7 +136,7 @@ class TeacherDetailsSignupView: UIView {
     
     // MARK: - Event Response
     @objc private func signupButtonDidTap(sender: UIButton) {
-        delegate?.signupButtonDidTap(self.button)
+        delegate?.signupButtonDidTap(sender)
     }
 
     @objc private func likeButtonDidTap(sender: UIButton) {
@@ -145,7 +144,7 @@ class TeacherDetailsSignupView: UIView {
         delay(1.25) { 
             self.likeButton.userInteractionEnabled = true
         }
-        delegate?.likeButtonDidTap(self.button)
+        delegate?.likeButtonDidTap(sender)
     }
     
     deinit {
