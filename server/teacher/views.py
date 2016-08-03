@@ -2575,10 +2575,6 @@ class KLXAccountView(BasicTeacherView):
         context['subject'] = subject
         context['isSupported'] = isSupported
         if isSupported:
-            # 注册快乐学用户, 刚下完订单时调用的异步注册任务可能失败
-            orders = models.Order.objects.filter(status=models.Order.PAID, teacher=teacher)
-            for order in orders:
-                registerKuaiLeXueUserByOrder.delay(order.id) # 只调用一次
             # 构造返回数据
             klx_username = user.profile.klx_username
             if not klx_username:
@@ -2586,6 +2582,10 @@ class KLXAccountView(BasicTeacherView):
             klx_password = user.profile.klx_password
             context['klx_username'] = klx_username or ''
             context['klx_password'] = klx_password or ''
+            # 注册快乐学用户, 刚下完订单时调用的异步注册任务可能失败
+            orders = models.Order.objects.filter(status=models.Order.PAID, teacher=teacher)
+            for order in orders:
+                registerKuaiLeXueUserByOrder.delay(order.id) # 只调用一次
         return render(request, "teacher/kuailexue/account.html", context)
 
 
