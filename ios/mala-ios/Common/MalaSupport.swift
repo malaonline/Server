@@ -508,9 +508,11 @@ func adjustTopicScoreData(data: [SingleTopicScoreData]) -> [SingleTopicScoreData
 ///
 ///  - parameter value: 屏幕名称
 func sendScreenTrack(value: String? = "其它页面") {
-    let tracker = GAI.sharedInstance().defaultTracker
-    tracker.set(kGAIScreenName, value: value)
-    
-    let builder = GAIDictionaryBuilder.createScreenView()
-    tracker.send(builder.build() as [NSObject : AnyObject])
+    #if USE_PRD_SERVER
+        let tracker = GAI.sharedInstance().defaultTracker
+        tracker.set(kGAIScreenName, value: value)
+        
+        let builder = GAIDictionaryBuilder.createScreenView()
+        tracker.send(builder.build() as [NSObject : AnyObject])
+    #endif
 }

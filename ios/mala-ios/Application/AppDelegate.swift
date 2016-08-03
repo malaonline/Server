@@ -160,20 +160,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - SDK Configuration
     func registerThirdParty() {
 
-        // Configure tracker from GoogleService-Info.plist.
-        var configureError:NSError?
-        GGLContext.sharedInstance().configureWithError(&configureError)
-        assert(configureError == nil, "Error configuring Google services: \(configureError)")
-        
-        // Optional: configure GAI options.
-        // let gai = GAI.sharedInstance()
-        // gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        // gai.logger.logLevel = GAILogLevel.Verbose
-        
-        
-        
-        // Ping++ - 开启DEBUG模式log
-        Pingpp.setDebugMode(true)
+        #if USE_PRD_SERVER
+            // Configure tracker from GoogleService-Info.plist.
+            var configureError:NSError?
+            GGLContext.sharedInstance().configureWithError(&configureError)
+            assert(configureError == nil, "Error configuring Google services: \(configureError)")
+            
+            // Optional: configure GAI options.
+            // let gai = GAI.sharedInstance()
+            // gai.trackUncaughtExceptions = true  // report uncaught exceptions
+            // gai.logger.logLevel = GAILogLevel.Verbose
+            
+            // Ping++ - 开启DEBUG模式log
+            Pingpp.setDebugMode(true)
+        #endif
         
         // IQKeyboardManager - 开启键盘自动管理
         IQKeyboardManager.sharedManager().enable = true
