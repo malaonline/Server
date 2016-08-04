@@ -1,3 +1,9 @@
+'''
+短信API工具, 服务平台云片网(https://www.yunpian.com)
+注意:
+    1, 云片网不支持30秒内重发相同内容短信
+'''
+
 import logging
 from django.conf import settings
 import requests
@@ -89,28 +95,6 @@ def tpl_send_sms(phone, tpl_id, params={}):
     _logger.debug("send sms to "+str(phone)+', '+str(tpl_id)+': '+str(params))
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
-
-
-def try_send_sms(phone, tpl_id=0, params={}, times=1):
-    """
-    尝试发送短信
-    :return: True or False
-    """
-    if not phone:
-        return False
-    if not tpl_id:
-        return True
-    if settings.FAKE_SMS_SERVER:
-        return True
-    ok = False
-    while (not ok and times > 0):
-        try:
-            tpl_send_sms(phone, tpl_id, params)
-            ok = True
-        except Exception as ex:
-            _logger.error(ex)
-        times -= 1
-    return ok
 
 
 """
