@@ -465,9 +465,9 @@ public class TeacherInfoActivity extends BaseActivity
                 tvTeacherSeniority.setText(teachAge.toString() + "年");
             }
             if (mTeacher.isFavorite()){
-                tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+                setCollectionStatus(true);
             }else{
-                tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+                setCollectionStatus(false);
             }
 
             if (mTeacher.isPublished()){
@@ -700,14 +700,24 @@ public class TeacherInfoActivity extends BaseActivity
         if (UserManager.getInstance().isLogin()) {
             if(mTeacher.isFavorite()){
                 onCancelCollectTeacher(mTeacher.getId());
-                tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+                setCollectionStatus(false);
             }else{
                 onCollectTeacher(mTeacher.getId());
-                tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+                setCollectionStatus(true);
             }
         } else {
             //跳转登录页
             startSmsActivity();
+        }
+    }
+
+    void setCollectionStatus(boolean isCollect){
+        if (isCollect){
+            tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+            tvCollection.setText("已收藏");
+        }else{
+            tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+            tvCollection.setText("收藏");
         }
     }
 
@@ -842,7 +852,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     private void onCollectFailed() {
         MiscUtil.toast("收藏失败");
-        tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+        setCollectionStatus(false);
     }
 
     private void onCollectSuccess(DoneModel response) {
@@ -856,7 +866,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     private void onCancelCollcetFailed() {
         MiscUtil.toast("取消失败");
-        tvCollection.setCompoundDrawables(null, drawCollection,null,null);
+        setCollectionStatus(true);
     }
 
     private void onCancelCollcetSuccess(DoneModel response) {
