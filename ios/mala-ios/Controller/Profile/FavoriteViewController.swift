@@ -53,6 +53,10 @@ class FavoriteViewController: BaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         loadFavoriteTeachers()
     }
 
