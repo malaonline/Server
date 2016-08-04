@@ -1456,8 +1456,9 @@ class OrderManager(models.Manager):
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
         ability = grade.ability_set.filter(subject=subject)[0]
 
-        price = teacher.region.price_set.get(
-                ability=ability, level=teacher.level).price
+        price_obj = teacher.region.price_set.get(
+                ability=ability, level=teacher.level)
+        price = price_obj.price
 
         # pure total price, not calculate coupon's amount
         total = price * hours
@@ -1467,7 +1468,8 @@ class OrderManager(models.Manager):
 
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
-                subject=subject, price=price, hours=hours,
+                subject=subject, price=price, hours=hours, level=teacher.level,
+                commission_percentage=price_obj.commission_percentage,
                 total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)
 
         order.save()
