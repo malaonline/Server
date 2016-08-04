@@ -11,7 +11,7 @@ import UIKit
 // MARK: - SignupButtonDelegate
 protocol SignupButtonDelegate: class, NSObjectProtocol {
     func signupButtonDidTap(sender: UIButton)
-    func likeButtonDidTap(sender: UIButton)
+    func likeButtonDidTap(sender: DOFavoriteButton)
 }
 
 // MARK: - TeacherDetailsSignupView
@@ -153,6 +153,11 @@ class TeacherDetailsSignupView: UIView {
     ///  根据收藏情况调整UI
     private func adjustUIWithFavorite() {
         likeButton.selected = isFavorite
+        if likeButton.selected  {
+            likeButton.select()
+        }else {
+            likeButton.deselect()
+        }
         likeString.selected = isFavorite
     }
     
@@ -162,21 +167,12 @@ class TeacherDetailsSignupView: UIView {
         delegate?.signupButtonDidTap(sender)
     }
 
-    @objc private func likeButtonDidTap(sender: UIButton) {
-        
-        likeString.selected = !likeString.selected
+    @objc private func likeButtonDidTap(sender: DOFavoriteButton) {
         
         // 屏蔽1.25秒内操作，防止连续点击
         likeButton.userInteractionEnabled = false
         delay(1.25) {
             self.likeButton.userInteractionEnabled = true
-        }
-        
-        // 更改按钮(动画)状态
-        if likeButton.selected {
-            likeButton.deselect()
-        } else {
-            likeButton.select()
         }
         
         delegate?.likeButtonDidTap(sender)

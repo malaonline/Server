@@ -45,11 +45,24 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
                 strongSelf.tableHeaderView.model = strongSelf.model
                 strongSelf.tableView.reloadData()
                 
-                strongSelf.signupView.isPublished = strongSelf.model.published
-                strongSelf.signupView.isFavorite = strongSelf.model.favorite
+                strongSelf.isPublished = strongSelf.model.published
+                strongSelf.isFavorite = strongSelf.model.favorite
             })
         }
     }
+    /// 是否已上架标识
+    var isPublished: Bool = false {
+        didSet {
+            signupView.isPublished = isPublished
+        }
+    }
+    /// 是否已收藏标识
+    var isFavorite: Bool = false {
+        didSet {
+            signupView.isFavorite = isFavorite
+        }
+    }
+    /// 学校数据模型
     var schoolArray: [SchoolModel] = [SchoolModel(id: 0, name: "线下体验店", address: "----")] {
         didSet {
             // 刷新 [教学环境] Cell
@@ -364,17 +377,17 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     }
     
     ///［收藏按钮］点击事件
-    func likeButtonDidTap(sender: UIButton) {
-        
+    func likeButtonDidTap(sender: DOFavoriteButton) {
         
         // 收藏／取消收藏
         let action = { [weak self] in
-            if self?.model.favorite == true {
+            // 更改数据模型，发送请求
+            if self?.isFavorite == true {
                 self?.dislikeTeacher()
-                self?.model.favorite = false
+                self?.isFavorite = false
             }else {
                 self?.likeTeacher()
-                self?.model.favorite = true
+                self?.isFavorite = true
             }
         }
         
