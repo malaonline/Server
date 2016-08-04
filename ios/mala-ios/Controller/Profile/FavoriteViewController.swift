@@ -85,6 +85,7 @@ class FavoriteViewController: BaseTableViewController {
         guard isFetching == false else {
             return
         }
+
         isFetching = true
         refreshControl?.beginRefreshing()
         
@@ -94,7 +95,7 @@ class FavoriteViewController: BaseTableViewController {
             currentPageIndex = 1
         }
         
-        getFavoriteTeachers(page, failureHandler: { [weak self] (reason, errorMessage) in
+        getFavoriteTeachers(currentPageIndex, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
             // 错误处理
             if let errorMessage = errorMessage {
