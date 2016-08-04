@@ -34,6 +34,9 @@ class SimpleTest(unittest.TestCase):
         self.assertEqual(parse_date_next('2016-12-08 23:09:25', False), datetime.datetime(2016,12,8,23,9,26))
         self.assertEqual(parse_date_next('2016-12-08 23:09:59', False), datetime.datetime(2016,12,8,23,10,0))
 
+
+class KlxApiTest(unittest.TestCase):
+
     def test_kuailexue_api0(self):
         p = {
             'uid': 'prd_693',
@@ -111,8 +114,18 @@ class SimpleTest(unittest.TestCase):
         ok = klx_relation(klx_tea, klx_stu)
         self.assertTrue(ok)
 
+
+class SmsApiTest(unittest.TestCase):
+
     def test_sms_api(self):
         # smsUtil.tpl_send_sms('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'})
         flag = try_send_sms('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'}, 3)
         _console.info('try_send_sms: ' + str(flag))
 
+
+class DBTest(unittest.TestCase):
+
+    @unittest.skip
+    def test_orders(self):
+        from app.models import Order
+        _console.info(Order.objects.filter(status=Order.PAID).count())

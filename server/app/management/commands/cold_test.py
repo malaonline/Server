@@ -7,8 +7,9 @@ from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
     help = '''
-    冷测试: 不连接数据库的单元测试, 区别于django test
-    类似于django test时, 将settings.DATABASES设置为空{}, 适用于"算法测试"或"外联API测试"
+    冷测试: 没有数据库migration的单元测试, 区别于django test.
+    但是仍然可以连接数据库, 最好不要测试带有数据库操作的代码.
+    适用于"工具算法测试"或"第三方API测试".
     '''
     test_suite = unittest.TestSuite
     test_runner = unittest.TextTestRunner
@@ -44,7 +45,7 @@ class Command(BaseCommand):
             failfast=self.failfast,
         ).run(suite)
 
-    def init(self):
+    def init(self, *args, **options):
         unittest.installHandler()
         # do not override user-defined settings
         if not hasattr(settings, "COLD_TESTING"):
@@ -56,7 +57,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.verbosity = options.get('verbosity', 1)
         test_labels = options.get('test_labels')
-        self.init()
+        self.init(*args, **options)
         suite = self.build_suite(test_labels)
         result = self.run_suite(suite)
         self.deinit()
