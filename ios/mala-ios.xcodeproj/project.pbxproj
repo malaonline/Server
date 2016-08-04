@@ -3491,7 +3491,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3520,7 +3520,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_DEV_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cf8e2643-e5e0-43c7-86e2-7920f9c34704";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3605,7 +3605,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
@@ -3634,7 +3634,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -DUSE_PRD_SERVER";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malalaoshi.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c3f78a04-c9f3-4c57-a4f3-89f587819a69";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "mala-ios/Application/parent-Bridging-Header.h";
