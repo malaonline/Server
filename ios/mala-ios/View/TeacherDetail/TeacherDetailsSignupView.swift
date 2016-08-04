@@ -43,18 +43,31 @@ class TeacherDetailsSignupView: UIView {
         view.alpha = 0.25
         return view
     }()
-    /// 收藏按钮
-    private lazy var likeButton: UIButton = {
+    /// 收藏操作区域
+    private lazy var likeView: UIView = {
+        let view = UIView()
+//        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap)))
+//        view.userInteractionEnabled = true
+        return view
+    }()
+    /// 收藏文字描述
+    private lazy var likeString: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFontOfSize(10)
-        button.setImage(UIImage(named: "like_icon"), forState: .Normal)
         button.setTitle("收藏", forState: .Normal)
         button.setTitle("已收藏", forState: .Selected)
+        button.titleLabel?.font = UIFont.systemFontOfSize(10)
         button.setTitleColor(MalaColor_6C6C6C_0, forState: .Normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: -8, left: 10.35, bottom: 8, right: -10.35)
-        button.titleEdgeInsets = UIEdgeInsets(top: 8, left: -10.25, bottom: -8, right: 10.25)
-        button.addTarget(self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap(_:)), forControlEvents: .TouchUpInside)
+        button.userInteractionEnabled = false
         return button
+    }()
+    /// 收藏按钮
+    private lazy var likeButton: DOFavoriteButton = {
+        let button = DOFavoriteButton(frame: CGRectMake(0, 0, 44, 44), image: UIImage(named: "heart"))
+        button.imageColorOn = MalaColor_F76E6D_0
+        button.circleColor = MalaColor_F76E6D_0
+        button.lineColor = MalaColor_F76E6D_0
+        button.addTarget(self, action: #selector(TeacherDetailsSignupView.likeButtonDidTap(_:)), forControlEvents: .TouchUpInside)
+        return  button
     }()
     /// 报名按钮
     private lazy var button: UIButton = {
@@ -87,9 +100,11 @@ class TeacherDetailsSignupView: UIView {
         self.backgroundColor = MalaColor_F6F6F6_96
 
         // SubViews
-        self.addSubview(topLine)
-         self.addSubview(likeButton)
-        self.addSubview(button)
+        addSubview(topLine)
+        addSubview(likeView)
+        likeView.addSubview(likeButton)
+        likeView.addSubview(likeString)
+        addSubview(button)
         
         // Autolayout
         topLine.snp_makeConstraints(closure: { (make) -> Void in
@@ -98,15 +113,27 @@ class TeacherDetailsSignupView: UIView {
             make.top.equalTo(self.snp_top)
             make.height.equalTo(MalaScreenOnePixel)
         })
-         likeButton.snp_makeConstraints(closure: { (make) -> Void in
-             make.top.equalTo(topLine.snp_bottom)
-             make.left.equalTo(self.snp_left)
-             make.bottom.equalTo(self.snp_bottom)
-             make.right.equalTo(self.snp_right).multipliedBy(0.422)
-         })
+        likeView.snp_makeConstraints(closure: { (make) -> Void in
+            make.top.equalTo(topLine.snp_bottom)
+            make.left.equalTo(self.snp_left)
+            make.bottom.equalTo(self.snp_bottom)
+            make.right.equalTo(self.snp_right).multipliedBy(0.422)
+        })
+        likeButton.snp_makeConstraints(closure: { (make) -> Void in
+            make.centerX.equalTo(likeView.snp_centerX)
+            make.centerY.equalTo(likeView.snp_centerY).offset(-8)
+            make.height.equalTo(44)
+            make.width.equalTo(44)
+        })
+        likeString.snp_makeConstraints(closure: { (make) -> Void in
+            make.centerX.equalTo(likeView.snp_centerX)
+            make.centerY.equalTo(likeView.snp_centerY).offset(10)
+            make.height.equalTo(10)
+            make.width.equalTo(40)
+        })
         button.snp_makeConstraints(closure: { (make) -> Void in
             make.top.equalTo(topLine.snp_bottom)
-            make.left.equalTo(likeButton.snp_right)
+            make.left.equalTo(likeView.snp_right)
             make.bottom.equalTo(self.snp_bottom)
             make.right.equalTo(self.snp_right)
         })
@@ -122,15 +149,11 @@ class TeacherDetailsSignupView: UIView {
             button.userInteractionEnabled = false
         }
     }
+    
     ///  根据收藏情况调整UI
     private func adjustUIWithFavorite() {
-        if isFavorite {
-            likeButton.selected = true
-            likeButton.setTitle("已收藏", forState: .Highlighted)
-        }else {
-            likeButton.selected = false
-            likeButton.setTitle("收藏", forState: .Highlighted)
-        }
+        likeButton.selected = isFavorite
+        likeString.selected = isFavorite
     }
     
     
@@ -140,10 +163,22 @@ class TeacherDetailsSignupView: UIView {
     }
 
     @objc private func likeButtonDidTap(sender: UIButton) {
+        
+        likeString.selected = !likeString.selected
+        
+        // 屏蔽1.25秒内操作，防止连续点击
         likeButton.userInteractionEnabled = false
-        delay(1.25) { 
+        delay(1.25) {
             self.likeButton.userInteractionEnabled = true
         }
+        
+        // 更改按钮(动画)状态
+        if likeButton.selected {
+            likeButton.deselect()
+        } else {
+            likeButton.select()
+        }
+        
         delegate?.likeButtonDidTap(sender)
     }
     

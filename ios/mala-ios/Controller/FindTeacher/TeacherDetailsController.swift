@@ -369,11 +369,12 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         
         // 收藏／取消收藏
         let action = { [weak self] in
-            sender.selected = !sender.selected
             if self?.model.favorite == true {
                 self?.dislikeTeacher()
+                self?.model.favorite = false
             }else {
                 self?.likeTeacher()
+                self?.model.favorite = true
             }
         }
         
