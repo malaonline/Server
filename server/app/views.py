@@ -161,7 +161,7 @@ class ConcreteTimeSlots(View):
         assert hours % 2 == 0
         assert hours > 0
 
-        hours = min(hours, 35)  # Only return first 35 timeslots
+        hours = min(hours, 200)  # Only return first 100 timeslots
 
         weekly_time_slots = request.GET.get('weekly_time_slots').split()
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
