@@ -97,6 +97,7 @@ GET /api/v1/teachers
 parameters:
 
 ```
+region=1450
 grade=3
 subject=4
 tags=1+3+2
@@ -188,6 +189,34 @@ GET /api/v1/teachers/{teacher id}
 }
 ```
 
+### Region list
+
+```
+GET /api/v1/regions
+```
+
+```
+{
+    "count": 3,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1281,
+            "name": "许昌市"
+        },
+        {
+            "id": 1311,
+            "name": "洛阳市"
+        },
+        {
+            "id": 1450,
+            "name": "郑州市"
+        }
+    ]
+}
+```
+
 ### School list
 
 ```
@@ -196,7 +225,7 @@ GET /api/v1/schools
 
 parameters:
 ```
-region=266
+region=1450
 ```
 
 ```
@@ -210,7 +239,7 @@ region=266
             "name": "洛阳社区三店",
             "address": "南京路121号",
             "thumbnail": "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/schools/img3_nv5pGLS.jpg?X-Amz-Signature=4322ee92a99c41c37e758de711fd4f5c6c70a6154d3490f4db673ac319eee377&X-Amz-Expires=3600&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160105%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20160105T022337Z",
-            "region": 266,
+            "region": 1450,
             "center": false,
             "longitude": 710,
             "latitude": 820
@@ -220,7 +249,7 @@ region=266
             "name": "洛阳社区二店",
             "address": "南京路89号",
             "thumbnail": "https://s3.cn-north-1.amazonaws.com.cn/dev-upload/schools/img2_63QAijp.jpg?X-Amz-Signature=9b1c00ac36470dad42f4284fc3da3c3da9791263be05a9fa8e61d2debfd5fc19&X-Amz-Expires=3600&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-SignedHeaders=host&X-Amz-Credential=AKIAP22CWKUZDOMHLFGA%2F20160105%2Fcn-north-1%2Fs3%2Faws4_request&X-Amz-Date=20160105T022337Z",
-            "region": 266,
+            "region": 1450,
             "center": false,
             "longitude": 990,
             "latitude": 980

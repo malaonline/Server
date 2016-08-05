@@ -334,13 +334,14 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class RegionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Region
-        fields = ('id', 'name', 'superset', 'admin_level', 'leaf',
-                  'weekly_time_slots')
+        fields = ('id', 'name',)
+        # fields = ('id', 'name', 'superset', 'admin_level', 'leaf',
+        #           'weekly_time_slots')
 
 
 class RegionViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargeResultsSetPagination
-    queryset = models.Region.objects.all()
+    queryset = models.Region.objects.filter(opened=True)
     serializer_class = RegionSerializer
 
     def get_queryset(self):
@@ -373,7 +374,7 @@ class SchoolNameSerializer(serializers.ModelSerializer):
 
 
 class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.School.objects.all().filter(opened=True)
+    queryset = models.School.objects.filter(opened=True)
     serializer_class = SchoolSerializer
 
     def get_queryset(self):
@@ -381,7 +382,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
 
         region = self.request.query_params.get('region', None) or None
         if region is not None:
-            queryset = queryset.filter(region__id=region, region__opened=True)
+            queryset = queryset.filter(region__id=region)
 
         queryset = queryset.extra(order_by=['-center'])
         return queryset
@@ -592,6 +593,10 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.queryset
         if self.action == 'list':
             queryset = queryset.filter(published=True)
+
+        region = self.request.query_params.get('region', None) or None
+        if region is not None:
+            queryset = queryset.filter(region__id=region)
 
         grade = self.request.query_params.get('grade', None) or None
         if grade is not None:
