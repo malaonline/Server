@@ -28,7 +28,7 @@ from app.utils.db import paginate, Pager
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
-from app.tasks import send_push, Remind, send_sms
+from app.tasks import send_push, Remind
 
 
 logger = logging.getLogger('app')
@@ -72,21 +72,6 @@ def login_auth(request):
         else:
             return redirect('staff:index')
     return login(request, {'errors': '用户名或密码错误'})
-
-
-def try_send_sms(phone, tpl_id=0, params={}, times=1):
-    """
-    尝试发送短信
-    :return: True or False
-    """
-    if not phone:
-        return False
-    if not tpl_id:
-        return True
-    if settings.FAKE_SMS_SERVER:
-        return True
-    send_sms.delay(phone, tpl_id, params, times)
-    return True
 
 
 class StaffRoleRequiredMixin(AccessMixin):
@@ -1000,7 +985,7 @@ class TeacherWithdrawalView(BaseStaffView):
         if ok:
             # 短信通知老师
             teacher = ah.account.user.teacher
-            try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_APPROVE, {'username':teacher.name}, 2)
+            smsUtil.try_send_sms(teacher.user.profile.phone, smsUtil.TPL_WITHDRAW_APPROVE, {'username':teacher.name}, 2)
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
@@ -1103,7 +1088,7 @@ class TeacherActionView(BaseStaffActionView):
                     sms_data = {'username': teacher.name}
                 else:
                     pass
-                sms_ok = try_send_sms(phone, sms_tpl_id, sms_data, 3)
+                sms_ok = smsUtil.try_send_sms(phone, sms_tpl_id, sms_data, 3)
                 if not sms_ok:
                     ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
                     return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
@@ -1254,7 +1239,7 @@ class TeacherActionView(BaseStaffActionView):
                     sms_data = {'username': teacher.name}
                 else:
                     pass
-                sms_ok = try_send_sms(phone, sms_tpl_id, sms_data, 3)
+                sms_ok = smsUtil.try_send_sms(phone, sms_tpl_id, sms_data, 3)
                 if not sms_ok:
                     ret_msg = '修改【'+teacher.name+'】老师状态成功, 但是短信通知失败, 请自行通知。'
                     return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
@@ -1493,7 +1478,7 @@ class StudentScheduleActionView(BaseStaffActionView):
         new_date = "%s-%s" % (new_start, new_end)
         grade_subject = grade + subject
         parent = timeslot.order.parent
-        try_send_sms(
+        smsUtil.try_send_sms(
             parent.user.profile.phone,
             smsUtil.TPL_STU_TRANSFER_COURSE,
             {'olddate': old_date,
@@ -1501,7 +1486,7 @@ class StudentScheduleActionView(BaseStaffActionView):
              'newdate': new_date}, 3)
         # 短信通知老师
         teacher = timeslot.order.teacher
-        try_send_sms(
+        smsUtil.try_send_sms(
             teacher.user.profile.phone,
             smsUtil.TPL_TEA_TRANSFER_COURSE,
             {'olddate': old_date,
@@ -1991,10 +1976,10 @@ class OrderRefundActionView(BaseStaffActionView):
             # 短信通知家长
             parent = order.parent
             student_name = parent.student_name or parent.user.profile.mask_phone()
-            try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname': student_name}, 3)
+            smsUtil.try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_REQUEST, {'studentname': student_name}, 3)
             # 短信通知老师
             teacher = order.teacher
-            try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username': teacher.name}, 2)
+            smsUtil.try_send_sms(teacher.user.profile.phone, smsUtil.TPL_REFUND_NOTICE, {'username': teacher.name}, 2)
 
             return JsonResponse({'ok': True})
         except OrderStatusIncorrect as e:
@@ -2014,7 +1999,7 @@ class OrderRefundActionView(BaseStaffActionView):
                 parent = order.parent
                 student_name = parent.student_name or parent.user.profile.mask_phone()
                 amount_str = "%.2f"%(order.last_refund_record().refund_amount/100)
-                try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
+                smsUtil.try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
                 # JPush 通知
                 extras = {
                     "type": Remind.ORDER_REFUNDED,  # 退费成功
@@ -2373,9 +2358,9 @@ class EvaluationActionView(BaseStaffActionView):
                     )
                     # 短信通知家长和老师
                     parent_phone = order.parent.user.profile.phone
-                    try_send_sms(parent_phone, smsUtil.TPL_STU_EVALUATE, {'subject': subject, 'datatime': sched_time}, 3)
+                    smsUtil.try_send_sms(parent_phone, smsUtil.TPL_STU_EVALUATE, {'subject': subject, 'datatime': sched_time}, 3)
                     teacher_phone = order.teacher.user.profile.phone
-                    try_send_sms(teacher_phone, smsUtil.TPL_TEACHER_EVALUATE, {'subject': subject, 'datetime': sched_time}, 2)
+                    smsUtil.try_send_sms(teacher_phone, smsUtil.TPL_TEACHER_EVALUATE, {'subject': subject, 'datetime': sched_time}, 2)
                     return JsonResponse({'ok': True})
                 else:
                     return JsonResponse({'ok': False, 'msg': '测评已完成, 无法再次安排时间', 'code': 'evaluation_status'})

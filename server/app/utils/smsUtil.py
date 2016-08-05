@@ -97,6 +97,28 @@ def tpl_send_sms(phone, tpl_id, params={}):
     return _tpl_send_sms(phone, tpl_id, data)
 
 
+def try_send_sms(phone, tpl_id=0, params={}, times=1):
+    """
+    尝试发送短信
+    :return: True or False
+    """
+    if not phone:
+        return False
+    if not tpl_id:
+        return True
+    if settings.FAKE_SMS_SERVER:
+        return True
+    ok = False
+    while (not ok and times > 0):
+        try:
+            tpl_send_sms(phone, tpl_id, params)
+            ok = True
+        except Exception as ex:
+            _logger.error(ex)
+        times -= 1
+    return ok
+
+
 """
 面试邀请
 1274273【麻辣老师】尊敬的#username#，很高兴邀请您参加我们的面试，时间为#time#，地点为#adress#，如有疑问请致电010-57733349。

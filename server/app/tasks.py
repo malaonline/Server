@@ -13,7 +13,6 @@ from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance,\
     Order, Teacher, Coupon, Evaluation
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
-from .utils.smsUtil import tpl_send_sms
 
 logger = logging.getLogger('tasks')
 
@@ -229,16 +228,3 @@ def registerKuaiLeXueUserByOrder(oid):
     if not ok: # just try again
         ok = klx_relation(klx_tea_name, klx_stu_name)
     return ok
-
-
-@shared_task(bind=True, default_retry_delay=32, max_retries=4)
-def send_sms(self, phone, tpl_id, params={}, times=1):
-    logger.debug("[send_sms] to "+str(phone)+', '+str(tpl_id)+': '+str(params))
-    try:
-        tpl_send_sms(phone, tpl_id, params)
-    except Exception as exc:
-        # request.retries is an integer starting at 0
-        if self.request.retries + 1 < times:
-            raise self.retry(exc=exc)
-        logger.error(exc)
-        raise exc

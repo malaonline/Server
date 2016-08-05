@@ -10,7 +10,6 @@ from django.utils import timezone
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.klx_api import *
 from app.utils import smsUtil
-from staff.views import try_send_sms
 
 
 _console = logging.getLogger('console')
@@ -119,7 +118,7 @@ class SmsApiTest(unittest.TestCase):
 
     def test_sms_api(self):
         # smsUtil.tpl_send_sms('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'})
-        flag = try_send_sms('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'}, 3)
+        flag = smsUtil.try_send_sms('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'}, 3)
         _console.info('try_send_sms: ' + str(flag))
 
 
