@@ -1,12 +1,14 @@
 package com.malalaoshi.android.course.model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
  * Course time
  * Created by tianwei on 5/15/16.
  */
-public class CourseTimeModel implements Serializable {
+public class CourseTimeModel implements Serializable, Comparable<CourseTimeModel> {
     //格式化的日期: 一月一日
     private String date;
     //周几： 周一
@@ -48,5 +50,10 @@ public class CourseTimeModel implements Serializable {
 
     public void setDayOfBegin(long dayOfBegin) {
         this.dayOfBegin = dayOfBegin;
+    }
+
+    @Override
+    public int compareTo(@NonNull CourseTimeModel another) {
+        return this.dayOfBegin < another.dayOfBegin ? -1 : 1;
     }
 }

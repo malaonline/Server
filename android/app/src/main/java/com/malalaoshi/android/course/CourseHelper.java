@@ -54,7 +54,7 @@ public class CourseHelper {
             int realWeek = (entity.getDay() + 1) % 7;
             calendar.add(Calendar.DATE, realWeek - weekDateOfNow);
             //按星期几找到日期
-            if (isCourseExpire(entity)) {
+            while (isCourseExpire(calendar, entity)) {
                 calendar.add(Calendar.DAY_OF_WEEK, 7);
             }
             String key;
@@ -84,18 +84,18 @@ public class CourseHelper {
             }
             model.setCourseTimes(model.getCourseTimes() + entity.getStart() + "-" + entity.getEnd() + " ");
         }
+        Collections.sort(list);
         return list;
     }
 
     /**
      * 课程是否过期
      */
-    private static boolean isCourseExpire(CourseDateEntity entity) {
+    private static boolean isCourseExpire(Calendar calendar, CourseDateEntity entity) {
         Date now = new Date();
         try {
             int hours = Integer.valueOf(entity.getStart().split(":")[0]);
             int minutes = Integer.valueOf(entity.getStart().split(":")[1]);
-            Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
             return now.getTime() > calendar.getTimeInMillis();

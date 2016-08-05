@@ -437,6 +437,9 @@ public class CourseConfirmFragment extends BaseFragment
             }
             ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
         } else if (v.getId() == R.id.iv_add) {
+            if (currentHours >= 100) {
+                return;
+            }
             setCurrentHours(currentHours + 2);
             setHoursText();
             ((ImageView) showTimesImageView).setImageDrawable(getResources().getDrawable(R.drawable.ic_down));
@@ -618,7 +621,7 @@ public class CourseConfirmFragment extends BaseFragment
      */
     private void calculateSum() {
         float sum = calculateCost();
-        amountView.setText("¥ " + String.format("%.2f",sum));
+        amountView.setText("¥ " + String.format("%.2f", sum));
     }
 
     private void initGridView() {
@@ -843,7 +846,7 @@ public class CourseConfirmFragment extends BaseFragment
                 CoursePriceUI priceUI = new CoursePriceUI((CoursePrice) price);
                 text = ((CoursePrice) price).getGrade().getName();
                 ;//gradeList[priceUI.getPrice().getGrade().getId().intValue() - 1];
-                text += "  " +  Number.subZeroAndDot(priceUI.getPrice().getPrice() * 0.01d) + "/小时";
+                text += "  " + Number.subZeroAndDot(priceUI.getPrice().getPrice() * 0.01d) + "/小时";
                 priceUI.setGradePrice(text);
                 coursePrices.add(priceUI);
             }
