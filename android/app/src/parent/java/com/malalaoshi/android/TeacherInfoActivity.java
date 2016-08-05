@@ -858,7 +858,6 @@ public class TeacherInfoActivity extends BaseActivity
     private void onCollectSuccess(DoneModel response) {
         if (response!=null&&response.getTeacher()==mTeacher.getId()){
             mTeacher.setFavorite(true);
-            MiscUtil.toast("收藏成功");
             return;
         }
         onCollectFailed();
@@ -872,7 +871,6 @@ public class TeacherInfoActivity extends BaseActivity
     private void onCancelCollcetSuccess(DoneModel response) {
         if (response!=null&&response.isOk()){
             mTeacher.setFavorite(false);
-            MiscUtil.toast("取消收藏");
             return;
         }
         onCancelCollcetFailed();
