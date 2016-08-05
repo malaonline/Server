@@ -1,11 +1,12 @@
 package com.malalaoshi.android.course;
 
+import android.util.Log;
+
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.model.CourseTimeModel;
 import com.malalaoshi.android.entity.CourseDateEntity;
 import com.malalaoshi.android.util.CalendarUtils;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,9 +43,9 @@ public class CourseHelper {
         Date now = calendar.getTime();
         //预约最早是第三天的时间(也就是今天，明天不可预约)
         int weekDateOfNow = calendar.get(Calendar.DAY_OF_WEEK);
-        calendar.add(Calendar.DATE, 2);
+        //calendar.add(Calendar.DATE, 2);
         //可一预约的开始日期
-        long beginDay = getDayFromBegin(calendar.getTimeInMillis());
+        //long beginDay = getDayFromBegin(calendar.getTimeInMillis());
         List<String> keys = new ArrayList<>();
         for (int i = 0; i < hours / 2; i++) {
             //上课时间排期,按小时数循环
@@ -53,7 +54,7 @@ public class CourseHelper {
             int realWeek = (entity.getDay() + 1) % 7;
             calendar.add(Calendar.DATE, realWeek - weekDateOfNow);
             //按星期几找到日期
-            while (getDayFromBegin(calendar.getTimeInMillis()) < beginDay) {
+            if (isCourseExpire(entity)) {
                 calendar.add(Calendar.DAY_OF_WEEK, 7);
             }
             String key;
@@ -84,6 +85,24 @@ public class CourseHelper {
             model.setCourseTimes(model.getCourseTimes() + entity.getStart() + "-" + entity.getEnd() + " ");
         }
         return list;
+    }
+
+    /**
+     * 课程是否过期
+     */
+    private static boolean isCourseExpire(CourseDateEntity entity) {
+        Date now = new Date();
+        try {
+            int hours = Integer.valueOf(entity.getStart().split(":")[0]);
+            int minutes = Integer.valueOf(entity.getStart().split(":")[1]);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hours);
+            calendar.set(Calendar.MINUTE, minutes);
+            return now.getTime() > calendar.getTimeInMillis();
+        } catch (Exception e) {
+            Log.i("MALA", "isCourseExpire: " + e.getMessage());
+        }
+        return false;
     }
 
     /**
@@ -135,12 +154,12 @@ public class CourseHelper {
     public static List<CourseTimeModel> courseTimes(List<String[]> timeslots) {
         //Collections.sort(times);
         List<CourseTimeModel> list = new ArrayList<>();
-        if ( EmptyUtils.isEmpty(timeslots)) {
+        if (EmptyUtils.isEmpty(timeslots)) {
             return list;
         }
         CourseTimeModel model = null;
         Calendar lastCalendar = null;
-        for (int i=0;i<timeslots.size();i++) {
+        for (int i = 0; i < timeslots.size(); i++) {
             String[] data = timeslots.get(i);
             if (data.length == 2) {
                 String start = data[0];
@@ -151,7 +170,8 @@ public class CourseHelper {
                 if (lastCalendar == null) {
                     model = null;
                 } else {
-                    if (startCalendar.get(Calendar.DAY_OF_YEAR) == lastCalendar.get(Calendar.DAY_OF_YEAR) && startCalendar.get(Calendar.DAY_OF_MONTH) == lastCalendar.get(Calendar.DAY_OF_MONTH)) {
+                    if (startCalendar.get(Calendar.DAY_OF_YEAR) == lastCalendar.get(Calendar.DAY_OF_YEAR)
+                            && startCalendar.get(Calendar.DAY_OF_MONTH) == lastCalendar.get(Calendar.DAY_OF_MONTH)) {
 
                     } else {
                         model = null;
@@ -166,7 +186,9 @@ public class CourseHelper {
                     list.add(model);
                 }//DecimalFormat df = new DecimalFormat("0.00");
                 //df.format();
-                String courseTimes = String.format("%02d:%02d-%02d:%02d",startCalendar.get(Calendar.HOUR_OF_DAY),startCalendar.get(Calendar.MINUTE),endCalendar.get(Calendar.HOUR_OF_DAY),endCalendar.get(Calendar.MINUTE));
+                String courseTimes = String.format("%02d:%02d-%02d:%02d", startCalendar.get(Calendar.HOUR_OF_DAY),
+                        startCalendar.get(Calendar.MINUTE), endCalendar.get(Calendar.HOUR_OF_DAY),
+                        endCalendar.get(Calendar.MINUTE));
                 model.setCourseTimes(model.getCourseTimes() + courseTimes + " ");
             }
         }
