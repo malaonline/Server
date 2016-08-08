@@ -464,7 +464,10 @@ class TestApi(TestCase):
         self.assertEqual(200, response.status_code)
 
         order = Order.objects.get(pk=pk)
-        self.assertEqual(order.status, 'p')
+        if order.is_teacher_published():
+            self.assertEqual(order.status, 'p')
+        else:
+            self.assertEqual(order.status, 'd')
 
         request_url = "/api/v1/subject/1/record"
         response = client.get(request_url)
