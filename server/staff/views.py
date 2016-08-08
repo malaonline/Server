@@ -28,7 +28,7 @@ from app.utils.db import paginate, Pager
 from app.utils import excel
 from .decorators import mala_staff_required, is_manager
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
-from app.tasks import send_push, Remind
+from app.tasks import send_push, Remind, send_sms
 
 
 logger = logging.getLogger('app')
@@ -72,6 +72,21 @@ def login_auth(request):
         else:
             return redirect('staff:index')
     return login(request, {'errors': '用户名或密码错误'})
+
+
+def _try_send_sms(phone, tpl_id=0, params={}, times=1):
+    """
+    尝试发送短信
+    :return: True or False
+    """
+    if not phone:
+        return False
+    if not tpl_id:
+        return True
+    if settings.FAKE_SMS_SERVER:
+        return True
+    send_sms.delay(phone, tpl_id, params, times)
+    return True
 
 
 class StaffRoleRequiredMixin(AccessMixin):
