@@ -313,7 +313,12 @@ class TestApi(TestCase):
         subject = Subject.objects.get(pk=1)
         grade = Grade.objects.get(pk=1)
         ability = Ability.objects.get(subject=subject, grade=grade)
-        teacher = Teacher.objects.get(pk=2)
+        teacher_id = 2
+        teacher = Teacher.objects.get(pk=teacher_id)
+        # make sure the sample teacher is published
+        while not teacher.published:
+            teacher_id += 1
+            teacher = Teacher.objects.get(pk=teacher_id)
         price = teacher.region.price_set.get(
             ability=ability, level=teacher.level).price
         hours = 14
@@ -464,10 +469,7 @@ class TestApi(TestCase):
         self.assertEqual(200, response.status_code)
 
         order = Order.objects.get(pk=pk)
-        if order.is_teacher_published():
-            self.assertEqual(order.status, 'p')
-        else:
-            self.assertEqual(order.status, 'd')
+        self.assertEqual(order.status, 'p')
 
         request_url = "/api/v1/subject/1/record"
         response = client.get(request_url)
@@ -476,7 +478,7 @@ class TestApi(TestCase):
         self.assertTrue(json_ret['evaluated'])
 
         # Available to oneself
-        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=1"
+        request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
         response = client.get(request_url)
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode())
@@ -489,7 +491,7 @@ class TestApi(TestCase):
         hours = 6
         weekly_time_slots = list(
                 WeeklyTimeSlot.objects.filter(pk__in=[3, 8, 20]))
-        teacher = Teacher.objects.get(pk=2)
+        teacher = Teacher.objects.get(pk=teacher_id)
         timeslots = Order.objects.concrete_timeslots(
                 hours, weekly_time_slots, teacher)
         self.assertEqual(len(timeslots), 3)
@@ -505,7 +507,7 @@ class TestApi(TestCase):
         username = "parent1"
         password = "123123"
         client.login(username=username, password=password)
-        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=1"
+        request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
         response = client.get(request_url)
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode())
@@ -518,7 +520,7 @@ class TestApi(TestCase):
                     self.assertTrue(d['available'])
 
         # Available time for other parent for different school
-        request_url = "/api/v1/teachers/2/weeklytimeslots?school_id=2"
+        request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=2"
         response = client.get(request_url)
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode())
@@ -538,7 +540,7 @@ class TestApi(TestCase):
 
         request_url = "/api/v1/orders"
         json_data = json.dumps({
-            'teacher': 2, 'school': 1, 'grade': 1, 'subject': 1,
+            'teacher': teacher_id, 'school': 1, 'grade': 1, 'subject': 1,
             'coupon': None, 'hours': 14, 'weekly_time_slots': [3, 6],
         })
         response = client.post(request_url, content_type="application/json",
