@@ -516,7 +516,7 @@ public class CourseConfirmFragment extends BaseFragment
             isEvaluated = false;
         }
         ConfirmOrderActivity
-                .open(getContext(), order, currentHours, weeklyTimeSlots.toString(), teacher, entity, isEvaluated);
+                .open(getContext(), order, currentHours, weeklyTimeSlots.toString(), teacher, entity, true);
     }
 
     private void openScholarShipActivity() {
