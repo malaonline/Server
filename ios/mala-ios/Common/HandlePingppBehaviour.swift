@@ -78,7 +78,7 @@ class HandlePingppBehaviour: NSObject {
             if let errorMessage = errorMessage {
                 println("HandlePingppBehaviour - validateOrderStatus Error \(errorMessage)")
             }
-        }, completion: {order -> Void in
+        }, completion: { order -> Void in
             println("订单状态获取成功 \(order.status)")
             
             // 根据[订单状态]和[课程是否被抢占标记]来判断支付结果
@@ -86,7 +86,11 @@ class HandlePingppBehaviour: NSObject {
                 
                 // 判断订单状态
                 if order.status == MalaOrderStatus.Paid.rawValue {
-                    if order.is_timeslot_allocated == false {
+                    
+                    if order.teacherPublished == false {
+                        // 老师已下架
+                        self.showTeacherDisabledAlert()
+                    }else if order.is_timeslot_allocated == false {
                         // 课程被抢买
                         self.showHasBeenPreemptedAlert()
                     }else {
@@ -121,6 +125,21 @@ class HandlePingppBehaviour: NSObject {
                                         iconImage: UIImage(named: "alert_CourseBeenSeized")
         )
         alert.addAction(popToCourseChoosingViewController)
+    }
+    
+    ///  课程被抢买弹窗
+    func showTeacherDisabledAlert() {
+        ThemeHUD.hideActivityIndicator()
+        guard self.currentViewController != nil else {
+            return
+        }
+        
+        let alert = JSSAlertView().show(currentViewController!,
+                                        title: "购课失败！该老师已下架，支付金额将原路退回",
+                                        buttonText: "我知道了",
+                                        iconImage: UIImage(named: "alert_CourseBeenSeized")
+        )
+        alert.addAction(popToRootViewController)
     }
     
     ///  支付取消弹窗
