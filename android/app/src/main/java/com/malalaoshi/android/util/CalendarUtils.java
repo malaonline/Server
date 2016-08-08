@@ -131,7 +131,7 @@ public class CalendarUtils {
 
     public static String formatDate(Calendar calendar){
         if (calendar==null) return "";
-        String date = String.format("%04d年%02d月",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH));
+        String date = String.format("%04d年%2d月",calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1);
         return date;
     }
 
