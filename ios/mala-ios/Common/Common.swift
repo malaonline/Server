@@ -164,6 +164,7 @@ let MalaColor_FCDFB7_0 = UIColor(rgbHexValue: 0xFCDFB7, alpha: 1.0)
 let MalaColor_EF8F1D_0 = UIColor(rgbHexValue: 0xEF8F1D, alpha: 1.0)
 let MalaColor_E0E0E0_0 = UIColor(rgbHexValue: 0xE0E0E0, alpha: 1.0)
 let MalaColor_F76E6D_0 = UIColor(rgbHexValue: 0xF76E6D, alpha: 1.0)
+let MalaColor_B2CDE1_0 = UIColor(rgbHexValue: 0xB2CDE1, alpha: 1.0)
 
 
 // MARK: - Common String

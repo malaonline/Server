@@ -77,7 +77,7 @@ class TeacherDetailsSignupView: UIView {
         button.setTitleColor(MalaColor_FFFFFF_9, forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_7FB4DC_0), forState: .Normal)
         button.setBackgroundImage(UIImage.withColor(MalaColor_E0E0E0_0), forState: .Disabled)
-        button.setBackgroundImage(UIImage.withColor(MalaColor_E5E5E5_3), forState: .Highlighted)
+        button.setBackgroundImage(UIImage.withColor(MalaColor_B2CDE1_0), forState: .Highlighted)
         button.addTarget(self, action: #selector(TeacherDetailsSignupView.signupButtonDidTap(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
@@ -166,7 +166,7 @@ class TeacherDetailsSignupView: UIView {
     @objc private func signupButtonDidTap(sender: UIButton) {
         delegate?.signupButtonDidTap(sender)
     }
-
+ 
     @objc private func likeButtonDidTap(sender: DOFavoriteButton) {
         
         // 屏蔽1.25秒内操作，防止连续点击
