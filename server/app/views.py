@@ -104,8 +104,8 @@ class ChargeSucceeded(View):
 
         order = charge.order
         order_charge_available = True
-        # 如果订单已经取消, 包括超时自动取消, 则走退款流程
-        if order.status == models.Order.CANCELED:
+        # 如果订单已经取消, 包括超时自动取消, 或者老师已经下架, 则走退款流程
+        if order.status == models.Order.CANCELED or not order.is_teacher_published():
             order_charge_available = False
         order.status = order.PAID
         order.paid_at = timezone.now()
