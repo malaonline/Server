@@ -86,6 +86,11 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             
             self.titleLabel.text = service?.title
 
+            if let amount = MalaCourseChoosingObject.coupon?.amount where amount != 0 {
+                updateUserInterface()
+                return
+            }
+            
             switch model.priceHandleType {
             case .Discount:
                 
@@ -152,6 +157,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupUserInterface()
+        updateUserInterface()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -204,6 +210,12 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
     // MARK: - Override
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         // 选择优惠券时更新UI
+        updateUserInterface()
+    }
+    
+    private func updateUserInterface() {
+        
+        // 选择优惠券时更新UI
         if let title = MalaCourseChoosingObject.coupon?.name where title == "不使用奖学金" {
             self.priceHandleLabel.text = ""
             self.priceLabel.text = "不使用奖学金"
@@ -214,7 +226,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
             self.priceHandleLabel.text = ""
             self.priceLabel.text = "不使用奖学金"
         }
-
+        
         if let title = MalaCourseChoosingObject.coupon?.name where title != "" {
             self.titleLabel.text = title
         }else {
@@ -222,7 +234,7 @@ class CourseChoosingServiceTableViewCell: UITableViewCell {
         }
     }
     
-    
+
     deinit {
         if didAddObserve {
             MalaCourseChoosingObject.removeObserver(self, forKeyPath: "coupon", context: &myContext)
