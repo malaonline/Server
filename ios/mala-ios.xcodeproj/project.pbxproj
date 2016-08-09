@@ -738,6 +738,9 @@
 		F4402D861C5729A200E7D3DB /* ClassScheduleDayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402D841C5729A200E7D3DB /* ClassScheduleDayModel.swift */; };
 		F4402DAE1C58A64200E7D3DB /* KWStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DAD1C58A64200E7D3DB /* KWStepper.swift */; };
 		F4402DFE1C5A0DE200E7D3DB /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402DFD1C5A0DE200E7D3DB /* Extension+String.swift */; };
+		F44DC7C21D59C6D400E5979B /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */; };
+		F44DC7C31D59C6D400E5979B /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */; };
+		F44DC7C41D59C6D400E5979B /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */; };
 		F452CD531CDC4CD2001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
 		F452CD571CDC5839001A30E8 /* OrderFormViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */; };
 		F452CD7E1CE07B9F001A30E8 /* OrderFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */; };
@@ -928,9 +931,6 @@
 		F4F29B061D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
 		F4F29B071D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
 		F4F29B081D10FF92000D1904 /* SingleCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F29B051D10FF92000D1904 /* SingleCourseView.swift */; };
-		F4FF289C1D52E98900339B7D /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF289B1D52E98900339B7D /* DOFavoriteButton.swift */; };
-		F4FF289D1D52E98900339B7D /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF289B1D52E98900339B7D /* DOFavoriteButton.swift */; };
-		F4FF289E1D52E98900339B7D /* DOFavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF289B1D52E98900339B7D /* DOFavoriteButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1083,6 +1083,7 @@
 		F4402E161C5A16A700E7D3DB /* parentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parentTests.swift; sourceTree = "<group>"; };
 		F4402E181C5A16A700E7D3DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4402E1E1C5A178900E7D3DB /* ThemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTests.swift; sourceTree = "<group>"; };
+		F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOFavoriteButton.swift; sourceTree = "<group>"; };
 		F452CD521CDC4CD2001A30E8 /* OrderFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderFormViewController.swift; sourceTree = "<group>"; };
 		F452CD561CDC5839001A30E8 /* OrderFormViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderFormViewCell.swift; path = ../OrderForm/OrderFormViewCell.swift; sourceTree = "<group>"; };
 		F452CD6D1CE0313E001A30E8 /* UIBarButtonItem+WZLBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WZLBadge.h"; sourceTree = "<group>"; };
@@ -1231,7 +1232,6 @@
 		F4F29AFB1D0FEC83000D1904 /* CourseTableViewSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewSectionHeader.swift; sourceTree = "<group>"; };
 		F4F29AFF1D0FF001000D1904 /* CourseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTableViewCell.swift; sourceTree = "<group>"; };
 		F4F29B051D10FF92000D1904 /* SingleCourseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleCourseView.swift; sourceTree = "<group>"; };
-		F4FF289B1D52E98900339B7D /* DOFavoriteButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DOFavoriteButton.swift; path = ../../../../../Desktop/OpenResource/DOFavoriteButton/DOFavoriteButton/DOFavoriteButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1804,7 +1804,7 @@
 		F45E69D71C8D278A00BD0859 /* ThemeTool */ = {
 			isa = PBXGroup;
 			children = (
-				F4FF289B1D52E98900339B7D /* DOFavoriteButton.swift */,
+				F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */,
 				F43F44BC1D05608700B7A358 /* ThemeDate.swift */,
 				F427FF9B1CEC1CE100EAB748 /* PageControl.swift */,
 				F45E69D91C8D278A00BD0859 /* ThemeClassSchedule.swift */,
@@ -2777,7 +2777,7 @@
 				F4E106261CC0D390001AD4AF /* Extension+UIDevice.swift in Sources */,
 				F46065091C96D363004056B1 /* Avatar.swift in Sources */,
 				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
-				F4FF289C1D52E98900339B7D /* DOFavoriteButton.swift in Sources */,
+				F44DC7C21D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
 				F404D47F1C8436A700C19C44 /* PaymentBottomView.swift in Sources */,
 				F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
@@ -2991,7 +2991,7 @@
 				35FF7AE71CF8325A000A70EE /* Extension+UIDevice.swift in Sources */,
 				35FF7AE81CF8325A000A70EE /* Avatar.swift in Sources */,
 				35FF7AE91CF8325A000A70EE /* CourseChoosingPlaceCell.swift in Sources */,
-				F4FF289D1D52E98900339B7D /* DOFavoriteButton.swift in Sources */,
+				F44DC7C31D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
 				35FF7AEA1CF8325A000A70EE /* PaymentBottomView.swift in Sources */,
 				35FF7AEB1CF8325A000A70EE /* MalaAlert.swift in Sources */,
 				35FF7AEC1CF8325A000A70EE /* SubjectFilterView.swift in Sources */,
@@ -3205,7 +3205,7 @@
 				35FF7BCA1CF83264000A70EE /* Extension+UIDevice.swift in Sources */,
 				35FF7BCB1CF83264000A70EE /* Avatar.swift in Sources */,
 				35FF7BCC1CF83264000A70EE /* CourseChoosingPlaceCell.swift in Sources */,
-				F4FF289E1D52E98900339B7D /* DOFavoriteButton.swift in Sources */,
+				F44DC7C41D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
 				35FF7BCD1CF83264000A70EE /* PaymentBottomView.swift in Sources */,
 				35FF7BCE1CF83264000A70EE /* MalaAlert.swift in Sources */,
 				35FF7BCF1CF83264000A70EE /* SubjectFilterView.swift in Sources */,
