@@ -1,6 +1,11 @@
 package com.malalaoshi.android.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.malalaoshi.android.adapter.TeacherAdapter;
 import com.malalaoshi.android.core.MalaContext;
@@ -8,7 +13,10 @@ import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.core.base.BaseRefreshFragment;
 import com.malalaoshi.android.api.MoreTeacherListApi;
 import com.malalaoshi.android.api.TeacherListApi;
+import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.result.TeacherListResult;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by kang on 16/6/22.
@@ -119,6 +127,28 @@ public class TeacherListFragment extends BaseRefreshFragment<TeacherListResult> 
             gradeId = bundle.getLong(ARGS_GRADE_ID);
             subjectId = bundle.getLong(ARGS_SUBJECT_ID);
             tagIds = bundle.getLongArray(ARGS_TAGS_ID);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(BusEvent event) {
+        switch (event.getEventType()) {
+            case BusEvent.BUS_EVENT_RELOAD_TEACHERLIST_DATA:
+                refresh();
+                Log.d("TeacherListFragment","start loadDataBackground");
+                break;
         }
     }
 
