@@ -82,7 +82,7 @@
                                 {{ record.timeslot.order.level.name }}
                             {% endif %}
                         </td>
-                        <td>{# 上课时间 #} {{ record.timeslot.start|date:'H:i' }} - {{ hist.records.0.timeslot.end|date:'H:i' }}</td>
+                        <td>{# 上课时间 #} {{ record.timeslot.start|date:'H:i' }} - {{ record.timeslot.end|date:'H:i' }}</td>
                         <td>{# 课时单价 #}
                             {% if record.timeslot.order.price %}
                                 {{ record.timeslot.order.price|money_format:'/' }}
