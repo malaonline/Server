@@ -9,22 +9,40 @@ function showToast(txt){
     $toast.hide();
   }, 1500);
 }
+function getStuName() {
+  return $.trim($('#stuName').val());
+}
+function checkStuName(stu_name) {
+    var stuName = stu_name || getStuName();
+    if (!stuName) {
+        return '请输入学生姓名';
+    }
+    if (stuName.length > 4) {
+        return '姓名不能多余4个汉字';
+    }
+    return 0;
+}
 function checkStatus(){
-  if(checkMobile($('#phoneCode').val()) && $('#smsCode').val().length > 0){
+  var nameOk = checkStuName()==0;
+  if(nameOk && checkMobile($('#phoneCode').val()) && $('#smsCode').val().length > 0){
     $('#doCheck').addClass('submit_btn_active');
   }else{
     $('#doCheck').removeClass('submit_btn_active');
   }
 }
-$('#smsCode, #phoneCode').bind('input propertychange', checkStatus);
+$('#smsCode, #phoneCode, #stuName').bind('input propertychange', checkStatus);
 $('.ext_btn_primary').click(function(){
   var itm = $('.ext_btn_primary');
   if(!itm.hasClass('ext_btn_disabled')){
-    if(checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined){
+    var ckName = checkStuName();
+    if((ckName==0) && checkMobile($('#phoneCode').val()) && TimeEvent.interval == undefined){
       itm.addClass('ext_btn_disabled');
       getSMSFromServer();
     }else{
       itm.removeClass('ext_btn_disabled');
+      if (ckName) {
+        return showToast(ckName);
+      }
       showToast('请输入正确手机号');
     }
   }
@@ -79,7 +97,8 @@ function checkSMS(){
   var itm = $('.ext_btn_primary');
   var phone_code = $('#phoneCode').val();
   var sms_code = $('#smsCode').val();
-  if(!checkMobile(phone_code)){
+  var stu_name = getStuName();
+  if(!(checkStuName(stu_name)==0) && !checkMobile(phone_code)){
     itm.removeClass('ext_btn_disabled');
     return false;
   }
@@ -88,7 +107,7 @@ function checkSMS(){
   }
   $('.msg-error').html('验证码错误');
   $('.msg-error').css('display', 'none');
-  $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: openid},
+  $.post("/wechat/add_openid/", {phone:phone_code, code:sms_code, openid: openid, 'name': stu_name},
     function(data){
       console.log(data);
       if(data.result == false){
@@ -100,6 +119,8 @@ function checkSMS(){
           $('.msg-error').html('验证码错误');
         }else if(data.code == '-3'){
           showToast('该手机号已绑定其他微信号');
+        }else if(data.code == '-4'){
+          showToast('请输入学生姓名');
         }
       }else{
         console.log("验证码正确");

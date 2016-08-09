@@ -136,6 +136,8 @@ class SchoolPhotosView(DetailView):
 
 
 def _get_auth_redirect_url(request, teacher_id):
+    if settings.TESTING:
+        return reverse('wechat:phone_page') + '?state='+str(teacher_id)
     checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')
     params_str = {
         'redirect_uri': checkPhoneURI,
@@ -809,6 +811,9 @@ def add_openid(request):
     phone = request.POST.get("phone", None)
     code = request.POST.get("code", None)
     openid = request.POST.get("openid", None)
+    stu_name = request.POST.get("name", None)
+    if not stu_name:
+        return JsonResponse({'result': False, 'code': -4})
     if not openid or openid == 'None':
         return JsonResponse({
             "result": False,
@@ -846,8 +851,9 @@ def add_openid(request):
         profile.save()
     except Parent.DoesNotExist:
         parent = Parent(user=user)
-        parent.save()
 
+    parent.student_name = stu_name
+    parent.save()
     parent.user.backend = _get_default_bankend_path()
     login(request, parent.user)
 

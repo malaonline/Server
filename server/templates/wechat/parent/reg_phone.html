@@ -35,6 +35,16 @@
                     <img id="userPhoneImg" src="{% static 'common/icons/user_phone.png' %}" />
                 </div>
                 <div class="weui_cell_ft">
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" placeholder="请输入学生姓名" id="stuName"/>
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <img id="userPhoneImg" src="{% static 'common/icons/user_phone.png' %}" />
+                </div>
+                <div class="weui_cell_ft">
                     <a href="javascript:;" class="weui_btn ext_btn_primary">获取验证码</a>
                 </div>
                 <div>
@@ -78,7 +88,7 @@
 </div>
 <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script src="{% static 'wechat/js/parent/reg_phone.js' %}?v=2.0.1"></script>
+<script src="{% static 'wechat/js/parent/reg_phone.js' %}?v=2.1.1"></script>
 <script>
     wx.config({
         debug: false,
