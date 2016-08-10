@@ -50,6 +50,8 @@ import com.malalaoshi.android.entity.Subject;
 import com.malalaoshi.android.entity.Teacher;
 import com.malalaoshi.android.listener.BounceTouchListener;
 import com.malalaoshi.android.result.SchoolListResult;
+import com.malalaoshi.android.ui.widget.like.LikeButton;
+import com.malalaoshi.android.ui.widget.like.OnLikeListener;
 import com.malalaoshi.android.util.LocManager;
 import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
@@ -73,7 +75,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class TeacherInfoActivity extends BaseActivity
         implements View.OnClickListener, ObservableScrollView.ScrollViewListener, TitleBarView.OnTitleBarClickListener,
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener, OnLikeListener {
 
     private static final String EXTRA_TEACHER_ID = "teacherId";
     private static int REQUEST_CODE_LOGIN = 1000;
@@ -216,6 +218,9 @@ public class TeacherInfoActivity extends BaseActivity
     @Bind(R.id.tv_collection)
     protected TextView tvCollection;
 
+    @Bind(R.id.heart_button)
+    protected LikeButton likeButton;
+
     private Drawable drawCollection;
     private Drawable drawUnCollection;
 
@@ -273,7 +278,7 @@ public class TeacherInfoActivity extends BaseActivity
     private void initViews() {
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
-        drawCollection = getResources().getDrawable(R.drawable.ic_collection);
+        drawCollection = getResources().getDrawable(R.drawable.ic_uncollection);
         drawCollection.setBounds(0, 0, drawCollection.getMinimumWidth(), drawCollection.getMinimumHeight());
         drawUnCollection = getResources().getDrawable(R.drawable.ic_uncollection);
         drawUnCollection.setBounds(0, 0, drawUnCollection.getMinimumWidth(), drawUnCollection.getMinimumHeight());
@@ -286,8 +291,8 @@ public class TeacherInfoActivity extends BaseActivity
         scrollView.setScrollViewListener(this);
         titleBarView.setOnTitleBarClickListener(this);
         gvGallery.setOnItemClickListener(this);
-        tvCollection.setOnClickListener(this);
         mHeadPortrait.setOnClickListener(this);
+        likeButton.setOnLikeListener(this);
     }
 
     private void initData() {
@@ -465,6 +470,7 @@ public class TeacherInfoActivity extends BaseActivity
                 tvTeacherSeniority.setText(teachAge.toString() + "年");
             }
             if (mTeacher.isFavorite()){
+                likeButton.setLiked(true);
                 setCollectionStatus(true);
             }else{
                 setCollectionStatus(false);
@@ -679,9 +685,6 @@ public class TeacherInfoActivity extends BaseActivity
                 changeSchoolsShow();
                 StatReporter.moreSchool();
                 break;
-            case R.id.tv_collection:
-                onCollection();
-                break;
             case R.id.parent_teacher_detail_head_portrait:
                 onClickTeacherAvatar();
                 break;
@@ -713,10 +716,9 @@ public class TeacherInfoActivity extends BaseActivity
 
     void setCollectionStatus(boolean isCollect){
         if (isCollect){
-            tvCollection.setCompoundDrawables(null, drawCollection,null,null);
             tvCollection.setText("已收藏");
         }else{
-            tvCollection.setCompoundDrawables(null, drawUnCollection,null,null);
+            likeButton.setLiked(false);
             tvCollection.setText("收藏");
         }
     }
@@ -876,6 +878,16 @@ public class TeacherInfoActivity extends BaseActivity
         onCancelCollcetFailed();
     }
 
+    @Override
+    public void liked(LikeButton likeButton) {
+        onCollection();
+    }
+
+    @Override
+    public void unLiked(LikeButton likeButton) {
+        onCollection();
+    }
+
 
     private static final class LoadTeacherInfoRequest extends BaseApiContext<TeacherInfoActivity, Teacher> {
 
@@ -986,7 +998,7 @@ public class TeacherInfoActivity extends BaseActivity
         @Override
         public void onApiStarted() {
             super.onApiStarted();
-            get().tvCollection.setOnClickListener(null);
+            get().likeButton.setOnLikeListener(null);
         }
 
         @Override
@@ -1003,7 +1015,7 @@ public class TeacherInfoActivity extends BaseActivity
         @Override
         public void onApiFinished() {
             super.onApiFinished();
-            get().tvCollection.setOnClickListener(get());
+            get().likeButton.setOnLikeListener(get());
         }
     }
 
