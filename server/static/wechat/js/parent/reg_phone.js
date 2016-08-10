@@ -17,8 +17,8 @@ function checkStuName(stu_name) {
     if (!stuName) {
         return '请输入学生姓名';
     }
-    if (stuName.length > 4) {
-        return '姓名不能多余4个汉字';
+    if (!/^[\u4e00-\u9fff]{2,4}$/.test(stuName)) {
+        return '姓名请输入2到4个汉字';
     }
     return 0;
 }
