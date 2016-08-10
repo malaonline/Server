@@ -711,6 +711,7 @@ public class TeacherInfoActivity extends BaseActivity
         } else {
             //跳转登录页
             startSmsActivity();
+            setCollectionStatus(false);
         }
     }
 
