@@ -294,17 +294,14 @@ public class UserFragment extends BaseFragment {
         String cachePath = ImageUtil.getAppDir("cache");
         if (cachePath != null) {
             try {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 File dir = new File(cachePath);
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                String timeStamp = format.format(new Date());
-                String imageFileName = timeStamp + ".png";
-
+                String imageFileName = System.currentTimeMillis() + ".png";
                 File image = new File(dir, imageFileName);
                 strAvatarLocPath = image.getAbsolutePath();
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                Log.e("UserFragment","takePhoto:"+strAvatarLocPath);
                 this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
             } catch (ActivityNotFoundException e) {
                 Toast.makeText(getContext(), "没有找到储存目录", Toast.LENGTH_LONG).show();
@@ -478,6 +475,7 @@ public class UserFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("UserFragment","onActivityResult:"+strAvatarLocPath);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_PICK_IMAGE:

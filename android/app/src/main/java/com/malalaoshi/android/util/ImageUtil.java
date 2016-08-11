@@ -16,26 +16,16 @@
 
 package com.malalaoshi.android.util;
 
-import android.annotation.TargetApi;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Useful for when the input images might be too large to simply load directly into
  * memory.
@@ -224,7 +214,9 @@ public class ImageUtil {
             //String outFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/malaonline";
             File dir = new File(Environment.getExternalStorageDirectory(),"malaonline/"+subDir);
             if (!dir.exists()) {
-                dir.mkdirs();
+                if (!dir.mkdirs()){
+                    return null;
+                }
             }
             return dir.getAbsolutePath();
         }
