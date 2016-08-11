@@ -168,6 +168,7 @@ class ConcreteTimeSlots(View):
                              for x in weekly_time_slots]
         data = models.Order.objects.concrete_timeslots(
                 hours, weekly_time_slots, teacher)
+        data.sort(key=lambda x: x['start'])
         data = [(int(x['start'].timestamp()),
                  int(x['end'].timestamp())) for x in data]
 
