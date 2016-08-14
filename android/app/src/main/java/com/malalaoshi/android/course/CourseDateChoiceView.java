@@ -89,7 +89,7 @@ public class CourseDateChoiceView extends LinearLayout {
         this.listener = listener;
     }
 
-    public void setOnCourseNoteClickListener(onCourseNoteClickListener listener){
+    public void setOnCourseNoteClickListener(onCourseNoteClickListener listener) {
         this.noteClickListener = listener;
     }
 
@@ -108,9 +108,9 @@ public class CourseDateChoiceView extends LinearLayout {
         @Override
         protected View createView(int position, ViewGroup parent) {
             View view = View.inflate(context, R.layout.view_course_date_choice_item, null);
-            TextView contentView = (TextView) view.findViewById(R.id.tv_content);
             ViewHolder holder = new ViewHolder();
-            holder.contentView = contentView;
+            holder.contentView = (TextView) view.findViewById(R.id.tv_content);
+            holder.boughtView = view.findViewById(R.id.iv_bought);
             view.setTag(holder);
             return view;
         }
@@ -129,13 +129,13 @@ public class CourseDateChoiceView extends LinearLayout {
 
         @Override
         protected void fillView(int position, final View convertView, final CourseDateEntity data) {
-            TextView contentView = ((ViewHolder) convertView.getTag()).contentView;
+            ViewHolder holder = (ViewHolder) convertView.getTag();
             if (data.isTitle()) {
                 convertView.setBackgroundColor(Color.parseColor("#88bcde"));
-                contentView.setText(data.getStart());
+                holder.contentView.setText(data.getStart());
                 return;
             } else {
-                contentView.setText("");
+                holder.contentView.setText("");
             }
             if (data.isAvailable()) {
                 if (data.isChoice()) {
@@ -146,6 +146,7 @@ public class CourseDateChoiceView extends LinearLayout {
             } else {
                 convertView.setBackgroundColor(Color.parseColor("#ededed"));
             }
+            holder.boughtView.setVisibility(data.isBought() ? VISIBLE : INVISIBLE);
             convertView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -161,6 +162,7 @@ public class CourseDateChoiceView extends LinearLayout {
 
         private class ViewHolder {
             private TextView contentView;
+            private View boughtView;
         }
     }
 }

@@ -61,13 +61,12 @@ import com.malalaoshi.android.util.LocationUtil;
 import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.Number;
 
-import de.greenrobot.event.EventBus;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 /**
  * Course confirm fragment
@@ -81,24 +80,26 @@ public class CourseConfirmFragment extends BaseFragment
 
     private static final String ARG_TEACHER_ID = "teacher id";
     private static final String ARG_TEACHER_NAME = "teacher name";
-    private static final String ARG_TEACHER_AVATOR = "teacher avator";
+    private static final String ARG_TEACHER_AVATAR = "teacher avatar";
     private static final String ARG_SUBJECT = "subject";
 
     public static CourseConfirmFragment newInstance(Object[] schools, Object[] prices, Object teacherId, Object subject,
-            String teacherAvator, String teacherName) {
+                                                    String teacherAvatar, String teacherName) {
         CourseConfirmFragment fragment = new CourseConfirmFragment();
-        fragment.init(schools, prices, teacherId, subject, teacherAvator, teacherName);
+        fragment.init(schools, prices, teacherId, subject, teacherAvatar, teacherName);
         return fragment;
     }
 
-    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName, String teacherAvator,
-            Subject subject) {
-        if (teacherId == null || subject == null) { return null; }
+    public static CourseConfirmFragment newInstance(Long teacherId, String teacherName, String teacherAvatar,
+                                                    Subject subject) {
+        if (teacherId == null || subject == null) {
+            return null;
+        }
         CourseConfirmFragment fragment = new CourseConfirmFragment();
         Bundle args = new Bundle();
         args.putLong(ARG_TEACHER_ID, teacherId);
         args.putString(ARG_TEACHER_NAME, teacherName);
-        args.putString(ARG_TEACHER_AVATOR, teacherAvator);
+        args.putString(ARG_TEACHER_AVATAR, teacherAvatar);
         args.putParcelable(ARG_SUBJECT, subject);
         fragment.setArguments(args);
         return fragment;
@@ -196,6 +197,9 @@ public class CourseConfirmFragment extends BaseFragment
     //标识是否是第一次购买
     private Evaluated evaluated;
 
+    //课程信息
+    private List<CourseDateEntity> courseDateEntities;
+
     private BroadcastReceiver receiver;
 
     private final class Receiver extends WeakFragmentReceiver {
@@ -226,9 +230,9 @@ public class CourseConfirmFragment extends BaseFragment
         if (args != null) {
             Long teacherId = args.getLong(ARG_TEACHER_ID);
             String teacherName = args.getString(ARG_TEACHER_NAME);
-            String teacherAvator = args.getString(ARG_TEACHER_AVATOR);
+            String teacherAvatar = args.getString(ARG_TEACHER_AVATAR);
             Subject subject = args.getParcelable(ARG_SUBJECT);
-            init(teacherId, teacherName, teacherAvator, subject);
+            init(teacherId, teacherName, teacherAvatar, subject);
         }
         //initGridView();
         //initSchoolListView();
@@ -303,7 +307,7 @@ public class CourseConfirmFragment extends BaseFragment
 
 
     private void init(Object[] schools, Object[] prices, Object teacherId, Object subject, String teacherAvator,
-            String teacherName) {
+                      String teacherName) {
         if (teacherId != null) {
             this.teacher = (Long) teacherId;
             this.teacherAvatar = teacherAvator;
@@ -376,7 +380,8 @@ public class CourseConfirmFragment extends BaseFragment
 
     private void onFetchWeekDataSuccess(String response) {
         try {
-            choiceView.setData(CourseDateEntity.format(response));
+            courseDateEntities = CourseDateEntity.format(response);
+            choiceView.setData(courseDateEntities);
             weekContainer.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();

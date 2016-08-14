@@ -29,19 +29,18 @@ public class CourseHelper {
      * 包括今天的48小时内不能预约
      * CourseDateEntity星期排列是周一到周日1～7.Calendar是周日到周六1~7.要做一个转化
      *
-     * @param hours 总的小时数
-     * @param times 周时间表
+     * @param hours      总的小时数
+     * @param selectList 选择的时间表
      * @return 上课时间
      */
-    public static List<CourseTimeModel> calculateCourse(int hours, List<CourseDateEntity> times) {
-        Collections.sort(times);
+    public static List<CourseTimeModel> calculateCourse(int hours, List<CourseDateEntity> selectList) {
+        Collections.sort(selectList);
         List<CourseTimeModel> list = new ArrayList<>();
-        if (hours < 2 || EmptyUtils.isEmpty(times)) {
+        if (hours < 2 || EmptyUtils.isEmpty(selectList)) {
             return list;
         }
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
-        //预约最早是第三天的时间(也就是今天，明天不可预约)
         int weekDateOfNow = calendar.get(Calendar.DAY_OF_WEEK);
         //calendar.add(Calendar.DATE, 2);
         //可一预约的开始日期
@@ -50,11 +49,11 @@ public class CourseHelper {
         for (int i = 0; i < hours / 2; i++) {
             //上课时间排期,按小时数循环
             calendar.setTime(now);
-            CourseDateEntity entity = times.get(i % times.size());
+            CourseDateEntity entity = selectList.get(i % selectList.size());
             int realWeek = (entity.getDay() + 1) % 7;
             calendar.add(Calendar.DATE, realWeek - weekDateOfNow);
             //按星期几找到日期
-            while (isCourseExpire(calendar, entity)) {
+            while (isCourseInvalid(calendar, entity)) {
                 calendar.add(Calendar.DAY_OF_WEEK, 7);
             }
             String key;
@@ -89,18 +88,18 @@ public class CourseHelper {
     }
 
     /**
-     * 课程是否过期
+     * 课程是否可选
      */
-    private static boolean isCourseExpire(Calendar calendar, CourseDateEntity entity) {
-        Date now = new Date();
+    private static boolean isCourseInvalid(Calendar calendar, CourseDateEntity entity) {
+        long beginTime = entity.getLast_occupied_end() > 0 ? entity.getLast_occupied_end() : (new Date()).getTime();
         try {
             int hours = Integer.valueOf(entity.getStart().split(":")[0]);
             int minutes = Integer.valueOf(entity.getStart().split(":")[1]);
             calendar.set(Calendar.HOUR_OF_DAY, hours);
             calendar.set(Calendar.MINUTE, minutes);
-            return now.getTime() > calendar.getTimeInMillis();
+            return beginTime > calendar.getTimeInMillis();
         } catch (Exception e) {
-            Log.i("MALA", "isCourseExpire: " + e.getMessage());
+            Log.i("MALA", "isCourseInvalid: " + e.getMessage());
         }
         return false;
     }

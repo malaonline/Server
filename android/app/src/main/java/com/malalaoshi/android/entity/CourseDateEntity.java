@@ -28,6 +28,12 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
     //是否是标题
     private boolean isTitle;
 
+    //自己是否购买
+    private boolean bought;
+
+    //被占用的最后时间
+    private long last_occupied_end;
+
     public long getId() {
         return id;
     }
@@ -102,6 +108,10 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
                 JSONObject section = sections.getJSONObject(j);
                 CourseDateEntity item = new CourseDateEntity();
                 item.setAvailable(section.optBoolean("available"));
+                item.setLast_occupied_end(section.optLong("last_occupied_end", 0) * 1000);
+                if (item.isAvailable() && item.getLast_occupied_end() > 0) {
+                    item.setBought(true);
+                }
                 item.setEnd(section.optString("end"));
                 item.setStart(section.optString("start"));
                 item.setId(section.optLong("id"));
@@ -118,5 +128,21 @@ public class CourseDateEntity implements Comparable<CourseDateEntity> {
         }
         list.clear();
         return resList;
+    }
+
+    public long getLast_occupied_end() {
+        return last_occupied_end;
+    }
+
+    public void setLast_occupied_end(long last_occupied_end) {
+        this.last_occupied_end = last_occupied_end;
+    }
+
+    public boolean isBought() {
+        return bought;
+    }
+
+    public void setBought(boolean bought) {
+        this.bought = bought;
     }
 }
