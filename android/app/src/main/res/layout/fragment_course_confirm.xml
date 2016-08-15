@@ -10,7 +10,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:background="@color/color_white_ffffff"
             android:orientation="vertical"
             android:paddingBottom="50dp">
 
@@ -21,7 +21,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
                 android:text="选择授课年级"
-                android:textColor="#333"
+                android:textColor="@color/color_black_333333"
                 android:textSize="15sp" />
 
             <com.malalaoshi.android.course.GridViewForScrollView
@@ -40,7 +40,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#f6f6f6" />
+                android:background="@color/color_white_f6f6f6" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"
                 android:text="选择上课地点"
-                android:textColor="#333"
+                android:textColor="@color/color_black_333333"
                 android:textSize="15sp" />
 
             <com.malalaoshi.android.view.ScrollListView
@@ -57,9 +57,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:divider="@color/line_bg"
+                android:divider="@color/color_gray_dedede"
                 android:dividerHeight="0.5dp"
-                android:listSelector="#00000000"
+                android:listSelector="@color/color_transparent_000000_00"
                 android:paddingBottom="2dp" />
 
 
@@ -73,7 +73,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:background="#f6f6f6" />
+                    android:background="@color/color_white_f6f6f6" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="16dp"
                     android:text="选择上课时间"
-                    android:textColor="#333"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="15sp" />
 
                 <com.malalaoshi.android.course.CourseDateChoiceView
@@ -97,7 +97,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#f6f6f6" />
+                android:background="@color/color_white_f6f6f6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:text="选择小时"
-                    android:textColor="#6c6c6c"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="15sp" />
 
                 <ImageView
@@ -133,7 +133,7 @@
                     android:layout_toLeftOf="@+id/iv_add"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="#6c6c6c"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="13sp" />
 
                 <ImageView
@@ -150,7 +150,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#f6f6f6" />
+                android:background="@color/color_white_f6f6f6" />
 
             <RelativeLayout
                 android:id="@+id/rl_show_time_container"
@@ -175,7 +175,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="上课时间"
-                        android:textColor="#6c6c6c"
+                        android:textColor="@color/color_black_6c6c6c"
                         android:textSize="14sp" />
 
                     <ImageView
@@ -207,7 +207,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#f6f6f6" />
+                android:background="@color/color_white_f6f6f6" />
 
             <RelativeLayout
                 android:id="@+id/rl_scholarship_container"
@@ -223,7 +223,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
                     android:text="奖学金"
-                    android:textColor="#6c6c6c"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="14sp" />
 
                 <TextView
@@ -235,7 +235,7 @@
                     android:layout_toLeftOf="@+id/iv_scholarshop"
                     android:gravity="center"
                     android:text="未使用奖学金"
-                    android:textColor="#333"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -253,7 +253,7 @@
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:background="@color/line_color"
+                android:background="@color/color_gray_dadada"
                 android:visibility="gone" />
 
             <RelativeLayout
@@ -269,7 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="测评建档服务"
-                    android:textColor="#6c6c6c"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="14sp" />
 
                 <TextView
@@ -281,7 +281,7 @@
                     android:layout_toLeftOf="@+id/tv_review_mount"
                     android:gravity="center"
                     android:text="￥500"
-                    android:textColor="#333"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="14sp" />
 
                 <TextView
@@ -293,7 +293,7 @@
                     android:layout_toLeftOf="@+id/iv_review"
                     android:gravity="center"
                     android:text="￥0"
-                    android:textColor="#333"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -317,7 +317,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/line_color" />
+                    android:background="@color/color_gray_dadada" />
 
                 <TextView
                     android:id="@+id/tv_price"
@@ -327,7 +327,7 @@
                     android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/theme_red_96"
+                    android:textColor="@color/color_red_e26254_e6"
                     android:textSize="13sp" />
 
                 <TextView
@@ -339,14 +339,14 @@
                     android:layout_marginTop="15dp"
                     android:layout_toLeftOf="@id/tv_price"
                     android:text="原价:"
-                    android:textColor="#333"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="14sp" />
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="#f6f6f6" />
+                android:background="@color/color_white_f6f6f6" />
         </LinearLayout>
     </ScrollView>
 
@@ -361,13 +361,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="#fff">
+        android:background="@color/color_white_ffffff">
 
         <View
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/line_color" />
+            android:background="@color/color_gray_dadada" />
 
         <TextView
             android:id="@+id/tv_mount_label"
@@ -377,7 +377,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="5dp"
             android:text="还需支付:"
-            android:textColor="#333"
+            android:textColor="@color/color_black_333333"
             android:textSize="14sp" />
 
         <TextView
@@ -389,7 +389,7 @@
             android:layout_toRightOf="@+id/tv_mount_label"
             android:gravity="center"
             android:text="0"
-            android:textColor="@color/theme_red_96"
+            android:textColor="@color/color_red_e26254_e6"
             android:textSize="13sp" />
 
         <TextView
@@ -402,7 +402,7 @@
             android:background="@drawable/btn_confirm"
             android:gravity="center"
             android:text="确认"
-            android:textColor="#fff"
+            android:textColor="@color/color_white_ffffff"
             android:textSize="16sp" />
     </RelativeLayout>
     <!--</LinearLayout>-->

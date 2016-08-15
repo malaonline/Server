@@ -3,7 +3,7 @@
     android:id="@+id/ll_dialog"
     android:layout_width="272dp"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="@color/color_white_ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,7 +14,7 @@
         <TextView
             android:id="@+id/tv_title"
             android:textSize="@dimen/text_size_xlarge"
-            android:textColor="@color/comment_title_text_color"
+            android:textColor="@color/color_blue_8fbcdd"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_centerInParent="true"
@@ -35,7 +35,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/comment_title_text_color" />
+        android:background="@color/color_blue_8fbcdd" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                     android:id="@+id/tv_teacher_name"
                     android:layout_marginRight="5dp"
                     android:textSize="@dimen/text_size_normal_x"
-                    android:textColor="@color/comment_teacher_text_color"
+                    android:textColor="@color/color_black_939393"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" " />
@@ -127,7 +127,7 @@
                 <TextView
                     android:id="@+id/tv_course"
                     android:textSize="@dimen/text_size_normal_x"
-                    android:textColor="@color/comment_course_text_color"
+                    android:textColor="@color/color_gray_bebebe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="" />
@@ -156,21 +156,21 @@
             android:scrollHorizontally="true"
             android:scrollIndicators="right"
             android:maxLength="200"
-            android:textColorHint="@color/comment_content_hint_color"
-            android:textColor="@color/comment_content_text_color"
+            android:textColorHint="@color/color_gray_d4d4d4"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal_x" />
     </LinearLayout>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/comment_title_text_color" />
+        android:background="@color/color_blue_8fbcdd" />
     <TextView
         android:id="@+id/tv_submit"
         android:textSize="@dimen/text_size_large_x"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:textColor="@color/title_right_color"
+        android:textColor="@color/color_blue_82b4d9"
         android:background="@drawable/bg_course_btn"
         android:gravity="center"
         android:text="提交" />

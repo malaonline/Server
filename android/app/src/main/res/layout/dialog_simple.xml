@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="272dp"
     android:layout_height="231dp"
-    android:background="@color/colorWhite">
+    android:background="@color/color_white_ffffff">
 
     <RelativeLayout
         android:id="@+id/rl_dlg_icon"
@@ -25,7 +25,7 @@
         android:lineSpacingExtra="8dp"
         android:paddingLeft="37dp"
         android:paddingRight="37dp"
-        android:textColor="@color/text_color_dlg"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_normal_x" />
 
     <LinearLayout
@@ -37,7 +37,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/dialog_title_color"></View>
+            android:background="@color/color_blue_8fbcdd"></View>
 
         <TextView
             android:id="@+id/tv_ok"
@@ -47,7 +47,7 @@
             android:background="@drawable/dialog_ok_btn"
             android:gravity="center"
             android:text="确 认"
-            android:textColor="@color/dialog_title_color"
+            android:textColor="@color/color_blue_8fbcdd"
             android:textSize="@dimen/text_size_large_x" />
     </LinearLayout>
 </RelativeLayout>

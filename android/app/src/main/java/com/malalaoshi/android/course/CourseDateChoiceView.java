@@ -139,7 +139,7 @@ public class CourseDateChoiceView extends LinearLayout {
             }
             if (data.isAvailable()) {
                 if (data.isChoice()) {
-                    convertView.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.theme_blue_light));
+                    convertView.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.color_blue_c5deee));
                 } else {
                     convertView.setBackgroundColor(Color.TRANSPARENT);
                 }

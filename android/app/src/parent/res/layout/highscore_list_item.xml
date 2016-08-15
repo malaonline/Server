@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:gravity="center"
-            android:textColor="@color/prices_name_text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/prices_name_text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
-            android:textColor="@color/prices_name_text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView
@@ -46,11 +46,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
-            android:textColor="@color/prices_name_text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider"
-        android:background="@color/list_divider_color"/>
+        android:background="@color/color_gray_e5e5e5"/>
 </LinearLayout>

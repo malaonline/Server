@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="@dimen/teacher_list_card_corner_radius"
     card_view:cardElevation="@dimen/teacher_list_card_elevation"
-    android:background="@color/item_background"
+    android:background="@color/color_gray_ece6e6"
     >
 
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:background="@color/item_background"
+            android:background="@color/color_gray_ece6e6"
             android:orientation="horizontal">
 
             <com.malalaoshi.android.view.SquareImageView
@@ -44,7 +44,7 @@
             android:layout_marginTop="-25dp"
             android:paddingRight="@dimen/item_content_padding"
             android:gravity="center|end"
-            android:background="@color/teacher_list_price_background"
+            android:background="@color/color_gray_000000_32"
             >
 
             <TextView
@@ -53,14 +53,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|end"
                 android:textSize="@dimen/teacher_list_price_size"
-                android:textColor="@color/teacher_list_price"
+                android:textColor="@color/color_white_ffffff_dc"
                 android:text="150-200"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/teacher_list_price_size"
-                android:textColor="@color/teacher_list_price"
+                android:textColor="@color/color_white_ffffff_dc"
                 android:gravity="center|end"
                 android:text="/课时"
                 />
@@ -85,7 +85,7 @@
                     android:id="@+id/teacher_list_item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/teacher_list_teacher_name"
+                    android:textColor="@color/color_black_000000_dc"
                     android:textSize="16sp"
                     android:singleLine="true"
                     android:text="老师名" />
@@ -104,14 +104,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="小初"
-                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textColor="@color/color_red_e8413e"
                     android:textSize="13sp"
                     android:singleLine="true" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="·"
-                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textColor="@color/color_red_e8413e"
                     android:textSize="16sp"
                     android:singleLine="true" />
                 <TextView
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="数学"
-                    android:textColor="@color/teacher_list_teacher_subject"
+                    android:textColor="@color/color_red_e8413e"
                     android:textSize="13sp"
                     android:singleLine="true" />
             </LinearLayout>

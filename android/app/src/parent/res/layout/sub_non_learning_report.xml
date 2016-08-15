@@ -20,7 +20,7 @@
             android:drawableTop="@drawable/ic_leaning_report_icon"
             android:gravity="center"
             android:text="您还未报名,先看看其他样本报告吧"
-            android:textColor="#4DA3D9"
+            android:textColor="@color/color_blue_4da3d9"
             android:textSize="@dimen/text_size_normal" />
 
         <TextView

@@ -37,13 +37,13 @@ public class RingProgressbar extends View {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
 
-        int ringBgColor = context.getResources().getColor(R.color.background);
-        int ringColor = context.getResources().getColor(R.color.seniority_color);
+        int ringBgColor = context.getResources().getColor(R.color.color_white_f6f6f6);
+        int ringColor = context.getResources().getColor(R.color.color_red_fa7a7a);
 
         TypedArray typeArray = context.obtainStyledAttributes(attrs, R.styleable.RingProgressbar, defStyleAttr, 0);
         if (typeArray!=null){
-            ringBgColor = typeArray.getColor(R.styleable.RingProgressbar_progress_backgroud_color,context.getResources().getColor(R.color.background));
-            ringColor = typeArray.getColor(R.styleable.RingProgressbar_progress_color,context.getResources().getColor(R.color.seniority_color));
+            ringBgColor = typeArray.getColor(R.styleable.RingProgressbar_progress_backgroud_color,context.getResources().getColor(R.color.color_white_f6f6f6));
+            ringColor = typeArray.getColor(R.styleable.RingProgressbar_progress_color,context.getResources().getColor(R.color.color_red_fa7a7a));
             ringRadius = typeArray.getDimensionPixelSize(R.styleable.RingProgressbar_progress_ring_radius,100);
             strokeWidth = typeArray.getDimensionPixelSize(R.styleable.RingProgressbar_progress_stroke_width,10);
             ringRadius -= strokeWidth;

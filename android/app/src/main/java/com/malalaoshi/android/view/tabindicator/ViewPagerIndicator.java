@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,8 +40,8 @@ public class ViewPagerIndicator extends ViewGroup {
         if (null != typedArray) {
             Resources resources = context.getResources();
             tabTextSize = typedArray.getDimensionPixelSize(R.styleable.ViewPagerIndicator_vpTabTextSize, resources.getDimensionPixelSize(R.dimen.text_size_xlarge));
-            tabTextColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextColor, resources.getColor(R.color.tab_text_normal_color));
-            tabTextFocusColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextFocusColor, resources.getColor(R.color.tab_text_press_color));
+            tabTextColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextColor, resources.getColor(R.color.color_black_6c6c6c));
+            tabTextFocusColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextFocusColor, resources.getColor(R.color.color_blue_82b4d9));
             tabFocusPos = typedArray.getInt(R.styleable.ViewPagerIndicator_vpTabFocusPos, 0);
             tabVisiableCount = typedArray.getInt(R.styleable.ViewPagerIndicator_vpTabVisiableCount, 4);
             typedArray.recycle();

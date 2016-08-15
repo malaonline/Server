@@ -17,7 +17,6 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.entity.Tag;
 import com.malalaoshi.android.result.TagListResult;
-import com.malalaoshi.android.util.JsonUtil;
 import com.malalaoshi.android.view.FlowLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,7 +150,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             TextView textView1 = (TextView)view.findViewById(R.id.text1);
             if(i==0){  //第一个标签:"不限"
                 mAllTag = textView1;
-                textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView1.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }
             TextView textView2 = (TextView)view.findViewById(R.id.text2);
             TextView textView3 = (TextView)view.findViewById(R.id.text3);
@@ -182,21 +181,21 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             Object selectedObj = smallTags.get(3 * i).get("selected");
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView1.setSelected(true);
-                textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView1.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView1.setSelected(false);
             }
             selectedObj = smallTags.get(3 * i + 1).get("selected");
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView2.setSelected(true);
-                textView2.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView2.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView2.setSelected(false);
             }
             selectedObj = smallTags.get(3 * i + 2).get("selected");
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView3.setSelected(true);
-                textView3.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView3.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView3.setSelected(false);
             }
@@ -233,14 +232,14 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
             Object selectedObj = bigTags.get(2 * i).get("selected");
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView1.setSelected(true);
-                textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView1.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView1.setSelected(false);
             }
             selectedObj = bigTags.get(2 * i + 1).get("selected");
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView2.setSelected(true);
-                textView2.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView2.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView2.setSelected(false);
             }
@@ -267,7 +266,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
                 Object selectedObj = smallTags.get(smallTags.size() - remainderSmall + i - 1).get("selected");
                 if (selectedObj!=null&&(boolean)selectedObj==true){
                     textView1.setSelected(true);
-                    textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+                    textView1.setTextColor(getResources().getColor(R.color.color_white_ffffff));
                 }else{
                     textView1.setSelected(false);
                 }
@@ -293,7 +292,7 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
 
             if (selectedObj!=null&&(boolean)selectedObj==true){
                 textView1.setSelected(true);
-                textView1.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView1.setTextColor(getResources().getColor(R.color.color_white_ffffff));
             }else{
                 textView1.setSelected(false);
             }
@@ -343,15 +342,15 @@ public class FilterTagFragment extends Fragment implements View.OnClickListener 
                 for (int i=0;i<mTagViews.size();i++){
                     if (mTagViews.get(i).isSelected()){
                         mTagViews.get(i).setSelected(false);
-                        mTagViews.get(i).setTextColor(getResources().getColor(R.color.text_color_dlg));
+                        mTagViews.get(i).setTextColor(getResources().getColor(R.color.color_black_939393));
                     }
                 }
             }
         }else{
             if (textView.isSelected()){
-                textView.setTextColor(getResources().getColor(R.color.text_color_dlg));
+                textView.setTextColor(getResources().getColor(R.color.color_black_939393));
             }else{
-                textView.setTextColor(getResources().getColor(R.color.colorWhite));
+                textView.setTextColor(getResources().getColor(R.color.color_white_ffffff));
                 if (mAllTag.isSelected()){
                     mAllTag.setSelected(false);
                 }

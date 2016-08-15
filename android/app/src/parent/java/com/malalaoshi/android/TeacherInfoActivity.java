@@ -438,7 +438,7 @@ public class TeacherInfoActivity extends BaseActivity
             //分格标签
             String[] tags = mTeacher.getTags();
             if (tags != null && tags.length > 0) {
-                setFlowDatas(flTags, tags, R.drawable.bg_text_tag, R.color.tag_text_color);
+                setFlowDatas(flTags, tags, R.drawable.bg_text_tag, R.color.color_blue_5789ac);
             }
 
             //提分榜
@@ -494,7 +494,7 @@ public class TeacherInfoActivity extends BaseActivity
 
         if (gradeList != null && gradeList.get(0) != null && gradeList.get(0).size() > 0) {
             setFlowDatas(flTeachPrimary, gradeList.get(0).toArray(new String[gradeList.get(0).size()]),
-                    R.drawable.bg_text_primary, R.color.primary_text_color);
+                    R.drawable.bg_text_primary, R.color.color_red_e25c5c);
         } else {
             rlTeachPrimary.setVisibility(View.GONE);
             count++;
@@ -502,7 +502,7 @@ public class TeacherInfoActivity extends BaseActivity
 
         if (gradeList != null && gradeList.get(1) != null && gradeList.get(1).size() > 0) {
             setFlowDatas(flTeachJunior, gradeList.get(1).toArray(new String[gradeList.get(1).size()]),
-                    R.drawable.bg_text_junior, R.color.junior_text_color);
+                    R.drawable.bg_text_junior, R.color.color_blue_2b7bb4);
         } else {
             rlTeachJunior.setVisibility(View.GONE);
             count++;
@@ -510,7 +510,7 @@ public class TeacherInfoActivity extends BaseActivity
 
         if (gradeList != null && gradeList.get(2) != null && gradeList.get(2).size() > 0) {
             setFlowDatas(flTeachSenior, gradeList.get(2).toArray(new String[gradeList.get(2).size()]),
-                    R.drawable.bg_text_senior, R.color.senior_text_color);
+                    R.drawable.bg_text_senior, R.color.color_green_259746);
         } else {
             rlTeachSenior.setVisibility(View.GONE);
             count++;
@@ -587,7 +587,7 @@ public class TeacherInfoActivity extends BaseActivity
         textView.setText(title);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
+        textView.setTextColor(getResources().getColor(R.color.color_red_ef8f1d));
         textView.setBackground(getResources().getDrawable(R.drawable.item_text_bg));
         return textView;
     }
@@ -620,7 +620,7 @@ public class TeacherInfoActivity extends BaseActivity
         textView.setText(data);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        textView.setTextColor(getResources().getColor(R.color.certificate_text_color));
+        textView.setTextColor(getResources().getColor(R.color.color_red_ef8f1d));
         textView.setBackground(getResources().getDrawable(bgDrawableId));
         return textView;
     }

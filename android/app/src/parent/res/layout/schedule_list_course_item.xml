@@ -13,14 +13,14 @@
         <TextView
             android:id="@+id/tv_day"
             android:textSize="@dimen/text_size_big_large"
-            android:textColor="@color/text_color_dlg"
+            android:textColor="@color/color_black_939393"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_week"
             android:layout_below="@+id/tv_day"
             android:textSize="@dimen/text_size_large"
-            android:textColor="@color/text_color_dlg"
+            android:textColor="@color/color_black_939393"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -57,7 +57,7 @@
         <TextView
             android:id="@+id/tv_class_time"
             android:textSize="@dimen/text_size_normal_x"
-            android:textColor="@color/tab_text_normal_color"
+            android:textColor="@color/color_black_6c6c6c"
             android:drawableLeft="@drawable/ic_time"
             android:drawablePadding="5dp"
             android:layout_marginTop="11dp"
@@ -67,7 +67,7 @@
             android:id="@+id/tv_class_position"
             android:lineSpacingExtra="3dp"
             android:textSize="@dimen/text_size_normal_x"
-            android:textColor="@color/tab_text_normal_color"
+            android:textColor="@color/color_black_6c6c6c"
             android:drawableLeft="@drawable/ic_position"
             android:drawablePadding="5dp"
             android:layout_marginTop="9dp"

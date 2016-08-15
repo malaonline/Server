@@ -11,7 +11,7 @@
     <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
         app:cusTitleTextSize="@dimen/text_size_xlarge"
-        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextColor="@color/color_black_333333"
         app:cusLeftShow="true"
         app:cusTitleText="我的订单"
         app:cusLeftBackgroud="@drawable/core__back_btn"
@@ -20,11 +20,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_bg"
+        android:background="@color/color_gray_dedede"
         />
     <FrameLayout
         android:id="@+id/order_fragment"
-        android:background="@color/main_color_bg"
+        android:background="@color/color_gray_f2f2f2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>

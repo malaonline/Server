@@ -6,7 +6,7 @@
     <com.malalaoshi.android.view.ObservableScrollView
         android:id="@+id/scroll_view"
         android:scrollbars="none"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -42,11 +42,11 @@
     <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/titleBar"
         app:cusTitleTextSize="@dimen/text_size_xlarge"
-        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextColor="@color/color_black_333333"
         app:cusLeftShow="true"
         app:cusLeftBackgroud="@drawable/core__white_btn"
         app:cusRightShow="false"
-        android:background="@color/alpheWhite"
+        android:background="@color/color_transparent_ffffff_00"
         android:layout_width="match_parent"
         android:layout_height="44dp"/>
     <View
@@ -54,7 +54,7 @@
         android:id="@+id/view_line"
         android:alpha="0"
         android:layout_width="match_parent"
-        android:background="@color/line_color"
+        android:background="@color/color_gray_dadada"
         android:layout_height="0.5dp"/>
 
     <LinearLayout
@@ -62,14 +62,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
         android:alpha="0.96"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:orientation="vertical">
         <View
             android:id="@+id/view_line_bottom"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:alpha="0.25"
-            android:background="@color/colorBlack" />
+            android:background="@color/color_black_000000" />
         <LinearLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
@@ -89,8 +89,8 @@
                     app:icon_size="20dp"
                     app:liked="false"
                     app:anim_scale_factor="3"
-                    app:circle_end_color="@color/red"
-                    app:circle_start_color="@color/red"
+                    app:circle_end_color="@color/color_red_f96c5e"
+                    app:circle_start_color="@color/color_red_f96c5e"
                     app:like_drawable="@drawable/ic_collection"
                     app:unlike_drawable="@drawable/ic_uncollection"
                     app:icon_type="heart" />
@@ -102,7 +102,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="6dp"
                     android:text="收藏"
-                    android:textColor="@color/text_color"
+                    android:textColor="@color/color_black_939393"
                     android:textSize="@dimen/text_size_small" />
             </RelativeLayout>
 

@@ -148,17 +148,17 @@ public class SimpleMonthView extends View {
         dayLabelTextSize = typedArray.getDimensionPixelSize(R.styleable.DayPickerView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.calendar_day_label_text_size));
 
         //分隔线条属性:颜色/宽度
-        splitLineColor = typedArray.getColor(R.styleable.DayPickerView_splitLineColor, resources.getColor(R.color.calendar_split_line_color));
+        splitLineColor = typedArray.getColor(R.styleable.DayPickerView_splitLineColor, resources.getColor(R.color.color_gray_e5e5e5));
         splitLineStrokeHeight = typedArray.getDimensionPixelSize(R.styleable.DayPickerView_splitLineStrokeHeight, resources.getDimensionPixelSize(R.dimen.calendar_split_line_strokeheight));
 
         circleRadius = typedArray.getDimensionPixelSize(R.styleable.DayPickerView_circleRadius, resources.getDimensionPixelSize(R.dimen.calendar_circle_radius));
         circleSmallRadius = typedArray.getDimensionPixelSize(R.styleable.DayPickerView_circleSmallRadius, resources.getDimensionPixelSize(R.dimen.calendar_small_circle_radius));
         circleSmallDis = typedArray.getDimensionPixelSize(R.styleable.DayPickerView_circleSmallDis, resources.getDimensionPixelSize(R.dimen.calendar_small_circle_dis));
 
-        textSelectColor = typedArray.getColor(R.styleable.DayPickerView_textSelectColor, resources.getColor(R.color.calendar_text_select_color));
-        selectColor = typedArray.getColor(R.styleable.DayPickerView_selectColor, resources.getColor(R.color.calendar_select_color));
-        textNormalColor = typedArray.getColor(R.styleable.DayPickerView_textNormalColor, resources.getColor(R.color.calendar_text_normal_color));
-        previousSelectColor = typedArray.getColor(R.styleable.DayPickerView_previousSelectColor, resources.getColor(R.color.calendar_previous_select_color));
+        textSelectColor = typedArray.getColor(R.styleable.DayPickerView_textSelectColor, resources.getColor(R.color.color_white_ffffff));
+        selectColor = typedArray.getColor(R.styleable.DayPickerView_selectColor, resources.getColor(R.color.color_blue_82b4d9));
+        textNormalColor = typedArray.getColor(R.styleable.DayPickerView_textNormalColor, resources.getColor(R.color.color_black_333333));
+        previousSelectColor = typedArray.getColor(R.styleable.DayPickerView_previousSelectColor, resources.getColor(R.color.color_gray_dadada));
 
         initView();
 

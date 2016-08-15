@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的"
-            android:textColor="#6c6c6c"
+            android:textColor="@color/color_black_6c6c6c"
             android:textSize="16sp" />
 
         <ImageView

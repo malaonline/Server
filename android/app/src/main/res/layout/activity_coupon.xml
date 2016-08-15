@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teacher_main_bg"
+    android:background="@color/color_gray_ededed"
     android:orientation="vertical">
 
     <com.malalaoshi.android.core.view.TitleBarView
@@ -15,16 +15,16 @@
         app:cusLeftShow="true"
         app:cusRightShow="true"
         app:cusRightTextSize="@dimen/text_size_normal_x"
-        app:cusRightTextColor="#7d7d7d"
+        app:cusRightTextColor="@color/color_black_7d7d7d"
         app:cusRightText="使用规则"
         app:cusTitleText="@string/scholarship"
-        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextColor="@color/color_black_333333"
         app:cusTitleTextSize="@dimen/text_size_xlarge"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#b4b4b4" />
+        android:background="@color/color_gray_d4d4d4" />
 
     <FrameLayout
         android:id="@+id/container"

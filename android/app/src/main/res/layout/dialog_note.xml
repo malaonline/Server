@@ -42,7 +42,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:text="测试标题"
-                    android:textColor="#666666"
+                    android:textColor="@color/color_black_666666"
                     android:textSize="13sp" />
 
                 <ImageView
@@ -58,7 +58,7 @@
                 android:lineSpacingExtra="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#939393"
+                android:textColor="@color/color_black_939393"
                 android:textSize="13sp" />
         </LinearLayout>
     </ScrollView>
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/tv_confirm"
-        android:background="#8fbcdd" />
+        android:background="@color/color_blue_8fbcdd" />
 
     <TextView
         android:id="@+id/tv_confirm"
@@ -77,6 +77,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="知道了"
-        android:textColor="#8fbcdd"
+        android:textColor="@color/color_blue_8fbcdd"
         android:textSize="15sp" />
 </RelativeLayout>

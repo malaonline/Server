@@ -689,7 +689,7 @@ public class CourseConfirmFragment extends BaseFragment
                 view.setTextColor(Color.WHITE);
                 view.setBackgroundResource(R.drawable.bg_course_price_pressed);
             } else {
-                view.setTextColor(context.getResources().getColor(R.color.theme_blue));
+                view.setTextColor(context.getResources().getColor(R.color.color_blue_88bcde));
                 view.setBackgroundResource(R.drawable.bg_course_price_normal);
             }
             ((TextView) convertView).setText(data.getGradePrice());

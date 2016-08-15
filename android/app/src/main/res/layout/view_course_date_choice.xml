@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/course_date_height"
                 android:text="时间"
-                app:BorderColor="@color/theme_blue"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp"
@@ -36,8 +36,8 @@
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
                 android:text="08:00\n10:00"
-                android:textColor="#636363"
-                app:BorderColor="@color/theme_blue"
+                android:textColor="@color/color_black_636363"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp" />
@@ -49,8 +49,8 @@
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
                 android:text="10:30\n12:30"
-                android:textColor="#636363"
-                app:BorderColor="@color/theme_blue"
+                android:textColor="@color/color_black_636363"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp" />
@@ -62,8 +62,8 @@
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
                 android:text="13:30\n15:30"
-                android:textColor="#636363"
-                app:BorderColor="@color/theme_blue"
+                android:textColor="@color/color_black_636363"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp" />
@@ -75,8 +75,8 @@
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
                 android:text="15:30\n17:30"
-                android:textColor="#636363"
-                app:BorderColor="@color/theme_blue"
+                android:textColor="@color/color_black_636363"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp" />
@@ -88,8 +88,8 @@
                 android:layout_height="@dimen/course_date_height"
                 android:gravity="center"
                 android:text="18:00\n20:00"
-                android:textColor="#636363"
-                app:BorderColor="@color/theme_blue"
+                android:textColor="@color/color_black_636363"
+                app:BorderColor="@color/color_blue_88bcde"
                 app:BottomBorder="1dp"
                 app:LeftBorder="1dp"
                 app:RightBorder="1dp" />
@@ -122,7 +122,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="30dp"
             android:text="可选"
-            android:textColor="#939393"
+            android:textColor="@color/color_black_939393"
             android:textSize="14sp" />
 
         <ImageView
@@ -136,7 +136,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="30dp"
             android:text="已售"
-            android:textColor="#939393"
+            android:textColor="@color/color_black_939393"
             android:textSize="14sp" />
 
         <ImageView
@@ -150,7 +150,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="30dp"
             android:text="已选"
-            android:textColor="#939393"
+            android:textColor="@color/color_black_939393"
             android:textSize="14sp" />
 
         <ImageView
@@ -164,7 +164,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="2dp"
             android:text="已买"
-            android:textColor="#939393"
+            android:textColor="@color/color_black_939393"
             android:textSize="14sp" />
 
         <FrameLayout

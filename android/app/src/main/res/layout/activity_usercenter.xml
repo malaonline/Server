@@ -28,19 +28,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_title"
-        android:background="@color/usercenter_main_bk"
+        android:background="@color/color_gray_ededed"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#e5e5e5" />
+            android:background="@color/color_gray_e5e5e5" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:background="#fff"
+            android:background="@color/color_white_ffffff"
             android:paddingLeft="14dp"
             android:paddingRight="12dp">
 
@@ -84,14 +84,14 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#e5e5e5" />
+            android:background="@color/color_gray_e5e5e5" />
 
         <RelativeLayout
             android:id="@+id/rl_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/et_Phone"
-            android:background="#fff"
+            android:background="@color/color_white_ffffff"
             android:paddingLeft="14dp"
             android:paddingRight="12dp">
 
@@ -123,7 +123,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#e5e5e5" />
+            android:background="@color/color_gray_e5e5e5" />
 
         <TextView
             android:id="@+id/btn_verify"
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:textColor="#939393"
+            android:textColor="@color/color_black_939393"
             android:textSize="12sp" />
 
     </LinearLayout>

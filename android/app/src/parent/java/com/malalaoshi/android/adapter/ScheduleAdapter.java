@@ -108,16 +108,16 @@ public class ScheduleAdapter extends BaseRecycleAdapter<ScheduleAdapter.ParentVi
             Calendar start = CalendarUtils.timestampToCalendar(data.getStart());
             Calendar end = CalendarUtils.timestampToCalendar(data.getEnd());
             if (data.is_passed()) {
-                tvDay.setTextColor(resources.getColor(R.color.text_color_dlg));
-                tvWeek.setTextColor(resources.getColor(R.color.text_color_dlg));
+                tvDay.setTextColor(resources.getColor(R.color.color_black_939393));
+                tvWeek.setTextColor(resources.getColor(R.color.color_black_939393));
                 rlSchedule.setBackgroundResource(R.drawable.bg_corner_normal);
             } else {
                 if(CalendarUtils.compareCurrentDate(start)==0){
-                    tvDay.setTextColor(resources.getColor(R.color.item_color_bg));
-                    tvWeek.setTextColor(resources.getColor(R.color.item_color_bg));
+                    tvDay.setTextColor(resources.getColor(R.color.color_blue_6bd2e5));
+                    tvWeek.setTextColor(resources.getColor(R.color.color_blue_6bd2e5));
                 }else{
-                    tvDay.setTextColor(resources.getColor(R.color.text_color_darkgray));
-                    tvWeek.setTextColor(resources.getColor(R.color.text_color_darkgray));
+                    tvDay.setTextColor(resources.getColor(R.color.color_black_333333));
+                    tvWeek.setTextColor(resources.getColor(R.color.color_black_333333));
                 }
                 rlSchedule.setBackgroundResource(R.drawable.bg_corner_blue);
 

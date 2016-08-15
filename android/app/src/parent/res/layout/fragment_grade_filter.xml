@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="高中"
-                android:textColor="@color/text_color_dlg"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x" />
         </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="初中"
-                android:textColor="@color/text_color_dlg"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x" />
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="小学"
-                android:textColor="@color/text_color_dlg"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x" />
         </LinearLayout>
 

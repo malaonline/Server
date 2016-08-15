@@ -37,7 +37,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:text="奖学金使用详则"
-                    android:textColor="#666666"
+                    android:textColor="@color/color_black_666666"
                     android:textSize="@dimen/text_size_normal_x" />
 
                 <TextView
@@ -55,7 +55,7 @@
                 android:layout_marginTop="18dp"
                 android:lineSpacingExtra="3dp"
                 android:text="@string/app_coupon_protocol"
-                android:textColor="@color/text_color_dlg"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x" />
         </RelativeLayout>
 
@@ -76,7 +76,7 @@
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/comment_title_text_color" />
+            android:background="@color/color_blue_8fbcdd" />
 
         <TextView
             android:id="@+id/tv_submit"

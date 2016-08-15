@@ -12,20 +12,20 @@
         app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
         app:cusTitleText="测评建档服务"
-        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextColor="@color/color_black_333333"
         app:cusTitleTextSize="@dimen/text_size_xlarge" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/line_color" />
+        android:background="@color/color_gray_dadada" />
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:divider="@color/background"
+        android:background="@color/color_white_ffffff"
+        android:divider="@color/color_white_f6f6f6"
         android:dividerHeight="8dp"
         android:scrollbars="none" />
 </LinearLayout>

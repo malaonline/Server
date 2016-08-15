@@ -41,7 +41,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/iv_time"
             android:layout_centerHorizontal="true"
-            android:background="@color/theme_blue"
+            android:background="@color/color_blue_88bcde"
             android:minHeight="5dp"/>
     </RelativeLayout>
 

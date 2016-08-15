@@ -62,7 +62,7 @@
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="20dp"
                 android:text="仅在线使用"
-                android:textColor="#6db2e5"
+                android:textColor="@color/color_blue_6bd2e5"
                 android:textSize="17sp"/>
 
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:text="有效期至 2015-10-19"
-                android:textColor="#999999"
+                android:textColor="@color/color_black_999999"
                 android:textSize="13sp"/>
         </LinearLayout>
 
@@ -85,7 +85,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_coupon_check"
-            android:textColor="@color/coupon_red"
+            android:textColor="@color/color_red_e26254"
             android:textSize="12sp"/>
 
         <ImageView

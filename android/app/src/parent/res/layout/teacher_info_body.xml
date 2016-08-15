@@ -11,7 +11,7 @@
         android:id="@+id/parent_teacher_detail_info_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00ffffff">
+        android:background="@color/color_transparent_ffffff_00">
 
         <RelativeLayout
             android:id="@+id/rl_baseinfo"
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/teacher_name_margin_left"
-                android:textColor="@color/teacher_title_text_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large_x" />
 
             <ImageView
@@ -49,7 +49,7 @@
                 android:layout_alignLeft="@id/parent_teacher_detail_name_tv"
                 android:layout_below="@id/parent_teacher_detail_name_tv"
                 android:layout_marginTop="@dimen/item_padding_height_small"
-                android:textColor="@color/item_text_color_normal"
+                android:textColor="@color/color_black_636363"
                 android:textSize="@dimen/text_size_normal" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_alignBottom="@id/parent_teacher_detail_subject_tv"
                 android:layout_marginLeft="@dimen/teacher_body_padding_normal"
                 android:layout_toRightOf="@id/parent_teacher_detail_subject_tv"
-                android:textColor="@color/item_text_color_normal"
+                android:textColor="@color/color_black_636363"
                 android:textSize="@dimen/text_size_normal" />
         </RelativeLayout>
 
@@ -112,8 +112,8 @@
             android:layout_height="wrap_content">
             <com.malalaoshi.android.view.RingProgressbar
                 android:id="@+id/view_teacher_seniority"
-                app:progress_color="@color/seniority_color"
-                app:progress_backgroud_color="@color/background"
+                app:progress_color="@color/color_red_fa7a7a"
+                app:progress_backgroud_color="@color/color_white_f6f6f6"
                 app:progress_ring_radius="25dp"
                 app:progress_stroke_width="3dp"
                 app:progress_value="0"
@@ -140,14 +140,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="教龄"
-                android:textColor="@color/tab_text_normal_color"
+                android:textColor="@color/color_black_6c6c6c"
                 android:textSize="@dimen/text_size_large" />
             <TextView
                 android:id="@+id/tv_teacher_seniority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/tab_text_normal_color"
+                android:textColor="@color/color_black_6c6c6c"
                 android:textSize="@dimen/text_size_large" />
         </LinearLayout>
 
@@ -162,8 +162,8 @@
             android:layout_height="wrap_content">
             <com.malalaoshi.android.view.RingProgressbar
                 android:id="@+id/view_teacher_level"
-                app:progress_color="@color/level_color"
-                app:progress_backgroud_color="@color/background"
+                app:progress_color="@color/color_orange_fddc55"
+                app:progress_backgroud_color="@color/color_white_f6f6f6"
                 app:progress_ring_radius="25dp"
                 app:progress_stroke_width="3dp"
                 app:progress_value="0"
@@ -190,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="级别"
-                android:textColor="@color/tab_text_normal_color"
+                android:textColor="@color/color_black_6c6c6c"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -198,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/tab_text_normal_color"
+                android:textColor="@color/color_black_6c6c6c"
                 android:textSize="@dimen/text_size_large" />
         </LinearLayout>
     </RelativeLayout>
@@ -209,9 +209,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="12dp"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:text="教授年级"
-        android:textColor="@color/text_color"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_large_x"  />
 
     <LinearLayout
@@ -307,9 +307,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="12dp"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:text="风格标签"
-        android:textColor="@color/text_color"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_large_x"  />
 
     <LinearLayout
@@ -342,9 +342,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="12dp"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:text="提分榜"
-        android:textColor="@color/text_color"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_large_x"  />
     <LinearLayout
         android:id="@+id/parent_teacher_detail_highscore_ll"
@@ -360,8 +360,8 @@
             android:id="@+id/parent_teacher_detail_highscore_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/list_divider_color"
-            android:listSelector="#00000000"></com.malalaoshi.android.view.ScrollListView>
+            android:divider="@color/color_gray_e5e5e5"
+            android:listSelector="@color/color_transparent_000000_00"></com.malalaoshi.android.view.ScrollListView>
 
     </LinearLayout>
 
@@ -371,7 +371,7 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:gravity="center_horizontal"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -379,12 +379,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个人相册"
-            android:textColor="@color/text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_large_x" />
         <TextView
             android:id="@+id/tv_gallery_more"
             android:text="更多"
-            android:textColor="@color/text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_large_x"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -428,9 +428,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="12dp"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:text="特殊成就"
-        android:textColor="@color/text_color"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_large_x"  />
 
     <com.malalaoshi.android.view.FlowLayout
@@ -449,9 +449,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:paddingLeft="12dp"
-        android:background="@color/backgrounp"
+        android:background="@color/color_white_f6f6f6"
         android:text="教学环境"
-        android:textColor="@color/text_color"
+        android:textColor="@color/color_black_939393"
         android:textSize="@dimen/text_size_large_x"  />
     <include layout="@layout/school_environment"/>
 

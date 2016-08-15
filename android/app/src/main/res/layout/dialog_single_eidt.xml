@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/color_white_ffffff"
     android:orientation="vertical">
 
     <EditText
@@ -13,7 +13,7 @@
         android:layout_marginRight="36dp"
         android:layout_marginTop="35dp"
         android:background="@null"
-        android:textColor="#939393"
+        android:textColor="@color/color_black_939393"
         android:gravity="center"
         android:maxLength="4"
         />
@@ -22,21 +22,21 @@
         android:layout_marginRight="36dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#8fbcdd" />
+        android:background="@color/color_blue_8fbcdd" />
    <TextView
        android:text="*请输入2-4个中文字符"
        android:layout_marginTop="18dp"
        android:layout_marginBottom="18dp"
        android:layout_marginRight="36dp"
        android:gravity="end"
-       android:textColor="#e26254"
+       android:textColor="@color/color_red_e26254"
        android:textSize="@dimen/text_size_small_x"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#8fbcdd" />
+        android:background="@color/color_blue_8fbcdd" />
     <LinearLayout
         android:id="@+id/ll_close"
         android:layout_width="match_parent"
@@ -50,12 +50,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="@drawable/bg_course_btn"
-            android:textColor="#b7b7b7"
+            android:textColor="@color/color_gray_b7b7b7"
             android:text="取消" />
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="#8fbcdd" />
+            android:background="@color/color_blue_8fbcdd" />
         <TextView
             android:id="@+id/btn_right"
             android:layout_width="0dp"
@@ -63,7 +63,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_course_btn"
             android:gravity="center"
-            android:textColor="#8fbcdd"
+            android:textColor="@color/color_blue_8fbcdd"
             android:text="确定" />
     </LinearLayout>
 </LinearLayout>

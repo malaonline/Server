@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="24dp"
         android:paddingTop="45dp"
-        android:background="@color/colorWhite"
+        android:background="@color/color_white_ffffff"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -29,7 +29,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/comment_title_text_color" />
+            android:background="@color/color_blue_8fbcdd" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:id="@+id/tv_cancel_dialog"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_large_x"
-                    android:textColor="#b7b7b7"
+                    android:textColor="@color/color_gray_b7b7b7"
                     android:background="@drawable/bg_course_btn"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -52,12 +52,12 @@
                 <View
                     android:layout_width="1px"
                     android:layout_height="match_parent"
-                    android:background="@color/comment_title_text_color" />
+                    android:background="@color/color_blue_8fbcdd" />
                 <TextView
                     android:id="@+id/tv_commit"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_large_x"
-                    android:textColor="#8fbcdd"
+                    android:textColor="@color/color_blue_8fbcdd"
                     android:background="@drawable/bg_course_btn"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/text_size_large_x"
                 android:text="知道了"
-                android:textColor="#8fbcdd"
+                android:textColor="@color/color_blue_8fbcdd"
                 android:background="@drawable/bg_course_btn"
                 android:layout_width="match_parent"
                 android:layout_height="44dp" />

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="14dp"
-        android:textColor="#333"
+        android:textColor="@color/color_black_333333"
         android:textSize="15sp" />
 
     <ImageView
@@ -27,6 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="14dp"
-        android:textColor="#6c6c6c"
+        android:textColor="@color/color_black_6c6c6c"
         android:textSize="13sp" />
 </LinearLayout>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ScrollView
-        android:background="@color/background"
+        android:background="@color/color_white_f6f6f6"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -31,7 +31,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal_x"
-                    android:textColor="@color/text_color_home_price_unit" />
+                    android:textColor="@color/color_black_6c6c6c" />
 
                 <TextView
                     android:id="@+id/tv_course_name"
@@ -43,7 +43,7 @@
                     android:layout_marginBottom="6dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal_x"
-                    android:textColor="@color/text_color_home_price_unit" />
+                    android:textColor="@color/color_black_6c6c6c" />
 
                 <LinearLayout
                     android:layout_below="@+id/tv_course_name"
@@ -61,7 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_normal_x"
-                        android:textColor="@color/text_color_home_price_unit" />
+                        android:textColor="@color/color_black_6c6c6c" />
                 </LinearLayout>
 
                 <ImageView
@@ -84,14 +84,14 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/bg_rectangle_small"
                     android:drawablePadding="9dp"
-                    android:textColor="@color/text_color_darkgray"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="@dimen/text_size_large_x"
                     android:text="上课时间" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/tv_total_hours"
-                    android:textColor="@color/text_color_home_price_unit"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="@dimen/text_size_normal_x"
                     android:text="共计" />
                 <TextView
@@ -101,14 +101,14 @@
                     android:layout_toLeftOf="@+id/tv_total_class_text"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:textColor="@color/text_color_darkgray"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="@dimen/text_size_normal_x" />
                 <TextView
                     android:id="@+id/tv_total_class_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/text_color_home_price_unit"
+                    android:textColor="@color/color_black_6c6c6c"
                     android:textSize="@dimen/text_size_normal_x"
                     android:text="课时" />
             </RelativeLayout>
@@ -116,7 +116,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/list_divider_light" />
+                android:background="@color/color_gray_e0e0e0" />
             <com.malalaoshi.android.view.ScrollListView
                 android:id="@+id/lv_show_times"
                 android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                 android:layout_below="@+id/ll_show_times"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:listSelector="#00000000"
+                android:listSelector="@color/color_transparent_000000_00"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="16dp"
@@ -143,13 +143,13 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="#fff">
+        android:background="@color/color_white_ffffff">
 
         <View
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/line_color" />
+            android:background="@color/color_gray_dadada" />
 
         <TextView
             android:id="@+id/tv_mount_label"
@@ -159,12 +159,12 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="5dp"
             android:text="合计:"
-            android:textColor="#333"
+            android:textColor="@color/color_black_333333"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_cost_unit"
             android:text="¥"
-            android:textColor="@color/theme_red_96"
+            android:textColor="@color/color_red_e26254_e6"
             android:textSize="13sp"
             android:layout_toRightOf="@id/tv_mount_label"
             android:layout_centerVertical="true"
@@ -181,7 +181,7 @@
             android:layout_toRightOf="@+id/tv_cost_unit"
             android:gravity="center"
             android:text="0"
-            android:textColor="@color/theme_red_96"
+            android:textColor="@color/color_red_e26254_e6"
             android:textSize="13sp" />
 
         <TextView
@@ -195,7 +195,7 @@
             android:background="@drawable/btn_confirm"
             android:gravity="center"
             android:text="提交订单"
-            android:textColor="#fff"
+            android:textColor="@color/color_white_ffffff"
             android:textSize="@dimen/text_size_normal" />
     </RelativeLayout>
 </FrameLayout>

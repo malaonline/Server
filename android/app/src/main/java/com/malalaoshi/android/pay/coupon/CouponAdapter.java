@@ -28,8 +28,8 @@ public final class CouponAdapter extends BaseRecycleAdapter<CouponAdapter.ViewHo
 
     public CouponAdapter(Context context) {
         super(context);
-        textGrayColor = context.getResources().getColor(R.color.text_color);
-        textBlueColor = context.getResources().getColor(R.color.item_color_bg);
+        textGrayColor = context.getResources().getColor(R.color.color_black_939393);
+        textBlueColor = context.getResources().getColor(R.color.color_blue_6bd2e5);
     }
 
     @Override

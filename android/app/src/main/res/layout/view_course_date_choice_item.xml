@@ -10,9 +10,9 @@
         android:layout_height="@dimen/course_date_height"
         android:gravity="center"
         android:orientation="horizontal"
-        android:textColor="#fff"
+        android:textColor="@color/color_white_ffffff"
         android:textSize="12sp"
-        app:BorderColor="@color/theme_blue"
+        app:BorderColor="@color/color_blue_88bcde"
         app:BottomBorder="1dp"
         app:RightBorder="1dp"/>
 

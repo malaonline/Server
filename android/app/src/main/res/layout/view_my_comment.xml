@@ -28,7 +28,7 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/color_blue_8fbcdd"
             android:textSize="@dimen/text_size_normal_x"/>
         <TextView
             android:id="@+id/tv_grade"
@@ -39,7 +39,7 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal_x"/>
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:drawableLeft="@drawable/ic_time"
                 android:drawablePadding="8dp"
                 android:maxLines="1"
-                android:textColor="@color/text_color"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x"/>
             <TextView
                 android:id="@+id/tv_time"
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/text_color_dlg"
+                android:textColor="@color/color_black_939393"
                 android:textSize="@dimen/text_size_normal_x"/>
         </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:drawablePadding="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/text_color"
+            android:textColor="@color/color_black_939393"
             android:textSize="@dimen/text_size_normal_x"/>
     </LinearLayout>
 
@@ -93,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="0.5dp"
         android:layout_marginLeft="5dp"
-        android:background="@color/line_color"/>
+        android:background="@color/color_gray_dadada"/>
     <RatingBar
         android:id="@+id/ratingbar"
         style="@style/mala.ratingbar_small"
@@ -109,7 +109,7 @@
         android:layout_width="0dp"
         android:layout_height="0.5dp"
         android:layout_marginRight="5dp"
-        android:background="@color/line_color"/>
+        android:background="@color/color_gray_dadada"/>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
             android:background="@drawable/bg_comment_valid_btn"
             android:gravity="center"
             android:text="去评价"
-            android:textColor="#E26254"
+            android:textColor="@color/color_red_e26254"
             android:textSize="12sp"/>
     </FrameLayout>
 

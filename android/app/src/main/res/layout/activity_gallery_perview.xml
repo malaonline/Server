@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/teacher_main_bg"
+    android:background="@color/color_gray_ededed"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.malalaoshi.android.core.view.TitleBarView
@@ -13,7 +13,7 @@
         app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
         app:cusTitleText="相册"
-        app:cusTitleTextColor="@color/title_bar_text_color"
+        app:cusTitleTextColor="@color/color_black_333333"
         app:cusTitleTextSize="@dimen/text_size_xlarge"/>
    <!-- <ListView
          android:id="@+id/lv_gallerys"

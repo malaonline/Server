@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/colorWhite"
+        android:background="@color/color_white_ffffff"
         android:orientation="vertical">
 
         <include layout="@layout/dialog_filter_title" />

@@ -22,7 +22,7 @@ public class MaClickableSpan extends ClickableSpan {
     private OnLinkClickListener listener;
 
     public MaClickableSpan() {
-        color = MalaApplication.getInstance().getResources().getColor(R.color.usercenter_main_blue);
+        color = MalaApplication.getInstance().getResources().getColor(R.color.color_blue_8dbedf);
     }
 
     public void setOnLinkClickListener(OnLinkClickListener listener) {

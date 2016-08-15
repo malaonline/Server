@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ff5b6ba4"
+    android:background="@color/color_black_5b6ba4"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@color/calendar_week_bg">
+        android:background="@color/color_white_f7f7f7">
 
         <TextView
             android:id="@+id/tv_off_date"
@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="日"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="一"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="二"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="三"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="四"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -77,7 +77,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="五"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="六"
-                android:textColor="@color/calendar_text_normal_color"
+                android:textColor="@color/color_black_333333"
                 android:textSize="@dimen/text_size_large" />
         </LinearLayout>
     </RelativeLayout>

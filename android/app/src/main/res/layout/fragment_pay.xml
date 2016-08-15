@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f6f6"
+    android:background="@color/color_white_f6f6f6"
     android:paddingBottom="12dp"
     tools:context="com.malalaoshi.android.fragments.MainFragment">
 
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#fff">
+        android:background="@color/color_white_ffffff">
 
         <TextView
             style="@style/mala.widget.title.text.small"
@@ -31,7 +31,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:text="¥0.00"
-            android:textColor="#E36A5D"
+            android:textColor="@color/color_red_e36a5d"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -45,7 +45,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="选择支付方式"
-        android:textColor="#6c6c6c"
+        android:textColor="@color/color_black_6c6c6c"
         android:textSize="13sp" />
 
     <RelativeLayout
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/tv_pay_type"
-        android:background="#fff"
+        android:background="@color/color_white_ffffff"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:background="#e5e5e5" />
+            android:background="@color/color_gray_e5e5e5" />
     </RelativeLayout>
 
 
@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@id/rl_ali"
-        android:background="#fff"
+        android:background="@color/color_white_ffffff"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
@@ -159,7 +159,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@id/rl_wx"
-        android:background="#e5e5e5" />
+        android:background="@color/color_gray_e5e5e5" />
 
     <TextView
         android:id="@+id/tv_pay"
@@ -171,6 +171,6 @@
         android:background="@drawable/pay_btn"
         android:gravity="center"
         android:text="支付"
-        android:textColor="#fff"
+        android:textColor="@color/color_white_ffffff"
         android:textSize="15dp" />
 </RelativeLayout>

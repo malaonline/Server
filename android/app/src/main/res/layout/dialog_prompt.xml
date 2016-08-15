@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/color_white_ffffff"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="37dp"
         android:layout_marginRight="37dp"
         android:layout_marginBottom="10dp"
-        android:textColor="#939393"
+        android:textColor="@color/color_black_939393"
         android:lineSpacingExtra="8dp"
         android:gravity="center_horizontal|top"
         android:text="课程被抢占，稍后会自动退款。请重新选择时间段"
@@ -33,7 +33,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#8fbcdd" />
+        android:background="@color/color_blue_8fbcdd" />
     <LinearLayout
         android:id="@+id/ll_close"
         android:layout_width="match_parent"
@@ -47,12 +47,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="@drawable/bg_course_btn"
-            android:textColor="#8fbcdd"
+            android:textColor="@color/color_blue_8fbcdd"
             android:text="回到首页" />
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="#8fbcdd" />
+            android:background="@color/color_blue_8fbcdd" />
         <TextView
             android:id="@+id/btn_right"
             android:layout_width="0dp"
@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_course_btn"
             android:gravity="center"
-            android:textColor="#8fbcdd"
+            android:textColor="@color/color_blue_8fbcdd"
             android:text="查看其他时间" />
     </LinearLayout>
     <TextView
@@ -69,6 +69,6 @@
         android:layout_height="44dp"
         android:background="@drawable/bg_course_btn"
         android:gravity="center"
-        android:textColor="#8fbcdd"
+        android:textColor="@color/color_blue_8fbcdd"
         android:text="知道了" />
 </LinearLayout>

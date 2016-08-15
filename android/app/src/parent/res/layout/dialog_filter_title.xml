@@ -32,7 +32,7 @@ android:layout_height="wrap_content"
             android:layout_height="wrap_content"
             android:text="刷选年级"
             android:textSize="@dimen/text_size_large_x"
-            android:textColor="@color/text_color_dlg"
+            android:textColor="@color/color_black_939393"
             />
         <TextView
             android:gravity="center"

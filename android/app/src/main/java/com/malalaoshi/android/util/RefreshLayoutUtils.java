@@ -11,7 +11,7 @@ public final class RefreshLayoutUtils{
     private RefreshLayoutUtils(){}
 
     public static void initOnCreate(SwipeRefreshLayout refreshLayout, SwipeRefreshLayout.OnRefreshListener refreshListener){
-        refreshLayout.setColorSchemeResources(R.color.red_light, R.color.green_light, R.color.blue_light, R.color.orange_light);
+        refreshLayout.setColorSchemeResources(R.color.color_red_ff4444_ff, R.color.color_green_99cc00_ff, R.color.color_blue_33b5e5, R.color.color_orange_ffbb33_ff);
         refreshLayout.setOnRefreshListener(refreshListener);
     }
 

@@ -19,7 +19,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:text="名字"
-        android:textColor="#2AAADD"
+        android:textColor="@color/color_blue_2aaadd"
         android:textSize="16sp" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_marginTop="25dp"
         android:text="针对每个会员"
         android:gravity="center"
-        android:textColor="#2AAADD"
+        android:textColor="@color/color_blue_2aaadd"
         android:textSize="14sp" />
 
 </LinearLayout>

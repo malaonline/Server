@@ -81,7 +81,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.stateView.setBackgroundResource(R.drawable.ic_comment_expired);
         holder.commentView.setBackground(null);
         holder.commentView.setText("评价已过期");
-        holder.commentView.setTextColor(getColor(R.color.text_color));
+        holder.commentView.setTextColor(getColor(R.color.color_black_939393));
         holder.ratingbar.setVisibility(View.GONE);
     }
 
@@ -90,7 +90,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.stateView.setBackgroundResource(R.drawable.ic_commented);
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_done_btn);
         holder.commentView.setText("查看评价");
-        holder.commentView.setTextColor(getColor(R.color.title_right_color));
+        holder.commentView.setTextColor(getColor(R.color.color_blue_82b4d9));
         holder.ratingbar.setVisibility(View.VISIBLE);
         if (course.is_expired() && course.getComment() == null) {
             holder.ratingbar.setRating(0);
@@ -110,7 +110,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         holder.stateView.setBackgroundResource(R.drawable.ic_no_comment);
         holder.commentView.setText("去评价");
         holder.commentView.setBackgroundResource(R.drawable.bg_comment_valid_btn);
-        holder.commentView.setTextColor(getColor(R.color.theme_red));
+        holder.commentView.setTextColor(getColor(R.color.color_red_e26254));
         holder.ratingbar.setVisibility(View.GONE);
         holder.commentView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -18,7 +18,6 @@ import com.malalaoshi.android.activitys.OrderInfoActivity;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseConfirmActivity;
 import com.malalaoshi.android.entity.Order;
 import com.malalaoshi.android.entity.Subject;
@@ -26,7 +25,6 @@ import com.malalaoshi.android.pay.api.DeleteOrderApi;
 import com.malalaoshi.android.result.OkResult;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.util.Number;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -120,8 +118,8 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
             tvCost.setText(strTopay);
             Resources resources = view.getContext().getResources();
             if ("u".equals(order.getStatus())){
-                rlOrderId.setBackgroundColor(resources.getColor(R.color.colorPrimary));
-                tvOrderStatus.setTextColor(resources.getColor(R.color.theme_red));
+                rlOrderId.setBackgroundColor(resources.getColor(R.color.color_blue_8fbcdd));
+                tvOrderStatus.setTextColor(resources.getColor(R.color.color_red_e26254));
                 tvOrderStatus.setText("订单待支付");
                 tvCancelOrder.setVisibility(View.VISIBLE);
                 tvBuyCourse.setVisibility(View.VISIBLE);
@@ -129,27 +127,27 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
                 tvBuyCourse.setText("立即支付");
                 tvBuyCourse.setTextColor(resources.getColor(R.color.white));
             }else if ("p".equals(order.getStatus())){
-                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorPrimary));
-                tvOrderStatus.setTextColor(resources.getColor(R.color.colorPrimary));
+                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_blue_8fbcdd));
+                tvOrderStatus.setTextColor(resources.getColor(R.color.color_blue_8fbcdd));
                 tvOrderStatus.setText("支付成功");
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.VISIBLE);
                 tvBuyCourse.setBackground(resources.getDrawable(R.drawable.bg_buy_course_btn));
                 tvBuyCourse.setText("再次购买");
-                tvBuyCourse.setTextColor(resources.getColor(R.color.theme_red));
+                tvBuyCourse.setTextColor(resources.getColor(R.color.color_red_e26254));
             }else if ("d".equals(order.getStatus())){
-                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorDisable));
-                tvOrderStatus.setTextColor(resources.getColor(R.color.text_color_dlg));
+                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_gray_cfcfcf));
+                tvOrderStatus.setTextColor(resources.getColor(R.color.color_black_939393));
                 tvOrderStatus.setText("订单已关闭");
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.VISIBLE);
                 tvBuyCourse.setBackground(resources.getDrawable(R.drawable.bg_buy_course_btn));
                 tvBuyCourse.setText("再次购买");
-                tvBuyCourse.setTextColor(resources.getColor(R.color.theme_red));
+                tvBuyCourse.setTextColor(resources.getColor(R.color.color_red_e26254));
 
             }else{
-                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorPrimary));
-                tvOrderStatus.setTextColor(resources.getColor(R.color.colorLightGreen));
+                rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_blue_8fbcdd));
+                tvOrderStatus.setTextColor(resources.getColor(R.color.color_green_83b84f));
                 tvOrderStatus.setText("退款成功");
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.GONE);

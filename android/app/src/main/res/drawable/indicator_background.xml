@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
         android:id="@+id/backgroundRubberIndicatorSolid"
-        android:color="@color/outerCircleColor" />
+        android:color="@color/color_black_533456" />
     <corners android:radius="100dp" />
 </shape>

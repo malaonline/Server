@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:id="@+id/id_content"
-        android:background="@color/teacher_main_bg"
+        android:background="@color/color_gray_ededed"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

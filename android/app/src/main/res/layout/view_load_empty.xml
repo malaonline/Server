@@ -13,7 +13,7 @@
         android:id="@+id/tv_tip"
         android:text="请重新设定筛选条件"
         android:textSize="@dimen/text_size_normal_x"
-        android:textColor="@color/prices_name_text_color"
+        android:textColor="@color/color_black_939393"
         android:layout_marginTop="6dp"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

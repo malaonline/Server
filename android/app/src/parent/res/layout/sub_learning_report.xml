@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="学习报告"
-            android:textColor="@color/text_color_darkgray"
+            android:textColor="@color/color_black_333333"
             android:textSize="@dimen/text_size_large_x" />
 
         <LinearLayout
@@ -42,7 +42,7 @@
                     android:drawablePadding="6dp"
                     android:gravity="center"
                     android:text="答题数"
-                    android:textColor="@color/item_text_color_normal"
+                    android:textColor="@color/color_black_636363"
                     android:textSize="@dimen/text_size_normal_x" />
 
                 <TextView
@@ -51,14 +51,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="0"
-                    android:textColor="@color/text_color_darkgray"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="38sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
-                android:background="@color/line_color" />
+                android:background="@color/color_gray_dadada" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -76,7 +76,7 @@
                     android:drawablePadding="6dp"
                     android:gravity="center"
                     android:text="正确率"
-                    android:textColor="@color/item_text_color_normal"
+                    android:textColor="@color/color_black_636363"
                     android:textSize="@dimen/text_size_normal_x" />
 
                 <TextView
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="0%"
-                    android:textColor="@color/text_color_darkgray"
+                    android:textColor="@color/color_black_333333"
                     android:textSize="38sp" />
             </LinearLayout>
         </LinearLayout>

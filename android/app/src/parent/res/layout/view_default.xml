@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/tv_default_tip"
         android:textSize="@dimen/text_size_normal_x"
-        android:textColor="@color/text_color_dlg"
+        android:textColor="@color/color_black_939393"
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tv_default_oper"
         android:layout_below="@id/tv_default_tip"
-        android:textColor="#8dbede"
+        android:textColor="@color/color_blue_8dbede"
         android:textSize="@dimen/text_size_xlarge"
         android:gravity="center"
         android:background="@drawable/bg_blue_border_btn"

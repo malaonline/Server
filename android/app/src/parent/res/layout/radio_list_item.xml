@@ -15,7 +15,7 @@
         android:text="小学一年级"
         android:textSize="@dimen/text_size_normal_x"
         android:layout_marginLeft="12dp"
-        android:textColor="@color/text_color_dlg"
+        android:textColor="@color/color_black_939393"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
