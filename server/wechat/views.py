@@ -832,7 +832,7 @@ def add_openid(request):
     Parent = models.Parent
     try:
         profile = Profile.objects.get(phone=phone)
-        if profile.wx_openid != openid:
+        if profile.wx_openid and profile.wx_openid != openid:
             return JsonResponse({
                 "result": False,
                 "code": -3
