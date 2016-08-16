@@ -12,19 +12,19 @@ class TCPViewController: UIViewController {
 
     // MARK: - Property
     // 城市数据模型
-    var model: [BaseObjectModel] = [] {
+    var models: [BaseObjectModel] = [] {
         didSet {
-            
+            tableView.models = models
         }
     }
     
     
     // MARK: - Components
     // 城市列表
-    var tableView: CityTableView {
-        let view = CityTableView()
-        return view
-    }
+    private lazy var tableView: CityTableView = {
+        let tableView = CityTableView(frame: CGRectZero, style: .Grouped)        
+        return tableView
+    }()
     
     
     // MARK: - Life Cycle
@@ -47,20 +47,21 @@ class TCPViewController: UIViewController {
     private func setupUserInterface() {
         // Style
         title = "选择城市"
-        view.backgroundColor = MalaColor_EDEDED_0
+        view.backgroundColor = UIColor.whiteColor()
         let leftBarButtonItem = UIBarButtonItem(customView:UIButton(imageName: "close", target: self, action: #selector(TCPViewController.closeButtonDidClick)))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         // SubViews
-        view.addSubview(tableView)
-        
+        self.view.addSubview(tableView)
         
         // AutoLayout
         tableView.snp_makeConstraints { (make) in
-            make.width.equalTo(view)
-            make.height.equalTo(view)
-            make.center.equalTo(view)
+            make.top.equalTo(self.view.snp_top)
+            make.bottom.equalTo(self.view.snp_bottom)
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
         }
     }
     
@@ -76,7 +77,7 @@ class TCPViewController: UIViewController {
                 println("TCPViewController - loadCitylist Error \(errorMessage)")
             }
         }, completion:{ [weak self] (cities) in
-            self?.model = cities
+            self?.models = cities
             println("城市列表 - \(cities)")
         })
     }

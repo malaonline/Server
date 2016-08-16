@@ -30,6 +30,8 @@ var ServiceResponseOrder: OrderForm = OrderForm()
 var MalaUserCoupons: [CouponModel] = []
 /// 用户是否手动选择奖学金标识（若手动选择过奖学金，则不再动态计算奖学金最优使用方案）
 var MalaUserDidSelectCoupon: Bool = false
+var MalaCurrentRegion: BaseObjectModel = BaseObjectModel(id: 3405, name: "郑州")
+
 
 /// 用户是否首次购买该学科课程标记
 /// 进入[课程购买]页面时请求服务端并赋值，退出[课程购买]页面时置空

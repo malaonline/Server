@@ -132,7 +132,6 @@ class FilterResultController: BaseViewController {
             if isLoadMore {
                 
                 ///  加载更多
-                
                 if resultModel.results != nil {
                     for object in ResultModel(dict: dict).results! {
                         if let dict = object as? [String: AnyObject] {
