@@ -5,7 +5,7 @@ import com.malalaoshi.android.entity.City;
 import com.malalaoshi.android.entity.Course;
 
 /**
- * Created by kang on 16/2/24.
+ * Created by kang on 16/8/16.
  */
-public class CourseListResult extends BaseResult<Course> {
+public class CityListResult extends BaseResult<City> {
 }

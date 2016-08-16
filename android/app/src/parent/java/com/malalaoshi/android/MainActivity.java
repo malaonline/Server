@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.malalaoshi.android.activitys.CityPickerActivity;
 import com.malalaoshi.android.activitys.OrderListActivity;
 import com.malalaoshi.android.adapter.FragmentGroupAdapter;
 import com.malalaoshi.android.api.NoticeMessageApi;
@@ -20,7 +21,9 @@ import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
 import com.malalaoshi.android.core.usercenter.UserManager;
+import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.dialogs.PromptDialog;
+import com.malalaoshi.android.entity.City;
 import com.malalaoshi.android.entity.NoticeMessage;
 import com.malalaoshi.android.events.EventType;
 import com.malalaoshi.android.events.NoticeEvent;
@@ -130,6 +133,11 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
 
     private void initViews() {
         setCurrentPager(pageIndex);
+        if (EmptyUtils.isEmpty(UserManager.getInstance().getCity())){
+            tvTitleLocation.setText("位置");
+        }else{
+            tvTitleLocation.setText(UserManager.getInstance().getCity());
+        }
     }
 
     //初始化定位
@@ -252,11 +260,18 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     }
 
     protected void onClickBarBtnLocation() {
-//        Toast.makeText(this,"TODO: 提示目前只支持郑州市，换成Dialog", Toast.LENGTH_SHORT).show();
-        SimpleAlertDialogFragment d = SimpleAlertDialogFragment.newInstance("目前只支持郑州市，其他地区正在拓展中", "我知道了", R.drawable.ic_location);
-        d.show(getSupportFragmentManager(), SimpleAlertDialogFragment.class.getName());
+        CityPickerActivity.openForResult(this,CityPickerActivity.RESULT_CODE_CITY);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (CityPickerActivity.RESULT_CODE_CITY==resultCode&&data!=null){
+            //更新老师列表数据
+            EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_TEACHERLIST_DATA));
+            tvTitleLocation.setText(UserManager.getInstance().getCity());
+        }
+    }
 
     public void onEventMainThread(NoticeEvent event) {
         switch (event.getEventType()) {

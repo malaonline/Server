@@ -40,6 +40,7 @@ public class UserManager {
     private String school;
     private String gradeId;
     private String city;
+    private Long cityId;
 
     private UserManager() {
         SharedPreferences userInfo = MalaContext.getContext().getSharedPreferences("userInfo", 0);
@@ -55,6 +56,7 @@ public class UserManager {
         school = userInfo.getString("school", "");
         gradeId = userInfo.getString("gradeId", "");
         city = userInfo.getString("city", "");
+        cityId = userInfo.getLong("cityId", -1);
     }
 
     public static UserManager getInstance() {
@@ -175,6 +177,15 @@ public class UserManager {
         this.city = city;
     }
 
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        SharedPreferences userInfo = MalaContext.getContext().getSharedPreferences("userInfo", 0);
+        userInfo.edit().putLong("cityId", cityId).apply();
+        this.cityId = cityId;
+    }
 
     public void logout() {
         SharedPreferences userInfo = MalaContext.getContext().getSharedPreferences("userInfo", 0);
@@ -199,8 +210,8 @@ public class UserManager {
         userInfo.edit().putString("school", "").apply();
         gradeId = "";
         userInfo.edit().putString("gradeId", "").apply();
-        city = "";
-        userInfo.edit().putString("city", "").apply();
+        //city = "";
+        //userInfo.edit().putString("city", "").apply();
 
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);

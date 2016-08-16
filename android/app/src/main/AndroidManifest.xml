@@ -88,6 +88,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".activitys.CityPickerActivity"
+            android:label="城市选择"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name="com.malalaoshi.android.activitys.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.AnimationFullscreen"></activity>
