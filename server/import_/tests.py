@@ -15,4 +15,4 @@ class TestImpWeb(TestCase):
         client.login(username='test', password='mala-test')
         url = "/import_/login"
         response = client.get(url)
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(302, response.status_code)
