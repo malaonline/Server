@@ -34,6 +34,11 @@ public class SchoolListApi extends BaseApi {
     }
 
     public SchoolListResult get() throws Exception {
-        return httpGet(getPath(), SchoolListResult.class);
+        String subUrl = "";
+        Long cityId = UserManager.getInstance().getCityId();
+        if (cityId!=null&&cityId>0){
+            subUrl += "?region=" + cityId;
+        }
+        return httpGet(getPath()+subUrl, SchoolListResult.class);
     }
 }

@@ -34,6 +34,11 @@ public class CoursePriceListApi extends BaseApi {
     }
 
     public CoursePriceListResult get(Long teacherId) throws Exception {
-        return httpGet(getPath(), CoursePriceListResult.class);
+        String subUrl = "";
+        Long cityId = UserManager.getInstance().getCityId();
+        if (cityId!=null&&cityId>0){
+            subUrl += "?region=" + cityId;
+        }
+        return httpGet(getPath() + subUrl, CoursePriceListResult.class);
     }
 }
