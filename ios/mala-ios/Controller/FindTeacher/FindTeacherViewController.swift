@@ -29,6 +29,17 @@ class FindTeacherViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 6, left: 0, bottom: 48 + 6, right: 0)
         return tableView
     }()
+    /// 城市选择按钮
+    private lazy var locationButton: UIButton = {
+        let button = UIButton(
+            title: "郑州市",
+            imageName: "location_normal",
+            highlightImageName: "location_press",
+            target: self,
+            action: #selector(FindTeacherViewController.profileButtonDidClick)
+        )
+        return button
+    }()
     
     
     // MARK: - Life Cycle
@@ -98,15 +109,7 @@ class FindTeacherViewController: UIViewController {
         spacer.width = -12
         
         // leftBarButtonItem
-        let leftBarButtonItem = UIBarButtonItem(customView:
-            UIButton(
-                title: "郑州",
-                imageName: "location_normal",
-                highlightImageName: "location_press",
-                target: self,
-                action: #selector(FindTeacherViewController.profileButtonDidClick)
-            )
-        )
+        let leftBarButtonItem = UIBarButtonItem(customView: locationButton)
         navigationItem.leftBarButtonItems = [spacer, leftBarButtonItem]
         
         // rightBarButtonItem
@@ -166,7 +169,6 @@ class FindTeacherViewController: UIViewController {
             if isLoadMore {
                 
                 ///  加载更多
-                
                 if resultModel.results != nil {
                     for object in ResultModel(dict: dict).results! {
                         if let dict = object as? [String: AnyObject] {
@@ -216,11 +218,18 @@ class FindTeacherViewController: UIViewController {
     }
     
     @objc private func profileButtonDidClick() {
+        
+        // 城市选择器
+        let viewController = TCPViewController()
+        viewController.didSelectAction = { [weak self] in
+            self?.locationButton.titleLabel?.text = MalaCurrentRegion.name
+            self?.loadTeachers()
+        }
+        
         navigationController?.presentViewController(
-            UINavigationController(rootViewController: TCPViewController()),
+            UINavigationController(rootViewController: viewController),
             animated: true,
-            completion: {
-            
-        })
+            completion: nil
+        )
     }
 }

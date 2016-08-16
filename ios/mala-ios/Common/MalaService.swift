@@ -899,11 +899,16 @@ func loadRegions(failureHandler: ((Reason, String?) -> Void)?, completion: [Base
 ///  - parameter failureHandler: 失败处理闭包
 ///  - parameter completion:     成功处理闭包
 func getSchools(failureHandler: ((Reason, String?) -> Void)?, completion: [SchoolModel] -> Void) {
+    
     let parse: JSONDictionary -> [SchoolModel] = { data in
         return sortSchoolsByDistance(parseSchoolsResult(data))
     }
     
-    let resource = authJsonResource(path: "/schools", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    let requestParameters = [
+        "region": MalaCurrentRegion.id,
+    ]
+    
+    let resource = authJsonResource(path: "/schools", method: .GET, requestParameters: requestParameters, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)

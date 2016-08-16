@@ -22,6 +22,11 @@ class CityTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
             })
         }
     }
+    // 选择闭包
+    var didSelectAction: (()->())?
+    // 关闭闭包
+    var closeAction: (()->())?
+    
     
     // MARK: - Instance Method
     override init(frame: CGRect, style: UITableViewStyle) {
@@ -48,11 +53,7 @@ class CityTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    // MARK: - DataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return models.count
-    }
-    
+    // MARK: - Delegate
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(CityTableViewHeaderViewReuseId)
         return headerView
@@ -61,12 +62,25 @@ class CityTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
-
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        MalaCurrentRegion = models[indexPath.row]
+        didSelectAction?()
+        closeAction?()
+    }
+    
+    
+    // MARK: - DataSource
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return models.count
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(CityTableViewCellReuseId, forIndexPath: indexPath) as! CityTableViewCell
         cell.model = models[indexPath.row]
         return cell
     }
+    
 }
 
 

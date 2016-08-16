@@ -419,6 +419,7 @@ extension MalaNetworking {
     func loadTeachers(parameters: [String: AnyObject]?, page: Int = 1, finished: RequestCallBack) {
         var params = parameters ?? [String: AnyObject]()
         params["page"] = page
+        params["region"] = MalaCurrentRegion.id
         request(.GET, URLString: MalaBaseUrl+teacherList, parameters: params, finished: finished)
     }
     

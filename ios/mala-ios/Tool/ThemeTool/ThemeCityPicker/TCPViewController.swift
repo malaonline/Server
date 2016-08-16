@@ -17,12 +17,18 @@ class TCPViewController: UIViewController {
             tableView.models = models
         }
     }
+    // 选择闭包
+    var didSelectAction: (()->())? {
+        didSet {
+            tableView.didSelectAction = didSelectAction
+        }
+    }
     
     
     // MARK: - Components
     // 城市列表
     private lazy var tableView: CityTableView = {
-        let tableView = CityTableView(frame: CGRectZero, style: .Grouped)        
+        let tableView = CityTableView(frame: CGRectZero, style: .Grouped)
         return tableView
     }()
     
@@ -52,6 +58,9 @@ class TCPViewController: UIViewController {
         navigationItem.leftBarButtonItem = leftBarButtonItem
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         navigationController?.navigationBar.shadowImage = UIImage()
+        tableView.closeAction = { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
         
         // SubViews
         self.view.addSubview(tableView)
