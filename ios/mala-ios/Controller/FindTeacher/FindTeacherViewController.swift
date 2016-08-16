@@ -216,11 +216,11 @@ class FindTeacherViewController: UIViewController {
     }
     
     @objc private func profileButtonDidClick() {
-        _ = JSSAlertView().show(self,
-            title: "目前只支持郑州，其他地区正在拓展中...",
-            buttonText: "我知道了",
-            iconImage: UIImage(named: "alert_Position")
-        )
+        navigationController?.presentViewController(
+            UINavigationController(rootViewController: TCPViewController()),
+            animated: true,
+            completion: {
+            
+        })
     }
-    
 }

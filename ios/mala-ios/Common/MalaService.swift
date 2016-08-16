@@ -876,6 +876,24 @@ func getSubjectReport(id: Int, failureHandler: ((Reason, String?) -> Void)?, com
 
 
 // MARK: - Other
+///  获取城市数据列表
+///
+///  - parameter failureHandler: 失败处理闭包
+///  - parameter completion:     成功处理闭包
+func loadRegions(failureHandler: ((Reason, String?) -> Void)?, completion: [BaseObjectModel] -> Void) {
+    let parse: JSONDictionary -> [BaseObjectModel] = { data in
+        return parseCitiesResult(data)
+    }
+    
+    let resource = jsonResource(path: "/regions", method: .GET, requestParameters: nullDictionary(), parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 ///  获取学校数据列表
 ///
 ///  - parameter failureHandler: 失败处理闭包
@@ -1287,4 +1305,16 @@ let parseFavoriteTeacherResult: JSONDictionary -> ([TeacherModel], Int) = { resu
         }
     }
     return (teachers, count)
+}
+/// 城市数据列表JSON解析器
+let parseCitiesResult: JSONDictionary -> [BaseObjectModel] = { resultInfo in
+    
+    var cities: [BaseObjectModel] = []
+    
+    if let results = resultInfo["results"] as? [JSONDictionary] where results.count > 0 {
+        for school in results {
+            cities.append(BaseObjectModel(dict: school))
+        }
+    }
+    return cities
 }
