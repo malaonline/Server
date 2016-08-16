@@ -86,7 +86,7 @@ class TCPViewController: UIViewController {
                 println("TCPViewController - loadCitylist Error \(errorMessage)")
             }
         }, completion:{ [weak self] (cities) in
-            self?.models = cities
+            self?.models = cities.reverse()
             println("城市列表 - \(cities)")
         })
     }
