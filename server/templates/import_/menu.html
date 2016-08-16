@@ -1,0 +1,9 @@
+{% load custom_tags %}
+
+<div role="tabpanel" class="tab-pane panel-group" id="staff_menu" style="display: none">
+  <ul class="mui-nav">
+    <li><a href="{% url 'import_:teachers' %}">导入老师</a></li>
+    <li><a href="{% url 'import_:parents' %}">导入家长</a></li>
+    <li><a href="{% url 'import_:orders' %}">导入订单</a></li>
+  </ul>
+</div>
