@@ -12,7 +12,7 @@ def is_manager(u):
             return True
         try:
             all_group = u.groups.all()
-            group = Group.objects.get(name='师资管理员')
+            group = Group.objects.get(name='历史数据录入员')
             return group in all_group
         except Group.DoesNotExist as ex:
             logger.error("Group DoesNotExist: {0}".format(ex))
