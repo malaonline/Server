@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'app',
     'teacher',
     'staff',
+    'import_',
     'web',
 ]
 

@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^teacher/', include('teacher.urls', namespace='teacher')),
     url(r'^staff/', include('staff.urls', namespace='staff')),
+    url(r'^import_/', include('import_.urls', namespace='import_')),
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
     url(r'^upload/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
