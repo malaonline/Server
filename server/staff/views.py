@@ -2400,33 +2400,49 @@ class LevelPriceConfigView(BaseStaffView):
     """
     template_name = 'staff/level/price_cfg.html'
 
-    def build_context(self, context, prices, levels):
+    def build_context(self, context, prices, levels, grades):
         if not prices or not levels:
             context['level_list'] = []
             return
         level_list = list(levels)
         for level in level_list:
-            for price in prices:
-                if price.level_id == level.id:
-                    level.price = price.price
-                    break
+            level.grades = []
+            for grade in grades:
+                grade_obj = {'id': grade.id, 'name': grade.name, 'price': None}
+                level.grades.append(grade_obj)
+                for price in prices:
+                    if price.level_id == level.id and price.ability.grade_id == grade.id:
+                        grade_obj['price'] = price.price
+                        break
+
+            level.min_price = min(level.grades, key= lambda x: x['price'] or 100000000)['price']
+            level.max_price = max(level.grades, key= lambda x: x['price'] or -1)['price']
         context['level_list'] = level_list
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         region = self.request.GET.get('region')
-        prices = []
+        subject = self.request.GET.get('subject')
+        prices = None
         if region and region.isdigit():
             prices = models.Price.objects.filter(region_id=region)
+        if subject and subject.isdigit():
+            prices = prices and prices.filter(ability__subject_id=subject)
         all_levels= models.Level.objects.all()
-        self.build_context(kwargs, prices, all_levels)
+        all_grades = models.Grade.objects.filter(leaf=True)
+        all_subject = models.Subject.objects.all()
+        self.build_context(kwargs, prices, all_levels, all_grades)
+        kwargs['grade_list'] = all_grades
+        kwargs['subject_list'] = all_subject
         kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其他'))
         return super(LevelPriceConfigView, self).get_context_data(**kwargs)
 
     def post(self, request):
         region_id = request.POST.get('region')
         level_id = request.POST.get('level')
+        grade_id = request.POST.get('grade')
+        subject_id = request.POST.get('subject')
         price = request.POST.get('price')
         if not region_id or not level_id or not price:
             return HttpResponse(status=400)
@@ -2437,13 +2453,22 @@ class LevelPriceConfigView(BaseStaffView):
         if new_price < 0:
             return JsonResponse({'ok': False, 'msg': '价格范围错误', 'code': 1})
         region = get_object_or_404(models.Region, id=region_id)
+        grade = grade_id and get_object_or_404(models.Grade, id=grade_id) or None
+        subject = subject_id and get_object_or_404(models.Subject, id=subject_id) or None
         level = get_object_or_404(models.Level, id=level_id)
-        num = models.Price.objects.filter(region=region, level=level).update(price=int(new_price * 100))
-        logger.info("修改地区%s级别%s的课时价格为%s, 数据库影响%s条"%(region.name, level.name, new_price, num))
+        query_set = models.Price.objects.filter(region=region, level=level)
+        if grade:
+            query_set = query_set.filter(ability__grade=grade)
+        if subject:
+            query_set = query_set.filter(ability__subject=subject)
+        num = query_set.update(price=int(new_price * 100))
+        logger.info("修改地区%s级别%s%s%s的课时价格为%s, 数据库影响%s条"%(
+            region.name, level.name, grade and grade.name or '所有年级',
+            subject and subject.name or '所有科目', new_price, num))
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
 
 
-class LevelSalaryConfigView(LevelPriceConfigView):
+class LevelSalaryConfigView(BaseStaffView):
     """
     级别的薪资设置界面
     """
@@ -2460,6 +2485,18 @@ class LevelSalaryConfigView(LevelPriceConfigView):
                     level.commission_percentage = price.commission_percentage
                     break
         context['level_list'] = level_list
+
+    def get_context_data(self, **kwargs):
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        region = self.request.GET.get('region')
+        prices = []
+        if region and region.isdigit():
+            prices = models.Price.objects.filter(region_id=region)
+        all_levels= models.Level.objects.all()
+        self.build_context(kwargs, prices, all_levels)
+        kwargs['region_list'] = models.Region.objects.filter(Q(opened=True)|Q(name='其他'))
+        return super(LevelSalaryConfigView, self).get_context_data(**kwargs)
 
     def post(self, request):
         region_id = request.POST.get('region')
