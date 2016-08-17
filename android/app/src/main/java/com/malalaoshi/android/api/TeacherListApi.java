@@ -30,7 +30,8 @@ public class TeacherListApi extends BaseApi {
             hasParam = true;
         }
         if (gradeId!=null) {
-            subUrl += "?grade=" + gradeId;
+            subUrl += hasParam ? "&grade=" : "?grade=";
+            subUrl += gradeId;
             hasParam = true;
         }
         if (subjectId!=null) {
