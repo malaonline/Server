@@ -1,10 +1,14 @@
-import xlwt
 import datetime
+import logging
+import xlwt, xlrd
 
 from django.forms.forms import pretty_name
 from django.http import HttpResponse
 
 from .algorithm import str_urlencode
+
+_logger = logging.getLogger('app')
+_console = logging.getLogger('console')
 
 HEADER_STYLE = xlwt.easyxf('font: bold on; font: height 0x0118')
 DEFAULT_STYLE = xlwt.easyxf('font: height 0x00e0')
@@ -113,3 +117,42 @@ def wb_excel_response(workbook, filename='export.xls'):
     response['Content-Disposition'] = 'attachment; filename="%s"' % (str_urlencode(filename),)
     workbook.save(response)
     return response
+
+
+def read_excel_sheet(file='file.xls', sheet_num=0, sheet_name=None, title_row=0, titles_list=[]):
+    '''
+    获取Excel表格中指定Sheet的数据
+
+    :param file: Excel文件路径
+    :param sheet_num: 表单的索引
+    :param sheet_name: 表单的名字(未实现)
+    :param title_row: 表头列名所在行的索引(从0开始), 认为下一行为正式数据
+    :param titles_list: 用户指定列名, 如果不为空则忽略title_row表头, 直接读取后面的数据
+    :return: list(dict) 所有行数据每行为一个dict, 以title_row或titles_list元素为key
+    '''
+    try:
+        wb = xlrd.open_workbook(file)
+    except Exception as e:
+        raise e
+
+    sheet = wb.sheets()[sheet_num]
+    nrows = sheet.nrows  # 行数
+    ncols = sheet.ncols  # 列数
+    _console.debug('rows: %s, cols: %s' %(nrows, ncols))
+    if titles_list and len(titles_list) > 1:
+        titles = titles_list
+    else:
+        titles = sheet.row_values(title_row)  # 某一行数据
+    _console.debug(titles)
+
+    # 遍历读取需要的数据
+    list = []
+    for row_num in range(title_row + 1, nrows):
+        _console.debug('row: %s' %(row_num,))
+        row = sheet.row_values(row_num)
+        if row:
+            obj = {}
+            for i in range(len(titles)):
+                obj[titles[i]] = row[i]
+            list.append(obj)
+    return list

@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from app.utils.types import parseInt, parse_date, parse_date_next
 from app.utils.klx_api import *
-from app.utils import smsUtil
+from app.utils import smsUtil, excel
 from staff.views import _try_send_sms
 
 
@@ -130,3 +130,14 @@ class DBTest(unittest.TestCase):
     def test_orders(self):
         from app.models import Order
         _console.info(Order.objects.filter(status=Order.PAID).count())
+
+
+class ExcelTest(unittest.TestCase):
+
+    def test_read_excel(self):
+        data = excel.read_excel_sheet(file='app/utils/file.xls')
+        _console.info(data)
+        orders = excel.read_excel_sheet(file='app/utils/orders.xls')
+        _console.info(orders)
+        orders_tail = excel.read_excel_sheet(file='app/utils/orders.xls', title_row=3, titles_list=['order_no', 'created_at', 'platform'])
+        _console.info(orders_tail)
