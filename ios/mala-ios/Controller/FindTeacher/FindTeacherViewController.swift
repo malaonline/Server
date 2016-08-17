@@ -10,7 +10,7 @@ import UIKit
 
 private let TeacherTableViewCellReusedId = "TeacherTableViewCellReusedId"
 
-class FindTeacherViewController: UIViewController {
+class FindTeacherViewController: BaseViewController {
     
     // MARK: - Property
     private var filterResultDidShow: Bool = false
@@ -87,6 +87,8 @@ class FindTeacherViewController: UIViewController {
         // Style
         self.title = MalaCommonString_Malalaoshi
         self.tabBarItem.title = MalaCommonString_FindTeacher
+        defaultView.imageName = "filter_no_result"
+        defaultView.text = "当前城市没有老师！"
         
         // 下拉刷新组件
         self.tableView.addPullToRefresh({ [weak self] in

@@ -22,7 +22,12 @@ class TeacherTableView: UITableView, UITableViewDelegate, UITableViewDataSource 
     /// 老师数据模型数组
     var teachers: [TeacherModel] = [] {
         didSet {
-            self.reloadData()
+            reloadData()
+            if teachers.count == 0 {
+                (controller as? FindTeacherViewController)?.showDefaultView()
+            }else {
+                (controller as? FindTeacherViewController)?.hideDefaultView()
+            }
         }
     }
     weak var controller: UIViewController?
