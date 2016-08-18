@@ -1,4 +1,45 @@
 {% extends "import_/staff_base.html" %}
+{% load staticfiles%}
+{% load compile_static %}
+
+{% block addition_js %}
+    <script>
+        $(function(){
+            paginationInit();
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
-开始导入老师
+    <form name="query_form" class="form-inline" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>批量导入老师: </label><br>
+        选择文件
+        <input type="file" name="excel_file" />
+
+        <input type="submit" value="确认上传"/>
+        <br>
+        <a href="{% static 'import_/老师信息快速录入模版.xlsx' %}">不知道Excel格式? 点此下载文件标准模板</a>
+    </form>
+
+    <div><label>已导入的老师</label></div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">姓名</th>
+            <th class="text-center">性别</th>
+            <th class="text-center">手机号</th>
+            <th class="text-center">科目</th>
+            <th class="text-center">年级</th>
+        </tr>
+        {% for teacher in teachers %}
+            <tr teacherId="{{ teacher.id }}">
+                <td>{# 姓名 #} {{ teacher.name }}</td>
+                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
+                <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
+                <td>{# 科目 #} {{ teacher.subject }}</td>
+                <td>{# 年级 #} {% if teacher.grades %} {% for g in teacher.grades %} <span class="label label-default">{{ g.name }}</span>{% endfor %} {% else %}未填{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
 {% endblock %}

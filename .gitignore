@@ -1,5 +1,6 @@
 /.project
 .DS_Store
+~*
 *.swp
 *.log
 .idea

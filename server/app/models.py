@@ -373,6 +373,8 @@ class Teacher(BaseModel):
 
     recommended_on_wechat = models.BooleanField(default=False)
 
+    imported = models.BooleanField(default=False) # 是否是从线下导入的
+
     def __str__(self):
         return '%s %s %s' % (
                 '⬆' if not self.published else '  ', self.name, self.phone())
