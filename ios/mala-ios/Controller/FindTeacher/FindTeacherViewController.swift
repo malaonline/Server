@@ -224,7 +224,7 @@ class FindTeacherViewController: BaseViewController {
         // 城市选择器
         let viewController = TCPViewController()
         viewController.didSelectAction = { [weak self] in
-            self?.locationButton.titleLabel?.text = MalaCurrentRegion.name
+            self?.locationButton.titleLabel?.text = MalaCurrentRegion?.name ?? "郑州市"
             self?.loadTeachers()
         }
         

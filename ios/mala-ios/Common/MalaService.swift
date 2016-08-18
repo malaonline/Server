@@ -904,11 +904,13 @@ func getSchools(failureHandler: ((Reason, String?) -> Void)?, completion: [Schoo
         return sortSchoolsByDistance(parseSchoolsResult(data))
     }
     
-    let requestParameters = [
-        "region": MalaCurrentRegion.id,
-    ]
+    var params = nullDictionary()
     
-    let resource = authJsonResource(path: "/schools", method: .GET, requestParameters: requestParameters, parse: parse)
+    if let region = MalaCurrentRegion {
+        params["region"] = region.id
+    }
+    
+    let resource = authJsonResource(path: "/schools", method: .GET, requestParameters: params, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: MalaBaseURL, resource: resource, failure: failureHandler, completion: completion)
