@@ -61,7 +61,7 @@ public class CityPickerFragment extends BaseFragment implements AdapterView.OnIt
         if (currentCity.getId()!=null&&currentCity.getId()>0){
             tvCurrentCity.setText(currentCity.getName());
         }else{
-            tvCurrentCity.setText("全国");
+            tvCurrentCity.setText("郑州市");
         }
     }
 

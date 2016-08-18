@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity implements FragmentGroupAdapter.I
     private void initViews() {
         setCurrentPager(pageIndex);
         if (EmptyUtils.isEmpty(UserManager.getInstance().getCity())){
-            tvTitleLocation.setText("位置");
+            tvTitleLocation.setText("郑州市");
         }else{
             tvTitleLocation.setText(UserManager.getInstance().getCity());
         }
