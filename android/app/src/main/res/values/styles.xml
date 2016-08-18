@@ -175,12 +175,12 @@
     <!-- 用户中心 -->
     <style name="mala.widget.usercenter.item.text" parent="android:Widget.TextView">
         <item name="android:textColor">@color/color_black_636363</item>
-        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 
     <style name="mala.widget.usercenter.item.text2" parent="android:Widget.TextView">
         <item name="android:textColor">@color/color_gray_d4d4d4</item>
-        <item name="android:textSize">@dimen/text_size_normal_x</item>
+        <item name="android:textSize">@dimen/text_size_small_high</item>
     </style>
 
     <!-- item间分割线 -->

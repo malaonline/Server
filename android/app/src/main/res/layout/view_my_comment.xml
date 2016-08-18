@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_blue_8fbcdd"
-            android:textSize="@dimen/text_size_normal_x"/>
+            android:textSize="@dimen/text_size_small_high"/>
         <TextView
             android:id="@+id/tv_grade"
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_normal_x"/>
+            android:textSize="@dimen/text_size_small_high"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:drawablePadding="8dp"
                 android:maxLines="1"
                 android:textColor="@color/color_black_939393"
-                android:textSize="@dimen/text_size_normal_x"/>
+                android:textSize="@dimen/text_size_small_high"/>
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/color_black_939393"
-                android:textSize="@dimen/text_size_normal_x"/>
+                android:textSize="@dimen/text_size_small_high"/>
         </LinearLayout>
 
         <TextView
@@ -77,7 +77,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_normal_x"/>
+            android:textSize="@dimen/text_size_small_high"/>
     </LinearLayout>
 
     <LinearLayout
@@ -148,7 +148,7 @@
             android:paddingTop="4dp"
             android:text="待评"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal_x"/>
+            android:textSize="@dimen/text_size_small_high"/>
 
         <ImageView
             android:id="@+id/iv_icon"

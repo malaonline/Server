@@ -13,7 +13,7 @@
         app:cusLeftShow="true"
         app:cusTitleText="测评建档服务"
         app:cusTitleTextColor="@color/color_black_333333"
-        app:cusTitleTextSize="@dimen/text_size_xlarge" />
+        app:cusTitleTextSize="@dimen/text_size_large" />
 
     <View
         android:layout_width="match_parent"

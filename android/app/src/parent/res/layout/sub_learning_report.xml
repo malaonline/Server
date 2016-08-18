@@ -17,7 +17,7 @@
             android:layout_marginTop="16dp"
             android:text="学习报告"
             android:textColor="@color/color_black_333333"
-            android:textSize="@dimen/text_size_large_x" />
+            android:textSize="@dimen/text_size_normal_high" />
 
         <LinearLayout
             android:id="@+id/ll_report"
@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:text="答题数"
                     android:textColor="@color/color_black_636363"
-                    android:textSize="@dimen/text_size_normal_x" />
+                    android:textSize="@dimen/text_size_small_high" />
 
                 <TextView
                     android:id="@+id/tv_answer_number"
@@ -77,7 +77,7 @@
                     android:gravity="center"
                     android:text="正确率"
                     android:textColor="@color/color_black_636363"
-                    android:textSize="@dimen/text_size_normal_x" />
+                    android:textSize="@dimen/text_size_small_high" />
 
                 <TextView
                     android:id="@+id/tv_correct_rate"
@@ -113,5 +113,5 @@
         android:gravity="center"
         android:text="数学"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal" />
+        android:textSize="@dimen/text_size_small" />
 </RelativeLayout>

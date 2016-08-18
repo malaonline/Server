@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/teacher_name_margin_left"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large_x" />
+                android:textSize="@dimen/text_size_normal_high" />
 
             <ImageView
                 android:id="@+id/parent_teacher_detail_gender_iv"
@@ -50,7 +50,7 @@
                 android:layout_below="@id/parent_teacher_detail_name_tv"
                 android:layout_marginTop="@dimen/item_padding_height_small"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_normal" />
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:id="@+id/parent_teaching_price_tv"
@@ -60,7 +60,7 @@
                 android:layout_marginLeft="@dimen/teacher_body_padding_normal"
                 android:layout_toRightOf="@id/parent_teacher_detail_subject_tv"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_normal" />
+                android:textSize="@dimen/text_size_small" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -141,14 +141,14 @@
                 android:layout_height="wrap_content"
                 android:text="教龄"
                 android:textColor="@color/color_black_6c6c6c"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
             <TextView
                 android:id="@+id/tv_teacher_seniority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/color_black_6c6c6c"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
 
 
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:text="级别"
                 android:textColor="@color/color_black_6c6c6c"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/tv_teacher_level"
@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/color_black_6c6c6c"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -212,7 +212,7 @@
         android:background="@color/color_white_f6f6f6"
         android:text="教授年级"
         android:textColor="@color/color_black_939393"
-        android:textSize="@dimen/text_size_large_x"  />
+        android:textSize="@dimen/text_size_normal_high"  />
 
     <LinearLayout
         android:id="@+id/parent_teacher_detail_grade_ll"
@@ -310,7 +310,7 @@
         android:background="@color/color_white_f6f6f6"
         android:text="风格标签"
         android:textColor="@color/color_black_939393"
-        android:textSize="@dimen/text_size_large_x"  />
+        android:textSize="@dimen/text_size_normal_high"  />
 
     <LinearLayout
         android:id="@+id/parent_teacher_detail_tag_ll"
@@ -345,7 +345,7 @@
         android:background="@color/color_white_f6f6f6"
         android:text="提分榜"
         android:textColor="@color/color_black_939393"
-        android:textSize="@dimen/text_size_large_x"  />
+        android:textSize="@dimen/text_size_normal_high"  />
     <LinearLayout
         android:id="@+id/parent_teacher_detail_highscore_ll"
         android:background="@color/white"
@@ -380,12 +380,12 @@
             android:layout_height="wrap_content"
             android:text="个人相册"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_large_x" />
+            android:textSize="@dimen/text_size_normal_high" />
         <TextView
             android:id="@+id/tv_gallery_more"
             android:text="更多"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_large_x"
+            android:textSize="@dimen/text_size_normal_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/grallery_title"
@@ -431,7 +431,7 @@
         android:background="@color/color_white_f6f6f6"
         android:text="特殊成就"
         android:textColor="@color/color_black_939393"
-        android:textSize="@dimen/text_size_large_x"  />
+        android:textSize="@dimen/text_size_normal_high"  />
 
     <com.malalaoshi.android.view.FlowLayout
         android:id="@+id/parent_teacher_detail_achievement_fl"
@@ -452,7 +452,7 @@
         android:background="@color/color_white_f6f6f6"
         android:text="教学环境"
         android:textColor="@color/color_black_939393"
-        android:textSize="@dimen/text_size_large_x"  />
+        android:textSize="@dimen/text_size_normal_high"  />
     <include layout="@layout/school_environment"/>
 
     <View

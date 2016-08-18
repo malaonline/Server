@@ -27,7 +27,7 @@
                 android:id="@+id/tv_refresh_refreshing"
                 android:layout_marginTop="14dp"
                 android:textColor="@color/color_blue_82b4d9"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

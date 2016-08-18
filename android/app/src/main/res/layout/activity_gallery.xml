@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/tv_pic_des"
         android:textColor="@color/color_black_636363"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_normal"
         android:layout_marginBottom="@dimen/gallery_bottom_height"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -27,7 +27,7 @@
         android:text="0/0"
         android:gravity="center"
         android:textColor="@color/color_black_636363"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_normal"
         android:layout_marginBottom="@dimen/gallery_bottom_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

@@ -30,7 +30,7 @@
                     android:drawablePadding="10dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center"
-                    android:textSize="@dimen/text_size_normal_x"
+                    android:textSize="@dimen/text_size_small_high"
                     android:textColor="@color/color_black_6c6c6c" />
 
                 <TextView
@@ -42,7 +42,7 @@
                     android:drawablePadding="10dp"
                     android:layout_marginBottom="6dp"
                     android:gravity="center"
-                    android:textSize="@dimen/text_size_normal_x"
+                    android:textSize="@dimen/text_size_small_high"
                     android:textColor="@color/color_black_6c6c6c" />
 
                 <LinearLayout
@@ -60,7 +60,7 @@
                         android:id="@+id/tv_school"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_normal_x"
+                        android:textSize="@dimen/text_size_small_high"
                         android:textColor="@color/color_black_6c6c6c" />
                 </LinearLayout>
 
@@ -85,14 +85,14 @@
                     android:drawableLeft="@drawable/bg_rectangle_small"
                     android:drawablePadding="9dp"
                     android:textColor="@color/color_black_333333"
-                    android:textSize="@dimen/text_size_large_x"
+                    android:textSize="@dimen/text_size_normal_high"
                     android:text="上课时间" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/tv_total_hours"
                     android:textColor="@color/color_black_6c6c6c"
-                    android:textSize="@dimen/text_size_normal_x"
+                    android:textSize="@dimen/text_size_small_high"
                     android:text="共计" />
                 <TextView
                     android:id="@+id/tv_total_hours"
@@ -102,14 +102,14 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:textColor="@color/color_black_333333"
-                    android:textSize="@dimen/text_size_normal_x" />
+                    android:textSize="@dimen/text_size_small_high" />
                 <TextView
                     android:id="@+id/tv_total_class_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/color_black_6c6c6c"
-                    android:textSize="@dimen/text_size_normal_x"
+                    android:textSize="@dimen/text_size_small_high"
                     android:text="课时" />
             </RelativeLayout>
 
@@ -196,6 +196,6 @@
             android:gravity="center"
             android:text="提交订单"
             android:textColor="@color/color_white_ffffff"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_small" />
     </RelativeLayout>
 </FrameLayout>

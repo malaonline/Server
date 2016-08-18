@@ -30,7 +30,7 @@
        android:layout_marginRight="36dp"
        android:gravity="end"
        android:textColor="@color/color_red_e26254"
-       android:textSize="@dimen/text_size_small_x"
+       android:textSize="@dimen/text_size_tiny_high"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
     <View

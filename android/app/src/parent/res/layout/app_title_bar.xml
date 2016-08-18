@@ -16,7 +16,7 @@
         android:text="标题"
         android:id="@+id/tv_title"
         android:textColor="@color/color_black_333333"
-        android:textSize="@dimen/text_size_xlarge"
+        android:textSize="@dimen/text_size_large"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

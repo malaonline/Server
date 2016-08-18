@@ -39,7 +39,7 @@ public class ViewPagerIndicator extends ViewGroup {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator);
         if (null != typedArray) {
             Resources resources = context.getResources();
-            tabTextSize = typedArray.getDimensionPixelSize(R.styleable.ViewPagerIndicator_vpTabTextSize, resources.getDimensionPixelSize(R.dimen.text_size_xlarge));
+            tabTextSize = typedArray.getDimensionPixelSize(R.styleable.ViewPagerIndicator_vpTabTextSize, resources.getDimensionPixelSize(R.dimen.text_size_large));
             tabTextColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextColor, resources.getColor(R.color.color_black_6c6c6c));
             tabTextFocusColor = typedArray.getColor(R.styleable.ViewPagerIndicator_vpTabTextFocusColor, resources.getColor(R.color.color_blue_82b4d9));
             tabFocusPos = typedArray.getInt(R.styleable.ViewPagerIndicator_vpTabFocusPos, 0);

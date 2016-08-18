@@ -15,7 +15,7 @@
         app:cusRightShow="false"
         app:cusTitleText="会员服务"
         app:cusTitleTextColor="@color/color_black_333333"
-        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextSize="@dimen/text_size_large"
         />
     <View
         android:id="@+id/view_line"

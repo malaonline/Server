@@ -20,7 +20,7 @@
             android:id="@+id/tv_order_text"
             android:text="订单编号:"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -28,7 +28,7 @@
             android:id="@+id/tv_order_id"
             android:text="订单编号"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:layout_toRightOf="@id/tv_order_text"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
@@ -45,13 +45,13 @@
         <TextView
             android:id="@+id/tv_teacher_name_text"
             android:text="教师姓名:"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_636363"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_teacher_name"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_939393"
             android:layout_alignTop="@id/tv_teacher_name_text"
             android:layout_toRightOf="@id/tv_teacher_name_text"
@@ -70,7 +70,7 @@
             <TextView
                 android:id="@+id/tv_order_status"
                 android:text="订单待支付"
-                android:textSize="@dimen/text_size_normal"
+                android:textSize="@dimen/text_size_small"
                 android:textColor="@color/color_red_e26254"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -87,7 +87,7 @@
         <TextView
             android:id="@+id/tv_course_name_text"
             android:text="课程名称:"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_636363"
             android:layout_below="@id/tv_teacher_name_text"
             android:layout_marginTop="14dp"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_course_name"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_939393"
             android:layout_alignTop="@id/tv_course_name_text"
             android:layout_toRightOf="@id/tv_course_name_text"
@@ -106,7 +106,7 @@
         <TextView
             android:id="@+id/tv_course_address_text"
             android:text="课程地点:"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_636363"
             android:layout_below="@id/tv_course_name_text"
             android:layout_marginTop="14dp"
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_course_address"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_939393"
             android:lineSpacingExtra="12dp"
             android:layout_alignTop="@id/tv_course_address_text"
@@ -142,14 +142,14 @@
             android:id="@+id/tv_cost_text"
             android:text="共计:"
             android:layout_alignBaseline="@+id/tv_cost_unit"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@color/color_black_636363"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_cost_unit"
             android:text="¥"
-            android:textSize="@dimen/text_size_xlarge"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@color/color_black_333333"
             android:layout_toRightOf="@id/tv_cost_text"
             android:layout_marginLeft="8dp"
@@ -159,7 +159,7 @@
         <TextView
             android:id="@+id/tv_cost"
             android:text="0"
-            android:textSize="@dimen/text_size_xlarge"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@color/color_black_333333"
             android:layout_toRightOf="@id/tv_cost_unit"
             android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
             android:text="立即支付"
             android:gravity="center"
             android:background="@drawable/bg_pay_order_btn"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@color/white"
             android:layout_alignParentRight="true"
             android:layout_width="71dp"
@@ -181,14 +181,14 @@
             android:id="@+id/tv_teacher_status"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:layout_width="wrap_content"
             android:layout_height="24dp" />
         <TextView
             android:id="@+id/tv_cancel_order"
             android:text="取消订单"
             android:gravity="center"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:background="@drawable/bg_cancel_order_btn"
             android:textColor="@color/color_black_636363"
             android:layout_marginRight="12dp"

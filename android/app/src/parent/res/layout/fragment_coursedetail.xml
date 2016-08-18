@@ -16,7 +16,7 @@
             android:text="2016.07.04"
             android:gravity="center"
             android:textColor="@color/color_gray_b7b7b7"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="13dp"
             android:layout_width="match_parent"
@@ -31,13 +31,13 @@
             <TextView
                 android:text="学习科目:"
                 android:layout_marginRight="13dp"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_subject"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -52,13 +52,13 @@
             <TextView
                 android:text="上课地点:"
                 android:layout_marginRight="13dp"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_address"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:lineSpacingExtra="8dp"
                 android:layout_width="wrap_content"
@@ -74,13 +74,13 @@
             <TextView
                 android:text="上课时间:"
                 android:layout_marginRight="13dp"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_time"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -96,13 +96,13 @@
             <TextView
                 android:text="剩余课时:"
                 android:layout_marginRight="13dp"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_residual_class"
-                android:textSize="@dimen/text_size_normal_x"
+                android:textSize="@dimen/text_size_small_high"
                 android:textColor="@color/color_black_939393"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

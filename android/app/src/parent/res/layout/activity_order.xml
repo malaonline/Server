@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true">
     <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/title_view"
-        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextSize="@dimen/text_size_large"
         app:cusTitleTextColor="@color/color_black_333333"
         app:cusLeftShow="true"
         app:cusTitleText="我的订单"

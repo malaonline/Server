@@ -31,7 +31,7 @@
             android:drawableRight="@drawable/ic_edit_name"
             android:text=""
             android:textColor="@color/color_blue_82b4d9"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +56,7 @@
                 android:layout_marginTop="17dp"
                 android:layout_below="@id/iv_my_collection"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -81,7 +81,7 @@
                 android:layout_below="@id/iv_my_orders"
                 android:layout_marginTop="17dp"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -116,7 +116,7 @@
                 android:layout_below="@id/iv_my_comment"
                 android:layout_marginTop="17dp"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -191,5 +191,5 @@
         android:background="@drawable/logout_btn"
         android:text="退出登录"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_xlarge" />
+        android:textSize="@dimen/text_size_large" />
 </LinearLayout>

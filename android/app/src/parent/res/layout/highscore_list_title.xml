@@ -10,7 +10,7 @@
         <TextView
             android:text="@string/highscore_name"
             android:textColor="@color/color_black_636363"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:id="@+id/tv_highscore_name"
             android:layout_weight="1"
@@ -19,7 +19,7 @@
         <TextView
             android:text="@string/highscore_increasedscores"
             android:textColor="@color/color_black_636363"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:id="@+id/tv_highscore_increasedscores"
             android:layout_weight="1"
@@ -29,7 +29,7 @@
         <TextView
             android:text="@string/highscore_school"
             android:textColor="@color/color_black_636363"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:id="@+id/tv_highscore_school"
             android:layout_weight="1"
@@ -39,7 +39,7 @@
         <TextView
             android:text="@string/highscore_admittedto"
             android:textColor="@color/color_black_636363"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:id="@+id/tv_highscore_admitted_to"
             android:layout_weight="1"

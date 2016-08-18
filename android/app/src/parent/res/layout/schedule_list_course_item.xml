@@ -12,14 +12,14 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_day"
-            android:textSize="@dimen/text_size_big_large"
+            android:textSize="@dimen/text_size_xbiglarge_high"
             android:textColor="@color/color_black_939393"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/tv_week"
             android:layout_below="@+id/tv_day"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:textColor="@color/color_black_939393"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
@@ -42,13 +42,13 @@
             android:layout_height="32dp">
             <TextView
                 android:id="@+id/tv_grade_course"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_teacher_name"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/white"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
         </RelativeLayout>
         <TextView
             android:id="@+id/tv_class_time"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_6c6c6c"
             android:drawableLeft="@drawable/ic_time"
             android:drawablePadding="5dp"
@@ -66,7 +66,7 @@
         <TextView
             android:id="@+id/tv_class_position"
             android:lineSpacingExtra="3dp"
-            android:textSize="@dimen/text_size_normal_x"
+            android:textSize="@dimen/text_size_small_high"
             android:textColor="@color/color_black_6c6c6c"
             android:drawableLeft="@drawable/ic_position"
             android:drawablePadding="5dp"

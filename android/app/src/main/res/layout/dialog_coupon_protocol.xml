@@ -38,7 +38,7 @@
                     android:layout_marginRight="3dp"
                     android:text="奖学金使用详则"
                     android:textColor="@color/color_black_666666"
-                    android:textSize="@dimen/text_size_normal_x" />
+                    android:textSize="@dimen/text_size_small_high" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -56,7 +56,7 @@
                 android:lineSpacingExtra="3dp"
                 android:text="@string/app_coupon_protocol"
                 android:textColor="@color/color_black_939393"
-                android:textSize="@dimen/text_size_normal_x" />
+                android:textSize="@dimen/text_size_small_high" />
         </RelativeLayout>
 
     </ScrollView>
@@ -88,7 +88,7 @@
             android:scrollHorizontally="true"
             android:text="知道了"
             android:textColor="@drawable/submit_tv_drawable"
-            android:textSize="@dimen/text_size_large_x" />
+            android:textSize="@dimen/text_size_normal_high" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:text="日"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -42,7 +42,7 @@
                 android:gravity="center"
                 android:text="一"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -51,7 +51,7 @@
                 android:gravity="center"
                 android:text="二"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -60,7 +60,7 @@
                 android:gravity="center"
                 android:text="三"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -69,7 +69,7 @@
                 android:gravity="center"
                 android:text="四"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -78,7 +78,7 @@
                 android:gravity="center"
                 android:text="五"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -87,7 +87,7 @@
                 android:gravity="center"
                 android:text="六"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
     </RelativeLayout>
 

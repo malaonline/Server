@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/tv_school_name"
             android:textColor="@color/color_black_636363"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_normal"
             android:layout_marginTop="@dimen/school_margin_normal"
             android:layout_marginLeft="@dimen/school_margin_normal"
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/tv_school_address"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:layout_marginBottom="@dimen/school_margin_normal"
             android:layout_marginLeft="@dimen/school_margin_normal"
             android:layout_alignParentBottom="true"
@@ -37,7 +37,7 @@
         <TextView
             android:id="@+id/tv_school_distance"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_normal"
+            android:textSize="@dimen/text_size_small"
             android:layout_marginBottom="@dimen/school_margin_normal"
             android:layout_marginRight="@dimen/school_margin_normal"
             android:layout_alignParentBottom="true"

@@ -16,7 +16,7 @@
             android:text=""
             android:typeface="serif"
             android:textColor="@color/color_black_333333"
-            android:textSize="@dimen/text_size_xlarge_x" />
+            android:textSize="@dimen/text_size_large_high" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                 android:text=""
                 android:typeface="serif"
                 android:textColor="@color/color_red_f16765"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="0dp"
@@ -74,7 +74,7 @@
                 android:text="-"
                 android:typeface="monospace"
                 android:textColor="@color/color_blue_82b4d9"
-                android:textSize="@dimen/text_size_xxlarge" />
+                android:textSize="@dimen/text_size_xlarge" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:gravity="center"
                 android:text="元/课时"
                 android:textColor="@color/color_black_6c6c6c"
-                android:textSize="@dimen/text_size_xlarge" />
+                android:textSize="@dimen/text_size_large" />
         </LinearLayout>
 
 
@@ -96,7 +96,7 @@
             android:text=""
             android:typeface="serif"
             android:textColor="@color/color_black_939393"
-            android:textSize="@dimen/text_size_small_x" />
+            android:textSize="@dimen/text_size_tiny_high" />
     </LinearLayout>
 
     <TextView
@@ -108,6 +108,6 @@
         android:gravity="center_vertical|left"
         android:typeface="serif"
         android:textColor="@color/color_white_ffffff_e5"
-        android:textSize="@dimen/text_size_small_x"
+        android:textSize="@dimen/text_size_tiny_high"
         android:text="" />
 </FrameLayout>

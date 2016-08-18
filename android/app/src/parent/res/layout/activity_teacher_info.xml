@@ -41,7 +41,7 @@
     </com.malalaoshi.android.view.ObservableScrollView>
     <com.malalaoshi.android.core.view.TitleBarView
         android:id="@+id/titleBar"
-        app:cusTitleTextSize="@dimen/text_size_xlarge"
+        app:cusTitleTextSize="@dimen/text_size_large"
         app:cusTitleTextColor="@color/color_black_333333"
         app:cusLeftShow="true"
         app:cusLeftBackgroud="@drawable/core__white_btn"
@@ -103,7 +103,7 @@
                     android:layout_marginBottom="6dp"
                     android:text="收藏"
                     android:textColor="@color/color_black_939393"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="@dimen/text_size_tiny" />
             </RelativeLayout>
 
         <TextView
@@ -116,7 +116,7 @@
             android:gravity="center"
             android:text="@string/sign_up_immediately"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_xlarge" />
+            android:textSize="@dimen/text_size_large" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

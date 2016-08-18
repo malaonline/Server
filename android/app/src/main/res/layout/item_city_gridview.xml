@@ -13,6 +13,6 @@
         tools:text="郑州"
         android:gravity="center_vertical"
         android:paddingLeft="16dp"
-        android:textSize="@dimen/text_size_xlarge"
+        android:textSize="@dimen/text_size_large"
         android:textColor="@color/color_black_333333"/>
 </RelativeLayout>

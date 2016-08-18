@@ -14,12 +14,12 @@
         app:cusLeftBackgroud="@drawable/core__back_btn"
         app:cusLeftShow="true"
         app:cusRightShow="true"
-        app:cusRightTextSize="@dimen/text_size_normal_x"
+        app:cusRightTextSize="@dimen/text_size_small_high"
         app:cusRightTextColor="@color/color_black_7d7d7d"
         app:cusRightText="使用规则"
         app:cusTitleText="@string/scholarship"
         app:cusTitleTextColor="@color/color_black_333333"
-        app:cusTitleTextSize="@dimen/text_size_xlarge"/>
+        app:cusTitleTextSize="@dimen/text_size_large"/>
 
     <View
         android:layout_width="match_parent"

@@ -23,10 +23,10 @@
                 app:cusLeftShow="true"
                 app:cusRightShow="false"
                 app:cusRightTextColor="@color/color_blue_82b4d9"
-                app:cusRightTextSize="@dimen/text_size_normal"
+                app:cusRightTextSize="@dimen/text_size_small"
                 app:cusTitleText="关于麻辣老师"
                 app:cusTitleTextColor="@color/color_black_333333"
-                app:cusTitleTextSize="@dimen/text_size_xlarge" />
+                app:cusTitleTextSize="@dimen/text_size_large" />
 
             <ImageView
                 android:layout_width="62dp"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_version"
                 android:textColor="@color/color_black_333333"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:lineSpacingExtra="3dp"
                 android:text="@string/app_company"
                 android:textColor="@color/color_black_939393"
-                android:textSize="@dimen/text_size_normal" />
+                android:textSize="@dimen/text_size_small" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                         android:layout_marginRight="3dp"
                         android:text="麻辣老师"
                         android:textColor="@color/color_black_6c6c6c"
-                        android:textSize="@dimen/text_size_large_x" />
+                        android:textSize="@dimen/text_size_normal_high" />
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                     android:lineSpacingExtra="3dp"
                     android:text="@string/app_protocol"
                     android:textColor="@color/color_black_939393"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_small" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

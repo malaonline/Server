@@ -21,7 +21,7 @@
             android:gravity="center"
             android:text="您还未报名,先看看其他样本报告吧"
             android:textColor="@color/color_blue_4da3d9"
-            android:textSize="@dimen/text_size_normal" />
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:id="@+id/tv_report_submit"

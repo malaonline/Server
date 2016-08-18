@@ -14,7 +14,7 @@
         app:cusLeftShow="true"
         app:cusTitleText="相册"
         app:cusTitleTextColor="@color/color_black_333333"
-        app:cusTitleTextSize="@dimen/text_size_xlarge"/>
+        app:cusTitleTextSize="@dimen/text_size_large"/>
    <!-- <ListView
          android:id="@+id/lv_gallerys"
          android:paddingTop="4dp"

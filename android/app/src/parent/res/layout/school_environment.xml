@@ -43,7 +43,7 @@
                 android:layout_marginRight="10dp"
                 android:text="其他社区中心"
                 android:textColor="@color/color_black_636363"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_normal" />
 
             <ImageView
                 android:id="@+id/iv_school_more"
