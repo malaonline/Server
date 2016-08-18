@@ -140,13 +140,13 @@ def _get_auth_redirect_url(request, teacher_id):
         return reverse('wechat:phone_page') + '?state='+str(teacher_id)
     checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')
     params_str = {
-        'redirect_uri': checkPhoneURI,
+        # 'redirect_uri': checkPhoneURI,
         'response_type': "code",
         'scope': "snsapi_base",
         'state': teacher_id,
         'connect_redirect': "1"
     }
-    redirect_url = WX_AUTH_URL + '&' + urlencode(params_str) + '#wechat_redirect'
+    redirect_url = WX_AUTH_URL + '&' + urlencode(params_str) + '&redirect_uri=' + checkPhoneURI + '#wechat_redirect'
     return redirect_url
 
 
