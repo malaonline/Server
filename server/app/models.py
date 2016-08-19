@@ -1233,6 +1233,7 @@ class Student(BaseModel):
 class Parent(BaseModel):
     user = models.OneToOneField(User)
     students = models.ManyToManyField(Student)
+    imported = models.BooleanField(default=False) # 是否是从线下导入的
 
     def recent_orders(self):
         one_month_before = timezone.now() - datetime.timedelta(days=90)

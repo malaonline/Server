@@ -160,6 +160,55 @@ class TeacherView(BaseStaffView):
 class ParentView(BaseStaffView):
     template_name = 'import_/parents.html'
 
+    def get_context_data(self, **kwargs):
+        region = self.request.GET.get('region')
+        page = self.request.GET.get('page')
+
+        query_set = models.Parent.objects.filter(imported=True)
+        if region and region.isdigit():
+            query_set = query_set.filter(region_id = region)
+        query_set = query_set.order_by('-user__date_joined')
+        # paginate
+        query_set, pager = paginate(query_set, page)
+        kwargs['parents'] = query_set
+        kwargs['pager'] = pager
+        return super(ParentView, self).get_context_data(**kwargs)
+
+    def post(self, request):
+        region = models.Region.objects.get(name='郑州市') # TODO:
+        result_msg = ''
+        excel_file = None
+        if request.FILES:
+            excel_file = request.FILES.get('excel_file')
+        if not excel_file:
+            result_msg = "请选择文件"
+            return HttpResponseRedirect(reverse('import_:parents') + '?result_msg=' + result_msg)
+        datas = read_excel_sheet(file_content=excel_file.read(),titles_list=['name', 'phone'])
+        # print(datas)
+        Profile = models.Profile
+        num = 1
+        for row in datas:
+            try:
+                phone = str(int(row['phone'])) # 电话号码excel读入成为float(XXX.0)了
+                has_parent = models.Parent.objects.filter(user__profile__phone=phone).exists()
+                if has_parent:
+                    result_msg = "第%s个学生(%s)已存在" % (num, phone)
+                    break
+                with transaction.atomic():
+                    new_user = models.Parent.new_parent()
+                    new_parent = new_user.parent
+                    new_user.profile.phone = phone
+                    new_parent.student_name = row['name']
+                    new_parent.imported = True
+                    new_user.profile.save()
+                    new_parent.save()
+            except Exception as ex:
+                logger.error(ex)
+                result_msg = "导入第%s个学生(%s)时失败" % (num, phone)
+                break
+
+        return HttpResponseRedirect(reverse('import_:parents') + '?result_msg=' + result_msg)
+
 
 class OrderView(BaseStaffView):
     template_name = 'import_/orders.html'

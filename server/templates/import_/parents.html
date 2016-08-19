@@ -1,0 +1,39 @@
+{% extends "import_/staff_base.html" %}
+{% load staticfiles%}
+{% load compile_static %}
+
+{% block addition_js %}
+    <script>
+        $(function(){
+            paginationInit();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="form-inline" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>批量导入学生: </label><br>
+        选择文件
+        <input type="file" name="excel_file" />
+
+        <input type="submit" value="确认上传"/>
+        <br>
+        <a href="{% static 'import_/学生信息快速录入模版.xlsx' %}">不知道Excel格式? 点此下载文件标准模板</a>
+    </form>
+
+    <div><label>已导入的学生</label></div>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th class="text-center">姓名</th>
+            <th class="text-center">手机号</th>
+        </tr>
+        {% for parent in parents %}
+            <tr parentId="{{ parent.id }}">
+                <td>{# 姓名 #} {{ parent.student_name }}</td>
+                <td>{# 手机号 #} {{ parent.user.profile.phone }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+{% endblock %}
