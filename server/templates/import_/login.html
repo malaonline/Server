@@ -8,55 +8,56 @@
 
 {% block body %}
 <div style="max-width:600px;margin:30px auto;">
-{% if form.errors and not form.non_field_errors %}
-<p class="errornote">
-{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-</p>
-{% endif %}
+    {% for error in  errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
 
-{% if form.non_field_errors %}
-{% for error in form.non_field_errors %}
-<p class="errornote">
-{{ error }}
-</p>
-{% endfor %}
-{% endif %}
+    <div id="content-main">
+        {% if user.is_authenticated %}
+        <p class="errornote">
+        {% blocktrans with username=request.user.get_username trimmed %}
+        You are authenticated as {{ username }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+        {% endblocktrans %}
+        </p>
+        {% endif %}
 
-<div id="content-main">
-    {% if user.is_authenticated %}
-    <p class="errornote">
-    {% blocktrans with username=request.user.get_username trimmed %}
-    You are authenticated as {{ username }}, but are not authorized to
-    access this page. Would you like to login to a different account?
-    {% endblocktrans %}
-    </p>
-    {% endif %}
-
-    <form action="{% url 'import_:login' %}" method="post" id="login-form">{% csrf_token %}
-        <table class="table">
-            <tr>
-                <td>用户名</td>
-                <td><input name="username" id="id_username" /></td>
-            </tr>
-            <tr>
-                <td>密码</td>
-                <td><input name="password" type="password"/></td>
-            </tr>
-            <tr>
-                <td>城市</td>
-                <td><input name="city"></td>
-            </tr>
-            <tr>
-                <td>校区</td>
-                <td><input name="school"></td>
-            </tr>
-        </table>
-        <input type="submit" value="登录" />
-        <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-    <script type="text/javascript">
-document.getElementById('id_username').focus()
-    </script>
-</div>
+        <form method="post" id="login-form">{% csrf_token %}
+            <table class="table">
+                <tr>
+                    <td>用户名</td>
+                    <td><input name="username" id="id_username" /></td>
+                </tr>
+                <tr>
+                    <td>密码</td>
+                    <td><input name="password" type="password"/></td>
+                </tr>
+                <tr>
+                    <td>城市</td>
+                    <td>
+                        <select name="region">
+                            <option value=""> - </option>
+                            {% for city in cities %}
+                            <option value="{{city.id}}">{{city.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>校区</td>
+                    <td>
+                        <select name="school">
+                            <option value=""> - </option>
+                            {% for school in schools %}
+                            <option value="{{school.id}}">{{school.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="登录" />
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
 </div>
 {% endblock %}

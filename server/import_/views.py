@@ -4,6 +4,7 @@ import re
 # django modules
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
@@ -29,27 +30,30 @@ class LoginView(View):
     def get(self, request):
         if is_manager(request.user):
             return redirect('import_:index')
-        return render(request, 'import_/login.html')
+        cities = models.Region.objects.filter(opened=True)
+        schools = models.School.objects.filter(opened=True)
+        context = dict(cities=cities, schools=schools)
+        return render(request, 'import_/login.html', context)
 
     def post(self, request):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        goto_page = request.POST.get('next')
-        logger.debug('try to login, username: '+username+', password: '+password+', goto_page: '+str(goto_page))
-        # TODO: 错误信息包含‘错误码’，错误描述可能会变
-        if not username or not password:
-            return login(request, {'errors': '请输入用户名和密码'})
-        # 登录前需要先验证
-        newUser=auth.authenticate(username=username,password=password)
-        if newUser is not None:
-            if not is_manager(newUser):
-                return login(request, {'errors': '你不是管理员呀'})
-            auth.login(request, newUser)
-            if goto_page:
-                return redirect(goto_page)
-            else:
-                return redirect('import_:index')
-        return login(request, {'errors': '用户名或密码错误'})
+        var = ('username', 'password', 'region', 'school',)
+        vard = {}
+
+        for k in var:
+            v = request.POST.get(k, '')
+            if not v:
+                return JsonResponse({'error': k + ' is empty'})
+            vard[k] = v
+
+        user = auth.authenticate(
+                username=vard['username'], password=vard['password'])
+        if user is None:
+            return JsonResponse({'error': 'username or password incorrect'})
+        if not is_manager(user):
+            return JsonResponse({'error': 'you are not authorized'})
+
+        auth.login(request, user)
+        return JsonResponse({'ok': 1})
 
 
 def logout(request):
