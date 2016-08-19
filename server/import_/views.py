@@ -151,7 +151,7 @@ class TeacherView(BaseStaffView):
                     new_teacher.save()
             except Exception as ex:
                 logger.error(ex)
-                result_msg = "导入第%s个老师(%s)时失败" % (num, phone)
+                result_msg = "导入第%s个老师时失败, ERROR: %s" % (num, ex)
                 break
 
         return HttpResponseRedirect(reverse('import_:teachers') + '#' + result_msg)
@@ -204,7 +204,7 @@ class ParentView(BaseStaffView):
                     new_parent.save()
             except Exception as ex:
                 logger.error(ex)
-                result_msg = "导入第%s个学生(%s)时失败" % (num, phone)
+                result_msg = "导入第%s个学生时失败, ERROR: %s" % (num, ex)
                 break
 
         return HttpResponseRedirect(reverse('import_:parents') + '#' + result_msg)
