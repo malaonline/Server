@@ -1,5 +1,5 @@
-import logging
 import re
+import logging
 
 # django modules
 from django.shortcuts import render, redirect
@@ -52,6 +52,15 @@ class LoginView(View):
             return JsonResponse({'error': 'you are not authorized'})
 
         auth.login(request, user)
+
+        school = models.School.objects.get(pk=vard['school'])
+        if not hasattr(user, 'profile'):
+            profile = models.Profile(user=user, school=school)
+            profile.save()
+        else:
+            user.profile.school = school
+            user.profile.save()
+
         return redirect('import_:index')
 
 
