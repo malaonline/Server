@@ -281,9 +281,8 @@ class Profile(BaseModel):
 
     user = models.OneToOneField(User)
     phone = models.CharField(max_length=20, unique=True)
-    # deprecated: use django group instead
-    # role = models.ForeignKey(Role, null=True, blank=True,
-    #                          on_delete=models.SET_NULL)
+    school = models.ForeignKey(School, null=True, blank=True,
+                              on_delete=models.SET_NULL)
     gender = models.CharField(max_length=1,
                               choices=GENDER_CHOICES,
                               default=UNKNOWN,

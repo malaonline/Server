@@ -33,17 +33,6 @@
                     <td><input name="password" type="password"/></td>
                 </tr>
                 <tr>
-                    <td>城市</td>
-                    <td>
-                        <select name="region">
-                            <option value=""> - </option>
-                            {% for city in cities %}
-                            <option value="{{city.id}}">{{city.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
-                <tr>
                     <td>校区</td>
                     <td>
                         <select name="school">

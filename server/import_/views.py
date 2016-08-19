@@ -30,13 +30,12 @@ class LoginView(View):
     def get(self, request):
         if is_manager(request.user):
             return redirect('import_:index')
-        cities = models.Region.objects.filter(opened=True)
         schools = models.School.objects.filter(opened=True)
-        context = dict(cities=cities, schools=schools)
+        context = dict(schools=schools)
         return render(request, 'import_/login.html', context)
 
     def post(self, request):
-        var = ('username', 'password', 'region', 'school',)
+        var = ('username', 'password', 'school',)
         vard = {}
 
         for k in var:
@@ -53,7 +52,7 @@ class LoginView(View):
             return JsonResponse({'error': 'you are not authorized'})
 
         auth.login(request, user)
-        return JsonResponse({'ok': 1})
+        return redirect('import_:index')
 
 
 def logout(request):
