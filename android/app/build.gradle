@@ -59,25 +59,27 @@ android {
         }
 
         devrelease {
+            applicationIdSuffix ".dev"
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_DEV]
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
             resValue("string", "build_type", "release")
         }
         stagerelease {
+            applicationIdSuffix ".stage"
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_RELEASE]
+            manifestPlaceholders = [jpush_key: PARENT_JPUSH_KEY_STAGE]
             buildConfigField("String", "API_HOST", "\"" + STAGE_SERVER + "\"")
             resValue("string", "api_host", "\"" + STAGE_SERVER + "\"")
             resValue("string", "build_type", "release")
