@@ -1262,7 +1262,7 @@ class Student(BaseModel):
         student_group = Group.objects.get(name="学生")
         user.groups.add(student_group)
         # 创建学生身份
-        profile = Profile(user=user, phone="fake" + random_string()[:16])
+        profile = Profile(user=user)
         profile.save()
         student = Student(user=user)
         student.save()
@@ -1308,7 +1308,7 @@ class Parent(BaseModel):
         parent_group = Group.objects.get(name="家长")
         user.groups.add(parent_group)
         # 创建家长身份
-        profile = Profile(user=user, phone="fake" + random_string()[:16])
+        profile = Profile(user=user)
         profile.save()
         parent = Parent(user=user)
         parent.save()
