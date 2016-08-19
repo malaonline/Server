@@ -119,7 +119,7 @@ class TeacherView(BaseStaffView):
             excel_file = request.FILES.get('excel_file')
         if not excel_file:
             result_msg = "请选择文件"
-            return HttpResponseRedirect(reverse('import_:teachers') + '?result_msg=' + result_msg)
+            return HttpResponseRedirect(reverse('import_:teachers') + '#' + result_msg)
         datas = read_excel_sheet(file_content=excel_file.read(),titles_list=['name', 'gender', 'phone', 'subject', 'grades'])
         # print(datas)
         Profile = models.Profile
@@ -154,7 +154,7 @@ class TeacherView(BaseStaffView):
                 result_msg = "导入第%s个老师(%s)时失败" % (num, phone)
                 break
 
-        return HttpResponseRedirect(reverse('import_:teachers') + '?result_msg=' + result_msg)
+        return HttpResponseRedirect(reverse('import_:teachers') + '#' + result_msg)
 
 
 class ParentView(BaseStaffView):
@@ -182,7 +182,7 @@ class ParentView(BaseStaffView):
             excel_file = request.FILES.get('excel_file')
         if not excel_file:
             result_msg = "请选择文件"
-            return HttpResponseRedirect(reverse('import_:parents') + '?result_msg=' + result_msg)
+            return HttpResponseRedirect(reverse('import_:parents') + '#' + result_msg)
         datas = read_excel_sheet(file_content=excel_file.read(),titles_list=['name', 'phone'])
         # print(datas)
         Profile = models.Profile
@@ -207,7 +207,7 @@ class ParentView(BaseStaffView):
                 result_msg = "导入第%s个学生(%s)时失败" % (num, phone)
                 break
 
-        return HttpResponseRedirect(reverse('import_:parents') + '?result_msg=' + result_msg)
+        return HttpResponseRedirect(reverse('import_:parents') + '#' + result_msg)
 
 
 class OrderView(BaseStaffView):

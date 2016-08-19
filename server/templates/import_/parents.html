@@ -6,6 +6,12 @@
     <script>
         $(function(){
             paginationInit();
+            if (location.hash && location.hash.length>1) {
+{#                I'm so lazy, just use location.hash as error message'#}
+                msg = decodeURIComponent(location.hash).substring(1);
+                alert(msg);
+                location.hash = ''
+            }
         });
     </script>
 {% endblock %}
