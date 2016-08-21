@@ -1,7 +1,6 @@
 package com.malalaoshi.android.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -11,12 +10,15 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.ViewConfiguration;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
+
+import com.malalaoshi.android.R;
+import com.malalaoshi.android.core.image.glide.GlideUtils;
 
 public class ZoomImageView extends ImageView implements OnGlobalLayoutListener,
         OnScaleGestureListener, OnTouchListener {
@@ -195,59 +197,59 @@ public class ZoomImageView extends ImageView implements OnGlobalLayoutListener,
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
-        initOnce=false;
+        initOnce = false;
 
     }
 
     private void initImage() {
         if (!initOnce) {
-        // 得控件的宽和高
-        int width = getWidth();
-        int height = getHeight();
+            // 得控件的宽和高
+            int width = getWidth();
+            int height = getHeight();
 
-        // 得到图片 以及宽和高
-        Drawable d = getDrawable();
-        if (d == null) {
-            return;
-        }
+            // 得到图片 以及宽和高
+            Drawable d = getDrawable();
+            if (d == null) {
+                return;
+            }
 
-        int dw = d.getIntrinsicWidth();
-        int dh = d.getIntrinsicHeight();
+            int dw = d.getIntrinsicWidth();
+            int dh = d.getIntrinsicHeight();
 
-        float scale = 1.0f;
-        if (dw >= width && dh <= height) {
-            scale = width * 1.0f / dw;
-        }
+            float scale = 1.0f;
+            if (dw >= width && dh <= height) {
+                scale = width * 1.0f / dw;
+            }
 
-        if (dh >= height && dw <= width) {
-            scale = height * 1.0f / dh;
-        }
+            if (dh >= height && dw <= width) {
+                scale = height * 1.0f / dh;
+            }
 
-        if ((dw >= width && dh >= height) || (dw <= width && dh <= height)) {
-            scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
-        }
+            if ((dw >= width && dh >= height) || (dw <= width && dh <= height)) {
+                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+            }
 
-        // if(dw < width && dh < height){
-        // scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
-        // }
+            // if(dw < width && dh < height){
+            // scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+            // }
 
-        // Log.i("--", "width = " + width + ", height = " + height +
-        // ", dw = " + dw
-        // + ", dh = " + dh + ",, scale = " + scale);
+            // Log.i("--", "width = " + width + ", height = " + height +
+            // ", dw = " + dw
+            // + ", dh = " + dh + ",, scale = " + scale);
 
-        mInitScale = scale;
-        mMaxScale = 4 * mInitScale;
-        mMidScale = 2 * mInitScale;
+            mInitScale = scale;
+            mMaxScale = 4 * mInitScale;
+            mMidScale = 2 * mInitScale;
 
-        // 将图片移动到控件的中心
-        int dx = getWidth() / 2 - dw / 2;
-        int dy = getHeight() / 2 - dh / 2;
-        Log.i(TAG, "mInitScale:" + mInitScale + " mMaxScale:" + mMaxScale + " mMidScale:" + mMidScale + "dw:" + dw + "dh:" + dh + "width:" + width + "height:" + height + "dx:" + dx + "dy:" + dy);
-        //重置后平移
-        mScaleMatrix.setTranslate(dx, dy);
-        mScaleMatrix.postScale(mInitScale, mInitScale, getWidth() / 2,
-                getHeight() / 2);
-        setImageMatrix(mScaleMatrix);
+            // 将图片移动到控件的中心
+            int dx = getWidth() / 2 - dw / 2;
+            int dy = getHeight() / 2 - dh / 2;
+            Log.i(TAG, "mInitScale:" + mInitScale + " mMaxScale:" + mMaxScale + " mMidScale:" + mMidScale + "dw:" + dw + "dh:" + dh + "width:" + width + "height:" + height + "dx:" + dx + "dy:" + dy);
+            //重置后平移
+            mScaleMatrix.setTranslate(dx, dy);
+            mScaleMatrix.postScale(mInitScale, mInitScale, getWidth() / 2,
+                    getHeight() / 2);
+            setImageMatrix(mScaleMatrix);
             initOnce = true;
         }
     }
@@ -499,6 +501,11 @@ public class ZoomImageView extends ImageView implements OnGlobalLayoutListener,
     private boolean isMoveAction(float dx, float dy) {
 
         return Math.sqrt(dx * dx + dy * dy) > mTouchSlop;
+    }
+
+    public void loadImage(String url) {
+        GlideUtils.loadBitmapImage(getContext(), url, this,
+                R.drawable.ic_default_img_org, R.drawable.ic_default_img_org_error);
     }
 
 }

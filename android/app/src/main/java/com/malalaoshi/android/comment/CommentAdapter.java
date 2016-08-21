@@ -6,21 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.utils.DateUtils;
 import com.malalaoshi.android.core.utils.DialogUtils;
 import com.malalaoshi.android.dialog.CommentDialog;
 import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.entity.Course;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 评论
@@ -45,13 +41,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         final Course course = getItem(position);
         if (course.getTeacher() != null) {
             holder.teacherView.setText(course.getTeacher().getName() + "老师");
-            Glide.with(context)
-                    .load(course.getTeacher().getAvatar())
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_default_teacher_avatar)
-                    .crossFade()
-                    .into(holder.iconView);
+            holder.iconView.loadCircleImage(course.getTeacher().getAvatar(), R.drawable.ic_default_teacher_avatar);
         } else {
             holder.teacherView.setText("匿名老师");
         }
@@ -154,7 +144,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
         private TextView dateView;
         private TextView locationView;
         private TextView stateView;
-        private ImageView iconView;
+        private MalaImageView iconView;
         private TextView commentView;
         private RatingBar ratingbar;
 
@@ -166,7 +156,7 @@ public class CommentAdapter extends BaseRecycleAdapter<CommentAdapter.CommentVie
             dateView = (TextView) view.findViewById(R.id.tv_date);
             locationView = (TextView) view.findViewById(R.id.tv_location);
             stateView = (TextView) view.findViewById(R.id.tv_status);
-            iconView = (ImageView) view.findViewById(R.id.iv_icon);
+            iconView = (MalaImageView) view.findViewById(R.id.iv_icon);
             commentView = (TextView) view.findViewById(R.id.tv_comment);
             ratingbar = (RatingBar) view.findViewById(R.id.ratingbar);
         }

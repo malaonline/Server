@@ -52,7 +52,7 @@
                 android:background="@drawable/line" />
         </LinearLayout>
 
-        <ImageView
+        <com.malalaoshi.android.core.image.MalaImageView
             android:id="@+id/teacher_list_item_avater"
             android:layout_width="@dimen/home_avater_height"
             android:layout_height="@dimen/home_avater_width"

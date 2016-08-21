@@ -3,16 +3,11 @@ package com.malalaoshi.android.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.MalaBaseAdapter;
 import com.malalaoshi.android.entity.City;
-import com.malalaoshi.android.entity.School;
-import com.malalaoshi.android.util.LocationUtil;
 
 /**
  * Created by kang on 16/1/5.

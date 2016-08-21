@@ -37,6 +37,7 @@ import com.malalaoshi.android.comment.CommentActivity;
 import com.malalaoshi.android.core.MalaContext;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
@@ -63,17 +64,14 @@ import com.malalaoshi.android.util.MiscUtil;
 import com.malalaoshi.android.util.PermissionUtil;
 import com.malalaoshi.android.util.StringUtil;
 
-import de.greenrobot.event.EventBus;
-
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
@@ -93,7 +91,7 @@ public class UserFragment extends BaseFragment {
     protected TextView tvUserName;
 
     @Bind(R.id.iv_user_avatar)
-    protected ImageView ivAvatar;
+    protected MalaImageView ivAvatar;
 
     @Bind(R.id.tv_unpaid_orders)
     protected ImageView tvUnpaidOrders;
@@ -113,10 +111,10 @@ public class UserFragment extends BaseFragment {
         public void onReceive(Context context, Intent intent) {
             if (UserManager.ACTION_LOGINED.equals(intent.getAction()) ||
                     UserManager.ACTION_LOGOUT.equals(intent.getAction())) {
-                if (!UserManager.getInstance().isLogin()){
+                if (!UserManager.getInstance().isLogin()) {
                     setUserLoginOutInfo();
                     setUserLoginOutAvatar();
-                }else{
+                } else {
                     loadLocalViews();
                     loadData();
                 }
@@ -156,7 +154,7 @@ public class UserFragment extends BaseFragment {
             case BusEvent.BUS_EVENT_LOGIN_SUCCESS:
             case BusEvent.BUS_EVENT_UPDATE_USER_NAME_SUCCESS:
             case BusEvent.BUS_EVENT_BACKGROUND_LOAD_USERCENTER_DATA:
-                Log.d("UserFragment","start loadData");
+                Log.d("UserFragment", "start loadData");
                 reloadData();
                 break;
 
@@ -166,14 +164,14 @@ public class UserFragment extends BaseFragment {
     public void onEventMainThread(NoticeEvent event) {
         switch (event.getEventType()) {
             case EventType.BUS_EVENT_NOTICE_MESSAGE:
-                if (event.getUnpayCount()!=null&&event.getUnpayCount()>0){
+                if (event.getUnpayCount() != null && event.getUnpayCount() > 0) {
                     tvUnpaidOrders.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvUnpaidOrders.setVisibility(View.GONE);
                 }
-                if (event.getUncommentCount()!=null&&event.getUncommentCount()>0){
+                if (event.getUncommentCount() != null && event.getUncommentCount() > 0) {
                     tvUncommentCourse.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvUncommentCourse.setVisibility(View.GONE);
                 }
                 break;
@@ -190,11 +188,11 @@ public class UserFragment extends BaseFragment {
         loadLocalViews();
     }
 
-    private void loadLocalViews(){
-        if (UserManager.getInstance().isLogin()){
+    private void loadLocalViews() {
+        if (UserManager.getInstance().isLogin()) {
             setUserLoginInAvatar(UserManager.getInstance().getAvatorUrl());
             setUserLoginInInfo();
-        }else{
+        } else {
             setUserLoginOutInfo();
             setUserLoginOutAvatar();
         }
@@ -219,8 +217,8 @@ public class UserFragment extends BaseFragment {
     }
 
     private void onUpdateUserProfile(UserProfile user) {
-        if (user!=null){
-            if (!StringUtil.compareUrls(user.getAvatar(),UserManager.getInstance().getAvatorUrl())){
+        if (user != null) {
+            if (!StringUtil.compareUrls(user.getAvatar(), UserManager.getInstance().getAvatorUrl())) {
                 setUserLoginInAvatar(user.getAvatar());
             }
         }
@@ -239,7 +237,7 @@ public class UserFragment extends BaseFragment {
         MiscUtil.toast(R.string.load_user_info_failed);
     }
 
-    private void updateUserInfo(User user){
+    private void updateUserInfo(User user) {
         String school = user.getStudent_school_name();
         if (!TextUtils.isEmpty(school)) {
             UserManager.getInstance().setSchool(school);
@@ -301,7 +299,7 @@ public class UserFragment extends BaseFragment {
                 strAvatarLocPath = image.getAbsolutePath();
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                Log.e("UserFragment","takePhoto:"+strAvatarLocPath);
+                Log.e("UserFragment", "takePhoto:" + strAvatarLocPath);
                 this.startActivityForResult(intent, REQUEST_CODE_CAPTURE_CAMEIA);
             } catch (ActivityNotFoundException e) {
                 Toast.makeText(getContext(), "没有找到储存目录", Toast.LENGTH_LONG).show();
@@ -385,6 +383,7 @@ public class UserFragment extends BaseFragment {
                     public void onLeftClick(EditText editText) {
 
                     }
+
                     @Override
                     public void onRightClick(EditText editText) {
                         strUserName = editText.getText().toString();
@@ -414,7 +413,7 @@ public class UserFragment extends BaseFragment {
             MiscUtil.toast(R.string.usercenter_student_empty);
             return;
         }
-        ApiExecutor.exec(new ModifyStudentNameRequest(this,strUserName));
+        ApiExecutor.exec(new ModifyStudentNameRequest(this, strUserName));
     }
 
     @OnClick(R.id.iv_my_collection)
@@ -465,6 +464,7 @@ public class UserFragment extends BaseFragment {
                         //AuthUtils.redirectLoginActivity(getContext());
                         StatReporter.userLogOut();
                     }
+
                     @Override
                     public void onRightClick() {
 
@@ -475,7 +475,7 @@ public class UserFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("UserFragment","onActivityResult:"+strAvatarLocPath);
+        Log.e("UserFragment", "onActivityResult:" + strAvatarLocPath);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_PICK_IMAGE:
@@ -489,29 +489,29 @@ public class UserFragment extends BaseFragment {
     }
 
     private void dealPickImage(Intent data) {
-            Cursor cursor = null;
-            try{
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = null;
+        try {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                cursor = getContext().getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
+            cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                if (EmptyUtils.isEmpty(picturePath)){
-                    MiscUtil.toast("照片选取失败!");
-                    return;
-                }
-                postUserAvator(picturePath);
-            }catch (Exception e){
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            if (EmptyUtils.isEmpty(picturePath)) {
                 MiscUtil.toast("照片选取失败!");
-            }finally {
-                if (cursor!=null){
-                    cursor.close();
-                }
+                return;
             }
+            postUserAvator(picturePath);
+        } catch (Exception e) {
+            MiscUtil.toast("照片选取失败!");
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     private void postUserAvator(String path) {
@@ -521,8 +521,8 @@ public class UserFragment extends BaseFragment {
             Bitmap bmpAvatar = ImageUtil.decodeSampledBitmapFromFile(path, 2 * width, 2 * height);
             String cachePath = ImageUtil.getAppDir("cache");
             if (cachePath != null) {
-                String [] result = path.split("/");
-                strAvatarLocPath = ImageUtil.saveBitmap(cachePath, result[result.length-1], bmpAvatar);
+                String[] result = path.split("/");
+                strAvatarLocPath = ImageUtil.saveBitmap(cachePath, result[result.length - 1], bmpAvatar);
                 if (strAvatarLocPath != null) {
                     uploadFile();
                 } else {
@@ -539,7 +539,7 @@ public class UserFragment extends BaseFragment {
         ApiExecutor.exec(new UploadAvatar(this, strAvatarLocPath));
     }
 
-    private void onSetAvatarSuccess(DoneModel response){
+    private void onSetAvatarSuccess(DoneModel response) {
         if (response != null && response.isDone()) {
             setUserLoginInAvatar(strAvatarLocPath);
             MiscUtil.toast(R.string.usercenter_set_avator_succeed);
@@ -566,19 +566,13 @@ public class UserFragment extends BaseFragment {
         btnLogout.setVisibility(View.GONE);
     }
 
-    private void setUserLoginInAvatar(String url){
-        Glide.with(this)
-                .load(url)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_default_teacher_avatar)
-                .crossFade()
-                .into(ivAvatar);
+    private void setUserLoginInAvatar(String url) {
+        ivAvatar.loadCircleImage(url, R.drawable.ic_default_teacher_avatar);
         UserManager.getInstance().setAvatorUrl(url);
     }
 
 
-    private void setUserLoginOutAvatar(){
+    private void setUserLoginOutAvatar() {
         Glide.with(this)
                 .load(R.drawable.default_avatar)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
@@ -675,7 +669,8 @@ public class UserFragment extends BaseFragment {
 
     private static final class UploadAvatar extends BaseApiContext<UserFragment, DoneModel> {
         private String filePath;
-        public UploadAvatar(UserFragment userFragment ,String filePath) {
+
+        public UploadAvatar(UserFragment userFragment, String filePath) {
             super(userFragment);
             this.filePath = filePath;
         }

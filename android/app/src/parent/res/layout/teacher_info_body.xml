@@ -71,7 +71,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="@dimen/teacher_body_padding_normal"
             >
-            <ImageView
+            <com.malalaoshi.android.core.image.MalaImageView
                 android:id="@+id/parent_teacher_detail_head_portrait"
                 android:layout_width="@dimen/avatar_width"
                 android:layout_height="@dimen/avatar_width"

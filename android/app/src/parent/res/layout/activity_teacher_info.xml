@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.malalaoshi.android.core.image.MalaImageView
                     android:id="@+id/iv_teacher_bk"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/bg_teacher_height"

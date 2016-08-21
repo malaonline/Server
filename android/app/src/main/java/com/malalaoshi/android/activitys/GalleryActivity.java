@@ -8,11 +8,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseActivity;
 import com.malalaoshi.android.view.ZoomImageView;
@@ -90,13 +87,7 @@ public class GalleryActivity extends BaseActivity {
 
 				ZoomImageView imageView = new ZoomImageView(GalleryActivity.this);
 				String imgUrl = mImgUrls[position];
-				Glide.with(GalleryActivity.this)
-						.load(imgUrl)
-						.asBitmap()
-						.diskCacheStrategy(DiskCacheStrategy.ALL)
-						.placeholder(R.drawable.ic_default_img_org)
-						.error(R.drawable.ic_default_img_org_error)
-						.into(imageView);
+				imageView.loadImage(imgUrl);
 				container.addView(imageView);
 				return imageView;
 			}

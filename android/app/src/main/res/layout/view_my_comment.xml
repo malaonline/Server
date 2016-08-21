@@ -150,7 +150,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small_high"/>
 
-        <ImageView
+        <com.malalaoshi.android.core.image.MalaImageView
             android:id="@+id/iv_icon"
             android:layout_width="56dp"
             android:layout_height="56dp"

@@ -3,7 +3,6 @@ package com.malalaoshi.android.dialog;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -17,26 +16,20 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.api.CommentApi;
 import com.malalaoshi.android.api.PostCommentApi;
-import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.entity.Comment;
 import com.malalaoshi.android.net.Constants;
 import com.malalaoshi.android.util.MiscUtil;
-
-import de.greenrobot.event.EventBus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +40,6 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/3/2.
@@ -73,7 +65,7 @@ public class CommentDialog extends DialogFragment {
     private OnCommentResultListener resutListener;
 
     @Bind(R.id.iv_teacher_avater)
-    ImageView teacherAvater;
+    MalaImageView teacherAvater;
 
     @Bind(R.id.tv_teacher_name)
     TextView tvTeacherName;
@@ -105,7 +97,7 @@ public class CommentDialog extends DialogFragment {
     private boolean isOpenInputMethod = false;
 
     public static CommentDialog newInstance(String teacherName, String teacherAvatarUrl, String courseName,
-            Long timeslot, Comment comment) {
+                                            Long timeslot, Comment comment) {
         CommentDialog f = new CommentDialog();
         Bundle args = new Bundle();
         args.putString(ARGS_DIALOG_TEACHER_NAME, teacherName);
@@ -235,14 +227,7 @@ public class CommentDialog extends DialogFragment {
             });
 
         }
-        Glide.with(getContext())
-                .load(teacherAvatarUrl)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_default_teacher_avatar)
-                .crossFade()
-                .into(teacherAvater);
-
+        teacherAvater.loadCircleImage(teacherAvatarUrl, R.drawable.ic_default_teacher_avatar);
         tvTeacherName.setText(teacherName);
         tvCourse.setText(courseName);
     }

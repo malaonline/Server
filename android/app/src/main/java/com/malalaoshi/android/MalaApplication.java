@@ -7,6 +7,9 @@ import com.malalaoshi.android.core.BaseApplication;
 import com.malalaoshi.android.core.usercenter.UserManager;
 import com.malalaoshi.android.exception.CrashHandler;
 import com.malalaoshi.android.push.MalaPushClient;
+import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.HawkBuilder;
+import com.orhanobut.hawk.LogLevel;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -28,7 +31,11 @@ public class MalaApplication extends BaseApplication {
 
     @Override
     protected void initOnMainProcess() {
-
+        Hawk.init(this)
+                .setEncryptionMethod(HawkBuilder.EncryptionMethod.MEDIUM)
+                .setStorage(HawkBuilder.newSqliteStorage(this))
+                .setLogLevel(LogLevel.FULL)
+                .build();
     }
 
     @Override
@@ -71,14 +78,14 @@ public class MalaApplication extends BaseApplication {
     @Override
     protected void onUserLogined() {
         //设置tag和别名(在登录和登出处需要添加设置别名)
-        Log.d(TAG,"用户登录后设置JPush别名uid:"+UserManager.getInstance().getUserId());
+        Log.d(TAG, "用户登录后设置JPush别名uid:" + UserManager.getInstance().getUserId());
         MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
     }
 
     @Override
     protected void onUserLogout() {
         //退出登录后,应该清空jpush别名,重置tags
-        Log.d(TAG,"用户退出登录后清空JPush别名uid:"+UserManager.getInstance().getUserId());
+        Log.d(TAG, "用户退出登录后清空JPush别名uid:" + UserManager.getInstance().getUserId());
         MalaPushClient.getInstance().setAliasAndTags(UserManager.getInstance().getUserId(), null);
     }
 }

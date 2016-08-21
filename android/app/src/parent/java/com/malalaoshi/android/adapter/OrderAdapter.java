@@ -7,15 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.activitys.OrderInfoActivity;
 import com.malalaoshi.android.core.base.BaseRecycleAdapter;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.course.CourseConfirmActivity;
@@ -29,10 +27,9 @@ import com.malalaoshi.android.util.MiscUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
-public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Order>{
+public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder, Order> {
     public OrderAdapter(Context context) {
         super(context);
     }
@@ -62,7 +59,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
         protected TextView tvTeacherName;
 
         @Bind(R.id.iv_teacher_avator)
-        protected ImageView avater;
+        protected MalaImageView avater;
 
         @Bind(R.id.tv_course_name)
         protected TextView tvCourseName;
@@ -90,34 +87,35 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
 
         protected View view;
 
-        protected ViewHolder(View itemView){
+        protected ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.view = itemView;
         }
 
-        protected void update(Order order){
+        protected void update(Order order) {
             this.order = order;
             view.setOnClickListener(this);
             updateItem();
         }
 
-        public void updateItem(){
-            if(order == null){
+        public void updateItem() {
+            if (order == null) {
                 return;
             }
             tvOrderId.setText(order.getOrder_id());
             tvTeacherName.setText(order.getTeacher_name());
-            tvCourseName.setText(order.getGrade()+" "+order.getSubject());
+            tvCourseName.setText(order.getGrade() + " " + order.getSubject());
             tvCourseAddress.setText(order.getSchool());
             String strTopay = "金额异常";
             Double toPay = order.getTo_pay();
-            if(toPay!=null){
-                strTopay = String.format("%.2f",toPay*0.01d);
-            };
+            if (toPay != null) {
+                strTopay = String.format("%.2f", toPay * 0.01d);
+            }
+            ;
             tvCost.setText(strTopay);
             Resources resources = view.getContext().getResources();
-            if ("u".equals(order.getStatus())){
+            if ("u".equals(order.getStatus())) {
                 rlOrderId.setBackgroundColor(resources.getColor(R.color.color_blue_8fbcdd));
                 tvOrderStatus.setTextColor(resources.getColor(R.color.color_red_e26254));
                 tvOrderStatus.setText("订单待支付");
@@ -126,7 +124,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
                 tvBuyCourse.setBackground(resources.getDrawable(R.drawable.bg_pay_order_btn));
                 tvBuyCourse.setText("立即支付");
                 tvBuyCourse.setTextColor(resources.getColor(R.color.white));
-            }else if ("p".equals(order.getStatus())){
+            } else if ("p".equals(order.getStatus())) {
                 rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_blue_8fbcdd));
                 tvOrderStatus.setTextColor(resources.getColor(R.color.color_blue_8fbcdd));
                 tvOrderStatus.setText("支付成功");
@@ -135,7 +133,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
                 tvBuyCourse.setBackground(resources.getDrawable(R.drawable.bg_buy_course_btn));
                 tvBuyCourse.setText("再次购买");
                 tvBuyCourse.setTextColor(resources.getColor(R.color.color_red_e26254));
-            }else if ("d".equals(order.getStatus())){
+            } else if ("d".equals(order.getStatus())) {
                 rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_gray_cfcfcf));
                 tvOrderStatus.setTextColor(resources.getColor(R.color.color_black_939393));
                 tvOrderStatus.setText("订单已关闭");
@@ -145,7 +143,7 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
                 tvBuyCourse.setText("再次购买");
                 tvBuyCourse.setTextColor(resources.getColor(R.color.color_red_e26254));
 
-            }else{
+            } else {
                 rlOrderId.setBackgroundColor(view.getContext().getResources().getColor(R.color.color_blue_8fbcdd));
                 tvOrderStatus.setTextColor(resources.getColor(R.color.color_green_83b84f));
                 tvOrderStatus.setText("退款成功");
@@ -153,31 +151,24 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
                 tvBuyCourse.setVisibility(View.GONE);
             }
 
-            if (!order.is_teacher_published()){
+            if (!order.is_teacher_published()) {
                 tvCancelOrder.setVisibility(View.GONE);
                 tvBuyCourse.setVisibility(View.GONE);
                 tvTeacherStatus.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tvTeacherStatus.setVisibility(View.GONE);
             }
 
             String imgUrl = order.getTeacher_avatar();
-            Glide.with(view.getContext())
-                    .load(imgUrl)
-                    .bitmapTransform(new CropCircleTransformation(view.getContext()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_default_teacher_avatar)
-                    .crossFade()
-                    .into(avater);
-
+            avater.loadCircleImage(imgUrl, R.drawable.ic_default_teacher_avatar);
         }
 
         @OnClick(R.id.tv_buy_course)
-        protected void onClickBuyCourse(){
-            if ("u".equals(order.getStatus())){
+        protected void onClickBuyCourse() {
+            if ("u".equals(order.getStatus())) {
                 //订单详情页
-                OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
-            }else{
+                OrderInfoActivity.open(this.view.getContext(), order.getId() + "");
+            } else {
                 //确认课程页
                 startCourseConfirmActivity();
             }
@@ -188,36 +179,36 @@ public class OrderAdapter extends BaseRecycleAdapter<OrderAdapter.ViewHolder,Ord
             if (order != null && order.getTeacher() != null) {
                 Subject subject = Subject.getSubjectIdByName(order.getSubject());
                 Long teacherId = Long.valueOf(order.getTeacher());
-                if (teacherId!=null&&subject!=null){
-                    CourseConfirmActivity.open(view.getContext(),teacherId,order.getTeacher_name(),order.getTeacher_avatar(),subject);
+                if (teacherId != null && subject != null) {
+                    CourseConfirmActivity.open(view.getContext(), teacherId, order.getTeacher_name(), order.getTeacher_avatar(), subject);
                 }
             }
         }
 
         @OnClick(R.id.tv_cancel_order)
-        protected void onClickCancelOrder(){
-            if (order.getId()!=null){
+        protected void onClickCancelOrder() {
+            if (order.getId() != null) {
                 //取消订单
                 startProcessDialog("正在取消订单...");
-                ApiExecutor.exec(new CancelCourseOrderRequest(this, order.getId()+""));
-            }else{
+                ApiExecutor.exec(new CancelCourseOrderRequest(this, order.getId() + ""));
+            } else {
                 MiscUtil.toast("订单id错误!");
             }
 
         }
 
-        public void startProcessDialog(String message){
-            DialogUtil.startCircularProcessDialog(view.getContext(),message,true,true);
+        public void startProcessDialog(String message) {
+            DialogUtil.startCircularProcessDialog(view.getContext(), message, true, true);
         }
 
-        public void stopProcessDialog(){
+        public void stopProcessDialog() {
             DialogUtil.stopProcessDialog();
         }
 
         @Override
         public void onClick(View v) {
             //订单详情
-            OrderInfoActivity.open(this.view.getContext(), order.getId()+"");
+            OrderInfoActivity.open(this.view.getContext(), order.getId() + "");
         }
     }
 

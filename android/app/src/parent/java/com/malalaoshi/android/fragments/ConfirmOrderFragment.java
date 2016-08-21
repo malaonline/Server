@@ -6,17 +6,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.R;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.course.CourseHelper;
 import com.malalaoshi.android.course.adapter.CourseTimeAdapter;
 import com.malalaoshi.android.course.api.CourseTimesApi;
@@ -30,7 +27,6 @@ import com.malalaoshi.android.pay.PayActivity;
 import com.malalaoshi.android.pay.PayManager;
 import com.malalaoshi.android.util.DialogUtil;
 import com.malalaoshi.android.util.MiscUtil;
-import com.malalaoshi.android.util.Number;
 import com.malalaoshi.android.view.ScrollListView;
 
 import java.util.ArrayList;
@@ -39,12 +35,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/5/24.
  */
-public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickListener {
+public class ConfirmOrderFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String ARG_CREATE_ORDER_INFO = "createCourseOrderEntity";
     private static final String ARG_ORDER_TEACHER_ID = "teacher id";
@@ -64,7 +59,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     protected TextView tvSchool;
 
     @Bind(R.id.iv_teacher_avator)
-    protected ImageView ivTeacherAvator;
+    protected MalaImageView ivTeacherAvator;
 
     @Bind(R.id.tv_total_hours)
     protected TextView tvTotalHours;
@@ -94,7 +89,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     private long teacherId;
 
     public static ConfirmOrderFragment newInstance(Order order, CreateCourseOrderEntity entity, long hours, String weeklyTimeSlots, long teacherId, boolean isEvaluated) {
-        if (entity!=null&&TextUtils.isEmpty(weeklyTimeSlots)&&hours<=0){
+        if (entity != null && TextUtils.isEmpty(weeklyTimeSlots) && hours <= 0) {
             return null;
         }
         ConfirmOrderFragment fragment = new ConfirmOrderFragment();
@@ -102,10 +97,10 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
         args.putParcelable(ARG_ORDER_INFO, order);
         args.putSerializable(ARG_CREATE_ORDER_INFO, entity);
         args.putBoolean(ARG_IS_CONFIRM_ORDER, true);
-        args.putLong(ARG_ORDER_HOURS,hours);
-        args.putString(ARG_ORDER_WEEKLY_TIME_SLOTS,weeklyTimeSlots);
-        args.putLong(ARG_ORDER_TEACHER_ID,teacherId);
-        args.putBoolean(ARG_IS_EVALUATED,isEvaluated);
+        args.putLong(ARG_ORDER_HOURS, hours);
+        args.putString(ARG_ORDER_WEEKLY_TIME_SLOTS, weeklyTimeSlots);
+        args.putLong(ARG_ORDER_TEACHER_ID, teacherId);
+        args.putBoolean(ARG_IS_EVALUATED, isEvaluated);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,15 +109,15 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args==null){
+        if (args == null) {
             throw new IllegalArgumentException("arguments can not been null");
         }
         hours = args.getLong(ARG_ORDER_HOURS);
         weeklyTimeSlots = args.getString(ARG_ORDER_WEEKLY_TIME_SLOTS);
         teacherId = args.getLong(ARG_ORDER_TEACHER_ID);
-        order  = args.getParcelable(ARG_ORDER_INFO);
-        isEvaluated = args.getBoolean(ARG_IS_EVALUATED,true);
-        createCourseOrderEntity  = (CreateCourseOrderEntity) args.getSerializable(ARG_CREATE_ORDER_INFO);
+        order = args.getParcelable(ARG_ORDER_INFO);
+        isEvaluated = args.getBoolean(ARG_IS_EVALUATED, true);
+        createCourseOrderEntity = (CreateCourseOrderEntity) args.getSerializable(ARG_CREATE_ORDER_INFO);
 
     }
 
@@ -142,25 +137,19 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     }
 
     private void initData() {
-        if (order==null) return;
+        if (order == null) return;
         tvTeacherName.setText(order.getTeacher_name());
-        tvCourseName.setText(order.getGrade()+" "+order.getSubject());
+        tvCourseName.setText(order.getGrade() + " " + order.getSubject());
         tvSchool.setText(order.getSchool());
         tvTotalHours.setText(String.valueOf(order.getHours()));
         String strTopay = "金额异常";
         Double toPay = order.getTo_pay();
-        if(toPay!=null){
-            strTopay = String.format("%.2f",toPay);
-        };
+        if (toPay != null) {
+            strTopay = String.format("%.2f", toPay);
+        }
         tvMount.setText(strTopay);
         String imgUrl = order.getTeacher_avatar();
-        Glide.with(getContext())
-                .load(imgUrl)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_default_teacher_avatar)
-                .crossFade()
-                .into(ivTeacherAvator);
+        ivTeacherAvator.loadCircleImage(imgUrl, R.drawable.ic_default_teacher_avatar);
         startProcessDialog("正在加载数据···");
         loadData();
     }
@@ -175,7 +164,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
     }
 
     private void openPayActivity(CreateCourseOrderResultEntity entity) {
-        if (entity==null) return;
+        if (entity == null) return;
         PayActivity.startPayActivity(entity, getActivity(), isEvaluated);
     }
 
@@ -225,12 +214,12 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
 
     private void onFetchCourseTimesSuccess(TimesModel timesModel) {
         timesAdapter.clear();
-        List<String[]> timeslots =  new ArrayList<>();
-        for (int i=0;timesModel!=null&&i<timesModel.getData().size();i++){
+        List<String[]> timeslots = new ArrayList<>();
+        for (int i = 0; timesModel != null && i < timesModel.getData().size(); i++) {
             int size = timesModel.getData().get(i).size();
             timeslots.add(timesModel.getData().get(i).toArray(new String[size]));
         }
-        if (timeslots != null){
+        if (timeslots != null) {
             List<CourseTimeModel> times = CourseHelper.courseTimes(timeslots);
             timesAdapter.addAll(times);
             timesAdapter.notifyDataSetChanged();
@@ -286,7 +275,7 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
                             EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_RELOAD_FETCHEVALUATED));
                         }
                     }, false, false);
-        } else if(!entity.isOk() && entity.getCode() == -2) {
+        } else if (!entity.isOk() && entity.getCode() == -2) {
             DialogUtil.showPromptDialog(
                     getFragmentManager(), R.drawable.ic_timeallocate,
                     "奖学金使用失败，请重新选择奖学金!", "知道了", new PromptDialog.OnDismissListener() {
@@ -294,11 +283,10 @@ public class ConfirmOrderFragment  extends BaseFragment implements View.OnClickL
                         public void onDismiss() {
                         }
                     }, false, false);
-        } else  {
+        } else {
             openPayActivity(entity);
         }
     }
-
 
 
     @Override

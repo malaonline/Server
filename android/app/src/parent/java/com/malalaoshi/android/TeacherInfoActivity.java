@@ -21,18 +21,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.malalaoshi.android.activitys.GalleryActivity;
 import com.malalaoshi.android.activitys.GalleryPreviewActivity;
 import com.malalaoshi.android.adapter.GalleryAdapter;
 import com.malalaoshi.android.adapter.HighScoreAdapter;
 import com.malalaoshi.android.adapter.SchoolAdapter;
-import com.malalaoshi.android.api.CollectTeacherApi;
 import com.malalaoshi.android.api.CancelCollectTeacherApi;
+import com.malalaoshi.android.api.CollectTeacherApi;
 import com.malalaoshi.android.api.SchoolListApi;
 import com.malalaoshi.android.api.TeacherInfoApi;
 import com.malalaoshi.android.core.base.BaseActivity;
+import com.malalaoshi.android.core.image.MalaImageView;
 import com.malalaoshi.android.core.network.api.ApiExecutor;
 import com.malalaoshi.android.core.network.api.BaseApiContext;
 import com.malalaoshi.android.core.stat.StatReporter;
@@ -60,15 +59,12 @@ import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
 import com.malalaoshi.android.view.RingProgressbar;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by kang on 16/3/29.
@@ -109,7 +105,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     //头像
     @Bind(R.id.parent_teacher_detail_head_portrait)
-    protected ImageView mHeadPortrait;
+    protected MalaImageView mHeadPortrait;
 
     //教师姓名
     @Bind(R.id.parent_teacher_detail_name_tv)
@@ -213,7 +209,7 @@ public class TeacherInfoActivity extends BaseActivity
     protected TextView tvSchoolMore;
 
     @Bind(R.id.iv_teacher_bk)
-    protected ImageView teacherView;
+    protected MalaImageView teacherView;
 
     @Bind(R.id.tv_collection)
     protected TextView tvCollection;
@@ -373,13 +369,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void updateBlurImage(final String url) {
-        Glide.with(this).load(url)
-                .bitmapTransform(new BlurTransformation(this))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.core__teacher_banner)
-                .centerCrop()
-                .crossFade()
-                .into(teacherView);
+        teacherView.loadBlurImage(url, R.drawable.core__teacher_banner);
     }
 
     //跟新教师详情
@@ -393,13 +383,7 @@ public class TeacherInfoActivity extends BaseActivity
             }
             //头像
             string = teacher.getAvatar();
-            Glide.with(this)
-                    .load(string)
-                    .bitmapTransform(new CropCircleTransformation(this))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.ic_default_teacher_avatar)
-                    .crossFade()
-                    .into(mHeadPortrait);
+            mHeadPortrait.loadCircleImage(string, R.drawable.ic_default_teacher_avatar);
             updateBlurImage(string);
 
             //性别
@@ -469,17 +453,16 @@ public class TeacherInfoActivity extends BaseActivity
                 viewTeacherSeniority.setProgress(teachAge);
                 tvTeacherSeniority.setText(teachAge.toString() + "年");
             }
-            if (mTeacher.isFavorite()){
+            if (mTeacher.isFavorite()) {
                 likeButton.setLiked(true);
                 setCollectionStatus(true);
-            }else{
+            } else {
                 setCollectionStatus(false);
             }
 
-            if (mTeacher.isPublished()){
+            if (mTeacher.isPublished()) {
                 tvSignUp.setEnabled(true);
-            }else
-            {
+            } else {
                 tvSignUp.setEnabled(false);
                 tvSignUp.setText("已下架");
             }
@@ -668,9 +651,9 @@ public class TeacherInfoActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.parent_teacher_signup_btn:
                 //
-                if (mTeacher.isPublished()){
+                if (mTeacher.isPublished()) {
                     signUp();
-                }else{
+                } else {
                     MiscUtil.toast("该老师已经下架!");
                 }
                 break;
@@ -692,7 +675,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void onClickTeacherAvatar() {
-        if (mTeacher!=null&& !EmptyUtils.isEmpty(mTeacher.getAvatar())){
+        if (mTeacher != null && !EmptyUtils.isEmpty(mTeacher.getAvatar())) {
             Intent intent = new Intent(TeacherInfoActivity.this, GalleryActivity.class);
             intent.putExtra(GalleryActivity.GALLERY_URLS, new String[]{mTeacher.getAvatar()});
             startActivity(intent);
@@ -701,10 +684,10 @@ public class TeacherInfoActivity extends BaseActivity
 
     private void onCollection() {
         if (UserManager.getInstance().isLogin()) {
-            if(mTeacher.isFavorite()){
+            if (mTeacher.isFavorite()) {
                 onCancelCollectTeacher(mTeacher.getId());
                 setCollectionStatus(false);
-            }else{
+            } else {
                 onCollectTeacher(mTeacher.getId());
                 setCollectionStatus(true);
             }
@@ -715,10 +698,10 @@ public class TeacherInfoActivity extends BaseActivity
         }
     }
 
-    void setCollectionStatus(boolean isCollect){
-        if (isCollect){
+    void setCollectionStatus(boolean isCollect) {
+        if (isCollect) {
             tvCollection.setText("已收藏");
-        }else{
+        } else {
             likeButton.setLiked(false);
             tvCollection.setText("收藏");
         }
@@ -732,7 +715,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     //取消收藏老师
     private void onCancelCollectTeacher(Long id) {
-        ApiExecutor.exec(new CancelCollectTeacherRequest(this,mTeacher.getId()));
+        ApiExecutor.exec(new CancelCollectTeacherRequest(this, mTeacher.getId()));
     }
 
     private void changeSchoolsShow() {
@@ -859,7 +842,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void onCollectSuccess(DoneModel response) {
-        if (response!=null&&response.getTeacher()==mTeacher.getId()){
+        if (response != null && response.getTeacher() == mTeacher.getId()) {
             mTeacher.setFavorite(true);
             return;
         }
@@ -872,7 +855,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void onCancelCollcetSuccess(DoneModel response) {
-        if (response!=null&&response.isOk()){
+        if (response != null && response.isOk()) {
             mTeacher.setFavorite(false);
             return;
         }
@@ -949,6 +932,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     private static final class CollectTeacherRequest extends BaseApiContext<TeacherInfoActivity, DoneModel> {
         private Long id;
+
         public CollectTeacherRequest(TeacherInfoActivity teacherInfoActivity, Long id) {
             super(teacherInfoActivity);
             this.id = id;
