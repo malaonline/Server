@@ -130,3 +130,6 @@
 -keep public class com.squareup.okhttp.OkUrlFactory
 -keep public class com.squareup.okhttp.OkHttpClient
 -dontwarn com.squareup.picasso.**
+#Gson
+-keep class com.google.gson.** { *; }
+-keepattributes Signature
