@@ -729,6 +729,15 @@
 		F43C98721D62C0840013799E /* CityTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98711D62C0840013799E /* CityTableView.swift */; };
 		F43C98731D62C0840013799E /* CityTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98711D62C0840013799E /* CityTableView.swift */; };
 		F43C98741D62C0840013799E /* CityTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98711D62C0840013799E /* CityTableView.swift */; };
+		F43C987E1D6AD7C40013799E /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987D1D6AD7C40013799E /* libicucore.tbd */; };
+		F43C98801D6AD7DD0013799E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987F1D6AD7DD0013799E /* libstdc++.tbd */; };
+		F43C98821D6AD7E80013799E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C98811D6AD7E80013799E /* JavaScriptCore.framework */; };
+		F43C98831D6AD80B0013799E /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987D1D6AD7C40013799E /* libicucore.tbd */; };
+		F43C98841D6AD8130013799E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987F1D6AD7DD0013799E /* libstdc++.tbd */; };
+		F43C98851D6AD81A0013799E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C98811D6AD7E80013799E /* JavaScriptCore.framework */; };
+		F43C98861D6AD8220013799E /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987D1D6AD7C40013799E /* libicucore.tbd */; };
+		F43C98871D6AD8270013799E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987F1D6AD7DD0013799E /* libstdc++.tbd */; };
+		F43C98881D6AD82E0013799E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C98811D6AD7E80013799E /* JavaScriptCore.framework */; };
 		F43F44BD1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BE1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BF1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
@@ -1077,6 +1086,9 @@
 		F43C985C1D61C9D30013799E /* City.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = City.plist; sourceTree = "<group>"; };
 		F43C98651D62AEB30013799E /* TCPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPViewController.swift; sourceTree = "<group>"; };
 		F43C98711D62C0840013799E /* CityTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityTableView.swift; sourceTree = "<group>"; };
+		F43C987D1D6AD7C40013799E /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		F43C987F1D6AD7DD0013799E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		F43C98811D6AD7E80013799E /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F43F44BC1D05608700B7A358 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F43F44C01D06B14A00B7A358 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		F43F44C41D06B66800B7A358 /* CommentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
@@ -1258,6 +1270,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C98821D6AD7E80013799E /* JavaScriptCore.framework in Frameworks */,
+				F43C98801D6AD7DD0013799E /* libstdc++.tbd in Frameworks */,
+				F43C987E1D6AD7C40013799E /* libicucore.tbd in Frameworks */,
 				35B1341E1CAAEA21001D2D34 /* libsqlite3.tbd in Frameworks */,
 				35B1341D1CAAE9FE001D2D34 /* libc++.1.tbd in Frameworks */,
 				F4D0D1A11CA2BFFA00B25704 /* libz.tbd in Frameworks */,
@@ -1274,6 +1289,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C98881D6AD82E0013799E /* JavaScriptCore.framework in Frameworks */,
+				F43C98871D6AD8270013799E /* libstdc++.tbd in Frameworks */,
+				F43C98861D6AD8220013799E /* libicucore.tbd in Frameworks */,
 				35FF7A401CF8325A000A70EE /* libsqlite3.tbd in Frameworks */,
 				35FF7A411CF8325A000A70EE /* libc++.1.tbd in Frameworks */,
 				35FF7A421CF8325A000A70EE /* libz.tbd in Frameworks */,
@@ -1290,6 +1308,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43C98851D6AD81A0013799E /* JavaScriptCore.framework in Frameworks */,
+				F43C98841D6AD8130013799E /* libstdc++.tbd in Frameworks */,
+				F43C98831D6AD80B0013799E /* libicucore.tbd in Frameworks */,
 				35FF7B231CF83264000A70EE /* libsqlite3.tbd in Frameworks */,
 				35FF7B241CF83264000A70EE /* libc++.1.tbd in Frameworks */,
 				35FF7B251CF83264000A70EE /* libz.tbd in Frameworks */,
@@ -1625,6 +1646,9 @@
 		D07419656EA549B65E42E332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F43C98811D6AD7E80013799E /* JavaScriptCore.framework */,
+				F43C987F1D6AD7DD0013799E /* libstdc++.tbd */,
+				F43C987D1D6AD7C40013799E /* libicucore.tbd */,
 				35B1341A1CAAE94C001D2D34 /* libc++abi.tbd */,
 				35B134171CAAE767001D2D34 /* CoreTelephony.framework */,
 				35CAE4B31CAAB4360071772D /* libsqlite3.tbd */,
