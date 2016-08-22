@@ -15,7 +15,7 @@ let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 #if USE_PRD_SERVER
     let Mala_JPush_AppKey: String = "f22a395a332b87ef57a04b82"
 #else
-    let Mala_JPush_AppKey: String = "06c87b3317e17c7af30544ce"
+    let Mala_JPush_AppKey: String = "9cf14ffd31f5bbb703c203df"
 #endif
 
 // MARK: - Variables
