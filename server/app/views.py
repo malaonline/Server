@@ -385,6 +385,11 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
         if region is not None:
             queryset = queryset.filter(region__id=region)
 
+        teacher_id = self.request.query_params.get('teacher', None) or None
+        if teacher_id is not None:
+            teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+            queryset = teacher.schools.all()
+
         queryset = queryset.extra(order_by=['-center'])
         return queryset
 

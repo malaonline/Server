@@ -746,6 +746,17 @@ class TestApi(TestCase):
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
+    def test_schools(self):
+        client = Client()
+        request_url = "/api/v1/schools"
+        region = Region.objects.filter(opened=True).first()
+        response = client.get(request_url + '?region='+str(region.id), content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        teacher = Teacher.objects.first()
+        response = client.get(request_url + '?teacher='+str(teacher.id), content_type='application/json')
+        self.assertEqual(200, response.status_code)
+        pass
+
 
 class TestModels(TestCase):
     def setUp(self):
