@@ -10,7 +10,6 @@ import UIKit
 import IQKeyboardManagerSwift
 
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -175,7 +174,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Pingpp.setDebugMode(true)
         #endif
         
-        // IQKeyboardManager - 开启键盘自动管理
+        // 社会化组件
+        ShareSDK.registerApp(MalaShareSDKAppId,
+             activePlatforms: [
+                SSDKPlatformType.SubTypeWechatSession.rawValue,
+                SSDKPlatformType.SubTypeWechatTimeline.rawValue],
+             onImport: {(platform: SSDKPlatformType) -> Void in
+                switch platform{
+                case SSDKPlatformType.TypeWechat:
+                    ShareSDKConnector.connectWeChat(WXApi.classForCoder())
+                default:
+                    break
+                }
+        },  onConfiguration: {(platform: SSDKPlatformType, appInfo: NSMutableDictionary!) -> Void in
+            switch platform {
+            case SSDKPlatformType.TypeWechat:
+                //设置微信应用信息
+                appInfo.SSDKSetupWeChatByAppId(MalaWeChatAppId, appSecret: MalaWeChatAppSecret)
+                break
+            default:
+                break
+            }
+        })
+        
+        // 开启键盘自动管理
         IQKeyboardManager.sharedManager().enable = true
     }
         

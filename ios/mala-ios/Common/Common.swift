@@ -18,6 +18,11 @@ let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
     let Mala_JPush_AppKey: String = "9cf14ffd31f5bbb703c203df"
 #endif
 
+let MalaShareSDKAppId = "16*********3"
+let MalaWeChatAppId = "wx**********23742734"
+let MalaWeChatAppSecret = "ypIQ***************************bKvd"
+
+
 // MARK: - Variables
 /// 课时选择步增数
 var MalaClassPeriod_StepValue: Double = 2

@@ -85,13 +85,12 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
 
     
     // MARK: - Components
-    /// 主体TableView
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRectZero, style: .Grouped)
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
         return tableView
     }()
-    /// TableView头部视图
+    /// 头部视图
     private lazy var tableHeaderView: TeacherDetailsHeaderView = {
         let tableHeaderView = TeacherDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: MalaScreenWidth, height: MalaLayout_DetailHeaderContentHeight+50))
         return tableHeaderView
@@ -102,11 +101,21 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         image.contentMode = .ScaleAspectFill
         return image
     }()
-    /// 底部 [立即报名] 按钮
+    /// 报名按钮
     private lazy var signupView: TeacherDetailsSignupView = {
         let signupView = TeacherDetailsSignupView(frame: CGRect(x: 0, y: 0,
             width: MalaScreenWidth, height: MalaLayout_DetailBottomViewHeight))
         return signupView
+    }()
+    /// 分享按钮
+    private lazy var shareButton: UIButton = {
+        let button = UIButton(
+            imageName: "filter_normal",
+            highlightImageName: "filter_press",
+            target: self,
+            action: #selector(TeacherDetailsController.shareButtonDidTap)
+        )
+        return button
     }()
     
     
@@ -176,6 +185,13 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         tableView.registerClass(TeacherDetailsPhotosCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[3]!)
         tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
         tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
+        
+        // rightBarButtonItem
+        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer.width = -12
+        let rightBarButtonItem = UIBarButtonItem(customView: shareButton)
+        navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
+        
         
         // SubViews
         view.addSubview(tableView)
@@ -499,7 +515,47 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         return reuseCell
     }
 
+    
+    // MARK: - Event Respones
+    @objc private func shareButtonDidTap() {
+        
+        // 1.创建分享参数
+        let shareParames = NSMutableDictionary()
+        
+        shareParames.SSDKSetupShareParamsByText("王老师，初高中生物，押题达人，奥赛教练，幽默风趣！",
+                                                images : UIImage(named: "profileAvatar_placeholder.png"),
+                                                url : NSURL(string:"https://dev.malalaoshi.com/wechat/teacher/?teacherid=21"),
+                                                title : "我在麻辣老师发现一位好老师！",
+                                                type : SSDKContentType.WebPage)
 
+        
+        
+        SSUIShareActionSheetStyle.setShareActionSheetStyle(ShareActionSheetStyle.Simple)
+        SSUIShareActionSheetStyle.str
+        ShareSDK.showShareActionSheet(view, items: [
+            SSDKPlatformType.SubTypeWechatSession.rawValue,
+            SSDKPlatformType.SubTypeWechatTimeline.rawValue
+        ], shareParams: shareParames) { (state, platformType, userData, contentEntity, error, end) in
+            
+            // 分享结果回调
+            switch state{
+                
+            case SSDKResponseState.Success:
+                println("分享成功")
+                
+            case SSDKResponseState.Fail:
+                println("分享失败,错误描述:\(error)")
+                
+            case SSDKResponseState.Cancel:
+                println("分享取消")
+                
+            default:
+                break
+            }
+        }
+    }
+
+    
     deinit {
         println("TeacherDetailController Deinit")
         // 移除观察者
