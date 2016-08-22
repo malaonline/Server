@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -225,7 +225,6 @@ public class RadarChartRenderer: LineRadarChartRenderer
         // pixels
         let factor = chart.factor
         let rotationangle = chart.rotationAngle
-        var points = [CGPoint]()
         
         let center = chart.centerOffsets
         
@@ -236,7 +235,6 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let xIncrements = 1 + chart.skipWebLineCount
         
-        // get points
         for i in 0.stride(to: data.xValCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
@@ -244,23 +242,6 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 dist: CGFloat(chart.yRange) * factor,
                 angle: sliceangle * CGFloat(i) + rotationangle)
             
-            points.append(p)
-        }
-        
-        // draw background
-        for (index, point) in points.enumerate() {
-            if index == 0 {
-                CGContextMoveToPoint(context, point.x, point.y)
-            }else {
-                CGContextAddLineToPoint(context, point.x, point.y)
-            }
-        }
-        CGContextClosePath(context)
-        CGContextSetRGBFillColor(context, 201/255, 228/255, 248/255, 1)
-        CGContextEOFillPath(context)
-        
-        // draw web lines
-        for p in points {
             _webLineSegmentsBuffer[0].x = center.x
             _webLineSegmentsBuffer[0].y = center.y
             _webLineSegmentsBuffer[1].x = p.x
@@ -273,7 +254,6 @@ public class RadarChartRenderer: LineRadarChartRenderer
         CGContextSetLineWidth(context, chart.innerWebLineWidth)
         CGContextSetStrokeColorWithColor(context, chart.innerWebColor.CGColor)
         CGContextSetAlpha(context, chart.webAlpha)
-        
         
         let labelCount = chart.yAxis.entryCount
         

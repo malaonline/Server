@@ -260,7 +260,7 @@ Copyright 2016 Google
 
 ## FirebaseInstanceID
 
-Copyright 2016 Google Inc.
+Copyright 2016 Google
 
 ## Google
 
@@ -268,7 +268,7 @@ Copyright 2016 Google Inc.
 
 ## GoogleAnalytics
 
-Copyright 2015 Google Inc.
+Copyright 2016 Google
 
 ## GoogleInterchangeUtilities
 
@@ -335,6 +335,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+
+## MOBFoundation
+
+Copyright © 2012-2015 mob
+
+## ShareSDK3
+
+Copyright © 2012-2015 mob
 
 ## SnapKit
 

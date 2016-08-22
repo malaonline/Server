@@ -68,7 +68,9 @@ class LearningReportTopicDataCell: MalaBaseReportCardCell {
         lineChartView.legend.formSize = 8
         lineChartView.legend.font = NSUIFont.systemFontOfSize(10)
         lineChartView.legend.textColor = MalaColor_5E5E5E_0
-        lineChartView.legend.position = .AboveChartRight
+        lineChartView.legend.horizontalAlignment = .Right
+        lineChartView.legend.verticalAlignment = .Top
+        lineChartView.legend.orientation = .Horizontal
         return lineChartView
     }()
     
