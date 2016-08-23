@@ -598,7 +598,7 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
         region_id = None
         default_region = models.Region.objects.filter(opened=True, name__contains='郑州')
         if default_region.count() == 1:
-            region_id = default_region.first()
+            region_id = default_region.first().id
 
         region = self.request.query_params.get('region', None) or region_id
         if region is not None:
