@@ -10,6 +10,15 @@ import UIKit
 
 class ThemeShareBoard: UIView {
 
+    // MARK: - Property
+    /// 老师模型
+    var teacherModel: TeacherDetailModel? {
+        didSet {
+            collectionView.teacherModel = teacherModel
+        }
+    }
+    
+    
     // MARK: - Components
     /// 父布局容器（白色卡片）
     private lazy var content: UIView = {
@@ -40,6 +49,11 @@ class ThemeShareBoard: UIView {
     
     
     // MARK: - Instance Method
+    convenience init(teacherModel: TeacherDetailModel? = nil) {
+        self.init(frame: CGRectZero)
+        self.teacherModel = teacherModel
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUserInterface()
@@ -82,6 +96,16 @@ class ThemeShareBoard: UIView {
             make.left.equalTo(content.snp_left).offset(12)
             make.right.equalTo(content.snp_right).offset(-12)
             make.bottom.equalTo(content.snp_bottom)
+        }
+    }
+    
+    func showInView(view: UIView) {
+        view.addSubview(self)
+        self.snp_makeConstraints { (make) in
+            make.top.equalTo(view.snp_top)
+            make.left.equalTo(view.snp_left)
+            make.right.equalTo(view.snp_right)
+            make.bottom.equalTo(view.snp_bottom)
         }
     }
 }

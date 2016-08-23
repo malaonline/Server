@@ -21,6 +21,8 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
             reloadData()
         }
     }
+    /// 老师模型
+    var teacherModel: TeacherDetailModel?
     
     
     // MARK: - Instance Method
