@@ -478,14 +478,14 @@ class TestApi(TestCase):
         self.assertTrue(json_ret['evaluated'])
 
         # Available to oneself
-        request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
-        response = client.get(request_url)
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content.decode())
-
-        for value in data.values():
-            for d in value:
-                self.assertTrue(d['available'])
+        # request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
+        # response = client.get(request_url)
+        # self.assertEqual(response.status_code, 200)
+        # data = json.loads(response.content.decode())
+        #
+        # for value in data.values():
+        #     for d in value:
+        #         self.assertTrue(d['available'])
 
         # Concrete time slot
         hours = 6

@@ -20,5 +20,5 @@ COMPRESS_URL = '/static/'
 STATIC_ROOT = '/tmp/var/www/static/'
 MEDIA_ROOT = '/tmp/var/www/upload/'
 
-JPUSH_APP_KEY = '06c87b3317e17c7af30544ce'        # jpush debug key
-JPUSH_MASTER_SECRET = '195ccf9d04199bcb66202145'
+JPUSH_APP_KEY = '9cf14ffd31f5bbb703c203df'        # jpush dev key
+JPUSH_MASTER_SECRET = 'a44be1ee1312e5089c75ac1a'
