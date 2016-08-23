@@ -738,6 +738,12 @@
 		F43C98861D6AD8220013799E /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987D1D6AD7C40013799E /* libicucore.tbd */; };
 		F43C98871D6AD8270013799E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C987F1D6AD7DD0013799E /* libstdc++.tbd */; };
 		F43C98881D6AD82E0013799E /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43C98811D6AD7E80013799E /* JavaScriptCore.framework */; };
+		F43C98931D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */; };
+		F43C98941D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */; };
+		F43C98951D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */; };
+		F43C98971D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
+		F43C98981D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
+		F43C98991D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
 		F43F44BD1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BE1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BF1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
@@ -1089,6 +1095,8 @@
 		F43C987D1D6AD7C40013799E /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		F43C987F1D6AD7DD0013799E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		F43C98811D6AD7E80013799E /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeShareBoard.swift; sourceTree = "<group>"; };
+		F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeShareCollectionView.swift; sourceTree = "<group>"; };
 		F43F44BC1D05608700B7A358 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F43F44C01D06B14A00B7A358 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		F43F44C41D06B66800B7A358 /* CommentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
@@ -1733,6 +1741,15 @@
 			path = ThemeCityPicker;
 			sourceTree = "<group>";
 		};
+		F43C98911D6C2F6B0013799E /* ThemeShareBoard */ = {
+			isa = PBXGroup;
+			children = (
+				F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */,
+				F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */,
+			);
+			path = ThemeShareBoard;
+			sourceTree = "<group>";
+		};
 		F4402D8A1C575E6B00E7D3DB /* KMNavigationBarTransition */ = {
 			isa = PBXGroup;
 			children = (
@@ -1850,6 +1867,7 @@
 		F45E69D71C8D278A00BD0859 /* ThemeTool */ = {
 			isa = PBXGroup;
 			children = (
+				F43C98911D6C2F6B0013799E /* ThemeShareBoard */,
 				F43C98641D62AE8B0013799E /* ThemeCityPicker */,
 				F44DC7C11D59C6D400E5979B /* DOFavoriteButton.swift */,
 				F43F44BC1D05608700B7A358 /* ThemeDate.swift */,
@@ -2812,6 +2830,7 @@
 				304135A51C23AE6400830C43 /* AppDelegate.swift in Sources */,
 				F474E89F1CF2DCEE0025A865 /* MalaBaseReportCardCell.swift in Sources */,
 				303BCFF51C44ABC900B37DD9 /* TestFactory.swift in Sources */,
+				F43C98931D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */,
 				F460652B1C97B168004056B1 /* ProfileViewController.swift in Sources */,
 				F427FFA51CEDA1E900EAB748 /* LearningReportTitlePageCell.swift in Sources */,
 				F427FFA21CED9A4300EAB748 /* LearningReportViewController.swift in Sources */,
@@ -2830,6 +2849,7 @@
 				F46065091C96D363004056B1 /* Avatar.swift in Sources */,
 				F45871F11C51DFD00048D93F /* CourseChoosingPlaceCell.swift in Sources */,
 				F44DC7C21D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
+				F43C98971D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */,
 				F404D47F1C8436A700C19C44 /* PaymentBottomView.swift in Sources */,
 				F47C2ABD1C85785A0051A880 /* MalaAlert.swift in Sources */,
 				30445B1D1C4A3B3D002CD290 /* SubjectFilterView.swift in Sources */,
@@ -3028,6 +3048,7 @@
 				35FF7AD51CF8325A000A70EE /* AppDelegate.swift in Sources */,
 				35FF7AD61CF8325A000A70EE /* MalaBaseReportCardCell.swift in Sources */,
 				35FF7AD71CF8325A000A70EE /* TestFactory.swift in Sources */,
+				F43C98941D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */,
 				35FF7AD81CF8325A000A70EE /* ProfileViewController.swift in Sources */,
 				35FF7ADB1CF8325A000A70EE /* LearningReportTitlePageCell.swift in Sources */,
 				35FF7ADC1CF8325A000A70EE /* LearningReportViewController.swift in Sources */,
@@ -3046,6 +3067,7 @@
 				35FF7AE81CF8325A000A70EE /* Avatar.swift in Sources */,
 				35FF7AE91CF8325A000A70EE /* CourseChoosingPlaceCell.swift in Sources */,
 				F44DC7C31D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
+				F43C98981D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */,
 				35FF7AEA1CF8325A000A70EE /* PaymentBottomView.swift in Sources */,
 				35FF7AEB1CF8325A000A70EE /* MalaAlert.swift in Sources */,
 				35FF7AEC1CF8325A000A70EE /* SubjectFilterView.swift in Sources */,
@@ -3244,6 +3266,7 @@
 				35FF7BB81CF83264000A70EE /* AppDelegate.swift in Sources */,
 				35FF7BB91CF83264000A70EE /* MalaBaseReportCardCell.swift in Sources */,
 				35FF7BBA1CF83264000A70EE /* TestFactory.swift in Sources */,
+				F43C98951D6C2F6B0013799E /* ThemeShareBoard.swift in Sources */,
 				35FF7BBB1CF83264000A70EE /* ProfileViewController.swift in Sources */,
 				35FF7BBE1CF83264000A70EE /* LearningReportTitlePageCell.swift in Sources */,
 				35FF7BBF1CF83264000A70EE /* LearningReportViewController.swift in Sources */,
@@ -3262,6 +3285,7 @@
 				35FF7BCB1CF83264000A70EE /* Avatar.swift in Sources */,
 				35FF7BCC1CF83264000A70EE /* CourseChoosingPlaceCell.swift in Sources */,
 				F44DC7C41D59C6D400E5979B /* DOFavoriteButton.swift in Sources */,
+				F43C98991D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */,
 				35FF7BCD1CF83264000A70EE /* PaymentBottomView.swift in Sources */,
 				35FF7BCE1CF83264000A70EE /* MalaAlert.swift in Sources */,
 				35FF7BCF1CF83264000A70EE /* SubjectFilterView.swift in Sources */,
