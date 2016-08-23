@@ -595,7 +595,12 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'list':
             queryset = queryset.filter(published=True)
 
-        region = self.request.query_params.get('region', None) or None
+        region_id = None
+        default_region = models.Region.objects.filter(opened=True, name__contains='郑州')
+        if default_region.count() == 1:
+            region_id = default_region.first()
+
+        region = self.request.query_params.get('region', None) or region_id
         if region is not None:
             queryset = queryset.filter(region__id=region)
 
