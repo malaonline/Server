@@ -26,12 +26,8 @@ class ThemeShareBoard: UIView {
         return label
     }()
     /// 会员服务视图
-    private lazy var collectionView: MemberSerivceCollectionView = {
-        let view = MemberSerivceCollectionView(frame: CGRectZero, collectionViewLayout: MemberSerivceFlowLayout(frame: CGRectZero))
-        view.model = [
-            IntroductionModel(title: "微信好友", image: "sns_icon_22.png", subTitle: ""),
-            IntroductionModel(title: "朋友圈", image: "sns_icon_23.png", subTitle: ""),
-        ]
+    private lazy var collectionView: ThemeShareCollectionView = {
+        let view = ThemeShareCollectionView(frame: CGRectZero, collectionViewLayout: ThemeShareFlowLayout(frame: CGRectZero))
         return view
     }()
     // 背景视图
@@ -73,7 +69,7 @@ class ThemeShareBoard: UIView {
         content.snp_makeConstraints { (make) in
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
-            make.height.equalTo(230)
+            make.height.equalTo(126)
             make.bottom.equalTo(self.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in

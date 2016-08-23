@@ -10,8 +10,6 @@ import UIKit
 
 class MemberSerivceCell: UITableViewCell {
 
-    
-    
     // MARK: - Components
     /// 父布局容器（白色卡片）
     private lazy var content: UIView = {
@@ -75,11 +73,5 @@ class MemberSerivceCell: UITableViewCell {
             make.left.equalTo(content.snp_left).offset(12)
             make.right.equalTo(content.snp_right).offset(-12)
         }
-    }
-    
-    
-    // MARK: - Event Response
-    @objc private func login() {
-        
     }
 }

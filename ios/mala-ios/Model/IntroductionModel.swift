@@ -14,6 +14,7 @@ class IntroductionModel: NSObject {
     var title: String?
     var image: String?
     var subTitle: String?
+    var sharePlatformType: SSDKPlatformType = SSDKPlatformType.TypeAny
     
     
     // MARK: - Constructed
@@ -26,10 +27,11 @@ class IntroductionModel: NSObject {
         setValuesForKeysWithDictionary(dict)
     }
     
-    convenience init(title: String?, image: String?, subTitle: String?) {
+    convenience init(title: String?, image: String?, subTitle: String?, platformType: SSDKPlatformType = .TypeAny) {
         self.init()
         self.title = title
         self.image = image
         self.subTitle = subTitle
+        self.sharePlatformType = platformType
     }
 }

@@ -519,40 +519,50 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     // MARK: - Event Respones
     @objc private func shareButtonDidTap() {
         
-        // 1.创建分享参数
-        let shareParames = NSMutableDictionary()
-        
-        shareParames.SSDKSetupShareParamsByText("王老师，初高中生物，押题达人，奥赛教练，幽默风趣！",
-                                                images : UIImage(named: "profileAvatar_placeholder.png"),
-                                                url : NSURL(string:"https://dev.malalaoshi.com/wechat/teacher/?teacherid=21"),
-                                                title : "我在麻辣老师发现一位好老师！",
-                                                type : SSDKContentType.WebPage)
-
-        
-        
-        SSUIShareActionSheetStyle.setShareActionSheetStyle(ShareActionSheetStyle.Simple)
-        SSUIShareActionSheetStyle.str
-        ShareSDK.showShareActionSheet(view, items: [
-            SSDKPlatformType.SubTypeWechatSession.rawValue,
-            SSDKPlatformType.SubTypeWechatTimeline.rawValue
-        ], shareParams: shareParames) { (state, platformType, userData, contentEntity, error, end) in
-            
-            // 分享结果回调
-            switch state{
-                
-            case SSDKResponseState.Success:
-                println("分享成功")
-                
-            case SSDKResponseState.Fail:
-                println("分享失败,错误描述:\(error)")
-                
-            case SSDKResponseState.Cancel:
-                println("分享取消")
-                
-            default:
-                break
-            }
+        let view = ThemeShareBoard()
+        self.view.addSubview(view)
+        view.snp_makeConstraints { (make) in
+            make.top.equalTo(self.view.snp_top)
+            make.left.equalTo(self.view.snp_left)
+            make.right.equalTo(self.view.snp_right)
+            make.bottom.equalTo(self.view.snp_bottom)
         }
+        
+        
+        
+//        // 1.创建分享参数
+//        let shareParames = NSMutableDictionary()
+//        
+//        shareParames.SSDKSetupShareParamsByText("王老师，初高中生物，押题达人，奥赛教练，幽默风趣！",
+//                                                images : UIImage(named: "profileAvatar_placeholder.png"),
+//                                                url : NSURL(string:"https://dev.malalaoshi.com/wechat/teacher/?teacherid=21"),
+//                                                title : "我在麻辣老师发现一位好老师！",
+//                                                type : SSDKContentType.WebPage)
+//
+//        
+//        SSUIShareActionSheetStyle.setShareActionSheetStyle(ShareActionSheetStyle.Simple)
+//        ShareSDK.showShareActionSheet(nil, items: [
+//            SSDKPlatformType.SubTypeWechatSession.rawValue,
+//            SSDKPlatformType.SubTypeWechatTimeline.rawValue,
+//            SSDKPlatformType.TypeCopy.rawValue
+//        ], shareParams: shareParames) { (state, platformType, userData, contentEntity, error, end) in
+//            
+//            // 分享结果回调
+//            switch state{
+//                
+//            case SSDKResponseState.Success:
+//                println("分享成功")
+//                
+//            case SSDKResponseState.Fail:
+//                println("分享失败,错误描述:\(error)")
+//                
+//            case SSDKResponseState.Cancel:
+//                println("分享取消")
+//                
+//            default:
+//                break
+//            }
+//        }
     }
 
     
