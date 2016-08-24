@@ -520,10 +520,9 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     @objc private func shareButtonDidTap() {
         
         // 初始化分享面板
-        let shareBoard = ThemeShareBoard(teacherModel: self.model)
+        let shareBoard = ThemeShareBoard()
+        shareBoard.teacherModel = self.model
         shareBoard.showInView(self.view)
-        
-
     }
 
     

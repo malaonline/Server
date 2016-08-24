@@ -22,7 +22,11 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         }
     }
     /// 老师模型
-    var teacherModel: TeacherDetailModel?
+    var teacherModel: TeacherDetailModel? {
+        didSet {
+            println("ThemeShareCollectionView set teacher model")
+        }
+    }
     
     
     // MARK: - Instance Method
@@ -52,14 +56,14 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         let index = indexPath.section*2+(indexPath.row)
         let model = self.model[index]
         
-        println("分享按钮点击事件")
+        println("分享按钮点击事件 \n \(teacherModel?.shareText) \n \(teacherModel?.avatar) \n \(teacherModel?.shareURL)")
         
         // 创建分享参数
         let shareParames = NSMutableDictionary()
         
-        shareParames.SSDKSetupShareParamsByText("王老师，初高中生物，押题达人，奥赛教练，幽默风趣！",
-                                                images : UIImage(named: "profileAvatar_placeholder.png"),
-                                                url : NSURL(string:"https://dev.malalaoshi.com/wechat/teacher/?teacherid=21"),
+        shareParames.SSDKSetupShareParamsByText(teacherModel?.shareText,
+                                                images : teacherModel?.avatar,
+                                                url : teacherModel?.shareURL,
                                                 title : "我在麻辣老师发现一位好老师！",
                                                 type : SSDKContentType.WebPage)
         // 进行分享

@@ -28,6 +28,22 @@ class TeacherDetailModel: BaseObjectModel {
     var published: Bool = false
     var favorite: Bool = false
     
+    // 分享信息
+    var shareText: String {
+        get {
+            guard let teacherName = name, teacherSubject = subject else {
+            return "优秀的麻辣老师"
+            }
+            return String(format: "%@，%@老师，%@！", teacherName, teacherSubject, tags.joinWithSeparator("，"))
+        }
+    }
+    // 分享链接
+    var shareURL: NSURL? {
+        get {
+            return NSURL(string: String(format: "https://dev.malalaoshi.com/wechat/teacher/?teacherid=%d", id))
+        }
+    }
+    
     
     // 视图变量
     var teachingAgeString: String {
@@ -114,13 +130,5 @@ class TeacherDetailModel: BaseObjectModel {
             return
         }
         super.setValue(value, forKey: key)
-    }
-    
-    
-    // MARK: - Description
-    override var description: String {
-        let keys = ["avatar", "gender", "degree", "teaching_age", "level", "subject", "grades", "tags",
-            "photo_set", "achievement_set", "highscore_set", "prices", "min_price", "max_price", "published", "favorite"]
-        return super.description + dictionaryWithValuesForKeys(keys).description
     }
 }
