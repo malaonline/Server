@@ -45,7 +45,8 @@
         app:cusTitleTextColor="@color/color_black_333333"
         app:cusLeftShow="true"
         app:cusLeftBackgroud="@drawable/core__white_btn"
-        app:cusRightShow="false"
+        app:cusRightShow="true"
+        app:cusRightBackgroud="@drawable/core__white_btn"
         android:background="@color/color_transparent_ffffff_00"
         android:layout_width="match_parent"
         android:layout_height="44dp"/>

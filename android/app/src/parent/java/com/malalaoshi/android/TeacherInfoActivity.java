@@ -59,6 +59,10 @@ import com.malalaoshi.android.view.FlowLayout;
 import com.malalaoshi.android.view.ObservableScrollView;
 import com.malalaoshi.android.view.RingProgressbar;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -242,6 +246,7 @@ public class TeacherInfoActivity extends BaseActivity
         setContentView(R.layout.activity_teacher_info);
         ButterKnife.bind(this);
         initViews();
+        ShareSDK.initSDK(this);
         //初始化数据
         initData();
         setEvent();
@@ -768,6 +773,25 @@ public class TeacherInfoActivity extends BaseActivity
         }
     }
 
+    private void showWxShare() {
+        if (mTeacher==null) return;
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle("我在麻辣老师发现了一位好老师!");
+        StringBuilder strText = new StringBuilder(mTeacher.getName()+","+mTeacher.getSubject()+"老师");
+        for (int i=0;mTeacher.getTags()!=null&&i<mTeacher.getTags().length;i++){
+            strText.append(","+mTeacher.getTags()[i]);
+        }
+        strText.append("!");
+        oks.setText(strText.toString());   //短语说明
+        oks.setImageUrl(mTeacher.getAvatar());  //教师头像
+        String host = String.format(getString(R.string.api_host)+"/wechat/teacher/?teacherid=%d",mTeacher.getId());
+        oks.setUrl(host);        //教师url
+        // 启动分享GUI
+        oks.show(this);
+    }
+
     //启动登录页
     private void startSmsActivityRes() {
         Intent intent = new Intent();
@@ -823,7 +847,7 @@ public class TeacherInfoActivity extends BaseActivity
 
     @Override
     public void onTitleRightClick() {
-
+        showWxShare();
     }
 
     @Override

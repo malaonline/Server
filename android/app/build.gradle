@@ -143,4 +143,6 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'me.relex:circleindicator:1.2.1'
+    compile files('libs/MobCommons-2016.0816.1507.jar')
+    compile files('libs/MobTools-2016.0816.1507.jar')
 }

@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">Mala Teacher</string>
+    <string name="find_teacher">Find a teacher</string>
+    <string name="teacher_list">Teacher List</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="signin">Sign in</string>
+    <string name="signout">Sign out</string>
+
+    <string name="register">Sign up</string>
+    <string name="login_phone_no">Phone No.</string>
+    <string name="login_password">Password</string>
+    <string name="login_password_confirm">Confirm Password</string>
+    <string name="input_hint_phone_no">Please input you phone NO.</string>
+    <string name="input_hint_password">Please input password</string>
+
+    <string name="hint_login_processing">Signing in...</string>
+    <string name="hint_login_success">Signed in</string>
+    <string name="hint_login_fail">Sign in failed</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="title_address_type_go_home">go home</string>
+    <string name="title_address_type_school">study center</string>
+    <string name="title_choose_address_type">address type</string>
+    <string name="title_choose_course_address">address</string>
+    <string name="title_grade">Grade</string>
+    <string name="title_subject">Subject</string>
+    <string name="nav_bar_back">back</string>
+    <string name="title_choose_school">choose one school</string>
+
+    <string name="networt_connected">networt is connected</string>
+    <string name="networt_disconnected">networt is disconnected</string>
+
+    <string name="teacher_list_title">Mala Teacher</string>
+
+    <string name="load_more">load more</string>
+
+    <string name="no_data">no data</string>
+
+    <string name="do_filter">Search</string>
+
+    <string name="currency_unit">yuan</string>
+
+    <string name="user_protocol">Mala teacher user protocal</string>
+    <string name="class_pricelist">Price List</string>
+    <string name="member_services">Member service</string>
+    <string name="sign_up_immediately">Sign up</string>
+    <string name="teacher_gallery">gallery</string>
+    <string name="teacher_highscore">High score list</string>
+    <string name="teacher_level">Level</string>
+    <string name="teacher_more_gallery">more</string>
+    <string name="teacher_teaching_tag">tag</string>
+    <string name="teaching_environment">Teaching environment</string>
+    <string name="teacher_teaching_subject">Teaching Subjects</string>
+    <string name="teacher_certificate">Special Achievement</string>
+    <string name="highscore_name">name</string>
+    <string name="highscore_school">school</string>
+    <string name="highscore_increasedscores">section</string>
+    <string name="highscore_admittedto">target</string>
+    <string name="usercenter_touch_protocol">Tap the above verify button means you are agreeing to the</string>
+    <string name="usercenter_user_agreement">Mala teachers user agreement</string>
+    <string name="usercenter_set_student_succeed">Set name succeed</string>
+    <string name="usercenter_set_student_failed">Set name failed</string>
+    <string name="usercenter_verify_code_sent">Verify code has sent</string>
+    <string name="seconds_count_down">%ds seconds</string>
+    <string name="usercenter_fetch_verify_code">Fetch verify code</string>
+    <string name="usercenter_fetch_code_failed">Fetch verify code failed</string>
+    <string name="usercenter_verify">Verify</string>
+    <string name="sign_up">Sign up</string>
+    <string name="scholarship">Scholarship</string>
+    <string name="coupon_expired">Expired</string>
+    <string name="coupon_not_use">Usable</string>
+    <string name="pay">Pay</string>
+
+    <string name="comment_succeed">comment succeed!</string>
+    <string name="comment_failed">comment failed!</string>
+    <string name="load_user_info_failed">User Information download failed!</string>
+    <string name="usercenter_student_empty">student name cannot be empty!</string>
+    <string name="usercenter_set_school_failed">Set school failed</string>
+    <string name="usercenter_set_school_succeed">Set school succeed</string>
+    <string name="usercenter_school_empty">school name cannot be empty!</string>
+    <string name="usercenter_set_avator_failed">Set avator failed!</string>
+    <string name="usercenter_set_avator_succeed">Set avator succeed!</string>
+
+    <string name="usercenter_set_avator_failed_no_permission">Cannot Set avator!</string>
+
+    <string name="home_get_teachers_fialed">get teacher list fialed</string>
+
+    <string name="load_timetable_info_failed">Timetabel Information download failed!</string>
+
+
+    <string name="coming_soon">Coming soon</string>
+
+    <string name="app_coupon_protocol">一.奖学金券是什么\n\n1.奖学金券是由麻辣老师发行，使用户在麻辣老师购买课程的过程中，作为抵扣现金的一种虚拟券。\n\n二.使用规则\n\n1.不同的奖学金券面值、有效期和使用限制不尽相同，使用前请认真核对。\n2.一个订单只能使用一张奖学金券。\n3.奖学金券作为一种优惠手段，无法获得对应的积分。\n4.一个订单中的奖学金券部分不能退款或折现，使用奖学金券购买的订单发生退款后不能返还奖学金券。\n5.如取消订单，订单中所使用的奖学金券可再次使用。\n6.奖学金券面值大于订单金额，差额不予退回；如奖学金券面值小于订单金额，需由用户支付差额；奖学金券不可兑现，且不开发票。\n\n三.特别提示\n\n1.用户应当出于合法、正当目的，以合理方式使用奖学金券。\n2.麻辣老师将不定期的通过版本更新的方式修改使用规则，请您及时升级为最新版本。\n3.如果用户对使用规则存在任何疑问或需要任何帮助，请及时与麻辣老师客服联系。联系电话：010-57733349\n4.最终解释权归北京麻辣在线网络科技有限公司所有。\n</string>
+    <string name="app_version">version v2.0.0</string>
+    <string name="app_company">COPYRIGHT&#169;2014-2016\n北京麻辣在线网络科技有限公司版权所有</string>
+    <string name="app_protocol">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师(MALALAOSHI.COM)成立于2015年6月，由众多资深教育人士和互联网顶尖人才组成，是专注于国内二三四线城市中小学K12课外辅导的O2O服务平台，以效果、费用、便捷为切入口，实现个性化教学和学生的个性发展，推动二三四线城市及偏远地区教育进步。\n\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;麻辣老师通过O2O的方式，以高效和精准的老师推荐，让中小学家长更加方便和经济地找到好老师，提升老师的收入，优化教、学、练、测、评五大环节, 提升教学与学习效率、创新服务模式，带给家长、老师及学生全新的学习体验。</string>
+    <string name="course_expire_reserve">您在该时间段有课程未上完，直到您在该时间段课程全部结束后的12小时，我们都为您保留老师时间，方便您继续购买。</string>
+</resources>
