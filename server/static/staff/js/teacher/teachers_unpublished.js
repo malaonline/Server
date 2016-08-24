@@ -44,7 +44,8 @@ $(function(){
             fillTableAndShow(schools);
             return;
         }
-        malaAjaxGet('/api/v1/schools',function(data){
+        var teacherId = $(this).closest('tr').attr('teacherId');
+        malaAjaxGet('/api/v1/schools?teacher='+teacherId,function(data){
             if (data && data.results)  {
                 $this.data('schools', data.results);
                 fillTableAndShow(data.results);

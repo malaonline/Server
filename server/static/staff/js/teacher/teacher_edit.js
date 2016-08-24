@@ -29,6 +29,19 @@ $(function(){
             }
         });
     });
+    $("select[name=region]").change(function(e){
+        var region_id = $(this).val(), $schools_sel = $("select[name=schools]");
+        $schools_sel.find('option').remove();
+        if (!region_id) return;
+        malaAjaxGet('/api/v1/schools', {'region': region_id}, function(json){
+            if (json && json.results) {
+                for (var i in json.results) {
+                    var sch = json.results[i];
+                    $schools_sel.append('<option value="'+sch.id+'">'+sch.name+'</option>');
+                }
+            }
+        });
+    });
     $('select[name=subject]').change(function(e){
         var subjectId = $(this).val();
         // 首先禁用所有grades

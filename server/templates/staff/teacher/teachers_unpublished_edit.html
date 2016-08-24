@@ -59,22 +59,38 @@
             <div class="form-group">
                 <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在地区</label>
                 <div class="col-sm-9">
-                    <select name="province">
-                        <option value="">请选择省</option>
-                        {% for province in provinces %}
-                            <option value="{{ province.id }}" {% if province.id == region_dict.province.id %} selected="selected"{% endif %}>{{ province.name }}</option>
+{#                    <select name="province">#}
+{#                        <option value="">请选择省</option>#}
+{#                        {% for province in provinces %}#}
+{#                            <option value="{{ province.id }}" {% if province.id == region_dict.province.id %} selected="selected"{% endif %}>{{ province.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                    <select name="city">#}
+{#                        <option value="">请选择市</option>#}
+{#                        {% for city in cities %}#}
+{#                            <option value="{{ city.id }}" {% if city.id == region_dict.city.id %} selected="selected"{% endif %}>{{ city.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                    <select name="district">#}
+{#                        <option value="">请选择区</option>#}
+{#                        {% for district in districts %}#}
+{#                            <option value="{{ district.id }}" {% if district.id == region_dict.district.id %} selected="selected"{% endif %}>{{ district.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+                    <select name="region">
+                        <option value="">请选择地区</option>
+                        {% for region in region_list %}
+                            <option value="{{ region.id }}" {% if region.id == teacher.region.id %} selected="selected"{% endif %}>{{ region.name }}</option>
                         {% endfor %}
                     </select>
-                    <select name="city">
-                        <option value="">请选择市</option>
-                        {% for city in cities %}
-                            <option value="{{ city.id }}" {% if city.id == region_dict.city.id %} selected="selected"{% endif %}>{{ city.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <select name="district">
-                        <option value="">请选择区</option>
-                        {% for district in districts %}
-                            <option value="{{ district.id }}" {% if district.id == region_dict.district.id %} selected="selected"{% endif %}>{{ district.name }}</option>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在学校</label>
+                <div class="col-sm-9">
+                    <select name="schools" multiple="multiple" size="4" style="width: 300px;">
+                        {% for school in region_schools %}
+                            <option value="{{ school.id }}" {% if school in teacher_schools %} selected="selected"{% endif %}>{{ school.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

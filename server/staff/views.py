@@ -363,13 +363,17 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 cert_others.append(cert)
         kwargs['cert_others'] = cert_others
         # 地区数据
-        region_dict = teacher.region and teacher.region.make_dict() or None
-        kwargs['region_dict'] = region_dict
-        kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
-        if region_dict and region_dict.get('city'):
-            kwargs['cities'] = models.Region.objects.filter(superset_id=region_dict.get('city').superset_id)
-        if region_dict and region_dict.get('district'):
-            kwargs['districts'] = models.Region.objects.filter(superset_id=region_dict.get('district').superset_id)
+        # region_dict = teacher.region and teacher.region.make_dict() or None
+        # kwargs['region_dict'] = region_dict
+        # kwargs['provinces'] = models.Region.objects.filter(superset_id__isnull=True)
+        # if region_dict and region_dict.get('city'):
+        #     kwargs['cities'] = models.Region.objects.filter(superset_id=region_dict.get('city').superset_id)
+        # if region_dict and region_dict.get('district'):
+        #     kwargs['districts'] = models.Region.objects.filter(superset_id=region_dict.get('district').superset_id)
+        kwargs['region_list'] = models.Region.objects.filter(Q(opened=True))
+        if teacher.region:
+            kwargs['teacher_schools'] = teacher.schools.all()
+            kwargs['region_schools'] = models.School.objects.filter(region=teacher.region, opened=True)
         # 一些固定数据
         kwargs['gender_choices'] = models.Profile.GENDER_CHOICES
         kwargs['subjects'] = models.Subject.objects.all
@@ -416,15 +420,22 @@ class TeacherUnpublishedEditView(BaseStaffView):
             certIdHeld.name = id_num
             profile.phone = request.POST.get('phone')
             profile.gender = request.POST.get('gender')
-            province = request.POST.get('province')
-            city = request.POST.get('city')
-            district = request.POST.get('district')
-            region = district and district or city and city or province
-            region = parseInt(region, None)
+            # province = request.POST.get('province')
+            # city = request.POST.get('city')
+            # district = request.POST.get('district')
+            # region = district and district or city and city or province
+            region = parseInt(request.POST.get('region'), None)
             if not region:
                 teacher.region = None
             else:
                 teacher.region_id = region
+            school_ids = request.POST.getlist('schools')
+            teacher.schools.clear()
+            if school_ids and len(school_ids) > 0:
+                schools_qset = models.School.objects.filter(id__in=school_ids)
+                for sch in schools_qset:
+                    teacher.schools.add(sch)
+                teacher.save()
             teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
             # 更改成带有日志的模式
             new_level = models.Level.objects.get(pk=parseInt(request.POST.get('level'), 1))
