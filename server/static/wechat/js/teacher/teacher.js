@@ -532,8 +532,8 @@ $("#achievementsPanel").click(function(){
   });
 });
 
-function ajaxLoadSchool(lat, lng){
-  $.post("/wechat/teacher/schools/", {lat: lat, lng: lng},
+function ajaxLoadSchool(lat, lng, tid){
+  $.post("/wechat/teacher/schools/", {lat: lat, lng: lng, tid: tid},
     function(data){
       if(data.ok == false){
         console.log("获取学校失败")

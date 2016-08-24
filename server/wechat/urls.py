@@ -1,8 +1,9 @@
 from django.conf.urls import include, url
-from django.views.generic.base import TemplateView
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='teachers/'), name="index"),
     url(r'^schools/$', views.SchoolsView.as_view(), name="schools"),
     url(r'^schools/map/(?P<pk>[0-9]+)/$', views.SchoolMapView.as_view(), name='school-map'),
     url(r'^schools/photos/(?P<pk>[0-9]+)/$', views.SchoolPhotosView.as_view(), name="school-photos"),

@@ -194,8 +194,8 @@ class CourseChoosingView(OrderBaseView):
         prices = list(teacher.prices())
         prices.sort(key=lambda x: x.ability.grade_id)
         kwargs['prices'] = prices
-        # schools = teacher.schools.all()
-        schools = list(models.School.objects.filter(opened=True))
+        schools = teacher.schools.filter(opened=True)
+        # schools = list(models.School.objects.filter(opened=True))
         kwargs['schools'] = schools
         kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
         now = timezone.now()
@@ -360,12 +360,16 @@ class CourseChoosingView(OrderBaseView):
     def schools_distance(self, request):
         lat = request.POST.get('lat', None)
         lng = request.POST.get('lng', None)
+        tid = request.POST.get('tid', None)
         if lat is None or lat == '' or lng is None or lng == '':
             return JsonResponse({'ok': False})
         lat = float(lat)
         lng = float(lng)
-        # schools = teacher.schools.all()
-        schools = models.School.objects.filter(opened=True)
+        if tid:
+            teacher = models.Teacher.objects.get(id=tid)
+            schools = teacher.schools.filter(opened=True)
+        else:
+            schools = models.School.objects.filter(opened=True)
         distances = []
         p = {'lat': lat, 'lng': lng}
         for school in schools:
@@ -702,7 +706,8 @@ def teacher_view(request):
             grades_tree.append(_grade)
     grades_tree.sort(key=lambda x: x['id'])
 
-    schools = models.School.objects.filter(opened=True)
+    schools = teacher.schools.filter(opened=True)
+    # schools = models.School.objects.filter(opened=True)
 
     cur_url = request.build_absolute_uri()
     sign_data = _jssdk_sign(cur_url)
@@ -734,6 +739,7 @@ def teacher_view(request):
 def getSchoolsWithDistance(request):
     lat = request.POST.get("lat", None)
     lng = request.POST.get("lng", None)
+    tid = request.POST.get("tid", None)
 
     point = None
     if lat is not None and lng is not None:
@@ -747,7 +753,11 @@ def getSchoolsWithDistance(request):
 
     if not point:
         JsonResponse({'ok': False, 'msg': 'no lat,lng', 'code': -1})
-    schools = models.School.objects.filter(opened=True)
+    if tid:
+        teacher = models.Teacher.objects.get(id=tid)
+        schools = teacher.schools.filter(opened=True)
+    else:
+        schools = models.School.objects.filter(opened=True)
     ret = []
     for school in schools:
         pointB = None

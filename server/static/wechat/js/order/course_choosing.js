@@ -109,7 +109,7 @@ $(function(){
         wx.getLocation({
             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
             success: function(res){
-                var reqparams = {'action': 'schools_dist', 'lat': res.latitude, 'lng': res.longitude};
+                var reqparams = {'action': 'schools_dist', 'tid': teacherId, 'lat': res.latitude, 'lng': res.longitude};
                 $.post(location.href, reqparams, function(result){
                     if (result && result.ok) {
                         sortSchools(result.list);

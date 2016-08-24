@@ -28,11 +28,12 @@
         wx.error(function(res){
 {#            alert(res);#}
         });
+        var teacherid = "{{teacher.id}}";
         wx.ready(function(res){
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function(res){
-                    ajaxLoadSchool(res.latitude, res.longitude);
+                    ajaxLoadSchool(res.latitude, res.longitude, teacherid);
                 },
                 fail: function(res){
 {#                    alert('地理位置错误：'+res);#}
@@ -42,7 +43,6 @@
         var hasLogin = {% if hasLogin %}true{% else %}false{% endif %};
         var isTesting = {% if isTesting %}true{% else %}false{% endif %};
         var phonePage = '{% if isTesting %}{% url 'wechat:phone_page' %}{% endif %}';
-        var teacherid = "{{teacher.id}}";
         var userPhotos = [];
         var schoolPhotos = [];
         var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
@@ -149,7 +149,7 @@
             $teacherImages.find('img').each(function (e) {
                 cropCenterImg(this);
             });
-{#            ajaxLoadSchool(39.90809, 116.476021); // only for test, to do remove#}
+{#            ajaxLoadSchool(39.90809, 116.476021, teacherid); // only for test, to do remove#}
             if ($schools.length > 1) {
                 $(".more_schools").click(function() {
                     $('.more_schools').css('display', 'none');
@@ -361,6 +361,6 @@
 </div>
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script src="{% static 'common/js/django-ajax-amend.js' %}?v=2.0"></script>
-<script src="{% static 'wechat/js/teacher/teacher.js' %}?v=2.1"></script>
+<script src="{% static 'wechat/js/teacher/teacher.js' %}?v=2.2"></script>
 </body>
 </html>
