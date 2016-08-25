@@ -58,7 +58,7 @@ public class TitleBarView extends LinearLayout implements View.OnClickListener {
         leftView.setImageDrawable(leftBackground);
 
         rightView.setTextColor(rightTextColor);
-        rightView.setBackgroundDrawable(rightBackground);
+        rightView.setBackground(rightBackground);
         rightView.setText(rightText);
         rightView.setTextSize(TypedValue.COMPLEX_UNIT_PX, rightTextSize);
 
@@ -86,6 +86,10 @@ public class TitleBarView extends LinearLayout implements View.OnClickListener {
 
     public void setLeftImageDrawable(Drawable leftBackground) {
         leftView.setImageDrawable(leftBackground);
+    }
+
+    public void setRightBackgroundResource(int resId){
+        rightView.setBackgroundResource(resId);
     }
 
     public void setRightVisibility(int visible) {

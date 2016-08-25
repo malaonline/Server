@@ -42,8 +42,8 @@ android {
         applicationId "com.malalaoshi.android"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 8
-        versionName "2.1.2"
+        versionCode 9
+        versionName "2.2.0"
     }
     buildTypes {
         debug {
@@ -57,7 +57,6 @@ android {
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
             resValue("string", "build_type", "debug")
         }
-
         devrelease {
             applicationIdSuffix ".dev"
             buildConfigField "boolean", "LOG_DEBUG", "false"

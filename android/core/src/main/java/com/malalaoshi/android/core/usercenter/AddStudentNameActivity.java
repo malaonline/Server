@@ -76,7 +76,7 @@ public class AddStudentNameActivity extends BaseActivity implements View.OnClick
 
     private void onAddStudentNameSuccess(@NonNull AddStudentName data) {
         if (data.isDone()) {
-            MiscUtil.toast("设置学名名字成功");
+            MiscUtil.toast("设置学生名字成功");
             updateStuName();
             EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_UPDATE_USER_NAME_SUCCESS));
         } else {

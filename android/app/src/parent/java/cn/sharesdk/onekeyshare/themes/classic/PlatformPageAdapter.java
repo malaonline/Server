@@ -99,7 +99,7 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 	private View createPanel(Context context) {
 		LinearLayout llPanel = new LinearLayout(context);
 		llPanel.setOrientation(LinearLayout.VERTICAL);
-		llPanel.setBackgroundColor(0xffffffff);   //修改菜单背景色,最底层背景色
+		llPanel.setBackgroundColor(0xfff2f2f2);   //修改菜单背景色,最底层背景色
 
 		int lineCount = panelHeight / cellHeight;
 		LinearLayout[] llCells = new LinearLayout[lineCount * lineSize];
@@ -109,11 +109,13 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 		for (int i = 0; i < lineCount; i++) {
 			LinearLayout llLine = new LinearLayout(context);
 			lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, cellHeight);
+			llLine.setBackgroundColor(0xfff2f2f2);
 			llPanel.addView(llLine, lp);
 
 			for (int j = 0; j < lineSize; j++) {
 				llCells[i * lineSize + j] = new LinearLayout(context);
-				llCells[i * lineSize + j].setBackgroundResource(cellBack);
+				//llCells[i * lineSize + j].setBackgroundResource(cellBack);
+				llCells[i * lineSize + j].setBackgroundColor(0xfff2f2f2);
 				llCells[i * lineSize + j].setOrientation(LinearLayout.VERTICAL);
 				lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, cellHeight);
 				lp.weight = 1;
@@ -134,17 +136,20 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 		for (LinearLayout llCell : llCells) {
 			ImageView ivLogo = new ImageView(context);
 			ivLogo.setScaleType(ScaleType.CENTER_INSIDE);
+			ivLogo.setBackgroundColor(0xfff2f2f2);
 			lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, logoHeight);
 			lp.topMargin = paddingTop;
 			llCell.addView(ivLogo, lp);
 
 			TextView tvName = new TextView(context);
-			tvName.setTextColor(0xff646464);
-			tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+			tvName.setTextColor(0xff6c6c6c);
+			tvName.setBackgroundColor(0xfff2f2f2);
+			tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
 			tvName.setGravity(Gravity.CENTER);
 			lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			lp.weight = 1;
 			llCell.addView(tvName, lp);
+			llCell.setBackgroundColor(0xfff2f2f2);
 		}
 
 		return llPanel;
@@ -159,12 +164,14 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 			if (logos[i] == null) {
 				ivLogo.setVisibility(View.INVISIBLE);
 				tvName.setVisibility(View.INVISIBLE);
-				llCells[i].setBackgroundResource(disableBack);
+				//llCells[i].setBackgroundResource(disableBack);
+				llCells[i].setBackgroundColor(0xfff2f2f2);
 				llCells[i].setOnClickListener(null);
 			} else {
 				ivLogo.setVisibility(View.VISIBLE);
 				tvName.setVisibility(View.VISIBLE);
-				llCells[i].setBackgroundResource(cellBack);
+				//llCells[i].setBackgroundResource(cellBack);
+				llCells[i].setBackgroundColor(0xfff2f2f2);
 				llCells[i].setOnClickListener(this);
 				llCells[i].setTag(logos[i]);
 

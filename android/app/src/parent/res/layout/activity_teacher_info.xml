@@ -46,7 +46,7 @@
         app:cusLeftShow="true"
         app:cusLeftBackgroud="@drawable/core__white_btn"
         app:cusRightShow="true"
-        app:cusRightBackgroud="@drawable/core__white_btn"
+        app:cusRightBackgroud="@drawable/bitmap_share_white"
         android:background="@color/color_transparent_ffffff_00"
         android:layout_width="match_parent"
         android:layout_height="44dp"/>

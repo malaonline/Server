@@ -277,6 +277,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void initViews() {
+        titleBarView.setRightBackgroundResource(R.drawable.bitmap_share_white);
         mHighScoreList.setFocusable(false);
         listviewSchool.setFocusable(false);
         drawCollection = getResources().getDrawable(R.drawable.ic_uncollection);
@@ -822,11 +823,13 @@ public class TeacherInfoActivity extends BaseActivity
         if (y > startOffset && y < maxOffset - 10) {  //开始变色
             int ratio = (int) (255 * ((float) (y - startOffset) / (float) (maxOffset - startOffset + 10)));
             titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
+            titleBarView.setRightBackgroundResource(R.drawable.bitmap_share_black);
             titleBarView.setBackgroundColor(Color.argb(ratio, 255, 255, 255));
             viewLine.setAlpha(0);
             titleBarView.setTitle("");
         } else if (y >= maxOffset - 10) {        //白色背景
             titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__back_btn));
+            titleBarView.setRightBackgroundResource(R.drawable.bitmap_share_black);
             titleBarView.setBackgroundColor(Color.argb(255, 255, 255, 255));
             viewLine.setAlpha(1);
             if (mTeacher != null) {
@@ -834,6 +837,7 @@ public class TeacherInfoActivity extends BaseActivity
             }
         } else {                            //无背景
             titleBarView.setLeftImageDrawable(getResources().getDrawable(R.drawable.core__white_btn));
+            titleBarView.setRightBackgroundResource(R.drawable.bitmap_share_white);
             titleBarView.setBackgroundColor(Color.argb(0, 255, 255, 255));
             viewLine.setAlpha(0);
             titleBarView.setTitle("");

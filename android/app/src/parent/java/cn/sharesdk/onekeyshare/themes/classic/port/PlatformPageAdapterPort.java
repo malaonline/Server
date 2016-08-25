@@ -20,7 +20,7 @@ import com.mob.tools.utils.R;
 public class PlatformPageAdapterPort extends PlatformPageAdapter {
 	private static final int DESIGN_SCREEN_WIDTH_P = 720;
 	private static final int DESIGN_SEP_LINE_WIDTH = 1;
-	private static final int DESIGN_LOGO_HEIGHT = 76;
+	private static final int DESIGN_LOGO_HEIGHT = 90;
 	private static final int DESIGN_PADDING_TOP = 20;
 	private static final int PAGE_SIZE_P = 12;
 	private static final int LINE_SIZE_P = 2;
@@ -41,11 +41,11 @@ public class PlatformPageAdapterPort extends PlatformPageAdapter {
 		bottomHeight = (int) (DESIGN_BOTTOM_HEIGHT * ratio);
 		cellHeight = (screenWidth - sepLineWidth * 3) / 4;
 		if (plats.size() <= lineSize) {
-			panelHeight = cellHeight + sepLineWidth;
+			panelHeight = cellHeight + sepLineWidth + 40;
 		} else if (plats.size() <= PAGE_SIZE_P - lineSize) {
-			panelHeight = (cellHeight + sepLineWidth) * 2;
+			panelHeight = (cellHeight + sepLineWidth) * 2 + 40;
 		} else {
-			panelHeight = (cellHeight + sepLineWidth) * 3;
+			panelHeight = (cellHeight + sepLineWidth) * 3 + 40;
 		}
 	}
 

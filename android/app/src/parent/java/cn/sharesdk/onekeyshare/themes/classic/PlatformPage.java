@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,19 +79,19 @@ public abstract class PlatformPage extends OnekeySharePage {
 
 
 		///////////////增加分享到layout
-		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,130);
+		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,110);
 		lp.setMargins(0,0,0,0);
 		LinearLayout buttonLayout = new LinearLayout(activity);
-		buttonLayout.setBackgroundColor(Color.WHITE);
+		buttonLayout.setBackgroundColor(0xfff2f2f2);
 
 		LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,110);
 		lp2.setMargins(20, 20, 20, 0);
 		TextView tv = new TextView(activity);
 		tv.setGravity(Gravity.CENTER);
 		tv.setText("分享到");
-		tv.setTextSize(16);
-		tv.setTextColor(Color.BLACK);
-		tv.setBackgroundColor(Color.WHITE);
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+		tv.setTextColor(0xff939393);
+		tv.setBackgroundColor(0xfff2f2f2);
 		buttonLayout.addView(tv,lp2);
 		llPanel.addView(buttonLayout,lp);
 		//////////////
