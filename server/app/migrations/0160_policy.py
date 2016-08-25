@@ -28,7 +28,7 @@ def add_item(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app', '0159_auto_20160819_1756'),
+        ('app', '0160_fix_teacher_schools'),
     ]
 
     operations = [
