@@ -481,8 +481,8 @@ class OrderFormViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        cancelButton.hidden = false
-        confirmButton.hidden = false
-        disabledLabel.hidden = false
+//        cancelButton.hidden = false
+//        confirmButton.hidden = false
+//        disabledLabel.hidden = false
     }
 }
