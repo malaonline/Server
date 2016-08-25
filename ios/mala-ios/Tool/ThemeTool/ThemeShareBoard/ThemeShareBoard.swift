@@ -23,6 +23,7 @@ class ThemeShareBoard: UIView {
     /// 父布局容器（白色卡片）
     private lazy var content: UIView = {
         let view = UIView()
+        view.backgroundColor = MalaColor_F2F2F2_95
         return view
     }()
     /// 标题标签
@@ -30,7 +31,7 @@ class ThemeShareBoard: UIView {
         let label = UILabel(
             text: "分享到",
             fontSize: 15,
-            textColor: MalaColor_333333_0
+            textColor: MalaColor_939393_0
         )
         return label
     }()
@@ -63,7 +64,6 @@ class ThemeShareBoard: UIView {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
-        content.backgroundColor = UIColor.whiteColor()
         
         // SubViews
         addSubview(backgroundView)
@@ -79,19 +79,19 @@ class ThemeShareBoard: UIView {
         content.snp_makeConstraints { (make) in
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
-            make.height.equalTo(126)
+            make.height.equalTo(153)
             make.bottom.equalTo(self.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(content.snp_centerX)
-            make.top.equalTo(content.snp_top).offset(10)
+            make.top.equalTo(content.snp_top).offset(20)
             make.height.equalTo(15)
         }
         collectionView.snp_makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp_bottom).offset(10)
+            make.top.equalTo(titleLabel.snp_bottom).offset(20)
             make.left.equalTo(content.snp_left).offset(12)
             make.right.equalTo(content.snp_right).offset(-12)
-            make.bottom.equalTo(content.snp_bottom)
+            make.bottom.equalTo(content.snp_bottom).offset(-20)
         }
     }
     

@@ -238,8 +238,8 @@ public class MalaConfig {
     
     class func shareItems() -> [IntroductionModel] {
         return [
-            IntroductionModel(title: "微信好友", image: "sns_icon_22.png", subTitle: "", platformType: .SubTypeWechatSession),
-            IntroductionModel(title: "朋友圈", image: "sns_icon_23.png", subTitle: "", platformType: .SubTypeWechatTimeline),
+            IntroductionModel(title: "微信好友", image: "sns_icon_wechat_session.png", subTitle: "", platformType: .SubTypeWechatSession),
+            IntroductionModel(title: "朋友圈", image: "sns_icon_wechat_timeline.png", subTitle: "", platformType: .SubTypeWechatTimeline),
         ]
     }
     

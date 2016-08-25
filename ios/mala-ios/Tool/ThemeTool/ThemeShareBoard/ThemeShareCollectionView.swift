@@ -41,7 +41,7 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     private func configure() {
         delegate = self
         dataSource = self
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.clearColor()
         bounces = false
         scrollEnabled = false
         
@@ -97,10 +97,6 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         if index < model.count {
             cell.model = self.model[index]
         }
-        
-        if indexPath.row == 0 {
-            cell.hideSeparator(true)
-        }
         return cell
     }
 }
@@ -130,14 +126,16 @@ class ThemeShareCollectionViewCell: UICollectionViewCell {
         let label = UILabel(
             text: "",
             fontSize: 13,
-            textColor: MalaColor_636363_0
+            textColor: MalaColor_6C6C6C_0
         )
         label.textAlignment = .Center
         return label
     }()
-    /// 侧分割线
-    lazy var separator: UIView = {
-        let view = UIView.separator(MalaColor_E5E5E5_0)
+    private lazy var background: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        view.layer.cornerRadius = 10
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -157,34 +155,31 @@ class ThemeShareCollectionViewCell: UICollectionViewCell {
     // MARK: - Private Method
     private func setupUserInterface() {
         // Style
+        contentView.backgroundColor = UIColor.clearColor()
         
         // SubViews
-        contentView.addSubview(iconView)
+        contentView.addSubview(background)
+        background.addSubview(iconView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(separator)
         
         // Autolayout
+        background.snp_makeConstraints { (make) in
+            make.top.equalTo(contentView)
+            make.centerX.equalTo(contentView)
+            make.height.equalTo(55)
+            make.width.equalTo(55)
+        }
         iconView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.contentView.snp_top).offset(20)
-            make.centerX.equalTo(self.contentView.snp_centerX)
-            make.width.equalTo(30)
-            make.height.equalTo(30)
+            make.center.equalTo(background)
+            make.width.equalTo(47)
+            make.height.equalTo(47)
         }
         titleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self.contentView.snp_centerX)
+            make.centerX.equalTo(contentView.snp_centerX)
             make.height.equalTo(13)
-            make.top.equalTo(iconView.snp_bottom).offset(14)
+            make.top.equalTo(background.snp_bottom).offset(10)
+            make.bottom.equalTo(contentView.snp_bottom)
         }
-        separator.snp_makeConstraints { (make) in
-            make.left.equalTo(self.contentView.snp_left)
-            make.width.equalTo(MalaScreenOnePixel)
-            make.top.equalTo(self.contentView.snp_top).offset(15)
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-15)
-        }
-    }
-    
-    func hideSeparator(hide: Bool) {
-        separator.hidden = hide
     }
 }
 
@@ -206,7 +201,7 @@ class ThemeShareFlowLayout: UICollectionViewFlowLayout {
     private func configure() {
         scrollDirection = .Vertical
         let itemWidth: CGFloat = MalaLayout_CardCellWidth / 2
-        let itemHeight: CGFloat = 91
+        let itemHeight: CGFloat = 78
         itemSize = CGSizeMake(itemWidth, itemHeight)
         headerReferenceSize = CGSize(width: 300, height: MalaScreenOnePixel)
         minimumInteritemSpacing = 0

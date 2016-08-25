@@ -110,8 +110,8 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
     /// 分享按钮
     private lazy var shareButton: UIButton = {
         let button = UIButton(
-            imageName: "filter_normal",
-            highlightImageName: "filter_press",
+            imageName: "share_normal",
+            highlightImageName: "share_press",
             target: self,
             action: #selector(TeacherDetailsController.shareButtonDidTap)
         )
@@ -190,7 +190,7 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         spacer.width = -12
         let rightBarButtonItem = UIBarButtonItem(customView: shareButton)
-        navigationItem.rightBarButtonItems = [spacer, rightBarButtonItem]
+        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacer]
         
         
         // SubViews
