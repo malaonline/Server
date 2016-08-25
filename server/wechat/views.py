@@ -86,6 +86,7 @@ class SchoolsView(ListView):
 
     def get_queryset(self):
         school_list=self.model.objects.annotate(num_photos=Count('schoolphoto'))
+        school_list=school_list.filter(opened=True)
         queryset = {}
         queryset['expr_center_list'] = school_list.filter(
             center = True
