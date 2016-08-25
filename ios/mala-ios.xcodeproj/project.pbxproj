@@ -744,6 +744,9 @@
 		F43C98971D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
 		F43C98981D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
 		F43C98991D6C2FAE0013799E /* ThemeShareCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */; };
+		F43C989B1D6D94EE0013799E /* ThemeShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C989A1D6D94EE0013799E /* ThemeShare.swift */; };
+		F43C989C1D6D94EE0013799E /* ThemeShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C989A1D6D94EE0013799E /* ThemeShare.swift */; };
+		F43C989D1D6D94EE0013799E /* ThemeShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43C989A1D6D94EE0013799E /* ThemeShare.swift */; };
 		F43F44BD1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BE1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
 		F43F44BF1D05608700B7A358 /* ThemeDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43F44BC1D05608700B7A358 /* ThemeDate.swift */; };
@@ -1097,6 +1100,7 @@
 		F43C98811D6AD7E80013799E /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeShareBoard.swift; sourceTree = "<group>"; };
 		F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeShareCollectionView.swift; sourceTree = "<group>"; };
+		F43C989A1D6D94EE0013799E /* ThemeShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeShare.swift; sourceTree = "<group>"; };
 		F43F44BC1D05608700B7A358 /* ThemeDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeDate.swift; sourceTree = "<group>"; };
 		F43F44C01D06B14A00B7A358 /* CommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		F43F44C41D06B66800B7A358 /* CommentViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentViewCell.swift; sourceTree = "<group>"; };
@@ -1746,6 +1750,7 @@
 			children = (
 				F43C98921D6C2F6B0013799E /* ThemeShareBoard.swift */,
 				F43C98961D6C2FAE0013799E /* ThemeShareCollectionView.swift */,
+				F43C989A1D6D94EE0013799E /* ThemeShare.swift */,
 			);
 			path = ThemeShareBoard;
 			sourceTree = "<group>";
@@ -2705,6 +2710,7 @@
 				F4BD4FCA1C744A8E00488613 /* PullToRefreshOption.swift in Sources */,
 				F4D0D14F1C9FACFC00B25704 /* TeacherFilterPopupWindow.swift in Sources */,
 				F40B53CE1C84140C00C20037 /* MalaInstance.swift in Sources */,
+				F43C989B1D6D94EE0013799E /* ThemeShare.swift in Sources */,
 				308063951C3A1C9800729832 /* Extension+UILabel.swift in Sources */,
 				F45E69D21C892F0500BD0859 /* HandlePingppBehaviour.swift in Sources */,
 				F4B3C6731CFD3CF000C1B423 /* SubjectReport.swift in Sources */,
@@ -2923,6 +2929,7 @@
 				35FF7A651CF8325A000A70EE /* CouponRulesPopupWindow.swift in Sources */,
 				35FF7A661CF8325A000A70EE /* PullToRefreshOption.swift in Sources */,
 				35FF7A671CF8325A000A70EE /* TeacherFilterPopupWindow.swift in Sources */,
+				F43C989C1D6D94EE0013799E /* ThemeShare.swift in Sources */,
 				35FF7A681CF8325A000A70EE /* MalaInstance.swift in Sources */,
 				35FF7A691CF8325A000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7A6A1CF8325A000A70EE /* HandlePingppBehaviour.swift in Sources */,
@@ -3141,6 +3148,7 @@
 				35FF7B481CF83264000A70EE /* CouponRulesPopupWindow.swift in Sources */,
 				35FF7B491CF83264000A70EE /* PullToRefreshOption.swift in Sources */,
 				35FF7B4A1CF83264000A70EE /* TeacherFilterPopupWindow.swift in Sources */,
+				F43C989D1D6D94EE0013799E /* ThemeShare.swift in Sources */,
 				35FF7B4B1CF83264000A70EE /* MalaInstance.swift in Sources */,
 				35FF7B4C1CF83264000A70EE /* Extension+UILabel.swift in Sources */,
 				35FF7B4D1CF83264000A70EE /* HandlePingppBehaviour.swift in Sources */,

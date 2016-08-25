@@ -44,8 +44,7 @@ class ThemeShareBoard: UIView {
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.blackColor()
         backgroundView.alpha = 0.4
-        backgroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ThemeShareBoard.dismiss)))
-        backgroundView.userInteractionEnabled = true
+        backgroundView.tag = 1099
         return backgroundView
     }()
     
@@ -81,7 +80,7 @@ class ThemeShareBoard: UIView {
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
             make.height.equalTo(126)
-            make.bottom.equalTo(self.snp_bottom).offset(126)
+            make.bottom.equalTo(self.snp_bottom)
         }
         titleLabel.snp_makeConstraints { (make) in
             make.centerX.equalTo(content.snp_centerX)
@@ -96,28 +95,6 @@ class ThemeShareBoard: UIView {
         }
     }
     
-    func showInView(view: UIView) {
-        view.addSubview(self)
-        self.snp_makeConstraints { (make) in
-            make.top.equalTo(view.snp_top)
-            make.left.equalTo(view.snp_left)
-            make.right.equalTo(view.snp_right)
-            make.bottom.equalTo(view.snp_bottom)
-        }
-        
-        UIView.animateWithDuration(0.35) { () -> Void in
-            self.content.snp_updateConstraints(closure: { (make) in
-                make.left.equalTo(self.snp_left)
-                make.right.equalTo(self.snp_right)
-                make.height.equalTo(126)
-                make.bottom.equalTo(self.snp_bottom)
-            })
-        }
-    }
-    
-    func dismiss() {
-        self.removeFromSuperview()
-    }
     
     deinit {
         println("ThemeShareBoard deinit")

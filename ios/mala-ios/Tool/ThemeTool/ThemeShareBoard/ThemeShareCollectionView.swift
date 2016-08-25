@@ -22,11 +22,7 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
         }
     }
     /// 老师模型
-    var teacherModel: TeacherDetailModel? {
-        didSet {
-            println("ThemeShareCollectionView set teacher model")
-        }
-    }
+    var teacherModel: TeacherDetailModel?
     
     
     // MARK: - Instance Method
@@ -55,6 +51,10 @@ class ThemeShareCollectionView: UICollectionView, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let index = indexPath.section*2+(indexPath.row)
         let model = self.model[index]
+        
+        ThemeShare.hideShareBoard { 
+            
+        }
         
         println("分享按钮点击事件 \n \(teacherModel?.shareText) \n \(teacherModel?.avatar) \n \(teacherModel?.shareURL)")
         
