@@ -107,6 +107,16 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
             width: MalaScreenWidth, height: MalaLayout_DetailBottomViewHeight))
         return signupView
     }()
+    /// 导航栏返回按钮
+    lazy var leftBarButton: UIButton = {
+        let backBarButton = UIButton(
+            imageName: "leftArrow_white",
+            highlightImageName: "leftArrow_black",
+            target: self,
+            action: #selector(TeacherDetailsController.popSelf)
+        )
+        return backBarButton
+    }()
     /// 分享按钮
     private lazy var shareButton: UIButton = {
         let button = UIButton(
@@ -186,11 +196,17 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         tableView.registerClass(TeacherDetailsCertificateCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[4]!)
         tableView.registerClass(TeacherDetailsPlaceCell.self, forCellReuseIdentifier: TeacherDetailsCellReuseId[5]!)
         
+        // leftBarButtonItem
+        let spacer1 = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer1.width = -2
+        let leftBarButtonItem = UIBarButtonItem(customView: leftBarButton)
+        navigationItem.leftBarButtonItems = [spacer1, leftBarButtonItem]
+        
         // rightBarButtonItem
-        let spacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        spacer.width = -12
+        let spacer2 = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        spacer2.width = -10
         let rightBarButtonItem = UIBarButtonItem(customView: shareButton)
-        navigationItem.rightBarButtonItems = [rightBarButtonItem, spacer]
+        navigationItem.rightBarButtonItems = [spacer2, rightBarButtonItem]
         
         
         // SubViews
@@ -524,6 +540,15 @@ class TeacherDetailsController: BaseViewController, UIGestureRecognizerDelegate,
         ThemeShare.sharedInstance.teacherModel = self.model
     }
 
+    override func turnBackButtonBlack() {
+        leftBarButton.setImage(UIImage(named: "leftArrow_black"), forState: .Normal)
+        shareButton.setImage(UIImage(named: "share_press"), forState: .Normal)
+    }
+    
+    override func turnBackButtonWhite() {
+        leftBarButton.setImage(UIImage(named: "leftArrow_white"), forState: .Normal)
+        shareButton.setImage(UIImage(named: "share_normal"), forState: .Normal)
+    }
     
     deinit {
         println("TeacherDetailController Deinit")
