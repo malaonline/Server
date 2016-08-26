@@ -108,7 +108,7 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 	private void shareAndFinish() {
 		int resId = R.getStringRes(activity, "ssdk_oks_sharing");
 		if (resId > 0) {
-			Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
 		}
 
 		if (isDisableSSO()) {

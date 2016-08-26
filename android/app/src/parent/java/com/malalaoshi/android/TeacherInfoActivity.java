@@ -326,7 +326,7 @@ public class TeacherInfoActivity extends BaseActivity
     }
 
     private void loadSchools() {
-        ApiExecutor.exec(new LoadSchoolListRequest(this));
+        ApiExecutor.exec(new LoadSchoolListRequest(this,mTeacherId));
     }
 
     private void loadSchoolListSuccess(SchoolListResult result) {
@@ -934,13 +934,15 @@ public class TeacherInfoActivity extends BaseActivity
 
     private static final class LoadSchoolListRequest extends BaseApiContext<TeacherInfoActivity, SchoolListResult> {
 
-        public LoadSchoolListRequest(TeacherInfoActivity teacherInfoActivity) {
+        private long teacherId;
+        public LoadSchoolListRequest(TeacherInfoActivity teacherInfoActivity,long teacherId) {
             super(teacherInfoActivity);
+            this.teacherId = teacherId;
         }
 
         @Override
         public SchoolListResult request() throws Exception {
-            return new SchoolListApi().get();
+            return new SchoolListApi().get(teacherId);
         }
 
         @Override

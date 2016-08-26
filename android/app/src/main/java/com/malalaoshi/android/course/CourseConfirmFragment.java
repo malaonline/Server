@@ -861,19 +861,20 @@ public class CourseConfirmFragment extends BaseFragment
 
     private void fetchSchools() {
         if (subject != null) {
-            ApiExecutor.exec(new LoadSchoolListRequest(this));
+            ApiExecutor.exec(new LoadSchoolListRequest(this,teacher));
         }
     }
 
     private static final class LoadSchoolListRequest extends BaseApiContext<CourseConfirmFragment, SchoolListResult> {
-
-        public LoadSchoolListRequest(CourseConfirmFragment courseConfirmFragment) {
+        private long teacherId;
+        public LoadSchoolListRequest(CourseConfirmFragment courseConfirmFragment,long teacherId) {
             super(courseConfirmFragment);
+            this.teacherId = teacherId;
         }
 
         @Override
         public SchoolListResult request() throws Exception {
-            return new SchoolListApi().get();
+            return new SchoolListApi().get(teacherId);
         }
 
         @Override
