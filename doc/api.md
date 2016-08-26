@@ -1,4 +1,4 @@
-## API 
+## API
 
 ### Subject List
 
@@ -226,6 +226,7 @@ GET /api/v1/schools
 parameters:
 ```
 region=1450
+teacher=23
 ```
 
 ```
