@@ -58,8 +58,6 @@ android {
             resValue("string", "build_type", "debug")
         }
         devrelease {
-            //重置ShareSDK中appId和appSecret
-            initShareSdk(PARENT_APP_ID_DEV,PARENT_APP_SECRET_DEV)
             applicationIdSuffix ".dev"
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
@@ -73,7 +71,6 @@ android {
             resValue("string", "build_type", "release")
         }
         stagerelease {
-            initShareSdk(PARENT_APP_ID_STAGE,PARENT_APP_SECRET_STAGE)
             applicationIdSuffix ".stage"
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
@@ -87,7 +84,6 @@ android {
             resValue("string", "build_type", "release")
         }
         prdrelease {
-            initShareSdk(PARENT_APP_ID_RELEASE,PARENT_APP_SECRET_RELEASE)
             buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             zipAlignEnabled true
@@ -122,54 +118,43 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
+    project.afterEvaluate {
+        //重置ShareSDK中appId和appSecret
+        tasks.getByName('generateParentDevreleaseAssets') {
+            it.doFirst {
+                initShareSdk(PARENT_APP_ID_DEV,PARENT_APP_SECRET_DEV)
+            }
+        }
+        tasks.getByName('generateParentStagereleaseAssets') {
+            it.doFirst {
+                initShareSdk(PARENT_APP_ID_STAGE,PARENT_APP_SECRET_STAGE)
+            }
+        }
+        tasks.getByName('generateParentPrdreleaseAssets') {
+            it.doFirst {
+                initShareSdk(PARENT_APP_ID_RELEASE,PARENT_APP_SECRET_RELEASE)
+            }
+        }
+    }
 }
 
 def initShareSdk(appId, appSecret) {
-
-    def DevInfor = new XmlParser().parse(file("src/main/assets/ShareSDK.xml"))
+    def DevInfor = new XmlParser().parse(file("src/main/ShareSDK.demo.xml"))
     DevInfor.ShareSDK.@AppKey = PARENT_SHARESDK_APP_KEY
     DevInfor.Wechat.@AppId = appId
     DevInfor.Wechat.@AppSecret = appSecret
     DevInfor.WechatMoments.@AppId = appId
     DevInfor.WechatMoments.@AppSecret = appSecret
-    println DevInfor.ShareSDK.@AppKey
-    println DevInfor.Wechat.@AppId
-    println DevInfor.Wechat.@AppSecret
-    println DevInfor.WechatMoments.@AppId
-    println DevInfor.WechatMoments.@AppSecret
 
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
-    XmlNodePrinter nodePrinter = new XmlNodePrinter(pw);
-    nodePrinter.setPreserveWhitespace(true);
-    nodePrinter.print(DevInfor);
-    //println sw.toString();
-
+    file("src/main/assets/").mkdirs()
     file("src/main/assets/ShareSDK.xml").withPrintWriter { printWriter ->
+        XmlNodePrinter nodePrinter = new XmlNodePrinter(printWriter);
+        nodePrinter.setPreserveWhitespace(true);
         printWriter.println('<?xml version="1.0" encoding="utf-8"?>')
-        printWriter.println(sw.toString())
+        nodePrinter.print(DevInfor);
         printWriter.flush()
-        printWriter.close()
     }
-
-    pw.flush()
-    pw.close()
-
-    sw.flush()
-    sw.close()
-
-    /*
-           def filedir = new File("/Users/kang/malalaoshi/mala/android/app/src/devrelease/assets/ShareSDK.xml")
-           if (filedir.exists())
-           filedir.delete()
-
-           def printWriter = filedir.newPrintWriter() //
-           printWriter.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
-           printWriter.write(sw.toString())
-
-           printWriter.flush()
-           printWriter.close()*/
-
 }
 
 dependencies {

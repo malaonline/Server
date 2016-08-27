@@ -11,3 +11,4 @@ captures
 gradle-app.setting
 *.iml
 logs/
+app/src/main/assets/ShareSDK.xml
