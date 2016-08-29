@@ -183,7 +183,7 @@ class CourseChoosingViewController: BaseViewController, CourseChoosingConfirmVie
     
     private func loadSchoolsData() {
         
-        getSchools({ (reason, errorMessage) in
+        getSchools(teacherId, failureHandler: { (reason, errorMessage) in
             ThemeHUD.hideActivityIndicator()
             defaultFailureHandler(reason, errorMessage: errorMessage)
             
