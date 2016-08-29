@@ -96,6 +96,11 @@ android {
             resValue("string", "build_type", "release")
         }
     }
+    variantFilter { // buildTypes没有release
+        if (it.buildType.name == 'release') {
+            it.setIgnore(true)
+        }
+    }
 
     lintOptions {
         abortOnError true
