@@ -1,57 +1,57 @@
-.app-redirect-box {
-    box-sizing: border-box;
-    height: 44px;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    padding: 13px 12px;
-    line-height: 18px;
-    font-size: 12px;
-}
-
-.app-redirect-box a {
-    color: #ffffff;
-}
-
-.app-redirect-box a.left-desc {
-    /*color: red;*/
-    position: relative;
-    padding-left: 26px;
-    span {
-        line-height: 20px;
-    }
-}
-
-.app-redirect-box a.left-desc img {
+.app-redirect-box{
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  padding: 6px 16px;
+  line-height: 18px;
+  font-size: 12px;
+  background: rgba(242, 242, 242, 0.9);
+  //background: #f2f2f2;
+  border-bottom: 1px solid #cecece;
+  &.at-top{
+    top: 0;
+    bottom: auto;
+    z-index: 9;
+  }
+  .left-icon{
     position: absolute;
-    left: 0;
-    //top: -9px;
-    width: 16px;
-    height: 16px;
-}
-
-
-.app-redirect-box div.right-buttons {
-    //background-color: #ffffff;
+    top: 6px;
+    //left: 0;
+    width: 40px;
+    height: 40px;
+  }
+  .mid-desc{
+    position: relative;
+    padding-top: 0;
+    padding-left: 53px;
+    line-height: 20px;
+    span{
+      font-size: 11px;
+      color: #777;
+      &.app-name{
+        font-size: 13px;
+        color: #333;
+      }
+    }
+  }
+  .right-buttons{
     position: absolute;
     top: 11px;
-    right: 12px;
-    width: 60px;
-    height: 24px;
-    line-height: 24px;
-    background-color: #fff;
-    border-radius: 2px;
+    right: 16px;
+    width: 65px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
-    a.button.button-fill {
-        height: 24px;
-        padding: 0;
-        margin: 0;
-        font-size: 12px;
-        line-height: 24px;
-        color: #88bcde;
-    }
+    font-size: 12px;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #7fb4dc;
+  }
 }
+
+
+
 

@@ -7,12 +7,14 @@
 
 {% block addition_header %}
     <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
-    <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}?v=2.0.1">
-    <link rel="stylesheet" href="{% static 'wechat/css/teachers.less'|compile %}?v=2.0.1">
+    <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}?v=2.1.1">
+    <link rel="stylesheet" href="{% static 'wechat/css/teachers.less'|compile %}?v=2.1.1">
 {% endblock %}
 
 {% block content %}
     <div class="page" id="teacherList">
+{#        下载横条#}
+        {% include 'wechat/w_download_banner.html' %}
         <div class="content">
             {% for teacher in teacher_list %}
                 <a href="{% url 'wechat:teacher' %}?teacherid={{ teacher.id }}">
@@ -46,15 +48,6 @@
                 <p>没有添加老师</p>
             {% endfor %}
 
-        </div>
-         <div class="app-redirect-box">
-            <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.malalaoshi.android.parent" class="left-desc">
-                <img src="{% static 'wechat/images/download_icon.png' %}" alt="">
-                <span>更多精彩课程尽在手机客户端</span>
-            </a>
-            <div class="right-buttons">
-                <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.malalaoshi.android.parent" class="button button-fill">立即下载</a>
-            </div>
         </div>
         {# 预加载动画 #}
         {% include 'wechat/w_loading_dialog.html' %}
