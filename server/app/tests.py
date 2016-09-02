@@ -316,9 +316,8 @@ class TestApi(TestCase):
         teacher_id = 2
         teacher = Teacher.objects.get(pk=teacher_id)
         # make sure the sample teacher is published
-        while not teacher.published:
-            teacher_id += 1
-            teacher = Teacher.objects.get(pk=teacher_id)
+        teacher.published = True
+        teacher.save()
         price = teacher.region.price_set.get(
             ability=ability, level=teacher.level).price
         hours = 14
@@ -478,14 +477,14 @@ class TestApi(TestCase):
         self.assertTrue(json_ret['evaluated'])
 
         # Available to oneself
-        # request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
-        # response = client.get(request_url)
-        # self.assertEqual(response.status_code, 200)
-        # data = json.loads(response.content.decode())
-        #
-        # for value in data.values():
-        #     for d in value:
-        #         self.assertTrue(d['available'])
+        request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
+        response = client.get(request_url)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content.decode())
+
+        for value in data.values():
+            for d in value:
+                self.assertTrue(d['available'])
 
         # Concrete time slot
         hours = 6
