@@ -509,15 +509,14 @@ class TestApi(TestCase):
         request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=1"
         response = client.get(request_url)
         self.assertEqual(response.status_code, 200)
-        # TODO: comment out the following lines temporarily
-        # data = json.loads(response.content.decode())
-        #
-        # for value in data.values():
-        #     for d in value:
-        #         if d['id'] in [3, 8]:
-        #             self.assertFalse(d['available'])
-        #         else:
-        #             self.assertTrue(d['available'])
+        data = json.loads(response.content.decode())
+
+        for value in data.values():
+            for d in value:
+                if d['id'] in [3, 8]:
+                    self.assertFalse(d['available'])
+                else:
+                    self.assertTrue(d['available'])
 
         # Available time for other parent for different school
         request_url = "/api/v1/teachers/" + str(teacher_id) + "/weeklytimeslots?school_id=2"
