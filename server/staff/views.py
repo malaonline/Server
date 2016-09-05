@@ -294,6 +294,13 @@ class TeacherUnpublishedView(BaseStaffView):
         page = self.request.GET.get('page') and self.request.GET.get('page').strip() or ''
         for_published = self.list_type == 'published'
         query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
+        # check the operate is school master or superuser
+        # filter the data for school master
+        is_school_master = models.SchoolMaster.objects.filter(
+            user=self.request.user).exists()
+        if is_school_master:
+            school_master = self.request.user.schoolmaster
+            query_set = query_set.filter(schools=school_master.school)
         if name:
             query_set = query_set.filter(name__icontains=name)
         if phone:
