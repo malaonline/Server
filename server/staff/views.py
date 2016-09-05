@@ -1321,10 +1321,6 @@ class StudentScheduleManageView(BaseStaffView):
     template_name = 'staff/student/schedule_manage.html'
 
     def get_context_data(self, **kwargs):
-        # kwargs['parents'] = models.Parent.objects.all 
-        #  kwargs['centers'] = models.School.objects.filter(center=True)
-        #  kwargs['grades'] = models.Grade.objects.all 
-        #  kwargs['subjects'] = models.Subject.objects.all
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         parent_phone = self.request.GET.get('phone',None)
@@ -1334,6 +1330,9 @@ class StudentScheduleManageView(BaseStaffView):
 
         # deleted 代表已经释放和调课的, suspended 代表停课的, 这些都不显示
         query_set = models.TimeSlot.objects.filter(deleted=False, suspended=False)
+        # make sure to only show time slots of this school for school master
+        if self.school_master is not None:
+            query_set = query_set.filter(order__school=self.school_master.school)
         # 家长手机号, 精确匹配
         if parent_phone:
             query_set = query_set.filter(order__parent__user__profile__phone=parent_phone)
@@ -1391,6 +1390,10 @@ class StudentScheduleChangelogView(BaseStaffView):
         page = self.request.GET.get('page')
 
         query_set = models.TimeSlotChangeLog.objects.all()
+        # make sure to only show the changelog of this school for school master
+        if self.school_master is not None:
+            query_set = query_set.filter(
+                old_timeslot__order__school=self.school_master.school)
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
@@ -1424,7 +1427,7 @@ class StudentScheduleChangelogView(BaseStaffView):
         # 可用筛选条件数据集
         kwargs['types'] = models.TimeSlotChangeLog.TYPE_CHOICES
         # paginate
-        query_set, pager = paginate(query_set, page, 5)
+        query_set, pager = paginate(query_set, page)
         # 查询结果数据集
         kwargs['changelogs'] = query_set
         kwargs['pager'] = pager
