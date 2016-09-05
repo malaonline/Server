@@ -2086,7 +2086,7 @@ class SchoolTimeslotView(BaseStaffView):
         searchName = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
-        schools = models.School.objects.all();
+        schools = models.School.objects.all()
         if self.school_master is not None:
             schools = schools.filter(schoolmaster=self.school_master)
 
