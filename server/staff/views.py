@@ -1299,8 +1299,12 @@ class StudentView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         page = self.request.GET.get('page')
-        parents = models.Parent.objects.all().order_by(
-            '-user__date_joined')
+        parents = models.Parent.objects.all()
+        # filter the data with order of the school
+        if self.school_master is not None:
+            parents = parents.filter(order__school=self.school_master.school)
+
+        parents = parents.order_by('-user__date_joined').distinct()
         count = parents.count()
 
         parents, pager = paginate(parents, page)
