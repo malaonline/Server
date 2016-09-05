@@ -9,18 +9,14 @@
 import UIKit
 import CoreLocation
 
-
 // MARK: - Identifier
-let Mala_Umeng_AppKey: String = "5680ebb367e58e4945002f59"
 #if USE_PRD_SERVER
     let Mala_JPush_AppKey: String = "f22a395a332b87ef57a04b82"
 #else
     let Mala_JPush_AppKey: String = "9cf14ffd31f5bbb703c203df"
 #endif
-
-let MalaShareSDKAppId = "16*********3"
-let MalaWeChatAppId = "wx**********23742734"
-let MalaWeChatAppSecret = "ypIQ***************************bKvd"
+let MalaShareSDKAppId = "16bea88583370"
+let MalaWeChatAppId = "wxa990fb9607155c1e"
 
 
 // MARK: - Variables
