@@ -113,6 +113,16 @@ class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
+    @property
+    def school_master(self):
+        # check the operate is school master or superuser
+        # will filter data if school master logged in
+        is_school_master = models.SchoolMaster.objects.filter(
+            user=self.request.user).exists()
+        if is_school_master:
+            return self.request.user.schoolmaster
+        return None
+
 
 class BaseStaffActionView(StaffRoleRequiredMixin, View):
     """
@@ -294,13 +304,8 @@ class TeacherUnpublishedView(BaseStaffView):
         page = self.request.GET.get('page') and self.request.GET.get('page').strip() or ''
         for_published = self.list_type == 'published'
         query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
-        # check the operate is school master or superuser
-        # filter the data for school master
-        is_school_master = models.SchoolMaster.objects.filter(
-            user=self.request.user).exists()
-        if is_school_master:
-            school_master = self.request.user.schoolmaster
-            query_set = query_set.filter(schools=school_master.school)
+        if self.school_master is not None:
+            query_set = query_set.filter(schools=self.school_master.school)
         if name:
             query_set = query_set.filter(name__icontains=name)
         if phone:
@@ -1662,6 +1667,8 @@ class OrderReviewView(BaseStaffView):
         export = self.request.GET.get('export', None)
 
         query_set = models.Order.objects.filter()
+        if self.school_master is not None:
+            query_set = query_set.filter(school=self.school_master.school)
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
