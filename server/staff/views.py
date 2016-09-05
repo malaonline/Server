@@ -1662,6 +1662,13 @@ class OrderReviewView(BaseStaffView):
         export = self.request.GET.get('export', None)
 
         query_set = models.Order.objects.filter()
+        # check the operate is school master or superuser
+        # filter the data for school master
+        is_school_master = models.SchoolMaster.objects.filter(
+            user=self.request.user).exists()
+        if is_school_master:
+            school_master = self.request.user.schoolmaster
+            query_set = query_set.filter(school=school_master.school)
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
