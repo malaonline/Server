@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             switch platform {
             case SSDKPlatformType.TypeWechat:
                 //设置微信应用信息
-                appInfo.SSDKSetupWeChatByAppId(MalaWeChatAppId, appSecret: MalaWeChatAppSecret)
+                appInfo.SSDKSetupWeChatByAppId(MalaWeChatAppId, appSecret: "")
                 break
             default:
                 break
