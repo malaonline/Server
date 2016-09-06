@@ -32,20 +32,20 @@ python replace_info.py
 # Export dev package
 cfg="dev"
 AdHocProvisioning="Mala_Dev-AdHoc"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+ipaName="${ipaDir}${scheme}_${cfg}_${configuration}.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 # Export stage package
 cfg="stage"
 AdHocProvisioning="Mala_Stage-AdHoc"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+ipaName="${ipaDir}${scheme}_${cfg}_${configuration}.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
 
 # Export prd package
 cfg="prd"
 AdHocProvisioning="Mala_Prd-AdHoc"
-ipaName="${ipaDir}${scheme}_${cfg}_release.ipa"
+ipaName="${ipaDir}${scheme}_${cfg}_${configuration}.ipa"
 mv build/${cfg}-Info.plist build/${scheme}.xcarchive/Info.plist
 xcodebuild -exportArchive -exportFormat IPA -archivePath ${buildPath} -exportPath ${ipaName} -exportProvisioningProfile "${AdHocProvisioning}"
