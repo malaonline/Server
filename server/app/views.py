@@ -606,6 +606,9 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
             region = self.request.query_params.get('region', None) or region_id
             if region is not None:
                 queryset = queryset.filter(region__id=region)
+            school_id = self.request.query_params.get('school', 0)
+            if school_id:
+                queryset = queryset.filter(schools__id=school_id)
 
         grade = self.request.query_params.get('grade', None) or None
         if grade is not None:
