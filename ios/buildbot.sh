@@ -4,7 +4,7 @@ set -e
 # Build configurations
 scheme="parent"
 ipaDir="build/ipa/"
-configuration="Release"
+configuration="Debug"
 derivedDataPath="build/derivedDada"
 
 # Clean
