@@ -1,0 +1,14 @@
+language: python
+python:
+  - "3.4"
+# command to install dependencies
+before_install:
+  - cd server/
+  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in local_settings.py.enc -out server/local_settings.py -d
+install:
+  - pip install -r pip_install.txt
+# command to run tests
+script:
+  - python manage.py cold_test app.cold_tests.SimpleTest -v2
+  - python manage.py test --noinput --setting=server.custom_settings.ci_settings -v2
+
