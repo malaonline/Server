@@ -100,6 +100,9 @@ class TestApi(TestCase):
         url = "/api/v1/teachers?grade=4&subject=3&tags=2+6"
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
+        url = "/api/v1/teachers?grade=4&subject=3&tags=2+6&school=1"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
 
     def test_teacher_detail(self):
         client = Client()
