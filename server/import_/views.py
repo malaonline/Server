@@ -69,20 +69,20 @@ def logout(request):
     return redirect('import_:login')
 
 
-class StaffRoleRequiredMixin(AccessMixin):
-    def dispatch(self, request, *args, **kwargs):
-        url_name = self.request.resolver_match.url_name
-        for group in self.request.user.groups.all():
-            for staff_permission in group.staffpermission_set.all():
-                if staff_permission.allowed_url_name == 'all' \
-                        or staff_permission.allowed_url_name == url_name:
-                    return super(StaffRoleRequiredMixin, self).dispatch(
-                            request, *args, **kwargs)
+# class StaffRoleRequiredMixin(AccessMixin):
+#     def dispatch(self, request, *args, **kwargs):
+#         url_name = self.request.resolver_match.url_name
+#         for group in self.request.user.groups.all():
+#             for staff_permission in group.staffpermission_set.all():
+#                 if staff_permission.allowed_url_name == 'all' \
+#                         or staff_permission.allowed_url_name == url_name:
+#                     return super(StaffRoleRequiredMixin, self).dispatch(
+#                             request, *args, **kwargs)
+#
+#         return HttpResponse("Not Allowed.", status=403)
 
-        return HttpResponse("Not Allowed.", status=403)
 
-
-class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
+class BaseStaffView(TemplateView):
     """
     Base view for staff management page views.
     """
@@ -92,7 +92,7 @@ class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
         return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
 
-class BaseStaffActionView(StaffRoleRequiredMixin, View):
+class BaseStaffActionView(View):
     """
     Base view for staff management action views.
     """
@@ -124,7 +124,10 @@ class TeacherView(BaseStaffView):
         return super(TeacherView, self).get_context_data(**kwargs)
 
     def post(self, request):
-        region = models.Region.objects.get(name='郑州市') # TODO:
+        school = request.user.profile.school # 录入员的所属校区
+        if school is None:
+            return HttpResponseRedirect(reverse('import_:teachers') + '#管理员学校选择错误')
+        region = school.region
         result_msg = ''
         excel_file = None
         if request.FILES:
@@ -139,10 +142,15 @@ class TeacherView(BaseStaffView):
         for row in datas:
             try:
                 phone = str(int(row['phone'])) # 电话号码excel读入成为float(XXX.0)了
-                has_teacher = models.Teacher.objects.filter(user__profile__phone=phone).exists()
-                if has_teacher:
-                    result_msg = "第%s个老师(%s)已存在" % (num, phone)
-                    break
+                old_teacher = models.Teacher.objects.filter(user__profile__phone=phone).first()
+                if old_teacher:
+                    if not old_teacher.schools.filter(id=school.id).exists():
+                        old_teacher.schools.add(school)
+                        old_teacher.save()
+                        continue
+                    else:
+                        result_msg = "第%s个老师(%s)已存在" % (num, phone)
+                        break
                 gender = row['gender']
                 subject = models.Subject.objects.get(name=row['subject'])
                 grade_names = row['grades'] and [s for s in re.split('[，, ]', row['grades']) if s != ''] or []
