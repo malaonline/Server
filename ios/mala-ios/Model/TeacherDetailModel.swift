@@ -40,7 +40,14 @@ class TeacherDetailModel: BaseObjectModel {
     // 分享链接
     var shareURL: NSURL? {
         get {
-            return NSURL(string: String(format: "https://dev.malalaoshi.com/wechat/teacher/?teacherid=%d", id))
+            #if USE_PRD_SERVER
+                return NSURL(string: String(format: "https://www.malalaoshi.com/wechat/teacher/?teacherid=%d", id))
+            #elseif USE_STAGE_SERVER
+                return NSURL(string: String(format: "https://stage.malalaoshi.com/wechat/teacher/?teacherid=%d", id))
+            #else
+                return NSURL(string: String(format: "https://dev.malalaoshi.com/wechat/teacher/?teacherid=%d", id))
+            #endif
+            
         }
     }
     
