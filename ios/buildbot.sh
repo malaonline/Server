@@ -26,8 +26,8 @@ security list-keychains -s ${KEYCHAIN_PATH}
 buildPath="build/${scheme}.xcarchive"
 xctool -workspace mala-ios.xcworkspace -scheme ${scheme} -configuration ${configuration} archive -archivePath ${buildPath} -derivedDataPath ${derivedDataPath}
 
-python --version
-python replace_info.py
+#python --version
+#python replace_info.py
 
 # Export dev package
 cfg="dev"
