@@ -167,6 +167,7 @@ class TeacherView(BaseStaffView):
                     new_teacher.imported = True
                     new_teacher.status = models.Teacher.INTERVIEW_OK
                     new_teacher.region = region
+                    new_teacher.schools.add(school)
                     new_user.profile.save()
                     new_teacher.save()
             except Exception as ex:
