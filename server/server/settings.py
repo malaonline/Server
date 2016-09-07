@@ -140,6 +140,7 @@ DATABASES = {
 }
 
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+BROKER_URL = 'redis://localhost:6379/0'
 # 自动确认课时使用的间隔
 CELERY_AUTOCONFIRM_CLASSES_INTERVAL = 15
 
