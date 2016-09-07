@@ -1,6 +1,22 @@
 from ..settings import *
 
 # Jenkins单元测试专用的settings
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'maladb',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'TEST': {
+            'NAME': 'test_%s' % subprocess.check_output(
+                ['git', 'rev-parse', '--short', 'HEAD']).decode().strip(),
+        }
+    }
+}
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+BROKER_URL = 'redis://localhost:6379/0'
 
 # 关闭SMS短信发送功能
 FAKE_SMS_SERVER = True
