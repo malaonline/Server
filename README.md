@@ -1,4 +1,4 @@
-# Malalaoshi
+# Malalaoshi ![Building status](https://travis-ci.org/malaonline/malalaoshi.svg?branch=dev)
 
 ### Getting Started
 
