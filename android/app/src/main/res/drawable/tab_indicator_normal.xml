@@ -1,9 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <!-- 填充颜色 -->
-    <solid android:color="@color/color_transparent_000000_00"></solid>
-    <!-- 矩形的圆角半径 -->
-    <corners android:radius="0dp" />
-    <size
-        android:height="2dp" /><!-- 宽度和高度 -->
-</shape>

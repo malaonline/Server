@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Core</string>
-    <string name="seconds_count_down">%ds后获取</string>
-    <string name="api_host"></string>
-    <string name="build_type">debug</string>
-</resources>

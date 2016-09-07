@@ -1,6 +1,0 @@
-framework module Pods_parent_dev {
-  umbrella header "Pods-parent-dev-umbrella.h"
-
-  export *
-  module * { export * }
-}

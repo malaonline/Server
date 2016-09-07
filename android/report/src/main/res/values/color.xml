@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="report__gray_5e">#FF5E5E5E</color>
-    <color name="report__gray_divider">#FFDADADA</color>
-    <color name="report__txt_blue">#FF8DBEDE</color>
-    <color name="report__gray_bk">#F8FAFD</color>
-    <color name="report__green">#75CC97</color>
-</resources>
