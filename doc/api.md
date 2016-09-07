@@ -98,6 +98,7 @@ parameters:
 
 ```
 region=1450
+school=30
 grade=3
 subject=4
 tags=1+3+2

@@ -2825,3 +2825,20 @@ class Favorite(BaseModel):
     @staticmethod
     def isFavorite(parent, teacher):
         return Favorite.objects.filter(parent=parent, teacher=teacher).exists()
+
+
+class SchoolMaster(BaseModel):
+    user = models.OneToOneField(User)
+    school = models.ForeignKey(
+        School,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return '{name} school:{school}'.format(
+            name=self.name,
+            school=self.school
+        )

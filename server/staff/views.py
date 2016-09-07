@@ -113,6 +113,16 @@ class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super(BaseStaffView, self).dispatch(request, *args, **kwargs)
 
+    @property
+    def school_master(self):
+        # check the operate is school master or superuser
+        # will filter data if school master logged in
+        is_school_master = models.SchoolMaster.objects.filter(
+            user=self.request.user).exists()
+        if is_school_master:
+            return self.request.user.schoolmaster
+        return None
+
 
 class BaseStaffActionView(StaffRoleRequiredMixin, View):
     """
@@ -294,6 +304,8 @@ class TeacherUnpublishedView(BaseStaffView):
         page = self.request.GET.get('page') and self.request.GET.get('page').strip() or ''
         for_published = self.list_type == 'published'
         query_set = models.Teacher.objects.filter(status=models.Teacher.INTERVIEW_OK, published=for_published)
+        if self.school_master is not None:
+            query_set = query_set.filter(schools=self.school_master.school)
         if name:
             query_set = query_set.filter(name__icontains=name)
         if phone:
@@ -1287,8 +1299,12 @@ class StudentView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         page = self.request.GET.get('page')
-        parents = models.Parent.objects.all().order_by(
-            '-user__date_joined')
+        parents = models.Parent.objects.all()
+        # filter the data with order of the school
+        if self.school_master is not None:
+            parents = parents.filter(order__school=self.school_master.school)
+
+        parents = parents.order_by('-user__date_joined').distinct()
         count = parents.count()
 
         parents, pager = paginate(parents, page)
@@ -1305,10 +1321,6 @@ class StudentScheduleManageView(BaseStaffView):
     template_name = 'staff/student/schedule_manage.html'
 
     def get_context_data(self, **kwargs):
-        # kwargs['parents'] = models.Parent.objects.all 
-        #  kwargs['centers'] = models.School.objects.filter(center=True)
-        #  kwargs['grades'] = models.Grade.objects.all 
-        #  kwargs['subjects'] = models.Subject.objects.all
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
         parent_phone = self.request.GET.get('phone',None)
@@ -1318,6 +1330,9 @@ class StudentScheduleManageView(BaseStaffView):
 
         # deleted 代表已经释放和调课的, suspended 代表停课的, 这些都不显示
         query_set = models.TimeSlot.objects.filter(deleted=False, suspended=False)
+        # make sure to only show time slots of this school for school master
+        if self.school_master is not None:
+            query_set = query_set.filter(order__school=self.school_master.school)
         # 家长手机号, 精确匹配
         if parent_phone:
             query_set = query_set.filter(order__parent__user__profile__phone=parent_phone)
@@ -1375,6 +1390,10 @@ class StudentScheduleChangelogView(BaseStaffView):
         page = self.request.GET.get('page')
 
         query_set = models.TimeSlotChangeLog.objects.all()
+        # make sure to only show the changelog of this school for school master
+        if self.school_master is not None:
+            query_set = query_set.filter(
+                old_timeslot__order__school=self.school_master.school)
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
@@ -1408,7 +1427,7 @@ class StudentScheduleChangelogView(BaseStaffView):
         # 可用筛选条件数据集
         kwargs['types'] = models.TimeSlotChangeLog.TYPE_CHOICES
         # paginate
-        query_set, pager = paginate(query_set, page, 5)
+        query_set, pager = paginate(query_set, page)
         # 查询结果数据集
         kwargs['changelogs'] = query_set
         kwargs['pager'] = pager
@@ -1655,6 +1674,8 @@ class OrderReviewView(BaseStaffView):
         export = self.request.GET.get('export', None)
 
         query_set = models.Order.objects.filter()
+        if self.school_master is not None:
+            query_set = query_set.filter(school=self.school_master.school)
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
             query_set = query_set.filter(
@@ -2065,7 +2086,9 @@ class SchoolTimeslotView(BaseStaffView):
         searchName = self.request.GET.get('name', None)
         phone = self.request.GET.get('phone', None)
 
-        schools = models.School.objects.filter(opened=True);
+        schools = models.School.objects.all()
+        if self.school_master is not None:
+            schools = schools.filter(schoolmaster=self.school_master)
 
         timeslots = None
         stTime = None

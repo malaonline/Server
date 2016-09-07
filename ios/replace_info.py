@@ -11,7 +11,7 @@ infos['dev'] = '''  <key>ApplicationProperties</key>
     <key>CFBundleVersion</key>
     <string>1457</string>
     <key>SigningIdentity</key>
-    <string>iPhone Developer: Leon Sim (9QH8PEGKPV)</string>
+    <string>iPhone Developer</string>
   </dict>
 '''
 
@@ -26,7 +26,7 @@ infos['stage'] = '''  <key>ApplicationProperties</key>
     <key>CFBundleVersion</key>
     <string>1457</string>
     <key>SigningIdentity</key>
-    <string>iPhone Developer: Leon Sim (9QH8PEGKPV)</string>
+    <string>iPhone Developer</string>
   </dict>
 '''
 
@@ -41,7 +41,7 @@ infos['prd'] = '''  <key>ApplicationProperties</key>
     <key>CFBundleVersion</key>
     <string>1457</string>
     <key>SigningIdentity</key>
-    <string>iPhone Developer: Leon Sim (9QH8PEGKPV)</string>
+    <string>iPhone Developer</string>
   </dict>
 '''
 
