@@ -13,5 +13,5 @@ install:
 # command to run tests
 script:
   - python manage.py cold_test app.cold_tests.SimpleTest -v2
-  - python manage.py test --noinput --setting=server.custom_settings.ci_settings -v2
+  - python manage.py test --noinput --setting=server.custom_settings.travis_ci_settings -v2
 
