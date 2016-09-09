@@ -50,6 +50,7 @@ coverage.xml
 docs/_build/
 
 local_settings.py
+dev_deploy.key
 
 src
 .idea

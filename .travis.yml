@@ -14,4 +14,11 @@ install:
 script:
   - python manage.py cold_test app.cold_tests.SimpleTest -v2
   - python manage.py test --noinput --setting=server.custom_settings.travis_ci_settings -v2
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in dev_deploy.key.enc -out dev_deploy.key -d
+deploy:
+  provider: script
+  script: dev_deploy.sh
+  on:
+    branch: master
 
