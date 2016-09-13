@@ -1,17 +1,34 @@
 language: python
+cache: pip
 python:
   - "3.4"
 services:
   - redis-server
   - postgresql
-# command to install dependencies
 before_install:
   - cd server/
-  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in local_settings.py.enc -out server/local_settings.py -d
 install:
   - pip install -r pip_install.txt
-# command to run tests
+before_script:
+  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in local_settings.py.enc -out server/local_settings.py -d
 script:
   - python manage.py cold_test app.cold_tests.SimpleTest -v2
   - python manage.py test --noinput --setting=server.custom_settings.travis_ci_settings -v2
-
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in dev_deploy.key.enc -out dev_deploy.key -d
+  - chmod 600 dev_deploy.key
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: ./dev_deploy.sh
+  on:
+    repo: malaonline/Server
+    branch: master
+after_deploy:
+  - rm -f dev_deploy.key
+after_script:
+  - rm -f server/local_settings.py
+notifications:
+  slack:
+    on_failure: [change]
+    secure: TNcgoOimvElwNA8PMlfF4x416xDumldqz4NWr91hH+G9zJtDr7XjQGs2rQrlhUfL7Tgq4JS8o1SXUxB3c07K2xbK978697fV+aDEVHC88SNju/Ern4kkhTzWXINS2Z6wI4AYg+gPDjelfTBk5CJHOosD2LeKtSOKzmujL58LKcPCDTPAgwwIT6uHv4RM0byZoljIBxwB83Em/FTHRAQx0NffxYER1W14+2uHpGUbzdluKV7tsSsp6dRwP/QjbU9NvvjPfXVJo2LEu6mRqfBIMN5Yba7qOm9IQkzxK7uswFo4HeCF72tCZWxqoO1nzUJAG8BlWtQJ6Epu3DT6Dn34LOclIaGfXkWa6bsEfF6+8860JVA2sUPRTxNk4kW0yxS5emlVcq9YaHsLBZtitpt1Cj2wie5LDswsLakk9mMxLUYxUavVdXe552x1XxihrGcZXnVL+KgTxCHeCHDlmZvlC8iEM3SolUT0m7oLjou7+QS6s26PIqnbEcOak6takh913Q1VrgOSba7CnPVtDsbWq0sMQUa7BFmq679cqO3in7Yu3uE4J3mJpx1K6BR7scKXbVMvKszbpy2awsdTgBhu0Mrb0F5hfvpIwlRXCyTUwcQfJA7IeIDyGiAqgNtgyIi1nKOJ1OeX8s3FlBRPl6XlCXPhu32LN39M2Ez8MHEo3S4=
