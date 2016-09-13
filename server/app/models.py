@@ -2842,3 +2842,39 @@ class SchoolMaster(BaseModel):
             name=self.name,
             school=self.school
         )
+
+
+class SchoolAccount(BaseModel):
+    school = models.OneToOneField(School)
+    account_name = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+    account_number = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+    bank_name = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+    )
+    bank_address = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+    swift_code = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return '{account_name} {account_number} school:{school}'.format(
+            account_name=self.account_name,
+            account_number=self.account_number,
+            school=self.school,
+        )
