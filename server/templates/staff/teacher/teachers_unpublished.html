@@ -12,10 +12,10 @@
 {% endblock %}
 
 {% block content %}
-    <form name="query_form" class="form-inline">
-        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />
-        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />
-        所在地区
+{#    <form name="query_form" class="form-inline">#}
+{#        姓名 <input type="text" name="name" value="{{ query_data.name }}" size="10" />#}
+{#        手机号 <input type="text" name="phone" value="{{ query_data.phone }}" size="12" />#}
+{#        所在地区#}
 {#        <select name="province">#}
 {#            <option value="">全部省</option>#}
 {#            {% for province in provinces %}#}
@@ -28,85 +28,85 @@
 {#        <select name="district">#}
 {#            <option value="">全部区</option>#}
 {#        </select>#}
-        <select name="region">
-            <option value="">全部</option>
-            {% for region in region_list %}
-                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>
-            {% endfor %}
-        </select>
-        年级
-        <select name="grade">
-            <option value="">全部</option>
-            {% for grade in grades %}
-                <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %} selected="selected"{% endif %}>{{ grade.name }}</option>
-            {% endfor %}
-        </select>
-        科目
-        <select name="subject">
-            <option value="">全部</option>
-            {% for subject in subjects %}
-                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %} selected="selected"{% endif %}>{{ subject.name }}</option>
-            {% endfor %}
-        </select>
-        级别
-        <select name="level">
-            <option value="">全部</option>
-            {% for level in levels %}
-                <option value="{{ level.id }}" {% if level.id|stringformat:"i" == query_data.level %} selected="selected"{% endif %}>{{ level.name }}</option>
-            {% endfor %}
-        </select>
+{#        <select name="region">#}
+{#            <option value="">全部</option>#}
+{#            {% for region in region_list %}#}
+{#                <option value="{{ region.id }}" {% if region.id|stringformat:"i" == query_data.region %} selected="selected"{% endif %}>{{ region.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        年级#}
+{#        <select name="grade">#}
+{#            <option value="">全部</option>#}
+{#            {% for grade in grades %}#}
+{#                <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %} selected="selected"{% endif %}>{{ grade.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        科目#}
+{#        <select name="subject">#}
+{#            <option value="">全部</option>#}
+{#            {% for subject in subjects %}#}
+{#                <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %} selected="selected"{% endif %}>{{ subject.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{#        级别#}
+{#        <select name="level">#}
+{#            <option value="">全部</option>#}
+{#            {% for level in levels %}#}
+{#                <option value="{{ level.id }}" {% if level.id|stringformat:"i" == query_data.level %} selected="selected"{% endif %}>{{ level.name }}</option>#}
+{#            {% endfor %}#}
+{#        </select>#}
+{##}
+{#        <input type="submit" value="查询"/>#}
+{#    </form>#}
 
-        <input type="submit" value="查询"/>
-    </form>
-
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped text-center">
         <tr>
-            <th class="text-center">老师姓名</th>
+            <th class="text-center">姓名</th>
             <th class="text-center">手机号</th>
-            <th class="text-center">照片</th>
-            <th class="text-center">性别</th>
-            <th class="text-center">教龄</th>
-            <th class="text-center">所在地区</th>
-            <th class="text-center">授课中心</th>
-            <th class="text-center">授课时间</th>
-            <th class="text-center">授课科目</th>
-            <th class="text-center">星级</th>
-            <th class="text-center">授课年级</th>
-            <th class="text-center">课时单价</th>
-            <th class="text-center">教学经验</th>
-            <th class="text-center">专业技能</th>
-            <th class="text-center">互动能力</th>
-            <th class="text-center">风格标记</th>
-            <th class="text-center">提分榜</th>
-            <th class="text-center">视频</th>
-            <th class="text-center">介绍语音</th>
-            <th class="text-center">教学成果</th>
-            <th class="text-center">证书内容</th>
+{#            <th class="text-center">照片</th>#}
+{#            <th class="text-center">性别</th>#}
+{#            <th class="text-center">教龄</th>#}
+{#            <th class="text-center">所在地区</th>#}
+{#            <th class="text-center">授课中心</th>#}
+{#            <th class="text-center">授课时间</th>#}
+            <th class="text-center">科目</th>
+{#            <th class="text-center">星级</th>#}
+{#            <th class="text-center">授课年级</th>#}
+{#            <th class="text-center">课时单价</th>#}
+{#            <th class="text-center">教学经验</th>#}
+{#            <th class="text-center">专业技能</th>#}
+{#            <th class="text-center">互动能力</th>#}
+{#            <th class="text-center">风格标记</th>#}
+{#            <th class="text-center">提分榜</th>#}
+{#            <th class="text-center">视频</th>#}
+{#            <th class="text-center">介绍语音</th>#}
+{#            <th class="text-center">教学成果</th>#}
+{#            <th class="text-center">证书内容</th>#}
             <th class="text-center">操作</th>
         </tr>
         {% for teacher in teachers %}
             <tr teacherId="{{ teacher.id }}">
                 <td field="name">{# 老师姓名 #} {{ teacher.name }}</td>
                 <td>{# 手机号 #} {{ teacher.user.profile.phone }}</td>
-                <td>{# 照片 #} {% if teacher.user.profile.avatar %}<a data-action="show-avatar" url="{{ teacher.user.profile.avatar.url }}" href="javascript:void(0)">查看</a>{% else %}未填{% endif %} </td>
-                <td>{# 性别 #} {{ teacher.user.profile.get_gender_display }}</td>
-                <td>{# 教龄 #} {{ teacher.teaching_age }}</td>
-                <td>{# 所在地区 #} {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>
-                <td>{# 授课中心 #} <a data-action="show-schools" href="javascript:void(0)">查看</a> </td>
-                <td>{# 授课时间 #} <a data-action="{% if list_type == 'published' %}show-courseSchedule{% else %}show-weeklySchedule{% endif %}" href="javascript:void(0)">查看</a> </td>
+{#                <td>{# 照片  {% if teacher.user.profile.avatar %}<a data-action="show-avatar" url="{{ teacher.user.profile.avatar.url }}" href="javascript:void(0)">查看</a>{% else %}未填{% endif %} </td>#}
+{#                <td>{# 性别  {{ teacher.user.profile.get_gender_display }}</td>#}
+{#                <td>{# 教龄  {{ teacher.teaching_age }}</td>#}
+{#                <td>{# 所在地区  {% if teacher.region %}{{ teacher.region.full_name }}{% else %}未填{% endif %}</td>#}
+{#                <td>{# 授课中心  <a data-action="show-schools" href="javascript:void(0)">查看</a> </td>#}
+{#                <td>{# 授课时间  <a data-action="{% if list_type == 'published' %}show-courseSchedule{% else %}show-weeklySchedule{% endif %}" href="javascript:void(0)">查看</a> </td>#}
                 <td>{# 授课科目 #} {% if teacher.subject %}{{ teacher.subject }}{% else %}未填{% endif %} </td>
-                <td>{# 星级 #} {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>
-                <td>{# 授课年级 #} {% if teacher.grades %} {% for g in teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>
-                <td>{# 课时单价 #} {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}</td>
-                <td>{# 教学经验 #} {% if teacher.experience %} {{ teacher.experience }}分{% else %}未填{% endif %} </td>
-                <td>{# 专业技能 #} {% if teacher.profession %} {{ teacher.profession }}分{% else %}未填{% endif %} </td>
-                <td>{# 互动能力 #} {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>
-                <td>{# 风格 #} {% if teacher.tags.all %}{% for t in teacher.tags.all %} {{ t.name }}<br>{% endfor %} {% else %}未填{% endif %} </td>
-                <td>{# 提分榜 #} <a data-action="show-highscores" href="javascript:void(0)">查看</a> </td>
-                <td>{# 视频 #} {% if teacher.video %}<a data-action="show-video" url="{{ teacher.video.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>
-                <td>{# 介绍语音 #} {% if teacher.audio %}<a data-action="show-audio" url="{{ teacher.audio.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>
-                <td>{# 教学成果 #} <a data-action="show-achievements" href="javascript:void(0)">查看</a> </td>
-                <td>{# 证书内容 #} {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>
+{#                <td>{# 星级  {% if teacher.level %}{{ teacher.level }}{% else %}未填{% endif %} </td>#}
+{#                <td>{# 授课年级  {% if teacher.grades %} {% for g in teacher.grades %} {{ g.name }}<br>{% endfor %} {% else %}未填{% endif %}</td>#}
+{#                <td>{# 课时单价  {% if teacher.min_price %}{{ teacher.min_price|money_format:'/' }}{% endif %} - {% if teacher.max_price %}{{ teacher.max_price|money_format:'/' }}{% endif %}</td>#}
+{#                <td>{# 教学经验  {% if teacher.experience %} {{ teacher.experience }}分{% else %}未填{% endif %} </td>#}
+{#                <td>{# 专业技能  {% if teacher.profession %} {{ teacher.profession }}分{% else %}未填{% endif %} </td>#}
+{#                <td>{# 互动能力  {% if teacher.interaction %} {{ teacher.interaction }}分{% else %}未填{% endif %} </td>#}
+{#                <td>{# 风格  {% if teacher.tags.all %}{% for t in teacher.tags.all %} {{ t.name }}<br>{% endfor %} {% else %}未填{% endif %} </td>#}
+{#                <td>{# 提分榜  <a data-action="show-highscores" href="javascript:void(0)">查看</a> </td>#}
+{#                <td>{# 视频  {% if teacher.video %}<a data-action="show-video" url="{{ teacher.video.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>#}
+{#                <td>{# 介绍语音  {% if teacher.audio %}<a data-action="show-audio" url="{{ teacher.audio.url }}" href="javascript:void(0)">播放</a>{% else %}未传{% endif %} </td>#}
+{#                <td>{# 教学成果  <a data-action="show-achievements" href="javascript:void(0)">查看</a> </td>#}
+{#                <td>{# 证书内容  {{ teacher.cert_verified_count }}/{% if teacher.is_english_teacher %}5{% else %}4{% endif %} </td>#}
                 <td field="action">{# 操作 #}
                     {% if list_type == 'published' %}
                         <a data-action="to-edit" href="{% url 'staff:teachers_published_edit' tid=teacher.id %}">编辑</a>
