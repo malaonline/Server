@@ -2924,17 +2924,13 @@ class SchoolIncomeRecord(BaseModel):
     amount = models.PositiveIntegerField(default=0)
     # 备注
     remark = models.CharField(max_length=300, null=True, blank=True)
-    # 收入记录日期区间 (start -> end)
-    start_date = models.DateTimeField(null=True, blank=True)
-    end_date = models.DateTimeField(null=True, blank=True)
-
+    # 收入时间
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
-        return '%s (%s ~ %s) -> %d' % (
+        return '%s %s -> %d' % (
                 self.school_account.school,
-                self.start_date and localtime(self.start_date).strftime('%Y-%m-%d') or '',
-                self.end_date and localtime(self.end_date).strftime('%Y-%m-%d') or '',
+                self.created_at and localtime(self.created_at).strftime('%Y-%m-%d') or '',
                 self.amount)
