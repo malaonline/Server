@@ -2878,3 +2878,26 @@ class SchoolAccount(BaseModel):
             account_number=self.account_number,
             school=self.school,
         )
+
+
+class PriceConfig(BaseModel):
+    '''
+    价格设置表(from 2016-09-19, 旧表为Price待删除)
+    主要改动: 1关联到校区, 2根据课时区间阶梯定价
+    '''
+    school = models.ForeignKey(School, null=True, blank=True)
+    level = models.ForeignKey(Level)
+    grade = models.ForeignKey(Grade, null=True, blank=True)
+    # 课时数量区间 [min, max]
+    min_hours = models.PositiveIntegerField()
+    max_hours = models.PositiveIntegerField()
+    # 单位是分
+    price = models.PositiveIntegerField()
+    # 软删除标识为
+    deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '%s,%s,%s (%d ~ %d) => %d' % (
+                self.school, self.level, self.grade, self.min_hours, self.max_hours, self.price)
