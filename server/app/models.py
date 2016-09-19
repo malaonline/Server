@@ -2901,3 +2901,40 @@ class PriceConfig(BaseModel):
     def __str__(self):
         return '%s,%s,%s (%d ~ %d) => %d' % (
                 self.school, self.level, self.grade, self.min_hours, self.max_hours, self.price)
+
+
+class SchoolIncomeRecord(BaseModel):
+    '''
+    学校收入记录
+    '''
+    # 最后审核状态
+    PENDING = 'p'
+    APPROVED = 'a'
+    REJECTED = 'r'
+    STATUS_CHOICES = (
+        (PENDING, '待处理'),
+        (APPROVED, '已通过'),
+        (REJECTED, '被驳回')
+    )
+
+    school_account = models.ForeignKey(SchoolAccount)
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PENDING)
+
+    # 收入金额 (单位是分)
+    amount = models.PositiveIntegerField(default=0)
+    # 备注
+    remark = models.CharField(max_length=300, null=True, blank=True)
+    # 收入记录日期区间 (start -> end)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+    last_updated_by = models.ForeignKey(User, null=True, blank=True)
+
+    def __str__(self):
+        return '%s (%s ~ %s) -> %d' % (
+                self.school_account.school,
+                self.start_date and localtime(self.start_date).strftime('%Y-%m-%d') or '',
+                self.end_date and localtime(self.end_date).strftime('%Y-%m-%d') or '',
+                self.amount)
