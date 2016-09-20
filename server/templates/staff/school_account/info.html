@@ -1,0 +1,66 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}校区账户{% endblock %}
+
+{% block addition_header %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/school_account/info.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    {% if is_school_master %}
+        <div id="accountBalance">
+            账户金额: {{ account_balance|money_format:'/' }}元
+        </div>
+        <hr>
+        <div id="accountInfo">
+            <form id="accountInfoEditForm" class="form-horizontal" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="account_name" class="col-sm-3 col-md-3 col-lg-1 control-label">开户名称</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="account_name" name="account_name"
+                               value="{% if school_account %}{{ school_account.account_name }}{% endif %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="account_number" class="col-sm-3 col-md-3 col-lg-1 control-label">账户号码</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="account_number" name="account_number"
+                               value="{% if school_account %}{{ school_account.account_number }}{% endif %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bank_name" class="col-sm-3 col-md-3 col-lg-1 control-label">银行名称</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="bank_name" name="bank_name"
+                               value="{% if school_account %}{{ school_account.bank_name }}{% endif %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bank_address" class="col-sm-3 col-md-3 col-lg-1 control-label">银行地址</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="bank_address" name="bank_address"
+                               value="{% if school_account %}{{ school_account.bank_address }}{% endif %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="swift_code" class="col-sm-3 col-md-3 col-lg-1 control-label">SWIFT CODE</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="swift_code" name="swift_code"
+                               value="{% if school_account %}{{ school_account.swift_code }}{% endif %}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="submitBtn" class="btn btn-default submit_button">提交</button>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        您不是校长, 没有信息可以显示
+    {% endif %}
+{% endblock %}
