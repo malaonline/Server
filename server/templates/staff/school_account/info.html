@@ -8,6 +8,7 @@
 {% block addition_header %}
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'staff/js/school_account/info.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -55,7 +56,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-default submit_button">提交</button>
+                    <button type="button" id="submitBtn" class="btn btn-default submit_button">提交</button>
                 </div>
             </form>
         </div>

@@ -2579,3 +2579,32 @@ class SchoolAccountInfoView(BaseStaffView):
         kwargs['school_account'] = school_account
 
         return super(SchoolAccountInfoView, self).get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        account_name = request.POST.get('account_name')
+        account_number = request.POST.get('account_number')
+        bank_name = request.POST.get('bank_name')
+        bank_address = request.POST.get('bank_address')
+        swift_code = request.POST.get('swift_code')
+
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        if not is_school_master:
+            return JsonResponse({'ok': False, 'msg': '您不是校长, 不需要操作', 'code': 1})
+
+        school_account = None
+        if hasattr(school_master.school, 'schoolaccount'):
+            # return JsonResponse({'ok': False, 'msg': '填写过后不允许修改, 若要修改请联系管理员', 'code': 2})
+            school_account = school_master.school.schoolaccount
+        else:
+            school_account = models.SchoolAccount(school=school_master.school)
+
+        school_account.account_name = account_name
+        school_account.account_number = account_number
+        school_account.bank_name = bank_name
+        school_account.bank_address = bank_address
+        school_account.swift_code = swift_code
+        school_account.save()
+
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
