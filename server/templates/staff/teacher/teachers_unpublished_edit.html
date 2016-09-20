@@ -85,16 +85,16 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在学校</label>
-                <div class="col-sm-9">
-                    <select name="schools" multiple="multiple" size="4" style="width: 300px;">
-                        {% for school in region_schools %}
-                            <option value="{{ school.id }}" {% if school in teacher_schools %} selected="selected"{% endif %}>{{ school.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
+{#            <div class="form-group">#}
+{#                <label for="region" class="col-sm-3 col-md-3 col-lg-2 control-label">所在学校</label>#}
+{#                <div class="col-sm-9">#}
+{#                    <select name="schools" multiple="multiple" size="4" style="width: 300px;">#}
+{#                        {% for school in region_schools %}#}
+{#                            <option value="{{ school.id }}" {% if school in teacher_schools %} selected="selected"{% endif %}>{{ school.name }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                </div>#}
+{#            </div>#}
         </div>
         <div class="col-sm-6">
             <div class="form-group">
