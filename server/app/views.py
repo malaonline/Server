@@ -945,7 +945,7 @@ class OrderListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
-                  'school', 'grade', 'subject', 'hours', 'status',
+                  'school_id', 'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'evaluated', 'is_teacher_published')
 
 
@@ -961,7 +961,7 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
-                  'school', 'grade', 'subject', 'hours', 'status',
+                  'school_id', 'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'created_at', 'paid_at',
                   'charge_channel', 'evaluated', 'is_timeslot_allocated',
                   'is_teacher_published', 'timeslots')
