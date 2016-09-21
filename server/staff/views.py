@@ -441,13 +441,13 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 teacher.region = None
             else:
                 teacher.region_id = region
-            school_ids = request.POST.getlist('schools')
-            teacher.schools.clear()
-            if school_ids and len(school_ids) > 0:
-                schools_qset = models.School.objects.filter(id__in=school_ids)
-                for sch in schools_qset:
-                    teacher.schools.add(sch)
-                teacher.save()
+            # school_ids = request.POST.getlist('schools')
+            # teacher.schools.clear()
+            # if school_ids and len(school_ids) > 0:
+            #     schools_qset = models.School.objects.filter(id__in=school_ids)
+            #     for sch in schools_qset:
+            #         teacher.schools.add(sch)
+            #     teacher.save()
             teacher.teaching_age = parseInt(request.POST.get('teaching_age'), 0)
             # 更改成带有日志的模式
             new_level = models.Level.objects.get(pk=parseInt(request.POST.get('level'), 1))
