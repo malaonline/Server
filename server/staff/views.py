@@ -2574,6 +2574,7 @@ class SchoolPriceConfigView(BaseStaffView):
         level_id = self.request.GET.get('level_id')
         if not level_id:
             level_id = "1" # 默认级别
+        kwargs['query_data']['level_id'] = int(level_id)
         prices = models.PriceConfig.objects.filter(
             school=school_master.school, level_id=level_id, deleted=False)
         self.build_prices_table_data(kwargs, prices, all_grades)

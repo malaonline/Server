@@ -31,6 +31,19 @@ $(function(){
         $btnEle.addClass('hide');
     };
 
+    if ($('button.btn-info').length==0) {
+        $('#queryHint').text('请选择级别');
+    }
+
+    $('button[data-action=set-level]').click(function(){
+        var $btn = $(this);
+        if ($btn.hasClass('btn-info')) {
+            return;
+        }
+        var level_id = $btn.attr('levelId');
+        location.search = 'level_id='+level_id;
+    });
+
     $('td.one, td.all').dblclick(function(){
         var $td = $(this);
         showInput($td);

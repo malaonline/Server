@@ -15,6 +15,11 @@
 
 {% block content %}
     <form name="query_form" class="head-form form-inline">
+        {% for level in level_list %}
+            <button type="button" class="btn btn-default {% if query_data.level_id == level.id %} btn-info{% endif %}"
+                    data-action="set-level" levelId="{{ level.id }}">{{ level.name }}</button>
+        {% endfor %}
+        <span id="queryHint"></span>
     </form>
 
     <table class="table table-bordered table-striped">
