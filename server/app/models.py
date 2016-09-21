@@ -1974,6 +1974,9 @@ class Order(BaseModel):
         self.status = Order.CANCELED
         self.save()
 
+    def school_id(self):
+        return self.school.id
+
 
 class OrderRefundRecord(BaseModel):
     status = models.CharField(max_length=2,
