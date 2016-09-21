@@ -2551,6 +2551,88 @@ class LevelSalaryConfigView(BaseStaffView):
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
 
 
+class SchoolPriceConfigView(BaseStaffView):
+    """
+    校区的价格设置界面 (from 2016年9月21日, 区别LevelPriceConfigView, 那个View对应到地区, 这个对应到学校)
+    """
+    template_name = 'staff/school/price_cfg.html'
+
+    def get_context_data(self, **kwargs):
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        kwargs['is_school_master'] = is_school_master
+        if not is_school_master:
+            return super(SchoolPriceConfigView, self).get_context_data(**kwargs)
+        # 基础数据
+        all_levels= models.Level.objects.all()
+        all_grades = models.Grade.objects.filter(leaf=True)
+        kwargs['level_list'] = all_levels
+        kwargs['grade_list'] = all_grades
+        # 把查询参数数据放到kwargs['query_data'], 以便template回显
+        kwargs['query_data'] = self.request.GET.dict()
+        level_id = self.request.GET.get('level_id')
+        if not level_id:
+            level_id = "1" # 默认级别
+        prices = models.PriceConfig.objects.filter(
+            school=school_master.school, level_id=level_id, deleted=False)
+        self.build_prices_table_data(kwargs, prices, all_grades)
+        return super(SchoolPriceConfigView, self).get_context_data(**kwargs)
+
+    def build_prices_table_data(self, context, prices, grades):
+        if not prices or not grades:
+            context['price_range_list'] = []
+            return
+        range_list = []
+        range_heap = {}
+        price_heap = {}
+        for p_c in prices:
+            range_key = '%s~%s' % (p_c.min_hours, p_c.max_hours)
+            cur_range = range_heap.get(range_key)
+            if not cur_range:
+                cur_range = {'min_hours': p_c.min_hours, 'max_hours': p_c.max_hours, 'grade_price_map':{}}
+                range_heap[range_key] = cur_range
+                range_list.append(cur_range)
+            price_heap[p_c.pk] = p_c.price
+            cur_range['grade_price_map'][p_c.grade_id] = p_c.pk
+        # 排序
+        range_list.sort(key=lambda x: x['min_hours'])
+        # 再次整理年级
+        for range1 in range_list:
+            grade_price_map = range1.pop('grade_price_map')
+            grade_list = []
+            for g in grades:
+                pk = grade_price_map.get(g.id) # price_config item id
+                cur_grade = {'id': g.id, 'name': g.name, 'pk': pk, 'price': pk and price_heap.get(pk)}
+                grade_list.append(cur_grade)
+            grade_list.sort(key=lambda x: x['id'])
+            range1['grades'] = grade_list
+        context['price_range_list'] = range_list
+
+    def post(self, request):
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        if not is_school_master:
+            return JsonResponse({'ok': False, 'msg': '您不是校长, 不需要操作', 'code': 1})
+        # 获取参数
+        pk = request.POST.get('pk')
+        price = request.POST.get('price')
+        try:
+            new_price = float(price)
+        except:
+            new_price = -1
+        if new_price < 0:
+            return JsonResponse({'ok': False, 'msg': '价格范围错误', 'code': 2})
+        cur_price = models.PriceConfig.objects.get(pk=pk)
+        # 判断是否是该学校数据
+        if cur_price.school_id != school_master.school_id:
+            return JsonResponse({'ok': False, 'msg': '您不是该学校校长, 没有权限操作此项数据', 'code': 3})
+        cur_price.price = int(new_price * 100)
+        cur_price.save()
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
+
 class SchoolAccountInfoView(BaseStaffView):
     """
     学校账号信息编辑和显示页面

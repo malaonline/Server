@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^level/price/config/$', views.LevelPriceConfigView.as_view(), name="level_price_cfg"),
     url(r'^level/salary/config/$', views.LevelSalaryConfigView.as_view(), name="level_salary_cfg"),
     url(r'^school/account/info/$', views.SchoolAccountInfoView.as_view(), name="school_account_info"),
+    url(r'^school/price/config/$', views.SchoolPriceConfigView.as_view(), name="school_price_cfg"),
 ]

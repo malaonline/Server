@@ -1,0 +1,50 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}价格设置{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/level/levels.less'|compile %}">
+{% endblock %}
+
+{% block addition_js %}
+    <script src="{% static 'staff/js/school/price_cfg.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="head-form form-inline">
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th width="" class="text-center type_auto">区间\年级</th>
+            {% for grade in grade_list %}
+                <th width="" class="text-center type_small" gradeId="{{ grade.id }}">{{ grade.name }}</th>
+            {% endfor %}
+        </tr>
+        {% for range in price_range_list %}
+            <tr>
+                <td>{{ range.min_hours }} ~ {{ range.max_hours }}</td>
+                {% for grade in range.grades %}
+                    <td class="one" gradeId="{{ grade.id }}" priceId="{{ grade.pk }}">
+                        {% if not grade.price %}
+                            -
+                        {% else %}
+                            <input class="price-in hide" type="text" dest="price">
+                            <span class="price-show">{{grade.price|money_format:'/' }}</span>
+                            <span class="unit-show">元/小时</span>
+                            <div class="btns hide">
+                                <a class="cancel hide">取消</a>&nbsp;&nbsp;<a class="save hide">确定</a>
+                            </div>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <p class="small">
+    双击修改, 取消按钮或ESC键取消。
+    </p>
+{% endblock %}
