@@ -1546,11 +1546,10 @@ class FavoriteViewSet(ParentBasedMixin,
         return FavoriteSerializer
 
 
-class StepPrices(View):
-    def get(self, request):
-        school = get_object_or_404(models.School, pk=request.GET.get('school'))
-        teacher = get_object_or_404(
-            models.Teacher, pk=request.GET.get('teacher'))
+class TeacherSchoolPrices(View):
+    def get(self, request, teacher_id, school_id):
+        school = get_object_or_404(models.School, pk=school_id)
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         # no need grade, this will return all grades prices
         prices = models.PriceConfig.objects.filter(
             school=school,

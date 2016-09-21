@@ -1130,18 +1130,7 @@ HTTP Status Code 200
 ### Get Teacher Prices
 
 ```
-GET /api/v1/step_prices/
-```
-
-parameters:
-```
-school=1
-teacher=1
-```
-
-header data:
-```
-HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+GET /api/v1/teacher/{tid}/school/{sid}/prices/
 ```
 
 result:
