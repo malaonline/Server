@@ -55,5 +55,6 @@ urlpatterns = [
         name="study_report_subject"),
     # url(r'^api/v1/study_report/(?P<subject>\w+)/(?P<category>\w+)(\/?)$', views.StudyReportView.as_view(),
     #     name="study_report_category"),
+    url(r'^api/v1/step_prices', views.StepPrices.as_view(), name='step_prices'),
     url(r'^api/v1/', include(router.urls)),
 ]
