@@ -27,11 +27,11 @@ celery_app.conf.update(
         # 需要执行时指定队列 add.apply_async((2, 2), queue='hipri')
         },
     CELERYBEAT_SCHEDULE={
-        "confirm-classes":{
-            "task":"app.tasks.autoConfirmClasses",
-            "schedule":timedelta(
-                seconds=15),
-            },
+        # "confirm-classes":{
+        #     "task":"app.tasks.autoConfirmClasses",
+        #     "schedule":timedelta(
+        #         seconds=15),
+        #     },
         "remind-classes": {
             "task": "app.tasks.autoRemindClasses",
             "schedule": timedelta(
