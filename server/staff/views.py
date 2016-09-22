@@ -2674,7 +2674,7 @@ class SchoolAccountInfoView(BaseStaffView):
             )["created_at__max"] or None
         query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
         if max_time:
-            query_set = query_set.filter(paid_at__gte=max_time)
+            query_set = query_set.filter(paid_at__gt=max_time)
         # 计算校区账户余额
         account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
         kwargs['account_balance'] = account_balance
@@ -2742,7 +2742,7 @@ class SchoolIncomeRecordView(BaseStaffView):
             )["created_at__max"] or None
         query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
         if max_time:
-            query_set = query_set.filter(paid_at__gte=max_time)
+            query_set = query_set.filter(paid_at__gt=max_time)
         # 计算校区账户余额
         account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
         kwargs['account_balance'] = account_balance
