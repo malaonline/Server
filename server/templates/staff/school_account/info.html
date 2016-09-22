@@ -13,8 +13,17 @@
 
 {% block content %}
     {% if is_school_master %}
-        <div id="accountBalance">
-            账户金额: {{ account_balance|money_format:'/' }}元
+        <div class="row" id="accountBalance">
+            <div class="float-left col-sm-6">
+                <h3 class="text-primary">账户金额: {{ account_balance|money_format:'/' }}元</h3>
+                <h5 class="text-warning">注: 每周二自动提现到银行账号</h5>
+            </div>
+            <div class="float-right col-sm-6">
+                <br>
+                {% if school_account %}
+                    <a href="{% url 'staff:school_income_records' %}">收入记录</a>
+                {% endif %}
+            </div>
         </div>
         <hr>
         <div id="accountInfo">

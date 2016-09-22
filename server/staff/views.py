@@ -14,7 +14,7 @@ from django.views.generic import View, TemplateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db import IntegrityError, transaction
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Max
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
 from django.contrib.auth.mixins import AccessMixin
@@ -2640,6 +2640,15 @@ class SchoolAccountInfoView(BaseStaffView):
     """
     template_name = 'staff/school_account/info.html'
 
+    def get(self, request, *args, **kwargs):
+        if not request.GET.get('show') == 'true':
+            # 检查是否已经配置过校区账号
+            school_master = self.school_master
+            school = school_master and school_master.school
+            if school and hasattr(school, 'schoolaccount'):
+                return redirect('staff:school_income_records')
+        return super(SchoolAccountInfoView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         # 检查是否是校长
         school_master = self.school_master
@@ -2651,15 +2660,24 @@ class SchoolAccountInfoView(BaseStaffView):
         school = school_master.school
         kwargs['school_master'] = school_master
         kwargs['school'] = school
-        # TODO: TBD
-        account_balance = models.Order.objects.filter(school=school, status=models.Order.PAID).aggregate(
-                        Sum('to_pay'))["to_pay__sum"] or 0
-        kwargs['account_balance'] = account_balance
 
         school_account = None
         if hasattr(school, 'schoolaccount'):
             school_account = school.schoolaccount
         kwargs['school_account'] = school_account
+
+        # 查询最后转账日期
+        max_time = None
+        if school_account:
+            max_time = models.SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
+                Max('created_at')
+            )["created_at__max"] or None
+        query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
+        if max_time:
+            query_set = query_set.filter(paid_at__gt=max_time)
+        # 计算校区账户余额
+        account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
+        kwargs['account_balance'] = account_balance
 
         return super(SchoolAccountInfoView, self).get_context_data(**kwargs)
 
@@ -2691,3 +2709,50 @@ class SchoolAccountInfoView(BaseStaffView):
         school_account.save()
 
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
+
+class SchoolIncomeRecordView(BaseStaffView):
+    """
+    学校账号信息编辑和显示页面
+    """
+    template_name = 'staff/school_account/records.html'
+
+    def get_context_data(self, **kwargs):
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        kwargs['is_school_master'] = is_school_master
+        if not is_school_master:
+            return super(SchoolIncomeRecordView, self).get_context_data(**kwargs)
+        # 获取学校属性, 该校区订单收入, 以及银行账号信息
+        school = school_master.school
+        kwargs['school_master'] = school_master
+        kwargs['school'] = school
+
+        school_account = None
+        if hasattr(school, 'schoolaccount'):
+            school_account = school.schoolaccount
+        kwargs['school_account'] = school_account
+
+        # 查询最后转账日期
+        max_time = None
+        if school_account:
+            max_time = models.SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
+                Max('created_at')
+            )["created_at__max"] or None
+        query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
+        if max_time:
+            query_set = query_set.filter(paid_at__gt=max_time)
+        # 计算校区账户余额
+        account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
+        kwargs['account_balance'] = account_balance
+
+        if school_account:
+            # paginate
+            page = self.request.GET.get('page')
+            records = models.SchoolIncomeRecord.objects.filter(school_account=school_account)
+            records, pager = paginate(records, page)
+            kwargs['records'] = records
+            kwargs['pager'] = pager
+
+        return super(SchoolIncomeRecordView, self).get_context_data(**kwargs)

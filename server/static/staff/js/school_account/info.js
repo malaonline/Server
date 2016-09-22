@@ -20,4 +20,6 @@ $(function(){
             alert(errMsg + DEFAULT_ERR_MSG);
         });
     });
+
+    paginationInit();
 });
