@@ -1126,3 +1126,75 @@ HTTP Status Code 200
     "ok": true
 }
 ```
+
+### Get Teacher Prices
+
+```
+GET /api/v1/teacher/{tid}/school/{sid}/prices/
+```
+
+result:
+
+HTTP Status Code 200
+```
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "grade": 2,
+            "grade_name": "一年级",
+            "prices": [
+                {
+                    "min_hours": 1,
+                    "max_hours": 10,
+                    "price": 17000
+                },
+                {
+                    "min_hours": 11,
+                    "max_hours": 20,
+                    "price": 16500
+                },
+                {
+                    "min_hours": 21,
+                    "max_hours": 50,
+                    "price": 16000
+                },
+                {
+                    "min_hours": 51,
+                    "max_hours": 100,
+                    "price": 15000
+                }
+            ]
+        },
+        {
+            "grade": 3,
+            "grade_name": "二年级",
+            "prices": [
+                {
+                    "min_hours": 1,
+                    "max_hours": 10,
+                    "price": 17000
+                },
+                {
+                    "min_hours": 11,
+                    "max_hours": 20,
+                    "price": 16500
+                },
+                {
+                    "min_hours": 21,
+                    "max_hours": 50,
+                    "price": 16000
+                },
+                {
+                    "min_hours": 51,
+                    "max_hours": 100,
+                    "price": 15000
+                }
+            ]
+        }
+    ],
+    ...
+}
+```

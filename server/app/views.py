@@ -1544,3 +1544,33 @@ class FavoriteViewSet(ParentBasedMixin,
             return TeacherListSerializer
         # 新增、删除, 用收藏序列化接口
         return FavoriteSerializer
+
+
+class TeacherSchoolPrices(View):
+    def get(self, request, teacher_id, school_id):
+        school = get_object_or_404(models.School, pk=school_id)
+        teacher = get_object_or_404(models.Teacher, pk=teacher_id)
+        # no need grade, this will return all grades prices
+        prices = models.PriceConfig.objects.filter(
+            school=school,
+            level=teacher.level
+        )
+        prices = list(prices)
+        step_prices = itertools.groupby(prices, key=lambda x: x.grade)
+
+        data = [
+            {'grade': grade.id,
+             'grade_name': grade.name,
+             'prices': [OrderedDict(
+                [('min_hours', config.min_hours),
+                 ('max_hours', config.max_hours),
+                 ('price', config.price)])
+                        for config in configs]}
+            for grade, configs in step_prices]
+
+        return JsonResponse({
+            'count': len(data),
+            'previous': None,
+            'next': None,
+            'results': data
+        })
