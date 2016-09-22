@@ -24,7 +24,7 @@
         <span class="badge_number">({{ side_bar_my_evaluation }})</span>
         {% endif %}
     </a></p>
-    <p class="section-title"><a class="{% menu_active 'teacher:wallet' 'teacher:wallet' 'teacher:wallet-histories' 'teacher:wallet-bankcard-add' 'teacher:wallet-bankcard-add-success' 'teacher:my-wallet-withdrawal' 'teacher:my-wallet-withdrawal-result' 'teacher:my-wallet-withdrawal-record' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>
+{#    <p class="section-title"><a class="{% menu_active 'teacher:wallet' 'teacher:wallet' 'teacher:wallet-histories' 'teacher:wallet-bankcard-add' 'teacher:wallet-bankcard-add-success' 'teacher:my-wallet-withdrawal' 'teacher:my-wallet-withdrawal-result' 'teacher:my-wallet-withdrawal-record' %}" href="{% url 'teacher:wallet' %}">我的钱包</a></p>#}
     <p class="section-title">个人设置</p>
     <p class="section-link"><a class="{% menu_active 'teacher:basic_doc' %}" href="{% url 'teacher:basic_doc' %}">基本资料</a>
         {% if information_not_complete == False %}
