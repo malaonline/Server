@@ -1651,6 +1651,9 @@ class SchoolView(BaseStaffView):
                     "photo" + str(school.id) + '_' + str(_img_content.size),
                     _img_content)
 
+        # init the new school's prices
+        school.init_prices()
+
         return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
@@ -2565,6 +2568,7 @@ class SchoolPriceConfigView(BaseStaffView):
         if not is_school_master:
             return super(SchoolPriceConfigView, self).get_context_data(**kwargs)
         # 基础数据
+        school_master.school.init_prices()  # init the prices if no prices
         all_levels= models.Level.objects.all()
         all_grades = models.Grade.objects.filter(leaf=True)
         kwargs['level_list'] = all_levels

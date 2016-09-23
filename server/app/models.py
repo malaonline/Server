@@ -205,6 +205,7 @@ class School(BaseModel):
                                 max_hours=max_hours,
                                 price=price,
                             )
+                        price_config.save()
 
 
 class SchoolPhoto(BaseModel):
