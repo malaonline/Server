@@ -793,7 +793,7 @@ class TestModels(TestCase):
         school = School.objects.all().first()
         school.priceconfig_set.clear()
         school.init_prices()
-        self.assertTrue(school.priceconfig_set.exists())
+        self.assertTrue(school.priceconfig_set.count() > 0)
 
 
 class TestAlgorithm(SimpleTestCase):
