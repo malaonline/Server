@@ -102,8 +102,8 @@
             <th>老师手机号</th>
             <th>报课年级</th>
             <th>报课科目</th>
-            <th>上课地点</th>
-            <th>上课时间</th>
+{#            <th>上课地点</th>#}
+{#            <th>上课时间</th>#}
             <th class="text-right">小时单价</th>
             <th class="text-right">购买小时</th>
             <th class="text-right" bgcolor="#00bfff">订单金额</th>
@@ -148,14 +148,14 @@
 {# 老师手机 #}    <td>{{ order.teacher.user.profile.phone }}</td>
 {# 报课年级 #}    <td><span class="label label-default">{{ order.grade }}</span></td>
 {# 报课科目 #}    <td>{{ order.subject }}</td>
-{# 上课地点 #}    <td>{{ order.school }}</td>
-{# 上课时间 #}    <td>
-                    {% for slot in order.weekly_time_slots.all %}
-                        {{ slot.weekday|weekday_format }}
-                        {{ slot.start|time:"H:i" }}-{{ slot.end|time:"H:i" }}
-                        <br/><br/>
-                    {% endfor %}
-                </td>
+{# 上课地点     <td>{{ order.school }}</td>#}
+{# 上课时间     <td>#}
+{#                    {% for slot in order.weekly_time_slots.all %}#}
+{#                        {{ slot.weekday|weekday_format }}#}
+{#                        {{ slot.start|time:"H:i" }}-{{ slot.end|time:"H:i" }}#}
+{#                        <br/><br/>#}
+{#                    {% endfor %}#}
+{#                </td>#}
 {# 小时单价 #}    <td class="text-right">{{ order.price|money_format:'/' }}</td>
 {# 购买小时 #}    <td class="text-right">{{ order.hours }}</td>
 {# 订单金额 #}    <td class="text-right">{{ order.total|money_format:'/' }}</td>
