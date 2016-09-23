@@ -789,6 +789,12 @@ class TestModels(TestCase):
         with self.assertRaises(Region.DoesNotExist):
             Region.objects.get(name="其它")
 
+    def test_school_price(self):
+        school = School.objects.all().first()
+        school.priceconfig_set.clear()
+        school.init_prices()
+        self.assertTrue(school.priceconfig_set.exists())
+
 
 class TestAlgorithm(SimpleTestCase):
     def test_tree_insert(self):
