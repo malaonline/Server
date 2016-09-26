@@ -23,9 +23,9 @@ celery_app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 celery_app.conf.update(
     CELERY_ROUTES={
-        "proj.tasks.add":{"queue":"hipri"},# 把add任务放入hipri队列
+        "proj.tasks.add": {"queue": "hipri"},  # 把add任务放入hipri队列
         # 需要执行时指定队列 add.apply_async((2, 2), queue='hipri')
-        },
+    },
     CELERYBEAT_SCHEDULE={
         # "confirm-classes":{
         #     "task":"app.tasks.autoConfirmClasses",
@@ -46,13 +46,17 @@ celery_app.conf.update(
             "task": "app.tasks.autoCancelOrders",
             "schedule": timedelta(
                 seconds=15),
-            },
+        },
         "add-teaching-age": {
             "task": "app.tasks.autoAddTeacherTeachingAge",
             "schedule": crontab(hour=0, minute=30),
-            },
         },
-    )
+        "school-income-records": {
+            "task": "app.tasks.autoCreateSchoolIncomeRecord",
+            "schedule": crontab(minute=6, hour=23, day_of_week=1),
+        },
+    },
+)
 
 if __name__ == "__main__":
     celery_app.start()

@@ -11,7 +11,7 @@ import jpush
 
 from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance,\
-    Order, Teacher, Coupon, Evaluation
+    Order, Teacher, Coupon, Evaluation, School
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 from .utils.smsUtil import tpl_send_sms
 
@@ -242,3 +242,18 @@ def send_sms(self, phone, tpl_id, params={}, times=1):
             raise self.retry(exc=exc)
         logger.error(exc)
         raise exc
+
+
+@shared_task
+def autoCreateSchoolIncomeRecord():
+    all_schools = School.objects.filter(opened=True)
+    logger.debug("[autoCreateSchoolIncomeRecord] all schools: %d" % len(all_schools))
+
+    ok_count = 0
+    for school in all_schools:
+        created = school.create_income_record()
+        if created:
+            ok_count += 1
+            logger.debug("[autoCreateSchoolIncomeRecord] %s" % school.name)
+    logger.debug("[autoCreateSchoolIncomeRecord] %d schools end." % ok_count)
+    return True
