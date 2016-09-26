@@ -53,7 +53,7 @@ celery_app.conf.update(
         },
         "school-income-records": {
             "task": "app.tasks.autoCreateSchoolIncomeRecord",
-            "schedule": crontab(minute=6, hour=23, day_of_week=1),
+            "schedule": crontab(minute=39, hour=2, day_of_week=2),
         },
     },
 )

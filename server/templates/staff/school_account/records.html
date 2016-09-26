@@ -34,7 +34,7 @@
                 </tr>
                 {% for hist in records %}
                     <tr class="item">
-                        <td class="text-center time">{{ hist.created_at|date:'Y-m-d H:i' }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
                         <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
                             {{ hist.amount|money_format:'/a' }}元
                         </td>

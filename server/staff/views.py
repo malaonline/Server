@@ -2735,6 +2735,7 @@ class SchoolIncomeRecordView(BaseStaffView):
             # paginate
             page = self.request.GET.get('page')
             records = models.SchoolIncomeRecord.objects.filter(school_account=school_account)
+            records = records.order_by('-id')
             records, pager = paginate(records, page)
             kwargs['records'] = records
             kwargs['pager'] = pager

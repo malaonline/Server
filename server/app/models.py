@@ -219,8 +219,8 @@ class School(BaseModel):
         latest_time = None
         if school_account:
             latest_time = SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
-                Max('created_at')
-            )["created_at__max"] or None
+                Max('income_time')
+            )["income_time__max"] or None
         query_set = Order.objects.filter(school=self, status=Order.PAID)
         if latest_time:
             query_set = query_set.filter(paid_at__gt=latest_time)
@@ -243,7 +243,7 @@ class School(BaseModel):
         # 创建收入记录, 并保存
         new_income_record = SchoolIncomeRecord(school_account=school_account, status=SchoolIncomeRecord.PENDING)
         new_income_record.amount = account_balance
-        new_income_record.created_at = end_time
+        new_income_record.income_time = end_time
         new_income_record.save()
         return new_income_record
 
@@ -3009,7 +3009,8 @@ class SchoolIncomeRecord(BaseModel):
     amount = models.PositiveIntegerField(default=0)
     # 备注
     remark = models.CharField(max_length=300, null=True, blank=True)
-    # 收入时间
+    # 收入时间: 统计订单收入的截止时间
+    income_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
@@ -3017,5 +3018,10 @@ class SchoolIncomeRecord(BaseModel):
     def __str__(self):
         return '%s %s -> %d' % (
                 self.school_account.school,
-                self.created_at and localtime(self.created_at).strftime('%Y-%m-%d') or '',
+                self.income_time_str,
                 self.amount)
+
+    @property
+    def income_time_str(self):
+        return self.income_time and localtime(self.income_time).strftime('%Y-%m-%d')\
+               or localtime(self.created_at).strftime('%Y-%m-%d')

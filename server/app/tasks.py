@@ -249,9 +249,12 @@ def autoCreateSchoolIncomeRecord():
     all_schools = School.objects.filter(opened=True)
     logger.debug("[autoCreateSchoolIncomeRecord] all schools: %d" % len(all_schools))
 
+    now = timezone.localtime(timezone.now())
+    yesterday = now - datetime.timedelta(hours=now.hour + 1)
     ok_count = 0
+    logger.debug('[autoCreateSchoolIncomeRecord] end time: %s' % yesterday)
     for school in all_schools:
-        created = school.create_income_record()
+        created = school.create_income_record(yesterday)
         if created:
             ok_count += 1
             logger.debug("[autoCreateSchoolIncomeRecord] %s" % school.name)
