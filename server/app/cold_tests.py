@@ -141,3 +141,12 @@ class ExcelTest(unittest.TestCase):
         _console.info(orders)
         orders_tail = excel.read_excel_sheet(file='app/utils/orders.xls', title_row=3, titles_list=['order_no', 'created_at', 'platform'])
         _console.info(orders_tail)
+
+
+class TasksTest(unittest.TestCase):
+
+    def test_school_income_task(self):
+        from app.tasks import autoCreateSchoolIncomeRecord
+        # autoCreateSchoolIncomeRecord()
+        autoCreateSchoolIncomeRecord.delay()
+        self.assertTrue(True)
