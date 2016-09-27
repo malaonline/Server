@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^school/account/info/$', views.SchoolAccountInfoView.as_view(), name="school_account_info"),
     url(r'^school/price/config/$', views.SchoolPriceConfigView.as_view(), name="school_price_cfg"),
     url(r'^school/account/income/records/$', views.SchoolIncomeRecordView.as_view(), name="school_income_records"),
+    url(r'^school/account/income/audit/$', views.SchoolIncomeAuditView.as_view(), name="school_income_audit"),
 ]
