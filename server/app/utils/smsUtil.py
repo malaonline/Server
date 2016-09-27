@@ -91,18 +91,22 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
     return response
 
 
-def tpl_send_sms(phone, tpl_id, params={}):
+def tpl_send_sms(phone, tpl_id, params=None):
+    if params is None:
+        params = {}
     _logger.debug("send sms to "+str(phone)+', '+str(tpl_id)+': '+str(params))
     data = {'#' + k + '#': v for k, v in params.items()}
     return _tpl_send_sms(phone, tpl_id, data)
 
 
 # Deprecated 云片网不支持30秒内重发相同内容短信, 所以times大于1没有用处了
-def try_send_sms(phone, tpl_id=0, params={}, times=1):
+def try_send_sms(phone, tpl_id=0, params=None, times=1):
     """
     尝试发送短信
     :return: True or False
     """
+    if params is None:
+        params = {}
     if not phone:
         return False
     if not tpl_id:
