@@ -159,7 +159,7 @@ class School(BaseModel):
     @property
     def master_phone(self):
         master = self.schoolmaster_set.first()
-        return master.phone
+        return master and master.phone or ''
 
     def get_photo_url_list(self):
         if self.schoolphoto_set.first():
