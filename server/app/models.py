@@ -98,7 +98,7 @@ class Region(BaseModel):
     opened = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s (%d)' % (self.name, self.admin_level)
+        return '{0!s} ({1:d})'.format(self.name, self.admin_level)
 
     def full_name(self, sep='-'):
         full_name = self.name
@@ -127,7 +127,7 @@ class Memberservice(BaseModel):
     detail = models.CharField(max_length=1000)
 
     def __str__(self):
-        return '%s' % self.name
+        return '{0!s}'.format(self.name)
 
 
 class School(BaseModel):
@@ -147,7 +147,7 @@ class School(BaseModel):
     desc_content = models.CharField(max_length=500, null=True)
 
     def __str__(self):
-        return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
+        return '{0!s}{1!s} {2!s}'.format(self.region, self.name, 'C' if self.center else '')
 
     @property
     def get_thumbnail(self):
@@ -253,7 +253,7 @@ class SchoolPhoto(BaseModel):
     img = models.ImageField(null=True, blank=True, upload_to='schools')
 
     def __str__(self):
-        return '%s' % self.school
+        return '{0!s}'.format(self.school)
 
     def img_url(self):
         return self.img and self.img.url or ''
@@ -314,7 +314,7 @@ class Ability(BaseModel):
         unique_together = ('grade', 'subject')
 
     def __str__(self):
-        return '%s, %s' % (self.grade, self.subject)
+        return '{0!s}, {1!s}'.format(self.grade, self.subject)
 
 
 class Level(BaseModel):
@@ -380,7 +380,7 @@ class Price(BaseModel):
         unique_together = ('region', 'ability', 'level')
 
     def __str__(self):
-        return '%s,%s,%s => %d' % (
+        return '{0!s},{1!s},{2!s} => {3:d}'.format(
                 self.region, self.ability, self.level, self.price)
 
     @property
@@ -426,11 +426,11 @@ class Profile(BaseModel):
     def __str__(self):
         profile_name = ""
         if hasattr(self.user, "teacher"):
-            profile_name = '%s(老师)' % self.user.teacher.name
+            profile_name = '{0!s}(老师)'.format(self.user.teacher.name)
         if hasattr(self.user, "parent"):
-            profile_name = '%s(家长)' % self.user.parent.student_name
+            profile_name = '{0!s}(家长)'.format(self.user.parent.student_name)
         if hasattr(self.user, "student"):
-            profile_name = '%s(学生)' % self.user.student.name
+            profile_name = '{0!s}(学生)'.format(self.user.student.name)
 
         return 'phone:{phone} [{user_id}] {profile_name}'.format(
                 phone=self.phone, user_id=self.user.pk,
@@ -502,7 +502,7 @@ class Teacher(BaseModel):
     imported = models.BooleanField(default=False) # 是否是从线下导入的
 
     def __str__(self):
-        return '%s %s %s' % (
+        return '{0!s} {1!s} {2!s}'.format(
                 '⬆' if not self.published else '  ', self.name, self.phone())
 
     def phone(self):
@@ -922,7 +922,7 @@ class Highscore(BaseModel):
     admitted_to = models.CharField(max_length=300)
 
     def __str__(self):
-        return '%s: %s %s (%s => %s)' % (
+        return '{0!s}: {1!s} {2!s} ({3!s} => {4!s})'.format(
                 self.teacher.name,
                 self.name, self.increased_scores, self.school_name,
                 self.admitted_to)
@@ -947,7 +947,7 @@ class Photo(BaseModel):
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return '%s img (%s)' % (
+        return '{0!s} img ({1!s})'.format(
                 self.teacher, 'public' if self.public else 'private')
 
     def img_url(self):
@@ -992,7 +992,7 @@ class Certificate(BaseModel):
             if self.type == key:
                 msg = val
                 break
-        return '%s, 证书名称:%s [%s][%s]' % (self.teacher, self.name, msg,
+        return '{0!s}, 证书名称:{1!s} [{2!s}][{3!s}]'.format(self.teacher, self.name, msg,
                                          '已认证' if self.verified else '未认证')
 
     def img_url(self):
@@ -1040,7 +1040,7 @@ class InterviewRecord(BaseModel):
                               default=PENDING)
 
     def __str__(self):
-        return '%s by %s' % (self.teacher, self.reviewed_by)
+        return '{0!s} by {1!s}'.format(self.teacher, self.reviewed_by)
 
 
 class Account(BaseModel):
@@ -1118,7 +1118,7 @@ class BankCard(BaseModel):
 
     def __str__(self):
         try:
-            return '%s %s (%s)' % (self.bank_name, self.card_number,
+            return '{0!s} {1!s} ({2!s})'.format(self.bank_name, self.card_number,
                                    self.account.user.teacher.name)
         except Teacher.DoesNotExist:
             return "{bank_name} {card_number} (未绑定老师)".format(
@@ -1139,7 +1139,7 @@ class BankCodeInfo(BaseModel):
     bin_code = models.CharField(max_length=30)
 
     def __str__(self):
-        return '%s, %s, %s (%s)' % (self.bank_name, self.card_name,
+        return '{0!s}, {1!s}, {2!s} ({3!s})'.format(self.bank_name, self.card_name,
                                     self.card_type, self.bin_code)
 
 
@@ -1319,7 +1319,7 @@ class Feedback(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s %s %s' % (self.user, self.contact, self.created_at)
+        return '{0!s} {1!s} {2!s}'.format(self.user, self.contact, self.created_at)
 
 
 class Student(BaseModel):
@@ -1514,7 +1514,7 @@ class Coupon(BaseModel):
     mini_total_price = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return '%s, %s (%s) %s' % (self.parent, self.amount, self.expired_at,
+        return '{0!s}, {1!s} ({2!s}) {3!s}'.format(self.parent, self.amount, self.expired_at,
                                    'D' if self.used else '')
 
     def sort_key(self):
@@ -1542,7 +1542,7 @@ class Coupon(BaseModel):
         return timezone.now() <= self.expired_at
 
     def print_validate_period(self):
-        return '%s ~ %s' % (
+        return '{0!s} ~ {1!s}'.format(
             self.validated_start and timezone.localtime(self.validated_start).strftime('%Y-%m-%d') or '',
             self.expired_at and timezone.localtime(self.expired_at).strftime('%Y-%m-%d') or ''
         )
@@ -1572,7 +1572,7 @@ class WeeklyTimeSlot(BaseModel):
         ordering = ['weekday', 'start', 'end']
 
     def __str__(self):
-        return '%s from %s to %s' % (self.weekday, self.start, self.end)
+        return '{0!s} from {1!s} to {2!s}'.format(self.weekday, self.start, self.end)
 
     @classproperty
     def DAILY_TIME_SLOTS(cls):
@@ -1675,10 +1675,10 @@ class OrderManager(models.Manager):
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
         if order.is_timeslot_allocated():
-            logger.warn('Time slot already allocated for order %s' % order.id)
+            logger.warn('Time slot already allocated for order {0!s}'.format(order.id))
             return
 
-        name = '/teacher_%d' % order.teacher.id
+        name = '/teacher_{0:d}'.format(order.teacher.id)
         semaphore = posix_ipc.Semaphore(
                 name, flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
@@ -1689,7 +1689,7 @@ class OrderManager(models.Manager):
                 timeslot = TimeSlot(
                         order=order, start=ts['start'], end=ts['end'])
                 timeslot.save()
-                course_time = "%s-%s" % (
+                course_time = "{0!s}-{1!s}".format(
                     timezone.localtime(timeslot.start).strftime(
                         '%Y-%m-%d %H:%M'),
                     timezone.localtime(timeslot.end).strftime('%H:%M')
@@ -1712,7 +1712,7 @@ class OrderManager(models.Manager):
         except Exception as ex:
             logger.error(ex)
         try:
-            amount_str = "%.2f" % (order.to_pay / 100)
+            amount_str = "{0:.2f}".format((order.to_pay / 100))
             tpl_send_sms(
                     order.parent.user.profile.phone, TPL_STU_PAY_SUCCESS, {
                         'studentname': student_name, 'orderid': order.order_id,
@@ -2173,7 +2173,7 @@ class TimeSlotComplaint(BaseModel):
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
-        return '%s' % (self.content)
+        return '{0!s}'.format((self.content))
 
 
 class TimeSlotAttendance(BaseModel):
@@ -2198,7 +2198,7 @@ class TimeSlotAttendance(BaseModel):
                                    default=NORMAL)
 
     def __str__(self):
-        return '%s' % (self.get_record_type_display())
+        return '{0!s}'.format((self.get_record_type_display()))
 
 
 class Comment(BaseModel):
@@ -2614,7 +2614,7 @@ class Message(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s, %s, to %s, %s' % (
+        return '{0!s}, {1!s}, to {2!s}, {3!s}'.format(
                 self.get__type_display(), self.get_via_display(),
                 self.to, self.title)
 
@@ -2782,7 +2782,7 @@ class Config(BaseModel):
     withdraw_weekday = models.PositiveIntegerField(default=2)
 
     def __str__(self):
-        return 'withdraw on weekday %s' % self.withdraw_weekday
+        return 'withdraw on weekday {0!s}'.format(self.withdraw_weekday)
 
 
 class StaticContent(BaseModel):
@@ -2885,7 +2885,7 @@ class Letter(BaseModel):
         return self.id
 
     def __str__(self):
-        return '%s %s' % (self.teacher.name, self.parent.student_name)
+        return '{0!s} {1!s}'.format(self.teacher.name, self.parent.student_name)
 
 
 class StaffPermission(BaseModel):
@@ -2893,7 +2893,7 @@ class StaffPermission(BaseModel):
     allowed_url_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return '%s' % self.allowed_url_name
+        return '{0!s}'.format(self.allowed_url_name)
 
 
 class Favorite(BaseModel):
@@ -2905,7 +2905,7 @@ class Favorite(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s is favored by %s' % (self.teacher.name, self.parent.student_name)
+        return '{0!s} is favored by {1!s}'.format(self.teacher.name, self.parent.student_name)
 
     @staticmethod
     def isFavorite(parent, teacher):
@@ -2984,7 +2984,7 @@ class PriceConfig(BaseModel):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '%s,%s,%s (%d ~ %d) => %d' % (
+        return '{0!s},{1!s},{2!s} ({3:d} ~ {4:d}) => {5:d}'.format(
                 self.school, self.level, self.grade, self.min_hours, self.max_hours, self.price)
 
 
@@ -3016,7 +3016,7 @@ class SchoolIncomeRecord(BaseModel):
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
-        return '%s %s -> %d' % (
+        return '{0!s} {1!s} -> {2:d}'.format(
                 self.school_account.school,
                 self.income_time_str,
                 self.amount)

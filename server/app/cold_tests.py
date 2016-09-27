@@ -68,13 +68,13 @@ class KlxApiTest(unittest.TestCase):
         def _request_kuailexue_api_data(type):
             resp = requests.get(url + '/' + type, params=params)
             if resp.status_code != 200:
-                _console.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+                _console.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             _console.warning(resp.url)
             ret_json = json.loads(resp.content.decode('utf-8'))
             if ret_json.get('code') == 0 and ret_json.get('data') is not None:
                 _console.info(ret_json.get('data'))
             else:
-                _console.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
+                _console.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
         # total-item-nums 指定学生累计答题数、正确答题数
         _request_kuailexue_api_data('total-item-nums')

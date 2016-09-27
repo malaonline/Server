@@ -114,7 +114,7 @@ def excel_response(queryset, columns, headers=None, filename='export.xls'):
 
 def wb_excel_response(workbook, filename='export.xls'):
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="%s"' % (str_urlencode(filename),)
+    response['Content-Disposition'] = 'attachment; filename="{0!s}"'.format(str_urlencode(filename))
     workbook.save(response)
     return response
 
@@ -139,7 +139,7 @@ def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None,
     sheet = wb.sheets()[sheet_num]
     nrows = sheet.nrows  # 行数
     ncols = sheet.ncols  # 列数
-    _console.debug('rows: %s, cols: %s' %(nrows, ncols))
+    _console.debug('rows: {0!s}, cols: {1!s}'.format(nrows, ncols))
     if titles_list and len(titles_list) > 1:
         titles = titles_list
     else:
@@ -149,7 +149,7 @@ def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None,
     # 遍历读取需要的数据
     list = []
     for row_num in range(title_row + 1, nrows):
-        _console.debug('row: %s' %(row_num,))
+        _console.debug('row: {0!s}'.format(row_num))
         row = sheet.row_values(row_num)
         if row:
             obj = {}

@@ -57,11 +57,11 @@ def wx_xml2dict(xmlstr):
     return xmltodict.parse(xmlstr)['xml']
 
 def wx_signature(data):
-    string = '&'.join(['%s=%s' % (key.lower(), data[key]) for key in sorted(data) if data[key] is not None and data[key] is not ''])
+    string = '&'.join(['{0!s}={1!s}'.format(key.lower(), data[key]) for key in sorted(data) if data[key] is not None and data[key] is not ''])
     return hashlib.sha1(string.encode('utf-8')).hexdigest()
 
 def wx_sign_for_pay(params):
-    content = '&'.join(['%s=%s' % (key, params[key]) for key in sorted(params) if params[key] is not None and params[key] is not ''])
+    content = '&'.join(['{0!s}={1!s}'.format(key, params[key]) for key in sorted(params) if params[key] is not None and params[key] is not ''])
     content += '&key=' + settings.WEIXIN_KEY
     return hashlib.md5(content.encode('utf-8')).hexdigest().upper()
 

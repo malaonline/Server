@@ -24,13 +24,13 @@ def add_teacher(apps, schema_editor):
     #print("添加老师用户")
     role = Role.objects.get(name='老师')
     for i in range(settings.SAMPLE_DATA_LENGTH):
-        username = 'test%d' % i
+        username = 'test{0:d}'.format(i)
         user = User.objects.get(username=username)
         if not hasattr(user, 'profile'):
-            phone = '0000%d' % i
+            phone = '0000{0:d}'.format(i)
             profile = Profile(user=user, phone=phone, role=role)
             profile.gender = 'm' if i % 2 else 'f'
-            name = 'img%d.jpg' % (i % 8)
+            name = 'img{0:d}.jpg'.format((i % 8))
             save_image_from_file(profile.avatar, name)
             profile.save()
             #print(" {name}".format(name=username))

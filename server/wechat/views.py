@@ -297,12 +297,12 @@ class CourseChoosingView(OrderBaseView):
         order.save()
         order_data = {}
         order_data['order_id'] = order.order_id
-        order_data['orders_api_url'] = '/api/v1/orders/%s' % order.id
+        order_data['orders_api_url'] = '/api/v1/orders/{0!s}'.format(order.id)
         if settings.TESTING:
             order_data['TESTING'] = settings.TESTING
             charge = models.Charge()
             charge.order = order
-            charge.ch_id = 'ch_%s' % (order.order_id)
+            charge.ch_id = 'ch_{0!s}'.format((order.order_id))
             charge.created = timezone.now()
             charge.channel = models.Charge.WX_PUB_MALA
             charge.order_no = order.order_id
@@ -612,7 +612,7 @@ def send_pay_info_to_user(openid, order_no):
             "value": order.parent.student_name or order.parent.user.profile.mask_phone()
         },
         "keyword5": {
-            "value": "%.2f元"%(order.to_pay/100)
+            "value": "{0:.2f}元".format((order.to_pay/100))
         },
         "remark": {
             "value": '有任何疑问请拨打客服电话'+settings.SERVICE_SUPPORT_TEL

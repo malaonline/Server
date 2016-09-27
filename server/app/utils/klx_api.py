@@ -35,7 +35,7 @@ _logger = logging.getLogger('app')
 _console = logging.getLogger('console')
 
 KLX_WEB_SITE = settings.KUAILEXUE_WEB_SITE
-KLX_STUDY_URL_FMT = '%s/{subject}/%s' % (settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID,)
+KLX_STUDY_URL_FMT = '{0!s}/{{subject}}/{1!s}'.format(settings.KUAILEXUE_SERVER, settings.KUAILEXUE_API_ID)
 KLX_REPORT_SUBJECTS = settings.KUAILEXUE_REPORT_SUPPORTED_SUBJECTS
 KLX_TEACHING_SUBJECTS = settings.KUAILEXUE_TEACHING_SUBJECTS
 KLX_MATH_ABILITY_KEYS = ('abstract', 'reason', 'appl', 'spatial', 'calc', 'data')
@@ -76,7 +76,7 @@ def klx_subject_name(name):
 
 
 def _klx_param_hash(params, sign_key="sign"):
-    s = ''.join(['%s=%s' % (key, params[key] or '') for key in sorted(params)
+    s = ''.join(['{0!s}={1!s}'.format(key, params[key] or '') for key in sorted(params)
                         if key != sign_key])
     hs = hashlib.md5(s.encode('utf-8')).hexdigest()
     return hs
@@ -138,7 +138,7 @@ def klx_register(role, uid, name, password=None, subject=None):
         _logger.exception(err)
         return None
     if resp.status_code != 200:
-        _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        _logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return None
     if _get_is_cold_testing():
@@ -151,7 +151,7 @@ def klx_register(role, uid, name, password=None, subject=None):
         return ret_data.get('username')  # (仅供参考)目前返回格式是 KUAILEXUE_PARTNER+uid+'_'+${YYYY}
     else:
         req_url = klx_url+'?'+urllib.parse.urlencode(params)
-        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s. (URL=%s)' % (ret_json.get('code'), ret_json.get('message'), req_url))
+        _logger.error('kuailexue reponse data error, CODE: {0!s}, MSG: {1!s}. (URL={2!s})'.format(ret_json.get('code'), ret_json.get('message'), req_url))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         return None
 
@@ -179,9 +179,9 @@ def klx_relation(klx_teacher, klx_students):
         _logger.exception(err)
         return False
     if _get_is_cold_testing():
-        _console.warning('\n%s'%(resp.url))
+        _console.warning('\n{0!s}'.format((resp.url)))
     if resp.status_code != 200:
-        _logger.error('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
+        _logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         # raise KuailexueServerError('cannot reach kuailexue server, http_status is %s' % (resp.status_code))
         return False
     ret_json = json.loads(resp.content.decode('utf-8'))
@@ -191,7 +191,7 @@ def klx_relation(klx_teacher, klx_students):
         return True
     else:
         req_url = klx_url+'?'+urllib.parse.urlencode(params)
-        _logger.error('kuailexue reponse data error, CODE: %s, MSG: %s. (URL=%s)' % (ret_json.get('code'), ret_json.get('message'), req_url))
+        _logger.error('kuailexue reponse data error, CODE: {0!s}, MSG: {1!s}. (URL={2!s})'.format(ret_json.get('code'), ret_json.get('message'), req_url))
         # raise KuailexueDataError('get kuailexue wrong data, CODE: %s, MSG: %s' % (ret_json.get('code'), ret_json.get('message')))
         return False
 
@@ -217,8 +217,8 @@ def klx_reg_student(parent, student=None):
             student.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_STUDENT
-    uid = '%s_%s_%s' % (settings.ENV_TYPE, student.user_id, random_chars(5))
-    name = student.name or 'mala_%s' % (student.user_id)
+    uid = '{0!s}_{1!s}_{2!s}'.format(settings.ENV_TYPE, student.user_id, random_chars(5))
+    name = student.name or 'mala_{0!s}'.format((student.user_id))
     password = student.user.profile.klx_password or _klx_make_password()
     klx_username = klx_register(role,uid,name,password=password)
     if klx_username:
@@ -241,8 +241,8 @@ def klx_reg_teacher(teacher):
             teacher.user.profile.save()
         return o_klx_username
     role = KLX_ROLE_TEACHER
-    uid = '%s_%s_%s' % (settings.ENV_TYPE, teacher.user_id, random_chars(5))
-    name = teacher.name or 'mala_%s' % (teacher.user_id)
+    uid = '{0!s}_{1!s}_{2!s}'.format(settings.ENV_TYPE, teacher.user_id, random_chars(5))
+    name = teacher.name or 'mala_{0!s}'.format((teacher.user_id))
     password = teacher.user.profile.klx_password or _klx_make_password()
     subject = teacher.subject()
     if subject.name not in KLX_TEACHING_SUBJECTS:

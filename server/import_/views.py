@@ -149,7 +149,7 @@ class TeacherView(BaseStaffView):
                         old_teacher.save()
                         continue
                     else:
-                        result_msg = "第%s个老师(%s)已存在" % (num, phone)
+                        result_msg = "第{0!s}个老师({1!s})已存在".format(num, phone)
                         break
                 gender = row['gender']
                 subject = models.Subject.objects.get(name=row['subject'])
@@ -172,7 +172,7 @@ class TeacherView(BaseStaffView):
                     new_teacher.save()
             except Exception as ex:
                 logger.error(ex)
-                result_msg = "导入第%s个老师时失败, ERROR: %s" % (num, ex)
+                result_msg = "导入第{0!s}个老师时失败, ERROR: {1!s}".format(num, ex)
                 break
 
         return HttpResponseRedirect(reverse('import_:teachers') + '#' + result_msg)
@@ -213,7 +213,7 @@ class ParentView(BaseStaffView):
                 phone = str(int(row['phone'])) # 电话号码excel读入成为float(XXX.0)了
                 has_parent = models.Parent.objects.filter(user__profile__phone=phone).exists()
                 if has_parent:
-                    result_msg = "第%s个学生(%s)已存在" % (num, phone)
+                    result_msg = "第{0!s}个学生({1!s})已存在".format(num, phone)
                     break
                 with transaction.atomic():
                     new_user = models.Parent.new_parent()
@@ -225,7 +225,7 @@ class ParentView(BaseStaffView):
                     new_parent.save()
             except Exception as ex:
                 logger.error(ex)
-                result_msg = "导入第%s个学生时失败, ERROR: %s" % (num, ex)
+                result_msg = "导入第{0!s}个学生时失败, ERROR: {1!s}".format(num, ex)
                 break
 
         return HttpResponseRedirect(reverse('import_:parents') + '#' + result_msg)

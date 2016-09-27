@@ -22,7 +22,7 @@ class Command(BaseCommand):
         parser.add_argument(
             'test_labels',
             nargs='*',
-            help='测试文件,类或方法。例如%s, 默认%s,' %('app.tests.TestAlgorithm', self.default_test_file),
+            help='测试文件,类或方法。例如{0!s}, 默认{1!s},'.format('app.tests.TestAlgorithm', self.default_test_file),
         )
 
     def build_suite(self, test_labels=None):

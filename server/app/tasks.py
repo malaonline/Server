@@ -44,11 +44,11 @@ class Remind:
 @shared_task
 def autoConfirmClasses():
     operateTargets = TimeSlot.should_auto_confirmed_objects.all()
-    logger.debug("[autoConfirmClasses] target amount:%d" %(len(operateTargets)))
+    logger.debug("[autoConfirmClasses] target amount:{0:d}".format((len(operateTargets))))
     user_ids = []
     for timeslot in operateTargets:
         timeslot.confirm()
-        logger.debug("[autoConfirmClasses] The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+        logger.debug("[autoConfirmClasses] The Timeslot ends at {0!s} ,was been set the attendance to {1!s}".format(timeslot.start, timeslot.attendance))
         user_ids.append(timeslot.order.parent.user_id)
     # JPush 通知
     extras = {
@@ -86,7 +86,7 @@ def autoRemindClasses():
 
     for target in targets:
         user_ids = [target.order.parent.user_id]
-        msg = "您在%s-%s有一节%s课，记得准时参加哦>>" % (
+        msg = "您在{0!s}-{1!s}有一节{2!s}课，记得准时参加哦>>".format(
             target.start.astimezone().time().strftime("%H:%M"),
             target.end.astimezone().time().strftime("%H:%M"),
             target.subject.name
@@ -118,9 +118,9 @@ def autoRemindCoupons():
     )
     for coupon in targets:
         user_ids = [coupon.parent.user_id]
-        msg = "您有一张%d元的奖学金券即将到期，快去使用吧>>" % (
+        msg = "您有一张{0:d}元的奖学金券即将到期，快去使用吧>>".format((
             coupon.amount_yuan
-        )
+        ))
         send_push.delay(
             msg,
             title=Remind.title(Remind.COUPON_WILL_EXPIRED),
@@ -171,15 +171,15 @@ def send_push(msg, user_ids=None, extras=None, title=None):
 @shared_task
 def autoCancelOrders():
     operateTargets = Order.objects.should_auto_canceled_objects()
-    logger.debug("[autoCancelOrders] estimated target amount:%d" %(len(operateTargets)))
+    logger.debug("[autoCancelOrders] estimated target amount:{0:d}".format((len(operateTargets))))
     count = 0
     for order in operateTargets:
         if Order.objects.filter(pk=order.id, status=Order.PENDING).update(status=Order.CANCELED):
             order.cancel()
             count += 1
-            logger.debug("[autoCancelOrders] The Order created at %s which order_id is %s, was been canceled automatically" %(order.created_at, order.order_id))
+            logger.debug("[autoCancelOrders] The Order created at {0!s} which order_id is {1!s}, was been canceled automatically".format(order.created_at, order.order_id))
     if count > 0:
-        logger.debug("[autoCancelOrders] effected target amount:%d" % count)
+        logger.debug("[autoCancelOrders] effected target amount:{0:d}".format(count))
     return True
 
 
@@ -211,7 +211,7 @@ def registerKuaiLeXueUserByOrder(oid):
     :param oid: models.Order.id
     :return: True or not
     '''
-    logger.debug("[registerKuaiLeXueUserByOrder] order id: %s" % oid)
+    logger.debug("[registerKuaiLeXueUserByOrder] order id: {0!s}".format(oid))
     order = Order.objects.get(pk=oid)
     parent = order.parent
     teacher = order.teacher
@@ -247,16 +247,16 @@ def send_sms(self, phone, tpl_id, params={}, times=1):
 @shared_task
 def autoCreateSchoolIncomeRecord():
     all_schools = School.objects.filter(opened=True)
-    logger.debug("[autoCreateSchoolIncomeRecord] all schools: %d" % len(all_schools))
+    logger.debug("[autoCreateSchoolIncomeRecord] all schools: {0:d}".format(len(all_schools)))
 
     now = timezone.localtime(timezone.now())
     yesterday = now - datetime.timedelta(hours=now.hour + 1)
     ok_count = 0
-    logger.debug('[autoCreateSchoolIncomeRecord] end time: %s' % yesterday)
+    logger.debug('[autoCreateSchoolIncomeRecord] end time: {0!s}'.format(yesterday))
     for school in all_schools:
         created = school.create_income_record(yesterday)
         if created:
             ok_count += 1
-            logger.debug("[autoCreateSchoolIncomeRecord] %s" % school.name)
-    logger.debug("[autoCreateSchoolIncomeRecord] %d schools end." % ok_count)
+            logger.debug("[autoCreateSchoolIncomeRecord] {0!s}".format(school.name))
+    logger.debug("[autoCreateSchoolIncomeRecord] {0:d} schools end.".format(ok_count))
     return True

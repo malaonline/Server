@@ -44,11 +44,11 @@ def money_format(amount, format='+/'):
     if format.find('+') >= 0 and amount > 0:
         sign = '+'
     if a:
-        return sign+"%0.9g"%amount
+        return sign+"{0:0.9g}".format(amount)
     elif i:
-        return sign+"%.f"%amount
+        return sign+"{0:f}".format(amount)
     else:
-        return sign+"%.2f"%amount
+        return sign+"{0:.2f}".format(amount)
 
 
 _weekday_dict = {

@@ -1155,7 +1155,7 @@ class MyStudents(BasicTeacherView):
                     status=models.Order.REFUND,
                 ).order_by("-created_at").first()
             one_details["grade"] = one_order.grade.name
-            one_details["price"] = "￥%.2f/小时" %(one_order.price/100)
+            one_details["price"] = "￥{0:.2f}/小时".format((one_order.price/100))
             page_student_details.append(one_details)
         return {
             "student_statistics": [current_count, session_count, refund_count],
@@ -1556,7 +1556,7 @@ class MyWalletWithdrawal(MyWalletBase):
             context["bank_card_number"] = "还没有绑定储蓄卡"
             context["bank_name"] = ""
 
-        context["balance"] = "%.2f" % (account.calculated_balance/100)
+        context["balance"] = "{0:.2f}".format((account.calculated_balance/100))
         context["phone"] = json.dumps({"code": teacher.user.profile.mask_phone()})
         # pp(context)
 
@@ -1568,7 +1568,7 @@ class MyWalletWithdrawalResult(MyWalletBase):
     def get_handle(self, context, teacher:models.Teacher):
         context["bank_card_end_number"] = self.request.session.pop("bank_card_end_number", "****")
         context["bank_name"] = self.request.session.pop("bank_name", "未知银行")
-        context["withdraw_amount"] = "%.2f" % (self.request.session.pop("withdraw_amount", 0)/100)
+        context["withdraw_amount"] = "{0:.2f}".format((self.request.session.pop("withdraw_amount", 0)/100))
         context["expect_time"] = self.request.session.pop("expect_time", "未知时间")
 
 class MyWalletWithdrawalRecord(MyWalletBase):
@@ -1596,7 +1596,7 @@ class MyWalletWithdrawalRecord(MyWalletBase):
         for withdraw_item in models.Withdrawal.objects.filter(accounthistory__account=account).order_by("-accounthistory__submit_time"):
             result.append([
                 localtime(withdraw_item.accounthistory.submit_time).strftime("%Y-%m-%d %H:%M:%S"),
-                "¥%.2f" % (withdraw_item.accounthistory.amount/100),
+                "¥{0:.2f}".format((withdraw_item.accounthistory.amount/100)),
                 "{bank_name} 储蓄卡 ({last_code})".format(bank_name=withdraw_item.bankcard.bank_name,
                                                      last_code=withdraw_item.bankcard.mask_card_number()[-1]),
                 withdraw_item.status_des,
@@ -2401,7 +2401,7 @@ class WalletView(BaseTeacherView):
         histories, pager = paginate(histories, page_size=self.PAGE_SIZE)
         context['histories'] = histories
         context['pager'] = pager
-        context['unbind_hint'] = '目前无法解除绑定，如需解除绑定请联系麻辣老师客服人员或致电%s'%(settings.SERVICE_SUPPORT_TEL)
+        context['unbind_hint'] = '目前无法解除绑定，如需解除绑定请联系麻辣老师客服人员或致电{0!s}'.format((settings.SERVICE_SUPPORT_TEL))
         return render(request, self.template_path, context)
 
     def listAccountHistories(self, request, teacher):

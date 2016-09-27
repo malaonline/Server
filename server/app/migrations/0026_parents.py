@@ -56,15 +56,15 @@ def add_parents(apps, schema_editor):
         username = parent_name_formula.format(id=i)
         user = User.objects.get(username=username)
         if not hasattr(user, 'profile'):
-            phone = '0001%d' % i
+            phone = '0001{0:d}'.format(i)
             profile = Profile(user=user, phone=phone, role=role)
             profile.gender = 'm' if i % 2 else 'f'
-            name = 'img%d.jpg' % (i % 8)
+            name = 'img{0:d}.jpg'.format((i % 8))
             save_image_from_file(profile.avatar, name)
             profile.save()
             #print(" {name}".format(name=username))
         if not hasattr(user, 'parent'):
-            parent = Parent(user=user, student_name="student%d" % (i,))
+            parent = Parent(user=user, student_name="student{0:d}".format(i))
             parent.save()
         # if parent_group not in user.groups:
         # parent_group.user_set.add(user)

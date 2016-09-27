@@ -133,8 +133,8 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
         'TEST': {
-            'NAME': 'test_%s' % subprocess.check_output(
-                ['git', 'rev-parse', '--short', 'HEAD']).decode().strip(),
+            'NAME': 'test_{0!s}'.format(subprocess.check_output(
+                ['git', 'rev-parse', '--short', 'HEAD']).decode().strip()),
         }
     }
 }
@@ -300,14 +300,14 @@ GIT_DATE = subprocess.check_output('git log -1 --format=%ci'.split()).decode()
 GIT_DATE = re.sub(r':\d{2} \+\d{4}$', '', GIT_DATE)
 
 GIT_REV = subprocess.check_output('git rev-parse HEAD'.split()).decode()[:8]
-GIT_REV += ' : %s' % GIT_DATE
+GIT_REV += ' : {0!s}'.format(GIT_DATE)
 
 DEPLOYED_AT = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
 
 RAVEN_CONFIG = {
     'dsn': ('http://b403768b7e224eed89a7f6c8e85f0d8b:13ef8cb3a7e141c3847e2e1' +
             'c822de398@sentry.malalaoshi.com/4'),
-    'release': 'v1.0.1-%s' % GIT_REV,
+    'release': 'v1.0.1-{0!s}'.format(GIT_REV),
 }
 
 KUAILEXUE_PARTNER = 'mala'
