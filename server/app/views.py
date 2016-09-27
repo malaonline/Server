@@ -223,7 +223,7 @@ class Sms(View):
                 return JsonResponse({"sent": True})
             else:
                 return JsonResponse(
-                        {"sent": False, "result": "%s" % (result, )})
+                        {"sent": False, "result": "{0!s}".format(result )})
         if action == 'verify':
             if not phone or not code:
                 return JsonResponse({'verified': False,
@@ -1309,22 +1309,18 @@ class StudyReportView(ParentBasedMixin, APIView):
         # logger.debug(params)
         resp = requests.get(url + '/total-item-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
             return {'total_nums': ret_nums.get('total_item_nums', 0),
                     'right_nums': ret_nums.get('total_right_item_nums', 0)}
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
-                         % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s'
-                    % (ret_json.get('code'), ret_json.get('message')))
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
     def _get_exercise_total_nums(self, url, params):
         '''
@@ -1335,11 +1331,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/total-exercise-nums', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_nums = ret_json.get('data')
@@ -1348,11 +1342,9 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'exercise_fin_nums': ret_nums.get(
                         'total_finished_exercise_nums', 0)}
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
-                         % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s'
-                    % (ret_json.get('code'), ret_json.get('message')))
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
     def _get_error_rates(self, url, params):
         '''
@@ -1363,11 +1355,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/error-knowledge-point', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1376,11 +1366,9 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'rate': ep.get('per')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
-                         % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s'
-                    % (ret_json.get('code'), ret_json.get('message')))
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
     def _get_month_trend(self, url, params):
         '''
@@ -1391,11 +1379,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/items-trend', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1406,11 +1392,9 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'day': ep.get('day')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s'
-                         % (ret_json.get('code'), ret_json.get('message')))
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s'
-                    % (ret_json.get('code'), ret_json.get('message')))
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
     def _get_knowledges_accuracy(self, url, params):
         '''
@@ -1421,11 +1405,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/knowledge-point-accuracy', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1435,10 +1417,10 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'right_item': ep.get('total_right_item')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(
                 ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(
                         ret_json.get('code'), ret_json.get('message')))
 
     def _get_abilities(self, url, params, ability_keys):
@@ -1450,11 +1432,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/ability-structure', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_obj = ret_json.get('data')
@@ -1462,10 +1442,10 @@ class StudyReportView(ParentBasedMixin, APIView):
                 return [{'key': ab, 'val': 0} for ab in ability_keys]
             return [{'key': k, 'val': v} for k, v in ret_obj.items()]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(
                 ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s' % (
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(
                         ret_json.get('code'), ret_json.get('message')))
 
     def _get_score_analyses(self, url, params):
@@ -1477,11 +1457,9 @@ class StudyReportView(ParentBasedMixin, APIView):
         '''
         resp = requests.get(url + '/my-average-score', params=params)
         if resp.status_code != 200:
-            logger.error('cannot reach kuailexue server, http_status is %s'
-                         % (resp.status_code))
+            logger.error('cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
             raise KuailexueServerError(
-                    'cannot reach kuailexue server, http_status is %s'
-                    % (resp.status_code))
+                    'cannot reach kuailexue server, http_status is {0!s}'.format((resp.status_code)))
         ret_json = json.loads(resp.content.decode('utf-8'))
         if ret_json.get('code') == 0 and ret_json.get('data') is not None:
             ret_list = ret_json.get('data')
@@ -1491,11 +1469,10 @@ class StudyReportView(ParentBasedMixin, APIView):
                      'ave_score': ep.get('ave_score')
                      } for ep in ret_list]
         else:
-            logger.error('get kuailexue wrong data, CODE: %s, MSG: %s' % (
+            logger.error('get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(
                 ret_json.get('code'), ret_json.get('message')))
             raise KuailexueDataError(
-                    'get kuailexue wrong data, CODE: %s, MSG: %s'
-                    % (ret_json.get('code'), ret_json.get('message')))
+                    'get kuailexue wrong data, CODE: {0!s}, MSG: {1!s}'.format(ret_json.get('code'), ret_json.get('message')))
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

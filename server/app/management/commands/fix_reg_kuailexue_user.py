@@ -35,7 +35,7 @@ class Command(BaseCommand):
         if end_date:
             orders = orders.filter(paid_at__lt=end_date)
 
-        print("count is %d" % orders.count())
+        print("count is {0:d}".format(orders.count()))
         for order in orders:
             print(order.id)
             registerKuaiLeXueUserByOrder.apply_async((order.id,), retry=True, retry_policy={

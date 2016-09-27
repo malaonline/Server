@@ -45,13 +45,13 @@ def sendSms(phone, msg):
     headers = {"Accept": "text/plain;charset=utf-8;", "Content-Type":"application/x-www-form-urlencoded;charset=utf-8;"}
     response = requests.post(url, headers=headers, data=params)
     if response.status_code != 200:
-        _logger.error('cannot reach sms server, http_status is %s' % (response.status_code))
+        _logger.error('cannot reach sms server, http_status is {0!s}'.format((response.status_code)))
         raise SendSMSError("sms server status code is {status_code}".format(status_code=response.status_code))
     else:
         content = response.content.decode()
         data = json.loads(content)
         if data["code"] != 0:
-            _logger.error('sms server response error, CODE: %s, MSG: %s(%s)' % (data.get('code'), data.get('msg'), data.get('detail')))
+            _logger.error('sms server response error, CODE: {0!s}, MSG: {1!s}({2!s})'.format(data.get('code'), data.get('msg'), data.get('detail')))
             raise SendSMSError("sms server error. {error_msg}".format(error_msg=content))
     return response
 
@@ -80,13 +80,13 @@ def _tpl_send_sms(phone, tpl_id, tpl_value):
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
     response = requests.post(url, headers=headers, data=params)
     if response.status_code != 200:
-        _logger.error('cannot reach sms server, http_status is %s' % (response.status_code))
+        _logger.error('cannot reach sms server, http_status is {0!s}'.format((response.status_code)))
         raise SendSMSError("sms server status code is {status_code}".format(status_code=response.status_code))
     else:
         content = response.content.decode()
         data = json.loads(content)
         if data["code"] != 0:
-            _logger.error('sms server response error, CODE: %s, MSG: %s(%s)' % (data.get('code'), data.get('msg'), data.get('detail')))
+            _logger.error('sms server response error, CODE: {0!s}, MSG: {1!s}({2!s})'.format(data.get('code'), data.get('msg'), data.get('detail')))
             raise SendSMSError("sms server error. {error_msg}".format(error_msg=content))
     return response
 

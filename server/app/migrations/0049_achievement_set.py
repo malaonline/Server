@@ -26,7 +26,7 @@ def add_item(apps, schema_editor):
         titles = ['特级教师', '全国奥数总冠军']
         for j in range(2):
             achievement = Achievement(teacher=teacher, title=titles[j])
-            name = 'img%d.jpg' % ((i + j) % 8)
+            name = 'img{0:d}.jpg'.format(((i + j) % 8))
             save_image_from_file(achievement.img, name)
             achievement.save()
 

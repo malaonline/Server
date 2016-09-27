@@ -21,8 +21,8 @@ def orderid():
     ans = timestamp() - begin
     assert ans > 0
     rand = random.randint(0, 999999)
-    ans = int('%d%06d' % (ans, rand))
-    ans = '%d%d' % (ans, ans % 7)
+    ans = int('{0:d}{1:06d}'.format(ans, rand))
+    ans = '{0:d}{1:d}'.format(ans, ans % 7)
     return ans
 
 

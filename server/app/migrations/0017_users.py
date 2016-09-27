@@ -9,8 +9,8 @@ from django.contrib.auth.hashers import make_password
 def add_user(apps, schema_editor):
     User = apps.get_model('auth', 'User')
     for i in range(settings.SAMPLE_DATA_LENGTH):
-        username = 'test%d' % i
-        email = '%s@malalaoshi.com' % username
+        username = 'test{0:d}'.format(i)
+        email = '{0!s}@malalaoshi.com'.format(username)
         user, created = User.objects.get_or_create(username=username)
         if created:
             user.email = email

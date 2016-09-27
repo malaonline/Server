@@ -872,10 +872,10 @@ class TeacherIncomeDetailView(BaseStaffView):
             'timeslot.order.grade',
             'timeslot.order.subject',
             'timeslot.order.level',
-            lambda x: x.timeslot and ('%s-%s' % (x.timeslot.start.strftime('%H:%M'), x.timeslot.end.strftime('%H:%M'),)) or '',
+            lambda x: x.timeslot and ('{0!s}-{1!s}'.format(x.timeslot.start.strftime('%H:%M'), x.timeslot.end.strftime('%H:%M'))) or '',
             lambda x: x.timeslot and (x.timeslot.order.price / 100) or '',
             lambda x: x.timeslot and x.timeslot.duration_hours() or '',
-            lambda x: x.timeslot and ('%s%%' % (x.timeslot.order.commission_percentage),) or '',
+            lambda x: x.timeslot and ('{0!s}%'.format((x.timeslot.order.commission_percentage)),) or '',
             lambda x: x.amount and (x.amount / 100) or '',
         )
         workbook = xlwt.Workbook()
@@ -1507,7 +1507,7 @@ class StudentScheduleActionView(BaseStaffActionView):
         new_end = new_end_datetime.astimezone().strftime("%H:%M")
         subject = timeslot.order.subject.name
         grade = timeslot.order.grade.name
-        msg = "您在%s-%s的%s%s课程已调整到%s-%s，去查看>>" % (
+        msg = "您在{0!s}-{1!s}的{2!s}{3!s}课程已调整到{4!s}-{5!s}，去查看>>".format(
             old_start,
             old_end,
             grade,
@@ -1522,8 +1522,8 @@ class StudentScheduleActionView(BaseStaffActionView):
         )
 
         # 短信通知家长
-        old_date = "%s-%s" % (old_start, old_end)
-        new_date = "%s-%s" % (new_start, new_end)
+        old_date = "{0!s}-{1!s}".format(old_start, old_end)
+        new_date = "{0!s}-{1!s}".format(new_start, new_end)
         grade_subject = grade + subject
         parent = timeslot.order.parent
         _try_send_sms(
@@ -2036,9 +2036,9 @@ class OrderRefundActionView(BaseStaffActionView):
 
             return JsonResponse({'ok': True})
         except OrderStatusIncorrect as e:
-            return JsonResponse({'ok': False, 'msg': '%s' % e})
+            return JsonResponse({'ok': False, 'msg': '{0!s}'.format(e)})
         except RefundError as e:
-            return JsonResponse({'ok': False, 'msg': '%s' % e})
+            return JsonResponse({'ok': False, 'msg': '{0!s}'.format(e)})
 
     def refund_approve(self, request):
         order_id = request.POST.get('order_id')
@@ -2051,7 +2051,7 @@ class OrderRefundActionView(BaseStaffActionView):
                 # 短信通知家长
                 parent = order.parent
                 student_name = parent.student_name or parent.user.profile.mask_phone()
-                amount_str = "%.2f"%(order.last_refund_record().refund_amount/100)
+                amount_str = "{0:.2f}".format((order.last_refund_record().refund_amount/100))
                 _try_send_sms(parent.user.profile.phone, smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': student_name, 'amount': amount_str}, 3)
                 # JPush 通知
                 extras = {
@@ -2396,15 +2396,15 @@ class EvaluationActionView(BaseStaffActionView):
                 evaluation = models.Evaluation.objects.get(id=eid)
                 if evaluation.schedule(start, end):
                     order = evaluation.order
-                    subject = "%s%s" % (evaluation.order.grade.name, evaluation.order.subject.name)
-                    sched_time = "%s-%s" % (timezone.localtime(evaluation.start).strftime('%m月%d日%H:%M'),
+                    subject = "{0!s}{1!s}".format(evaluation.order.grade.name, evaluation.order.subject.name)
+                    sched_time = "{0!s}-{1!s}".format(timezone.localtime(evaluation.start).strftime('%m月%d日%H:%M'),
                                           timezone.localtime(evaluation.end).strftime('%H:%M'))
                     # JPush 通知
                     extras = {
                         "type": Remind.EVALUATION_SCHEDULED,  # 测评建档
                         "code": None
                     }
-                    msg = "您已预约%s的%s课程测评建档服务" % (sched_time, subject)
+                    msg = "您已预约{0!s}的{1!s}课程测评建档服务".format(sched_time, subject)
                     send_push.delay(
                         msg,
                         title=Remind.title(Remind.EVALUATION_SCHEDULED),
@@ -2499,7 +2499,7 @@ class LevelPriceConfigView(BaseStaffView):
         if subject:
             query_set = query_set.filter(ability__subject=subject)
         num = query_set.update(price=int(new_price * 100))
-        logger.info("修改地区%s级别%s%s%s的课时价格为%s, 数据库影响%s条"%(
+        logger.info("修改地区{0!s}级别{1!s}{2!s}{3!s}的课时价格为{4!s}, 数据库影响{5!s}条".format(
             region.name, level.name, grade and grade.name or '所有年级',
             subject and subject.name or '所有科目', new_price, num))
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
@@ -2550,7 +2550,7 @@ class LevelSalaryConfigView(BaseStaffView):
         region = get_object_or_404(models.Region, id=region_id)
         level = get_object_or_404(models.Level, id=level_id)
         num = models.Price.objects.filter(region=region, level=level).update(commission_percentage=new_percent)
-        logger.info("修改地区%s级别%s的佣金比例为%s, 数据库影响%s条"%(region.name, level.name, new_percent, num))
+        logger.info("修改地区{0!s}级别{1!s}的佣金比例为{2!s}, 数据库影响{3!s}条".format(region.name, level.name, new_percent, num))
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
 
 
@@ -2592,7 +2592,7 @@ class SchoolPriceConfigView(BaseStaffView):
         range_heap = {}
         price_heap = {}
         for p_c in prices:
-            range_key = '%s~%s' % (p_c.min_hours, p_c.max_hours)
+            range_key = '{0!s}~{1!s}'.format(p_c.min_hours, p_c.max_hours)
             cur_range = range_heap.get(range_key)
             if not cur_range:
                 cur_range = {'min_hours': p_c.min_hours, 'max_hours': p_c.max_hours, 'grade_price_map':{}}

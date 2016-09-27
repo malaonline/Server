@@ -112,7 +112,7 @@ class TestApi(TestCase):
         if response_content['results'] is []:
             logger.debug(response_content)
         pk = json.loads(response.content.decode())['results'][0]['id']
-        url = "/api/v1/teachers/%d" % pk
+        url = "/api/v1/teachers/{0:d}".format(pk)
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -182,7 +182,7 @@ class TestApi(TestCase):
 
         client = Client()
         client.login(username=username, password=password)
-        request_url = "/api/v1/parents/%d" % (parent.pk,)
+        request_url = "/api/v1/parents/{0:d}".format(parent.pk)
         json_data = json.dumps({"student_name": "StudentNewName"})
         response = client.patch(request_url, content_type="application/json",
                                 data=json_data)
@@ -201,7 +201,7 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret["done"], "true")
 
-        request_url = "/api/v1/parents/%d" % (parent.pk,)
+        request_url = "/api/v1/parents/{0:d}".format(parent.pk)
         school_name = '洛阳一中'
         json_data = json.dumps({"student_school_name": school_name})
         response = client.patch(request_url, content_type="application/json",
@@ -223,7 +223,7 @@ class TestApi(TestCase):
 
         client = Client()
         client.login(username=username, password=password)
-        request_url = "/api/v1/profiles/%d" % (user.profile.pk,)
+        request_url = "/api/v1/profiles/{0:d}".format(user.profile.pk)
         img_name = 'img0'  # NOTE: seq is 0 not 1, seq of the user 'parent1'
         img_path = os.path.join(
                 app_path, 'migrations', 'avatars', img_name + '.jpg')
@@ -253,7 +253,7 @@ class TestApi(TestCase):
 
         client = Client()
         client.login(username=username, password=password)
-        request_url = "/api/v1/profiles/%d" % (user.profile.pk,)
+        request_url = "/api/v1/profiles/{0:d}".format(user.profile.pk)
         img_name = 'img0'  # NOTE: seq is 0 not 1, seq of the user 'parent1'
         img_path = os.path.join(
                 app_path, 'migrations', 'avatars', img_name + '.jpg')
@@ -279,7 +279,7 @@ class TestApi(TestCase):
         done = False
         for i in range(5):
             client = Client()
-            username = "parent%d" % i
+            username = "parent{0:d}".format(i)
             password = "123123"
             client.login(username=username, password=password)
 
@@ -395,7 +395,7 @@ class TestApi(TestCase):
         self.assertTrue(coupon.used)
         pk = json.loads(response.content.decode())['id']
 
-        request_url = "/api/v1/orders/%d" % pk
+        request_url = "/api/v1/orders/{0:d}".format(pk)
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
@@ -569,7 +569,7 @@ class TestApi(TestCase):
                 grade=grade, subject=subject, hours=hours, coupon=None)
         order.save()
 
-        request_url = "/api/v1/orders/%s" % order.id
+        request_url = "/api/v1/orders/{0!s}".format(order.id)
         response = client.delete(request_url)
         self.assertEqual(200, response.status_code)
         json_ret = json.loads(response.content.decode())
@@ -588,7 +588,7 @@ class TestApi(TestCase):
         used_coupon = Coupon.objects.get(id=coupon.id)
         self.assertTrue(used_coupon.used)
 
-        request_url = "/api/v1/orders/%s" % order.id
+        request_url = "/api/v1/orders/{0!s}".format(order.id)
         response = client.delete(request_url)
         self.assertEqual(200, response.status_code)
         json_ret = json.loads(response.content.decode())
@@ -628,7 +628,7 @@ class TestApi(TestCase):
         self.assertEqual(201, response.status_code)
         pk = json.loads(response.content.decode())['id']
 
-        request_url = "/api/v1/comments/%d" % pk
+        request_url = "/api/v1/comments/{0:d}".format(pk)
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 
@@ -744,7 +744,7 @@ class TestApi(TestCase):
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
         math_id = Subject.objects.get(name='数学').id
-        request_url = "/api/v1/study_report/%s"%(math_id)
+        request_url = "/api/v1/study_report/{0!s}".format((math_id))
         response = client.get(request_url, content_type='application/json')
         self.assertEqual(200, response.status_code)
 

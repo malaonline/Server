@@ -25,7 +25,7 @@ def add_item(apps, schema_editor):
 
         for j in range(3):
             photo = Photo(teacher=teacher, public=True)
-            name = 'img%d.jpg' % ((i + j) % 8)
+            name = 'img{0:d}.jpg'.format(((i + j) % 8))
             save_image_from_file(photo.img, name)
             photo.save()
             teacher.photo_set.add(photo)

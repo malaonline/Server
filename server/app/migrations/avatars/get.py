@@ -13,6 +13,6 @@ urls = [
 
 path = os.path.abspath(os.path.dirname(__file__))
 for i, url in enumerate(urls):
-    name = 'img%d.jpg' % i
+    name = 'img{0:d}.jpg'.format(i)
     r = requests.get(url)
     open(os.path.join(path, name), 'wb').write(r.content)

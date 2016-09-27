@@ -72,7 +72,7 @@ def add_teacher(apps, schema_editor):
     timeslots = list(WeeklyTimeSlot.objects.all())
 
     for i in range(settings.SAMPLE_DATA_LENGTH):
-        username = 'test%d' % i
+        username = 'test{0:d}'.format(i)
         user = User.objects.get(username=username)
         if not hasattr(user, 'teacher'):
             name = names[i % len(names)] + '老师'

@@ -9,7 +9,7 @@ def add_grade(apps, schema_editor):
     p = Grade(name='小学',leaf=False)
     p.save()
     for g in ('一', '二', '三', '四', '五', '六'):
-        name = '%s年级' % g
+        name = '{0!s}年级'.format(g)
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
         #print(" {name}".format(name=t.name))
@@ -17,7 +17,7 @@ def add_grade(apps, schema_editor):
     p = Grade(name='初中',leaf=False)
     p.save()
     for g in ('一', '二', '三'):
-        name = '初%s' % g
+        name = '初{0!s}'.format(g)
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
         #print(" {name}".format(name=t.name))
@@ -25,7 +25,7 @@ def add_grade(apps, schema_editor):
     p = Grade(name='高中',leaf=False)
     p.save()
     for g in ('一', '二', '三'):
-        name = '高%s' % g
+        name = '高{0!s}'.format(g)
         t = Grade(name=name, superset=p, leaf=True)
         t.save()
         #print(" {name}".format(name=t.name))
