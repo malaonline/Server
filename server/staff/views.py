@@ -41,7 +41,9 @@ def index(request):
     return render(request, 'staff/index.html')
 
 
-def login(request, context={}):
+def login(request, context=None):
+    if context is None:
+        context = {}
     if is_manager(request.user):
         return redirect('staff:index')
     return render(request, 'staff/login.html', context)
@@ -74,11 +76,13 @@ def login_auth(request):
     return login(request, {'errors': '用户名或密码错误'})
 
 
-def _try_send_sms(phone, tpl_id=0, params={}, times=1):
+def _try_send_sms(phone, tpl_id=0, params=None, times=1):
     """
     尝试发送短信
     :return: True or False
     """
+    if params is None:
+        params = {}
     if not phone:
         return False
     if not tpl_id:

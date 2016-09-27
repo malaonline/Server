@@ -232,7 +232,9 @@ def registerKuaiLeXueUserByOrder(oid):
 
 
 @shared_task(bind=True, default_retry_delay=32, max_retries=4)
-def send_sms(self, phone, tpl_id, params={}, times=1):
+def send_sms(self, phone, tpl_id, params=None, times=1):
+    if params is None:
+        params = {}
     logger.debug("[send_sms] to "+str(phone)+', '+str(tpl_id)+': '+str(params))
     try:
         tpl_send_sms(phone, tpl_id, params)

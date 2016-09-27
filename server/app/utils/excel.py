@@ -119,7 +119,7 @@ def wb_excel_response(workbook, filename='export.xls'):
     return response
 
 
-def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None, title_row=0, titles_list=[]):
+def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None, title_row=0, titles_list=None):
     '''
     获取Excel表格中指定Sheet的数据
 
@@ -131,6 +131,8 @@ def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None,
     :param titles_list: 用户指定列名, 如果不为空则忽略title_row表头, 直接读取后面的数据
     :return: list(dict) 所有行数据每行为一个dict, 以title_row或titles_list元素为key
     '''
+    if titles_list is None:
+        titles_list = []
     try:
         wb = xlrd.open_workbook(filename=file, file_contents=file_content)
     except Exception as e:
