@@ -14,35 +14,16 @@
 4. `git push -u origin BRANCH-NAME`
 5. Create a pull request
 
-### Dev server
-
-<https://dev.malalaoshi.com/admin>
-
-username: test
-
-password: mala-test
-
-### For Android
-
-1. `git submodule update --init --recursive`
-2. Create a file named `gradle.properties` with following content:
-
-```
-KEYSTORE_FILE_PATH=/Users/.../keystore
-KEYSTORE_PASSWORD=123456
-KEY_PASSWORD=123456
-DEV_SERVER=https://dev.malalaoshi.com
-STAGE_SERVER=https://stage.malalaoshi.com
-PRD_SERVER=https://malalaoshi.com
-PARENT_JPUSH_KEY_DEBUG=xxxxxxxxxx
-PARENT_JPUSH_KEY_RELEASE=xxxxxxxxxxxxx
-```
-Modify variables if needed.
-
-### For Server
+### Dependencies
 
 Install less compiler:
 
 ```
 npm install -g less
 ```
+
+### Web Servers
+
+- Dev server <https://dev.malalaoshi.com>
+- Stage server <https://stage.malalaoshi.com>
+- Prd server <https://www.malalaoshi.com>
