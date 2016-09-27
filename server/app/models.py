@@ -1573,7 +1573,7 @@ class WeeklyTimeSlot(BaseModel):
     end = models.TimeField()
 
     class Meta:
-        unique_together = ('weekday', 'start', 'end')
+        # unique_together = ('weekday', 'start', 'end')
         ordering = ['weekday', 'start', 'end']
 
     def __str__(self):
