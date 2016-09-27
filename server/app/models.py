@@ -16,7 +16,7 @@ from django.apps import apps
 from django.utils import timezone
 from django.utils.timezone import make_aware, localtime
 from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, Max, Sum
 
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.utils.algorithm import orderid, Tree, Node
@@ -206,6 +206,46 @@ class School(BaseModel):
                                 price=price,
                             )
                         price_config.save()
+
+    def balance(self, end_time=None):
+        '''
+        未转账到校区银行账号的收入总额
+        '''
+        school_account = None
+        if hasattr(self, 'schoolaccount'):
+            school_account = self.schoolaccount
+
+        # 查询最后转账日期
+        latest_time = None
+        if school_account:
+            latest_time = SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
+                Max('income_time')
+            )["income_time__max"] or None
+        query_set = Order.objects.filter(school=self, status=Order.PAID)
+        if latest_time:
+            query_set = query_set.filter(paid_at__gt=latest_time)
+        if end_time:
+            query_set.filter(paid_at__lte=end_time)
+        # 计算校区账户余额
+        return query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
+
+    def create_income_record(self, end_time=None):
+        if not hasattr(self, 'schoolaccount'):
+            # 没有填写学校账户, 就不创建收入记录
+            return False
+        # SchoolIncomeRecord的收入截止时间
+        now = timezone.now()
+        if not end_time or end_time > now:
+            end_time = now
+        school_account = self.schoolaccount
+        # 查询校区未提现转账de收入总额
+        account_balance = self.balance(end_time=end_time)
+        # 创建收入记录, 并保存
+        new_income_record = SchoolIncomeRecord(school_account=school_account, status=SchoolIncomeRecord.PENDING)
+        new_income_record.amount = account_balance
+        new_income_record.income_time = end_time
+        new_income_record.save()
+        return new_income_record
 
 
 class SchoolPhoto(BaseModel):
@@ -2969,7 +3009,8 @@ class SchoolIncomeRecord(BaseModel):
     amount = models.PositiveIntegerField(default=0)
     # 备注
     remark = models.CharField(max_length=300, null=True, blank=True)
-    # 收入时间
+    # 收入时间: 统计订单收入的截止时间
+    income_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User, null=True, blank=True)
@@ -2977,5 +3018,10 @@ class SchoolIncomeRecord(BaseModel):
     def __str__(self):
         return '%s %s -> %d' % (
                 self.school_account.school,
-                self.created_at and localtime(self.created_at).strftime('%Y-%m-%d') or '',
+                self.income_time_str,
                 self.amount)
+
+    @property
+    def income_time_str(self):
+        return self.income_time and localtime(self.income_time).strftime('%Y-%m-%d')\
+               or localtime(self.created_at).strftime('%Y-%m-%d')

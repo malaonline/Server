@@ -2670,18 +2670,8 @@ class SchoolAccountInfoView(BaseStaffView):
             school_account = school.schoolaccount
         kwargs['school_account'] = school_account
 
-        # 查询最后转账日期
-        max_time = None
-        if school_account:
-            max_time = models.SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
-                Max('created_at')
-            )["created_at__max"] or None
-        query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
-        if max_time:
-            query_set = query_set.filter(paid_at__gt=max_time)
         # 计算校区账户余额
-        account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
-        kwargs['account_balance'] = account_balance
+        kwargs['account_balance'] = school.balance()
 
         return super(SchoolAccountInfoView, self).get_context_data(**kwargs)
 
@@ -2738,23 +2728,14 @@ class SchoolIncomeRecordView(BaseStaffView):
             school_account = school.schoolaccount
         kwargs['school_account'] = school_account
 
-        # 查询最后转账日期
-        max_time = None
-        if school_account:
-            max_time = models.SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
-                Max('created_at')
-            )["created_at__max"] or None
-        query_set = models.Order.objects.filter(school=school, status=models.Order.PAID)
-        if max_time:
-            query_set = query_set.filter(paid_at__gt=max_time)
         # 计算校区账户余额
-        account_balance = query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
-        kwargs['account_balance'] = account_balance
+        kwargs['account_balance'] = school.balance()
 
         if school_account:
             # paginate
             page = self.request.GET.get('page')
             records = models.SchoolIncomeRecord.objects.filter(school_account=school_account)
+            records = records.order_by('-id')
             records, pager = paginate(records, page)
             kwargs['records'] = records
             kwargs['pager'] = pager
