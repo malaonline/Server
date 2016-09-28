@@ -504,7 +504,7 @@ class Teacher(BaseModel):
 
     recommended_on_wechat = models.BooleanField(default=False)
 
-    imported = models.BooleanField(default=False) # 是否是从线下导入的
+    imported = models.BooleanField(default=False)  # 是否是从线下导入的
 
     def __str__(self):
         return '%s %s %s' % (
@@ -559,13 +559,13 @@ class Teacher(BaseModel):
     def min_price(self):
         prices = self.prices().order_by('price')
         if prices.count() > 0:
-            return prices.first()
+            return prices.first().price
         return None
 
     def max_price(self):
         prices = self.prices().order_by('-price')
         if prices.count() > 0:
-            return prices.first()
+            return prices.first().price
         return None
 
     def is_english_teacher(self):
@@ -1589,10 +1589,13 @@ class WeeklyTimeSlot(BaseModel):
 
 class OrderManager(models.Manager):
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
-        ability = grade.ability_set.filter(subject=subject)[0]
-
-        price_obj = teacher.region.price_set.get(
-                ability=ability, level=teacher.level)
+        prices_set = school.priceconfig_set.filter(
+            deleted=False,
+            grade=grade,
+            level=teacher.level,
+            min_hours__lte=hours,
+        ).order_by('-min_hours')
+        price_obj = prices_set.first()
         price = price_obj.price
 
         # pure total price, not calculate coupon's amount
@@ -1604,7 +1607,6 @@ class OrderManager(models.Manager):
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours, level=teacher.level,
-                commission_percentage=price_obj.commission_percentage,
                 total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)
 
         order.save()

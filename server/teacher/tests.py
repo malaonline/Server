@@ -130,6 +130,7 @@ class TestWebPage(TestCase):
                         address="逗比路", region=Region.objects.get(name="其他"),
                         center=True, longitude=0, latitude=0, opened=False)
         school.save()
+        school.init_prices()
         # 为老师添加学校
         teacher.schools.add(school)
         order = Order(parent=parent, teacher=teacher, school=school,

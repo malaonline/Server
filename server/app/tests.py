@@ -314,16 +314,23 @@ class TestApi(TestCase):
         client.login(username=username, password=password)
 
         subject = Subject.objects.get(pk=1)
-        grade = Grade.objects.get(pk=1)
+        grade = Grade.objects.get(pk=2)
         ability = Ability.objects.get(subject=subject, grade=grade)
         teacher_id = 2
         teacher = Teacher.objects.get(pk=teacher_id)
         # make sure the sample teacher is published
         teacher.published = True
         teacher.save()
-        price = teacher.region.price_set.get(
-            ability=ability, level=teacher.level).price
+        school = School.objects.get(pk=1)
         hours = 14
+        prices_set = teacher.level.priceconfig_set.filter(
+            deleted=False,
+            school=school,
+            grade=grade,
+            min_hours__lte=hours,
+        ).order_by('-min_hours')
+        price_obj = prices_set.first()
+        price = price_obj.price
 
         coupon = Coupon.objects.get(pk=2)
         # 保留原始过期时间
@@ -542,7 +549,7 @@ class TestApi(TestCase):
 
         request_url = "/api/v1/orders"
         json_data = json.dumps({
-            'teacher': teacher_id, 'school': 1, 'grade': 1, 'subject': 1,
+            'teacher': teacher_id, 'school': 1, 'grade': 2, 'subject': 1,
             'coupon': None, 'hours': 14, 'weekly_time_slots': [3, 6],
         })
         response = client.post(request_url, content_type="application/json",
@@ -561,7 +568,9 @@ class TestApi(TestCase):
         parent = Parent.objects.get(user__username=username)
         teacher = Teacher.objects.order_by('?').first()
         school = School.objects.order_by('?').first()
-        grade = teacher.grades()[0]
+        ability = Ability.objects.filter(grade_id=2).first()
+        teacher.abilities.add(ability)
+        grade = ability.grade
         subject = teacher.subject()
         hours = 2
         order = Order.objects.create(
