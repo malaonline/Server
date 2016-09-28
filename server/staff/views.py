@@ -2520,11 +2520,10 @@ class LevelSalaryConfigView(BaseStaffView):
             context['level_list'] = []
             return
         level_list = list(levels)
+        price_dict = {price.level_id: price for price in prices}
         for level in level_list:
-            for price in prices:
-                if price.level_id == level.id:
-                    level.commission_percentage = price.commission_percentage
-                    break
+            level.commission_percentage = price_dict[
+                    level.id].commission_percentage
         context['level_list'] = level_list
 
     def get_context_data(self, **kwargs):
