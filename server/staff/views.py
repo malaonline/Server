@@ -133,7 +133,7 @@ class BaseStaffActionView(StaffRoleRequiredMixin, View):
     Base view for staff management action views.
     """
 
-    defaultErrMeg = "操作失败,请稍后重试或联系管理员"
+    default_err_msg = "操作失败,请稍后重试或联系管理员"
 
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
@@ -657,7 +657,7 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 newAch.save()
         except Exception as ex:
             logger.error(ex)
-            return JsonResponse({'ok': False, 'msg': BaseStaffActionView.defaultErrMeg, 'code': -1})
+            return JsonResponse({'ok': False, 'msg': BaseStaffActionView.default_err_msg, 'code': -1})
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
     def postSaveCert(self, request, teacher, type_code, type_str, cert=None):
@@ -1144,7 +1144,7 @@ class TeacherActionView(BaseStaffActionView):
             return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
         # except Exception as err:
         #     logger.error(err)
-        #     return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
+        #     return JsonResponse({'ok': False, 'msg': self.default_err_msg, 'code': -1})
 
     def getTeacherHighscore(self, request):
         """
@@ -1295,7 +1295,7 @@ class TeacherActionView(BaseStaffActionView):
             return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
         except Exception as err:
             logger.error(err)
-            return JsonResponse({'ok': False, 'msg': self.defaultErrMeg, 'code': -1})
+            return JsonResponse({'ok': False, 'msg': self.default_err_msg, 'code': -1})
 
 
 class StudentView(BaseStaffView):
