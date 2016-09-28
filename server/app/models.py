@@ -559,13 +559,13 @@ class Teacher(BaseModel):
     def min_price(self):
         prices = self.prices().order_by('price')
         if prices.count() > 0:
-            return prices.first()
+            return prices.first().price
         return None
 
     def max_price(self):
         prices = self.prices().order_by('-price')
         if prices.count() > 0:
-            return prices.first()
+            return prices.first().price
         return None
 
     def is_english_teacher(self):
@@ -1607,7 +1607,6 @@ class OrderManager(models.Manager):
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours, level=teacher.level,
-                commission_percentage=price_obj.commission_percentage,
                 total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)
 
         order.save()
