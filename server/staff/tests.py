@@ -67,3 +67,10 @@ class TestStaffWeb(TestCase):
         client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:school_income_audit"))
         self.assertEqual(response.status_code, 200)
+
+    def test_staff_region(self):
+        # 新增中心
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse("staff:region_config", kwargs={'rid': 1}))
+        self.assertEqual(response.status_code, 200)

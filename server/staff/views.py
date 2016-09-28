@@ -2776,3 +2776,34 @@ class SchoolIncomeAuditView(BaseStaffView):
             record.status = models.SchoolIncomeRecord.PENDING
         record.save()
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
+
+class RegionView(BaseStaffView):
+    """
+    地区view: 地区属性编辑, 城市开通.etc
+    """
+
+    def get(self, request, rid, *args, **kwargs):
+        region = get_object_or_404(models.Region, pk=rid)
+        action = request.GET.get('action')
+        if action == 'open':
+            return self._open_city(region)
+
+        html_buf = []
+        html_buf.append(region.name)
+        for wts in region.weekly_time_slots.all():
+            html_buf.append(str(wts))
+        return HttpResponse('<br>'.join(html_buf))
+
+    def _open_city(self, region):
+        if region.weekly_time_slots.count() == 0:
+            for weekday in range(1, 8):
+                for start in ((8, 0), (10, 30), (14, 0), (16, 30), (19, 0)):
+                    end = (start[0] + 2, start[1])
+                    weekly_time_slot = models.WeeklyTimeSlot(weekday=weekday, start=datetime.time(*start),
+                            end=datetime.time(*end))
+                    weekly_time_slot.save()
+                    region.weekly_time_slots.add(weekly_time_slot)
+        region.opened = True
+        region.save()
+        return HttpResponse('开通"%s"成功' % region.name)
