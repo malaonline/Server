@@ -2744,3 +2744,35 @@ class SchoolIncomeRecordView(BaseStaffView):
             kwargs['pager'] = pager
 
         return super(SchoolIncomeRecordView, self).get_context_data(**kwargs)
+
+
+class SchoolIncomeAuditView(BaseStaffView):
+    """
+    学校账号信息编辑和显示页面
+    """
+    template_name = 'staff/school_account/income_audit.html'
+
+    def get_context_data(self, **kwargs):# paginate
+        kwargs['query_data'] = self.request.GET.dict()
+        page = self.request.GET.get('page')
+        school = self.request.GET.get('school')
+        records = models.SchoolIncomeRecord.objects.filter()
+        if school and school.isdigit():
+            records = records.filter(school_account__school_id=school)
+        records = records.order_by('-id')
+        records, pager = paginate(records, page)
+        kwargs['records'] = records
+        kwargs['pager'] = pager
+        kwargs['schools'] = models.School.objects.filter(opened=True)
+        return super(SchoolIncomeAuditView, self).get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+        record_id = request.POST.get('rid')
+        record = get_object_or_404(models.SchoolIncomeRecord, pk=record_id)
+        if action == 'mark_yes':
+            record.status = models.SchoolIncomeRecord.APPROVED
+        elif action == 'mark_no':
+            record.status = models.SchoolIncomeRecord.PENDING
+        record.save()
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})

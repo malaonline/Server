@@ -156,6 +156,11 @@ class School(BaseModel):
         else:
             return ""
 
+    @property
+    def master_phone(self):
+        master = self.schoolmaster_set.first()
+        return master and master.phone or ''
+
     def get_photo_url_list(self):
         if self.schoolphoto_set.first():
             return list(map(lambda x: x.img_url(), self.schoolphoto_set.all()))
@@ -2927,6 +2932,10 @@ class SchoolMaster(BaseModel):
             name=self.name,
             school=self.school
         )
+
+    @property
+    def phone(self):
+        return self.user.profile.phone
 
 
 class SchoolAccount(BaseModel):

@@ -60,3 +60,10 @@ class TestStaffWeb(TestCase):
         client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:staff_school"))
         self.assertEqual(response.status_code, 200)
+
+    def test_school_income_audit(self):
+        # 新增中心
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse("staff:school_income_audit"))
+        self.assertEqual(response.status_code, 200)
