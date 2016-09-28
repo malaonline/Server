@@ -548,23 +548,25 @@ class Teacher(BaseModel):
             return ''.join(x.name[0] for x in grades)
 
     def prices(self):
-        abilities = self.abilities.all()
-        return Price.objects.filter(
-                level=self.level, region=self.region,
-                ability__grade__leaf=True,
-                ability__in=abilities).order_by('pk')
+        prices = self.level.priceconfig_set.filter(
+            deleted=False,
+            school__in=self.schools.all(),
+            grade__in=self.grades(),
+            min_hours__lte=1,
+        )
+        return prices
 
     def min_price(self):
-        prices = list(self.prices())
-        if not prices:
-            return None
-        return min(x.price for x in prices)
+        prices = self.prices().order_by('price')
+        if prices.count() > 0:
+            return prices.first()
+        return None
 
     def max_price(self):
-        prices = list(self.prices())
-        if not prices:
-            return None
-        return max(x.price for x in prices)
+        prices = self.prices().order_by('-price')
+        if prices.count() > 0:
+            return prices.first()
+        return None
 
     def is_english_teacher(self):
         subject = self.subject()
