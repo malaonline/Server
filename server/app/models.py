@@ -550,7 +550,7 @@ class Teacher(BaseModel):
     def prices(self):
         prices = self.level.priceconfig_set.filter(
             deleted=False,
-            school__in=self.schools,
+            school__in=self.schools.all(),
             grade__in=self.grades(),
             min_hours__lte=1,
         )
