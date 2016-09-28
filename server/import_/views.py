@@ -97,7 +97,7 @@ class BaseStaffActionView(View):
     Base view for staff management action views.
     """
 
-    defaultErrMeg = "操作失败,请稍后重试或联系管理员"
+    default_err_msg = "操作失败,请稍后重试或联系管理员"
 
     # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
     @method_decorator(mala_staff_required)
