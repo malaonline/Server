@@ -43,7 +43,7 @@ logger = logging.getLogger('app')
 class LargeResultsSetPagination(PageNumberPagination):
     page_size = 300
     page_size_query_param = 'page_size'
-    max_page_size = 1000
+    max_page_size = 5000
 
 
 class HugeResultsSetPagination(PageNumberPagination):
@@ -342,11 +342,15 @@ class RegionSerializer(serializers.HyperlinkedModelSerializer):
 
 class RegionViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargeResultsSetPagination
-    queryset = models.Region.objects.filter(opened=True)
+    queryset = models.Region.objects.all()
     serializer_class = RegionSerializer
 
     def get_queryset(self):
         queryset = self.queryset
+
+        all = self.request.query_params.get('all')
+        if all != 'true':
+            queryset = queryset.filter(opened=True)
 
         action = self.request.query_params.get('action', '') or ''
         if action == 'sub-regions':

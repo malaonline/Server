@@ -38,4 +38,5 @@ urlpatterns = [
     url(r'^school/price/config/$', views.SchoolPriceConfigView.as_view(), name="school_price_cfg"),
     url(r'^school/account/income/records/$', views.SchoolIncomeRecordView.as_view(), name="school_income_records"),
     url(r'^school/account/income/audit/$', views.SchoolIncomeAuditView.as_view(), name="school_income_audit"),
+    url(r'^region/(?P<rid>\d+)/$', views.RegionView.as_view(), name="region_config"),
 ]
