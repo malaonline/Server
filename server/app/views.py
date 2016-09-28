@@ -385,11 +385,11 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
 
-        region = self.request.query_params.get('region', None) or None
+        region = self.request.query_params.get('region')
         if region is not None:
             queryset = queryset.filter(region__id=region)
 
-        teacher_id = self.request.query_params.get('teacher', None) or None
+        teacher_id = self.request.query_params.get('teacher')
         if teacher_id is not None:
             queryset = queryset.filter(teacher__id=teacher_id)
 
@@ -607,20 +607,20 @@ class TeacherViewSet(viewsets.ReadOnlyModelViewSet):
                 opened=True, name__contains='郑州')
             if default_region.count() == 1:
                 region_id = default_region.first().id
-            region = self.request.query_params.get('region', None) or region_id
+            region = self.request.query_params.get('region') or region_id
             if region is not None:
                 queryset = queryset.filter(region__id=region)
             school_id = self.request.query_params.get('school', 0)
             if school_id:
                 queryset = queryset.filter(schools__id=school_id)
 
-        grade = self.request.query_params.get('grade', None) or None
+        grade = self.request.query_params.get('grade')
         if grade is not None:
             queryset = queryset.filter(
                     Q(abilities__grade__id=grade) |
                     Q(abilities__grade__subset__id=grade)).distinct()
 
-        subject = self.request.query_params.get('subject', None) or None
+        subject = self.request.query_params.get('subject')
         if subject is not None:
             queryset = queryset.filter(
                     abilities__subject__id__contains=subject)
@@ -1530,7 +1530,7 @@ class FavoriteViewSet(ParentBasedMixin,
 
     def perform_create(self, serializer):
         parent = self.get_parent()
-        teacher = self.request.POST.get('teacher', None)
+        teacher = self.request.POST.get('teacher')
         if models.Favorite.objects.filter(teacher=teacher,
                                           parent=parent).count() == 0:
             serializer.save(parent=parent)
