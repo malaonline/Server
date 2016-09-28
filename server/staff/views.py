@@ -2783,8 +2783,9 @@ class RegionView(BaseStaffView):
     地区view: 地区属性编辑, 城市开通.etc
     """
 
-    def get(self, request, rid, action=None, *args, **kwargs):
+    def get(self, request, rid, *args, **kwargs):
         region = get_object_or_404(models.Region, pk=rid)
+        action = request.GET.get('action')
         if action == 'open':
             return self._open_city(region)
 
