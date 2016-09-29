@@ -1764,7 +1764,7 @@ class OrderReviewView(BaseStaffView):
             # 导出操作, 直接给 query_set
             return query_set
         # 非导出操作, 继续分页显示
-        query_set, pager = paginate(query_set, page)
+        query_set, pager = paginate(query_set, page, 10)
         kwargs['orders'] = query_set
         kwargs['pager'] = pager
         return super(OrderReviewView, self).get_context_data(**kwargs)

@@ -280,6 +280,7 @@ class CourseChoosingView(OrderBaseView):
             # 限制条件不满足
             ability = get_object_or_404(
                 models.Ability, grade=grade, subject=subject)
+            # todo: the prices should get from school or teacher's level
             price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
             if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
