@@ -4,6 +4,19 @@
 
 {% block content %}
 
+<form name="query_form" class="form-inline">
+    <div class="form-group">
+        <label>学生姓名</label>
+        <input type="text" class="form-control" name="name" value="{{ query_data.name }}" size="10"/>
+    </div>
+    <div class="form-group">
+        <label>家长手机号</label>
+        <input type="text" class="form-control" name="phone" value="{{ query_data.phone }}" size="15"/>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="form-control btn-success" value="查询"/>
+    </div>
+</form>
 <table class="table table-striped table-hover table-bordered">
     <tr>
         <th class="text-center">序号</th>

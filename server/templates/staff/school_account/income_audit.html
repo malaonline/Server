@@ -14,7 +14,7 @@
 {% block content %}
     <form name="query_form" class="head-form form-inline">
         地区
-        <select name="school">
+        <select name="school" class="form-control">
             <option value="">请选择学校</option>
             {% for school in schools %}
                 <option value="{{ school.id }}" {% if school.id|stringformat:"i" == query_data.school %}
@@ -22,7 +22,7 @@
             {% endfor %}
         </select>
 
-        <input type="submit" value="查询"/>
+        <input type="submit" class="form-control btn-success" value="查询"/>
     </form>
 
     <div id="recordsList">
