@@ -1,5 +1,8 @@
 [report]
-omit = */migrations/*
+omit =
+    */python?.?/*
+    */site-packages/*
+    */migrations/*
 exclude_lines =
     pragma: no cover
     def __repr__
