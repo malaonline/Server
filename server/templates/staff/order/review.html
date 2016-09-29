@@ -37,71 +37,71 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label>年级</label>
-            <select name="grade" class="form-control">
-                <option value="">全部</option>
-                {% for grade in grades %}
+{#        <div class="form-group">#}
+{#            <label>年级</label>#}
+{#            <select name="grade" class="form-control">#}
+{#                <option value="">全部</option>#}
+{#                {% for grade in grades %}#}
                     {# 不显示: 小学 初中 高中 #}
-                    {% if grade.superset %}
-                        <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %}
-                                selected="selected" {% endif %}>{{ grade.name }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>科目</label>
-            <select name="subject" class="form-control">
-                <option value="">全部</option>
-                {% for subject in subjects %}
-                    <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}
-                            selected="selected"{% endif %}>{{ subject.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>授课中心</label>
-            <select name="school" class="form-control">
-                <option value="">全部</option>
-                {% for school in schools %}
-                    <option value="{{ school.id }}" {% if school.id|stringformat:"i" == query_data.school %}
-                            selected="selected"{% endif %}>{{ school.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-
-        <div class="form-group">
-            <label>下单日期</label>
-            <input type="text" class="dateInput form-control" name="order_date_from" value="{{ query_data.order_date_from }}" size="10"/>
-            -
-            <input type="text" class="dateInput form-control" name="order_date_to" value="{{ query_data.order_date_to }}" size="10"/>
-        </div>
+{#                    {% if grade.superset %}#}
+{#                        <option value="{{ grade.id }}" {% if grade.id|stringformat:"i" == query_data.grade %}#}
+{#                                selected="selected" {% endif %}>{{ grade.name }}</option>#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        </div>#}
+{##}
+{#        <div class="form-group">#}
+{#            <label>科目</label>#}
+{#            <select name="subject" class="form-control">#}
+{#                <option value="">全部</option>#}
+{#                {% for subject in subjects %}#}
+{#                    <option value="{{ subject.id }}" {% if subject.id|stringformat:"i" == query_data.subject %}#}
+{#                            selected="selected"{% endif %}>{{ subject.name }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        </div>#}
+{##}
+{#        <div class="form-group">#}
+{#            <label>授课中心</label>#}
+{#            <select name="school" class="form-control">#}
+{#                <option value="">全部</option>#}
+{#                {% for school in schools %}#}
+{#                    <option value="{{ school.id }}" {% if school.id|stringformat:"i" == query_data.school %}#}
+{#                            selected="selected"{% endif %}>{{ school.name }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        </div>#}
+{##}
+{##}
+{#        <div class="form-group">#}
+{#            <label>下单日期</label>#}
+{#            <input type="text" class="dateInput form-control" name="order_date_from" value="{{ query_data.order_date_from }}" size="10"/>#}
+{#            -#}
+{#            <input type="text" class="dateInput form-control" name="order_date_to" value="{{ query_data.order_date_to }}" size="10"/>#}
+{#        </div>#}
 
         <div class="form-group">
             <input type="submit" class="form-control btn-success" value="查询"/>
         </div>
-        <div class="form-group">
-            <input type="button" class="form-control btn-danger" data-action="export" value="导出"/>
-        </div>
+{#        <div class="form-group">#}
+{#            <input type="button" class="form-control btn-danger" data-action="export" value="导出"/>#}
+{#        </div>#}
     </form>
 
     <table class="table table-bordered table-striped table-hover">
         <tr>
             <th>订单号</th>
             <th>下单时间</th>
-            <th>支付平台</th>
+{#            <th>支付平台</th>#}
             <th>订单状态</th>
-            <th>是否排课</th>
+{#            <th>是否排课</th>#}
             <th>家长手机号</th>
             <th>学生姓名</th>
             <th>老师姓名</th>
             <th>老师手机号</th>
-            <th>报课年级</th>
-            <th>报课科目</th>
+{#            <th>报课年级</th>#}
+{#            <th>报课科目</th>#}
 {#            <th>上课地点</th>#}
 {#            <th>上课时间</th>#}
             <th class="text-right">小时单价</th>
@@ -122,32 +122,32 @@
             <tr align="center">
 {# 订单号码 #}    <td>{{ order.order_id }}</td>
 {# 下单时间 #}    <td>{{ order.created_at|date:"Y/m/d H:i" }}</td>
-{# 支付平台 #}    <td>
-                    {% if order.status == order.PAID %}
-                        {% for chagre in order.charge_set.all %}
-                            {{ chagre.channel }}<br/>
-                        {% endfor %}
-                    {% endif %}
-                </td>
+{# 支付平台     <td>#}
+{#                    {% if order.status == order.PAID %}#}
+{#                        {% for chagre in order.charge_set.all %}#}
+{#                            {{ chagre.channel }}<br/>#}
+{#                        {% endfor %}#}
+{#                    {% endif %}#}
+{#                </td>#}
 {# 订单状态 #}    <td>
                     {% if order.is_student_first_subject %}
                         <div style="color: #c9302c; font-weight: bold">首单</div>
                     {% endif %}
                     {{ order.status_display }}
                 </td>
-{# 是否排课 #}    <td>
-                      {% if order.is_timeslot_allocated %}
-                      是
-                      {% else %}
-                      否
-                      {% endif %}
-                </td>
+{# 是否排课     <td>#}
+{#                      {% if order.is_timeslot_allocated %}#}
+{#                      是#}
+{#                      {% else %}#}
+{#                      否#}
+{#                      {% endif %}#}
+{#                </td>#}
 {# 家长手机 #}    <td>{{ order.parent.user.profile.phone }}</td>
 {# 学生姓名 #}    <td>{{ order.parent.student_name }}</td>
 {# 老师姓名 #}    <td>{{ order.teacher.name }}</td>
 {# 老师手机 #}    <td>{{ order.teacher.user.profile.phone }}</td>
-{# 报课年级 #}    <td><span class="label label-default">{{ order.grade }}</span></td>
-{# 报课科目 #}    <td>{{ order.subject }}</td>
+{# 报课年级     <td><span class="label label-default">{{ order.grade }}</span></td>#}
+{# 报课科目     <td>{{ order.subject }}</td>#}
 {# 上课地点     <td>{{ order.school }}</td>#}
 {# 上课时间     <td>#}
 {#                    {% for slot in order.weekly_time_slots.all %}#}

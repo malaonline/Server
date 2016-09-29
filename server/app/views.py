@@ -1024,6 +1024,8 @@ class OrderViewSet(ParentBasedMixin,
         return queryset
 
     def validate_create(self, request):
+        school = get_object_or_404(
+            models.School, pk=request.data.get('school'))
         # 奖学金使用校验
         if request.data.get('coupon'):
             coupon = get_object_or_404(
@@ -1032,13 +1034,16 @@ class OrderViewSet(ParentBasedMixin,
                 models.Teacher, pk=request.data.get('teacher'))
             grade = get_object_or_404(
                 models.Grade, pk=request.data.get('grade'))
-            subject = get_object_or_404(
-                models.Subject, pk=request.data.get('subject'))
-            ability = get_object_or_404(
-                models.Ability, grade=grade, subject=subject)
-            price = teacher.region.price_set.get(
-                ability=ability, level=teacher.level).price
             hours = request.data.get('hours')
+            prices_set = teacher.level.priceconfig_set.filter(
+                deleted=False,
+                school=school,
+                grade=grade,
+                min_hours__lte=hours,
+            ).order_by('-min_hours')
+            price_obj = prices_set.first()
+            price = price_obj.price
+
             # 限制条件不满足
             if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
                 return -2
@@ -1054,8 +1059,6 @@ class OrderViewSet(ParentBasedMixin,
                              for x in weekly_time_slots]
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
 
-        school = get_object_or_404(
-                models.School, pk=request.data.get('school'))
         teacher = get_object_or_404(
                 models.Teacher, pk=request.data.get('teacher'))
         parent = self.get_parent()
