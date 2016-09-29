@@ -178,15 +178,15 @@ class CouponsListView(StaffRoleRequiredMixin, ListView):
         coupons_list = self.model.objects.all()
         #TODO:用字典循环取值
         # for keyword in ['name','phone','dateFrom','dateTo','type','status']:
-        #     cmd = "%s = self.request.GET.get('%s',None)" % (keyword,keyword)
+        #     cmd = "%s = self.request.GET.get('%s')" % (keyword,keyword)
         #     exec(cmd)
         #     print(name)
-        name = self.request.GET.get('name',None)
-        phone = self.request.GET.get('phone',None)
-        dateFrom = self.request.GET.get('dateFrom',None)
-        dateTo = self.request.GET.get('dateTo',None)
-        type = self.request.GET.get('type',None)
-        status = self.request.GET.get('status',None)
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        dateFrom = self.request.GET.get('dateFrom')
+        dateTo = self.request.GET.get('dateTo')
+        type = self.request.GET.get('type')
+        status = self.request.GET.get('status')
 
         if name:
             coupons_list = coupons_list.filter(parent__student_name__icontains=name)
@@ -1327,7 +1327,7 @@ class StudentScheduleManageView(BaseStaffView):
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
-        parent_phone = self.request.GET.get('phone',None)
+        parent_phone = self.request.GET.get('phone')
         week = self.request.GET.get('week',0)
         week = int(week)
         kwargs['query_data']['week'] = week
@@ -1386,11 +1386,11 @@ class StudentScheduleChangelogView(BaseStaffView):
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
         kwargs['query_data'] = self.request.GET.dict()
-        name = self.request.GET.get('name',None)
-        phone = self.request.GET.get('phone',None)
-        type = self.request.GET.get('type',None)
-        searchDateOri = self.request.GET.get('searchDateOri',None)
-        searchDateNew = self.request.GET.get('searchDateNew',None)
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
+        type = self.request.GET.get('type')
+        searchDateOri = self.request.GET.get('searchDateOri')
+        searchDateNew = self.request.GET.get('searchDateNew')
         page = self.request.GET.get('page')
 
         query_set = models.TimeSlotChangeLog.objects.all()
@@ -1577,10 +1577,10 @@ class SchoolView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         context = super(SchoolView, self).get_context_data(**kwargs)
-        schoolId = self.request.GET.get('schoolId', None)
+        schoolId = self.request.GET.get('schoolId')
         memberservices = models.Memberservice.objects.all().values('id','name')
         if not schoolId:
-            schoolId = self.request.POST.get('schoolId', None)
+            schoolId = self.request.POST.get('schoolId')
 
         if schoolId == 'None':
             schoolId = None
@@ -1613,24 +1613,24 @@ class SchoolView(BaseStaffView):
         service_list = self.request.POST.getlist('services')
 
 
-        school.phone = self.request.POST.get('phone', None)
-        school.name = self.request.POST.get('schoolName', None)
+        school.phone = self.request.POST.get('phone')
+        school.name = self.request.POST.get('schoolName')
         school.center = True if self.request.POST.get('center', '0') == '1' else False
         school.opened = True if self.request.POST.get('opened', '0') == '1' else False
-        class_seat = self.request.POST.get('class_seat', None)
+        class_seat = self.request.POST.get('class_seat')
         if class_seat == '':
             class_seat = 0
         school.class_seat = class_seat
-        study_seat = self.request.POST.get('study_seat', None)
+        study_seat = self.request.POST.get('study_seat')
         if study_seat == '':
             study_seat = 0
         school.study_seat = study_seat
-        school.longitude = self.request.POST.get('longitude', None)
-        school.latitude = self.request.POST.get('latitude', None)
-        school.address = self.request.POST.get('address', None)
-        school.desc_title = self.request.POST.get('desc_title', None)
-        school.desc_content = self.request.POST.get('desc_content', None)
-        regionId = self.request.POST.get('regionId', None)
+        school.longitude = self.request.POST.get('longitude')
+        school.latitude = self.request.POST.get('latitude')
+        school.address = self.request.POST.get('address')
+        school.desc_title = self.request.POST.get('desc_title')
+        school.desc_content = self.request.POST.get('desc_content')
+        regionId = self.request.POST.get('regionId')
         school.region = models.Region.objects.get(id=regionId)
         school.save()
         school.member_services = service_list
@@ -1678,7 +1678,7 @@ class OrderReviewView(BaseStaffView):
         order_date_from = self.request.GET.get('order_date_from')
         order_date_to = self.request.GET.get('order_date_to')
         page = self.request.GET.get('page')
-        export = self.request.GET.get('export', None)
+        export = self.request.GET.get('export')
 
         query_set = models.Order.objects.filter()
         if self.school_master is not None:
@@ -1771,7 +1771,7 @@ class OrderReviewView(BaseStaffView):
 
     def get(self, request):
         context = self.get_context_data()
-        export = self.request.GET.get('export', None)
+        export = self.request.GET.get('export')
         if export:
             query_set = context
             _weekday_dict = {
@@ -1862,7 +1862,7 @@ class OrderRefundView(BaseStaffView):
         subject = self.request.GET.get('subject')
         status = self.request.GET.get('status')
         page = self.request.GET.get('page')
-        export = self.request.GET.get('export', None)
+        export = self.request.GET.get('export')
 
         query_set = models.Order.objects.filter()
         # 退费申请区间
@@ -1927,7 +1927,7 @@ class OrderRefundView(BaseStaffView):
 
     def get(self, request):
         context = self.get_context_data()
-        export = self.request.GET.get('export', None)
+        export = self.request.GET.get('export')
         if export:
             query_set = context
             headers = (
@@ -2088,10 +2088,10 @@ class SchoolTimeslotView(BaseStaffView):
 
     def get_context_data(self, **kwargs):
         context = super(SchoolTimeslotView, self).get_context_data(**kwargs)
-        schoolId = self.request.GET.get('schoolId', None)
-        searchTime = self.request.GET.get('searchDate', None)
-        searchName = self.request.GET.get('name', None)
-        phone = self.request.GET.get('phone', None)
+        schoolId = self.request.GET.get('schoolId')
+        searchTime = self.request.GET.get('searchDate')
+        searchName = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
 
         schools = models.School.objects.all()
         if self.school_master is not None:
@@ -2162,9 +2162,9 @@ class SchoolTimeslotView(BaseStaffView):
 
     def post(self, request):
         if request.POST.get('action') == 'saveComplaint':
-            timeslotId = request.POST.get('timeslotId', None)
-            complaintId = request.POST.get('complaintId', None)
-            complaintContent = request.POST.get('complaintContent', None)
+            timeslotId = request.POST.get('timeslotId')
+            complaintId = request.POST.get('complaintId')
+            complaintContent = request.POST.get('complaintContent')
 
             if not timeslotId:
                 return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
@@ -2180,9 +2180,9 @@ class SchoolTimeslotView(BaseStaffView):
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
         if request.POST.get('action') == 'saveAttendace':
-            timeslotId = request.POST.get('timeslotId', None)
-            attendanceId = request.POST.get('attendanceId', None)
-            attendanceValue = request.POST.get('attendanceValue', None)
+            timeslotId = request.POST.get('timeslotId')
+            attendanceId = request.POST.get('attendanceId')
+            attendanceValue = request.POST.get('attendanceValue')
 
             if not timeslotId:
                 return JsonResponse({'ok': False, 'msg': '必须提供课程编号', 'code': -1})
@@ -2221,7 +2221,7 @@ class CouponConfigView(BaseStaffView):
     def post(self, request):
         context = self.get_context_data()
 
-        couponType = self.request.POST.get('couponType', None)
+        couponType = self.request.POST.get('couponType')
         used = self.request.POST.get('opened')
         if used == '1':
             used = True
@@ -2232,8 +2232,8 @@ class CouponConfigView(BaseStaffView):
         mini_course_count = self.request.POST.get('mini_course_count', 0)
         mini_total_price = self.request.POST.get('mini_total_price', 0)
         parent_phone = self.request.POST.get('parent_phone')
-        expiredAt = self.request.POST.get('expiredAt', None)
-        validatedStart = self.request.POST.get('validatedStart', None)
+        expiredAt = self.request.POST.get('expiredAt')
+        validatedStart = self.request.POST.get('validatedStart')
         couponRules = self.request.POST.get('couponRules')
         couponRules_list = None
         if couponRules:
