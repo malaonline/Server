@@ -169,8 +169,8 @@ class TeacherLogin(View):
 
     def post(self, request):
         # 登录,用短信验证
-        phone = request.POST.get("phone", None)
-        code = request.POST.get("code", None)
+        phone = request.POST.get("phone")
+        code = request.POST.get("code")
         next_url = request.GET.get("next", "")
         # print("the_next_url is {next_url}".format(next_url=next_url))
         Profile = models.Profile
@@ -314,11 +314,11 @@ class InformationComplete(BasicTeacherView):
         next_url = request.GET.get("next", "")
         profile = models.Profile.objects.get(user=user)
 
-        name = request.POST.get("name", None)
-        gender = request.POST.get("gender", None)
-        region = request.POST.get("region", None)
-        subject = request.POST.get("subclass", None)
-        grade = request.POST.get("grade", None)
+        name = request.POST.get("name")
+        gender = request.POST.get("gender")
+        region = request.POST.get("region")
+        subject = request.POST.get("subclass")
+        grade = request.POST.get("grade")
 
         def _check_parameter(target, msg):
             if not target:
@@ -1470,7 +1470,7 @@ class WithdrawalRequest(BasicTeacherView):
     # def post(self, request):
     #     user = request.user
         phone = user.profile.phone
-        code = request.POST.get("code", None)
+        code = request.POST.get("code")
         if self.is_now_allowed_to_withdraw():
             verify_result, verify_code = models.Checkcode.verify(phone, code)
             if verify_result is True:
@@ -2262,9 +2262,9 @@ class BasicDocument(BaseTeacherView):
         birthday_d = int(self.request.POST.get('birthday_d', 0))
 
         teachingAge = self.request.POST.get('teachingAge', 0)
-        graduate_school = self.request.POST.get('graduate_school', None)
-        introduce = self.request.POST.get('introduce', None)
-        subclass = self.request.POST.get('subclass', None)
+        graduate_school = self.request.POST.get('graduate_school')
+        introduce = self.request.POST.get('introduce')
+        subclass = self.request.POST.get('subclass')
 
         tags = request.POST.get("selectedTags")
 
@@ -2512,8 +2512,8 @@ class StudentLetter(BasicTeacherView):
         return render(request, "teacher/letter/edit.html", context)
 
     def handle_post(self, request, user, teacher, student_type, page_offset, student_id):
-        title = request.POST.get('title', None)
-        content = request.POST.get('content', None)
+        title = request.POST.get('title')
+        content = request.POST.get('content')
 
         context = {
             'student_type': student_type,

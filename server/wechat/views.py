@@ -46,9 +46,9 @@ def _get_parent(request):
             pass
     if not parent:
         # 通过 wx_openid 获得家长
-        openid = request.GET.get("openid", None)
+        openid = request.GET.get("openid")
         if not openid:
-            openid = request.POST.get("openid", None)
+            openid = request.POST.get("openid")
         if openid:
             profile = models.Profile.objects.filter(wx_openid=openid).order_by('-id').first()
             try:
@@ -98,7 +98,7 @@ class SchoolsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SchoolsView, self).get_context_data(**kwargs)
-        openid = self.request.GET.get("openid", None) or self.request.POST.get("openid", None)
+        openid = self.request.GET.get("openid", self.request.POST.get("openid"))
         cur_url = self.request.build_absolute_uri()
 
         # schools = self.model.objects.all()
@@ -359,9 +359,9 @@ class CourseChoosingView(OrderBaseView):
             return {'ok': False, 'msg': query_ret['msg'], 'code': 1}
 
     def schools_distance(self, request):
-        lat = request.POST.get('lat', None)
-        lng = request.POST.get('lng', None)
-        tid = request.POST.get('tid', None)
+        lat = request.POST.get('lat')
+        lng = request.POST.get('lng')
+        tid = request.POST.get('tid')
         if lat is None or lat == '' or lng is None or lng == '':
             return JsonResponse({'ok': False})
         lat = float(lat)
@@ -651,14 +651,14 @@ def send_pay_fail_to_user(openid, order_no):
 @csrf_exempt
 def teacher_view(request):
     template_name = 'wechat/teacher/teacher.html'
-    openid = request.GET.get("openid", None)
+    openid = request.GET.get("openid")
 
     if not openid:
-        openid = request.POST.get("openid", None)
+        openid = request.POST.get("openid")
 
-    teacherid = request.GET.get("teacherid", None)
+    teacherid = request.GET.get("teacherid")
     if not teacherid:
-        teacherid = request.POST.get("teacherid", None)
+        teacherid = request.POST.get("teacherid")
 
     teacher = None
     gender = None
@@ -738,9 +738,9 @@ def teacher_view(request):
 
 @csrf_exempt
 def getSchoolsWithDistance(request):
-    lat = request.POST.get("lat", None)
-    lng = request.POST.get("lng", None)
-    tid = request.POST.get("tid", None)
+    lat = request.POST.get("lat")
+    lng = request.POST.get("lng")
+    tid = request.POST.get("tid")
 
     point = None
     if lat is not None and lng is not None:
@@ -794,11 +794,11 @@ def calculateDistance(pointA, pointB):
 @csrf_exempt
 def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
-    teacherId = request.GET.get('state', None) # 注册, 报名, 收藏
+    teacherId = request.GET.get('state') # 注册, 报名, 收藏
 
-    openid = request.GET.get("openid", None)
+    openid = request.GET.get("openid")
     if not openid:
-        openid = request.POST.get("openid", None)
+        openid = request.POST.get("openid")
 
     nextpage = _get_reg_next_page(teacherId, openid)
     parent = _get_parent(request)
@@ -819,10 +819,10 @@ def phone_page(request):
 
 @csrf_exempt
 def add_openid(request):
-    phone = request.POST.get("phone", None)
-    code = request.POST.get("code", None)
-    openid = request.POST.get("openid", None)
-    stu_name = request.POST.get("name", None)
+    phone = request.POST.get("phone")
+    code = request.POST.get("code")
+    openid = request.POST.get("openid")
+    stu_name = request.POST.get("name")
     if not stu_name:
         return JsonResponse({'result': False, 'code': -4})
     if not openid or openid == 'None':
@@ -888,8 +888,8 @@ def _get_reg_next_page(state, openid):
 @csrf_exempt
 def check_phone(request):
     get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
-    wx_code = request.GET.get('code', None)
-    teacherId = request.GET.get('state', None) # 注册, 报名, 收藏
+    wx_code = request.GET.get('code')
+    teacherId = request.GET.get('state') # 注册, 报名, 收藏
 
     if wx_code is None or wx_code == 'None' or wx_code == '':
         return HttpResponse(json.dumps({
