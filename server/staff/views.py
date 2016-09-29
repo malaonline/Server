@@ -1302,11 +1302,21 @@ class StudentView(BaseStaffView):
     template_name = 'staff/student/students.html'
 
     def get_context_data(self, **kwargs):
+        kwargs['query_data'] = self.request.GET.dict()
+        name = self.request.GET.get('name')
+        phone = self.request.GET.get('phone')
         page = self.request.GET.get('page')
         parents = models.Parent.objects.all()
         # filter the data with order of the school
         if self.school_master is not None:
             parents = parents.filter(order__school=self.school_master.school)
+
+        if name:
+            parents = parents.filter(
+                students__name__icontains=name).distinct()
+        if phone:
+            parents = parents.filter(
+                user__profile__phone__contains=phone).distinct()
 
         parents = parents.order_by('-user__date_joined').distinct()
         count = parents.count()
@@ -1687,9 +1697,9 @@ class OrderReviewView(BaseStaffView):
         if name:
             query_set = query_set.filter(
                 Q(parent__user__username__icontains=name) |
-                Q(parent__student_name__icontains=name) |
+                Q(parent__students__name__icontains=name) |
                 Q(teacher__name__icontains=name)
-            )
+            ).distinct()
         # 家长手机 or 老师手机, 模糊匹配
         if phone:
             query_set = query_set.filter(
