@@ -124,9 +124,9 @@ class TeacherView(BaseStaffView):
         return super(TeacherView, self).get_context_data(**kwargs)
 
     def post(self, request):
-        school = request.user.profile.school # 录入员的所属校区
-        if school is None:
+        if (not hasattr(request.user, 'profile')) or request.user.profile.school is None:
             return HttpResponseRedirect(reverse('import_:teachers') + '#管理员学校选择错误')
+        school = request.user.profile.school # 录入员的所属校区
         region = school.region
         result_msg = ''
         excel_file = None
@@ -140,16 +140,20 @@ class TeacherView(BaseStaffView):
         Profile = models.Profile
         num = 1
         for row in datas:
+            t_name = row.get('name')
             try:
                 phone = str(int(row['phone'])) # 电话号码excel读入成为float(XXX.0)了
                 old_teacher = models.Teacher.objects.filter(user__profile__phone=phone).first()
                 if old_teacher:
                     if not old_teacher.schools.filter(id=school.id).exists():
+                        if old_teacher.region and old_teacher.region != region:
+                            result_msg = "导入第%s个老师(%s)失败, 学校%s的地区, 与老师所属地区不匹配" % (num, t_name, school.name)
+                            break
                         old_teacher.schools.add(school)
                         old_teacher.save()
                         continue
                     else:
-                        result_msg = "第%s个老师(%s)已存在" % (num, phone)
+                        result_msg = "第%s个老师(%s)已存在" % (num, t_name)
                         break
                 gender = row['gender']
                 subject = models.Subject.objects.get(name=row['subject'])
@@ -158,7 +162,7 @@ class TeacherView(BaseStaffView):
                 with transaction.atomic():
                     new_user = models.Teacher.new_teacher(phone)
                     new_teacher = new_user.teacher
-                    new_teacher.name = row['name']
+                    new_teacher.name = t_name
                     new_user.profile.gender = gender == '男' and Profile.MALE or (gender == '女' and Profile.FEMALE or Profile.UNKNOWN)
                     new_teacher.abilities.clear()
                     ability_set = models.Ability.objects.filter(subject=subject, grade__in=grades)
@@ -172,7 +176,7 @@ class TeacherView(BaseStaffView):
                     new_teacher.save()
             except Exception as ex:
                 logger.error(ex)
-                result_msg = "导入第%s个老师时失败, ERROR: %s" % (num, ex)
+                result_msg = "导入第%s个老师(%s)时失败, ERROR: %s" % (num, t_name, ex)
                 break
 
         return HttpResponseRedirect(reverse('import_:teachers') + '#' + result_msg)
