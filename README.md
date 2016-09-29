@@ -1,4 +1,4 @@
-# Malalaoshi ![Building status](https://travis-ci.org/malaonline/Server.svg?branch=master)
+# Malalaoshi ![Building status](https://travis-ci.org/malaonline/Server.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/malaonline/Server/badge.svg?branch=master)](https://coveralls.io/github/malaonline/Server?branch=master)
 
 ### Getting Started
 
