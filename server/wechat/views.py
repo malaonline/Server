@@ -198,7 +198,7 @@ class CourseChoosingView(OrderBaseView):
         schools = teacher.schools.filter(opened=True)
         # schools = list(models.School.objects.filter(opened=True))
         kwargs['schools'] = schools
-        kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
+        kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region)
         now = timezone.now()
         now_timestamp = int(now.timestamp())
         kwargs['server_timestamp'] = now_timestamp

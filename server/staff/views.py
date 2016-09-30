@@ -1189,7 +1189,7 @@ class TeacherActionView(BaseStaffActionView):
         weekly_time_slots = []
         for wts in teacher.weekly_time_slots.all():
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
-        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS})
+        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region)})
 
     def getTeacherCourseSchedule(self, request):
         """
@@ -1238,7 +1238,8 @@ class TeacherActionView(BaseStaffActionView):
                 order_heap[timeSlot.order_id] = cur_order
             ts_dict.update(cur_order)
             courses.append(ts_dict)
-        return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS,
+        return JsonResponse({'list': weekly_time_slots,
+                             'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region),
                              'dates': dates, 'courses': courses})
 
     def getGradesRangeOfSubject(self, request):
@@ -1376,7 +1377,7 @@ class StudentScheduleManageView(BaseStaffView):
         kwargs['weekdays'] = weekdays
         kwargs['today'] = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         # 固定的 weekly time slots
-        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
+        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS  # TODO: diff according to region
         # 查询结果数据集
         kwargs['timeslots'] = query_set
         kwargs['evaluations'] = models.Evaluation.objects.filter(
@@ -2385,7 +2386,7 @@ class EvaluationView(BaseStaffView):
         query_set, pager = paginate(query_set, page)
         kwargs['evaluations'] = query_set
         kwargs['pager'] = pager
-        kwargs['daily_timeslots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
+        kwargs['daily_timeslots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS  # TODO: diff according to region
         return super(EvaluationView, self).get_context_data(**kwargs)
 
 
@@ -2402,6 +2403,7 @@ class EvaluationActionView(BaseStaffActionView):
         eid = request.POST.get('eid')
         schedule_date = request.POST.get('schedule_date')
         schedule_time_index = request.POST.get('schedule_time')
+        # TODO: models.WeeklyTimeSlot.DAILY_TIME_SLOTS diff according to region
         for index, slot in enumerate(models.WeeklyTimeSlot.DAILY_TIME_SLOTS, start=0):
             if index == int(schedule_time_index):
                 date = datetime.datetime.strptime(schedule_date, '%Y-%m-%d')

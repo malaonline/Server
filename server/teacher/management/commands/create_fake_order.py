@@ -88,7 +88,7 @@ class Command(BaseCommand):
         #                  [[15, 0, 0], [17, 0, 0]],
         #                  [[8, 0, 0], [10, 0, 0]], [[15, 0, 0], [17, 0, 0]], [[11, 0, 0], [12, 0, 0]]]*2
         duration_list = []
-        for legal_time_slot in WeeklyTimeSlot.DAILY_TIME_SLOTS:
+        for legal_time_slot in WeeklyTimeSlot.DAILY_TIME_SLOTS:  # TODO: diff according to region
             start = legal_time_slot["start"]
             end = legal_time_slot["end"]
             duration_list.append([[start.hour, start.minute, start.second], [end.hour, end.minute, end.second]])
