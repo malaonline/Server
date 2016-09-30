@@ -1377,7 +1377,13 @@ class StudentScheduleManageView(BaseStaffView):
         kwargs['weekdays'] = weekdays
         kwargs['today'] = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         # 固定的 weekly time slots
-        kwargs['weekly_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS  # TODO: diff according to region
+        # TODO: super admin do not display the table for now
+        kwargs['weekly_time_slots'] = []
+        if self.school_master is not None:
+            region = self.school_master.school.region
+            weekly_time_slots = models.WeeklyTimeSlot.DAILY_TIME_SLOTS(region)
+            kwargs['weekly_time_slots'] = weekly_time_slots
+
         # 查询结果数据集
         kwargs['timeslots'] = query_set
         kwargs['evaluations'] = models.Evaluation.objects.filter(
