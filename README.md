@@ -2,8 +2,15 @@
 
 ### Getting Started
 
-1. Add an SSH key to your Github account.
-2. `git clone` to local machine.
+0. Install less compiler: `npm install -g less`
+1. Install Python 3 and Postgres.
+2. Add an SSH key to your Github account.
+3. `git clone` to local machine.
+4. `cd server`
+5. `cp server/local_settings.sample server/local_settings.py`
+6. `pip install -r pip_install.txt --upgrade`
+7. `python manage.py migrate`
+8. `python manage.py runserver`
 
 ### To Create a Pull Request
 
@@ -13,14 +20,6 @@
 3. `git commit -m 'Your commit messages.'`
 4. `git push -u origin BRANCH-NAME`
 5. Create a pull request
-
-### Dependencies
-
-Install less compiler:
-
-```
-npm install -g less
-```
 
 ### Web Servers
 
