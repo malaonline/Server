@@ -1580,11 +1580,11 @@ class WeeklyTimeSlot(BaseModel):
     def __str__(self):
         return '%s from %s to %s' % (self.weekday, self.start, self.end)
 
-    @classproperty
-    def DAILY_TIME_SLOTS(cls):
+    @classmethod
+    def DAILY_TIME_SLOTS(cls, region):
         return [
                 dict(start=item.start, end=item.end) for item in
-                cls.objects.filter(weekday=1).order_by('start')]
+                cls.objects.filter(weekday=1, region=region).order_by('start')]
 
 
 class OrderManager(models.Manager):

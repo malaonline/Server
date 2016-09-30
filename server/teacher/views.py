@@ -2603,7 +2603,7 @@ class ScheduleWeeklyConfigView(BasicTeacherView):
         for s in weekly_time_slots:
             s.available = True if s in available_weekly_times else False
         context['weekly_time_slots'] = weekly_time_slots
-        context['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS
+        context['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region)
         return render(request, "teacher/schedule/weekly_config.html", context)
 
     def handle_post(self, request, user, teacher, *args, **kwargs):
