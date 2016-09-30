@@ -230,7 +230,7 @@ class School(BaseModel):
         if latest_time:
             query_set = query_set.filter(paid_at__gt=latest_time)
         if end_time:
-            query_set.filter(paid_at__lte=end_time)
+            query_set = query_set.filter(paid_at__lte=end_time)
         # 计算校区账户余额
         return query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
 
