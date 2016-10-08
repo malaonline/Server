@@ -1561,6 +1561,7 @@ class TeacherSchoolPrices(View):
         prices = models.PriceConfig.objects.filter(
             deleted=False,
             school=school,
+            grade__in=teacher.grades(),
             level=teacher.level
         )
         prices = list(prices)
@@ -1569,7 +1570,6 @@ class TeacherSchoolPrices(View):
         data = [
             {'grade': grade.id,
              'grade_name': grade.name,
-             'assigned': grade in teacher.grades(),
              'prices': [OrderedDict(
                  [('min_hours', config.min_hours),
                   ('max_hours', config.max_hours),

@@ -1145,7 +1145,6 @@ HTTP Status Code 200
         {
             "grade": 2,
             "grade_name": "一年级",
-            "assigned": false,
             "prices": [
                 {
                     "min_hours": 1,
@@ -1172,7 +1171,6 @@ HTTP Status Code 200
         {
             "grade": 3,
             "grade_name": "二年级",
-            "assigned": true,
             "prices": [
                 {
                     "min_hours": 1,
