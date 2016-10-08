@@ -1559,6 +1559,7 @@ class TeacherSchoolPrices(View):
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         # no need grade, this will return all grades prices
         prices = models.PriceConfig.objects.filter(
+            deleted=False,
             school=school,
             level=teacher.level
         )
@@ -1569,10 +1570,11 @@ class TeacherSchoolPrices(View):
             {'grade': grade.id,
              'grade_name': grade.name,
              'prices': [OrderedDict(
-                [('min_hours', config.min_hours),
-                 ('max_hours', config.max_hours),
-                 ('price', config.price)])
-                        for config in configs]}
+                 [('min_hours', config.min_hours),
+                  ('max_hours', config.max_hours),
+                  ('price', config.price)])
+                        for config in
+                        sorted(configs, key=lambda x: x.min_hours)]}
             for grade, configs in step_prices]
 
         return JsonResponse({
