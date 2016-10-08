@@ -8,12 +8,13 @@ services:
 before_install:
   - cd server/
   - echo 'SECRET_KEY = "FAKE SECRET"' >> server/travis_ci_settings.py
+  - mv server/travis_ci_settings.py server/local_settings.py
 install:
   - pip install -r pip_install.txt
   - pip install coveralls
 script:
-  - python manage.py cold_test app.cold_tests.SimpleTest --setting=server.travis_ci_settings -v2
-  - coverage run manage.py test --noinput --setting=server.travis_ci_settings -v2
+  - python manage.py cold_test app.cold_tests.SimpleTest -v2
+  - coverage run manage.py test --noinput -v2
 after_success:
   - coveralls --rcfile=.coveragerc
 before_deploy:

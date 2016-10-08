@@ -1,5 +1,3 @@
-from .settings import *
-
 # DB settings for Travis CI
 DATABASES = {
     'default': {
@@ -10,8 +8,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
         'TEST': {
-            'NAME': 'test_%s' % subprocess.check_output(
-                ['git', 'rev-parse', '--short', 'HEAD']).decode().strip(),
+            'NAME': 'test_mala',
         }
     }
 }
