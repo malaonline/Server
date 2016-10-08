@@ -6,6 +6,7 @@ services:
   - redis-server
   - postgresql
 before_install:
+  - npm install -g less
   - cd server/
   - echo 'SECRET_KEY = "FAKE SECRET"' >> server/travis_ci_settings.py
   - mv server/travis_ci_settings.py server/local_settings.py

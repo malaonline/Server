@@ -1,7 +1,6 @@
 SECRET_KEY = 'use your secret key'
 FAKE_SMS_SERVER = True
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 COMPRESS_URL = '/static/'
 
 STATIC_ROOT = '/tmp/var/www/static/'
