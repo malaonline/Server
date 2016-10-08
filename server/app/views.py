@@ -1569,6 +1569,7 @@ class TeacherSchoolPrices(View):
         data = [
             {'grade': grade.id,
              'grade_name': grade.name,
+             'assigned': grade in teacher.grades(),
              'prices': [OrderedDict(
                  [('min_hours', config.min_hours),
                   ('max_hours', config.max_hours),
