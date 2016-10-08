@@ -1561,6 +1561,7 @@ class TeacherSchoolPrices(View):
         prices = models.PriceConfig.objects.filter(
             deleted=False,
             school=school,
+            grade__in=teacher.grades(),
             level=teacher.level
         )
         prices = list(prices)
