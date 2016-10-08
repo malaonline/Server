@@ -7,11 +7,10 @@ services:
   - postgresql
 before_install:
   - cd server/
+  - echo 'SECRET_KEY = "FAKE SECRET"' >> server/travis_ci_settings.py
 install:
   - pip install -r pip_install.txt
   - pip install coveralls
-before_script:
-  - openssl aes-256-cbc -K $encrypted_788c8f248cb4_key -iv $encrypted_788c8f248cb4_iv -in local_settings.py.enc -out server/local_settings.py -d
 script:
   - python manage.py cold_test app.cold_tests.SimpleTest --setting=server.travis_ci_settings -v2
   - coverage run manage.py test --noinput --setting=server.travis_ci_settings -v2
@@ -29,8 +28,6 @@ deploy:
     branch: master
 after_deploy:
   - rm -f dev_deploy.key
-after_script:
-  - rm -f server/local_settings.py
 notifications:
   slack:
     on_failure: [change]

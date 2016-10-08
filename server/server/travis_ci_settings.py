@@ -1,7 +1,5 @@
 from .settings import *
 
-SECRET_KEY = 'use your secret key'
-
 # DB settings for Travis CI
 DATABASES = {
     'default': {
