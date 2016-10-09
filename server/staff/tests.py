@@ -23,6 +23,19 @@ class TestStaffWeb(TestCase):
         response = client.get(reverse('staff:students'))
         self.assertEqual(200, response.status_code)
 
+    def test_student_schedule_manage(self):
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse('staff:student_schedule_manage'))
+        self.assertEqual(200, response.status_code)
+
+    def test_student_schedule_changelog(self):
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse('staff:student_schedule_changelog'))
+        self.assertEqual(200, response.status_code)
+
+
     def test_teachers(self):
         client = Client()
         client.login(username='test', password='mala-test')

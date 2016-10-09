@@ -30,7 +30,7 @@ from app.utils import random_name
 from app.utils.smsUtil import isValidPhone, isValidCode, tpl_send_sms, \
         TPL_STU_PAY_FAIL
 from app.utils.algorithm import verify_sig, verify_sha1_sig, sign_sha1
-from app.utils.klx_api import *
+import app.utils.klx_api as klx
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError,\
         KuailexueDataError, KuailexueServerError
 # from .forms import autoConfirmForm
@@ -1206,8 +1206,8 @@ class StudyReportView(ParentBasedMixin, APIView):
         subject is one subject ID
         '''
         parent = self.get_parent()
-        klx_username = klx_reg_student(parent)
-        params = klx_build_params({'username': klx_username}, True)
+        klx_username = klx.klx_reg_student(parent)
+        params = klx.klx_build_params({'username': klx_username}, True)
         if subject is None or subject is '' or subject == '/':
             subject = self.ALL
 
@@ -1218,7 +1218,7 @@ class StudyReportView(ParentBasedMixin, APIView):
         # to get one certain subject's info
         the_subject = get_object_or_404(models.Subject, id=subject)
         s_name = the_subject.name
-        if s_name not in KLX_REPORT_SUBJECTS:
+        if s_name not in klx.KLX_REPORT_SUBJECTS:
             return HttpResponse(status=404)
         return self.get_one_subject_report(the_subject, parent, params)
 
@@ -1239,9 +1239,9 @@ class StudyReportView(ParentBasedMixin, APIView):
             if s_name in purchased_subjects:
                 continue
             purchased_subjects.append(s_name)
-            if s_name in KLX_REPORT_SUBJECTS:
-                s_name_en = klx_subject_name(s_name)
-                url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
+            if s_name in klx.KLX_REPORT_SUBJECTS:
+                s_name_en = klx.klx_subject_name(s_name)
+                url = klx.KLX_STUDY_URL_FMT.format(subject=s_name_en)
                 subject_data = {
                         'subject_id': tmp_subject.id, 'supported': True,
                         'purchased': True, 'grade_id': tmp_order['grade']}
@@ -1256,7 +1256,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                     'supported': False,
                 })
         # subjects supported, but user did not purchase
-        should_buy_subjects = [b for b in KLX_REPORT_SUBJECTS
+        should_buy_subjects = [b for b in klx.KLX_REPORT_SUBJECTS
                                if b not in purchased_subjects]
         if should_buy_subjects:
             to_buy_subjects = models.Subject.objects.filter(
@@ -1272,8 +1272,8 @@ class StudyReportView(ParentBasedMixin, APIView):
 
     def get_one_subject_report(self, the_subject, parent, params):
         s_name = the_subject.name
-        s_name_en = klx_subject_name(s_name)
-        url = KLX_STUDY_URL_FMT.format(subject=s_name_en)
+        s_name_en = klx.klx_subject_name(s_name)
+        url = klx.KLX_STUDY_URL_FMT.format(subject=s_name_en)
         ans_data = {'subject_id': the_subject.id}
         if settings.TESTING:
             return JsonResponse(ans_data)
@@ -1298,7 +1298,7 @@ class StudyReportView(ParentBasedMixin, APIView):
                 url, params)
         # 能力结构分析
         ans_data['abilities'] = self._get_abilities(
-            url, params, KLX_MATH_ABILITY_KEYS)
+            url, params, klx.KLX_MATH_ABILITY_KEYS)
         # 提分点分析(各知识点全部用户平均得分率及指定学生得分率)
         ans_data['score_analyses'] = self._get_score_analyses(url, params)
 

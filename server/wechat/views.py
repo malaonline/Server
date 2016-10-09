@@ -25,7 +25,7 @@ from app.utils.smsUtil import tpl_send_sms, TPL_STU_PAY_FAIL
 from app.utils.types import parseInt
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.tasks import registerKuaiLeXueUserByOrder
-from .wxapi import *
+from wechat import wxapi as wx
 
 logger = logging.getLogger('app')
 
@@ -311,17 +311,17 @@ class CourseChoosingView(OrderBaseView):
             charge.save()
             return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': order_data})
         # get wx pay order
-        ret_json = wx_pay_unified_order(order, request, wx_openid)
+        ret_json = wx.wx_pay_unified_order(order, request, wx_openid)
         if not ret_json['ok']:
             return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': -500})
         # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
         data = {}
         data['timeStamp'] = int(timezone.now().timestamp())
-        data['nonceStr'] = make_nonce_str()
+        data['nonceStr'] = wx.make_nonce_str()
         data['package'] = 'prepay_id={id}'.format(id=ret_json['data']['prepay_id'])
         data['signType'] = 'MD5'
         data['appId'] = settings.WEIXIN_APPID
-        data['paySign'] = wx_sign_for_pay(data)
+        data['paySign'] = wx.wx_sign_for_pay(data)
         data['prepay_id'] = ret_json['data']['prepay_id']
         data.update(order_data)
         logger.debug(data)
@@ -336,10 +336,10 @@ class CourseChoosingView(OrderBaseView):
             if ret_code == 1:
                 return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
-        query_ret = wx_pay_order_query(order_id=order_id)
+        query_ret = wx.wx_pay_order_query(order_id=order_id)
         if query_ret['ok']:
             trade_state = query_ret['data']['trade_state']
-            if trade_state == WX_SUCCESS:
+            if trade_state == wx.WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
                 try:
                     ret_code = set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
@@ -352,7 +352,7 @@ class CourseChoosingView(OrderBaseView):
                     return JsonResponse({'ok': False, 'msg': '未知异常, 请稍后重试', 'code': 5})
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
-                if trade_state == WX_PAYERROR:
+                if trade_state == wx.WX_PAYERROR:
                     return {'ok': False, 'msg': '支付失败', 'code': 2}
                 else:
                     return {'ok': False, 'msg': '未支付', 'code': 3}
@@ -433,14 +433,14 @@ class EvaluateListView(OrderBaseView):
 def _jssdk_sign(url):
     now = timezone.now()
     now_timestamp = int(now.timestamp())
-    nonce_str = make_nonce_str()
+    nonce_str = wx.make_nonce_str()
     access_token, msg = _get_wx_token()
     jsapi_ticket, msg = _get_wx_jsapi_ticket(access_token)
     data = {'noncestr': nonce_str,
             'jsapi_ticket': jsapi_ticket,
             'timestamp': now_timestamp,
             'url': url}
-    signature = wx_signature(data)
+    signature = wx.wx_signature(data)
     return {'noncestr': nonce_str,
             'timestamp': now_timestamp,
             'signature': signature}
@@ -520,7 +520,7 @@ def _get_wx_jsapi_ticket(access_token):
     jsapi_ticket = _get_wx_jsapi_ticket_from_db()
     msg = None
     if not jsapi_ticket:
-        result = wx_get_jsapi_ticket(access_token)
+        result = wx.wx_get_jsapi_ticket(access_token)
         if result['ok']:
             jsapi_ticket = result['ticket']
         else:
@@ -539,7 +539,7 @@ def _get_wx_token():
     token = _get_wx_token_from_db()
     msg = None
     if not token:
-        result = wx_get_token()
+        result = wx.wx_get_token()
         if result['ok']:
             token = result['token']
         else:
@@ -559,9 +559,9 @@ def wx_pay_notify_view(request):
     """
     接受微信支付结果异步通知view
     """
-    req_json = resolve_wx_pay_notify(request)
+    req_json = wx.resolve_wx_pay_notify(request)
     if not req_json['ok']:
-        return HttpResponse(wx_dict2xml({'return_code': WX_FAIL, 'return_msg': ''}))
+        return HttpResponse(wx.wx_dict2xml({'return_code': wx.WX_FAIL, 'return_msg': ''}))
     data = req_json['data']
     openid = data['openid']
     wx_order_id = data['transaction_id']
@@ -570,7 +570,7 @@ def wx_pay_notify_view(request):
         set_order_paid(order_id=order_id, open_id=openid)
     except:
         pass # 该view为异步调用, 忽略错误
-    return HttpResponse(wx_dict2xml({'return_code': WX_SUCCESS, 'return_msg': ''}))
+    return HttpResponse(wx.wx_dict2xml({'return_code': wx.WX_SUCCESS, 'return_msg': ''}))
 
 
 def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
@@ -579,12 +579,12 @@ def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
     while (times > 0):
         try:
             access_token, msg = _get_wx_token()
-            ret_json = wx_send_tpl_msg(access_token, tpl_id, openid, data)
+            ret_json = wx.wx_send_tpl_msg(access_token, tpl_id, openid, data)
             if 'msgid' in ret_json:
                 return ret_json['msgid']
             errcode = ret_json.get('errcode')
             if errcode == 40001: # access_token失效, 重新获取
-                wx_get_token()
+                wx.wx_get_token()
         except Exception as ex:
             logger.error(ex)
         times -= 1
