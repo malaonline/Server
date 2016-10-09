@@ -18,7 +18,7 @@ from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         Ability
 from app.utils.algorithm import Tree, Node, verify_sig
 from app.utils.types import parseInt, parse_date, parse_date_next
-from app.utils.klx_api import *
+import app.utils.klx_api as klx
 from app.tasks import send_push
 
 app_path = os.path.abspath(os.path.dirname(__file__))
@@ -745,9 +745,9 @@ class TestApi(TestCase):
         client = Client()
         client.login(username=username, password=password)
 
-        params = klx_build_params({'uid': '12345678'}, False)
-        klx_sign_params(params)
-        self.assertTrue(klx_verify_sign(params))
+        params = klx.klx_build_params({'uid': '12345678'}, False)
+        klx.klx_sign_params(params)
+        self.assertTrue(klx.klx_verify_sign(params))
 
         request_url = "/api/v1/study_report"
         response = client.get(request_url, content_type='application/json')

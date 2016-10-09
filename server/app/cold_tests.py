@@ -8,7 +8,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from app.utils.types import parseInt, parse_date, parse_date_next
-from app.utils.klx_api import *
+import app.utils.klx_api as klx
 from app.utils import smsUtil, excel
 from staff.views import _try_send_sms
 
@@ -45,7 +45,7 @@ class KlxApiTest(unittest.TestCase):
             'name': None
         }
         _console.info(p)
-        pp = klx_build_params(p, True)
+        pp = klx.klx_build_params(p, True)
         _console.info(pp['sign'])
         p = {
             'uid': 'prd_693',
@@ -54,15 +54,15 @@ class KlxApiTest(unittest.TestCase):
             'name': ''
         }
         _console.info(p)
-        pp2 = klx_build_params(p, True)
+        pp2 = klx.klx_build_params(p, True)
         _console.info(pp2['sign'])
         self.assertEqual(pp['sign'], pp2['sign'])
 
     def test_kuailexue_api1(self):
         # return # 待kuailexue把接口实现后解封
         test_stu_id = 'malaprd_277_2016'
-        url = KLX_STUDY_URL_FMT.format(subject='math')
-        params = klx_build_params({'username': test_stu_id}, True)
+        url = klx.KLX_STUDY_URL_FMT.format(subject='math')
+        params = klx.klx_build_params({'username': test_stu_id}, True)
         _console.warning(url)
 
         def _request_kuailexue_api_data(type):
@@ -105,13 +105,13 @@ class KlxApiTest(unittest.TestCase):
         test_tea_id = 'debug_210_7VQy5'
         test_teat_name = '测试老师1'
         test_teat_pswd = '892673'
-        klx_stu = klx_register(KLX_ROLE_STUDENT, test_stu_id, test_stu_name)
+        klx_stu = klx.klx_register(klx.KLX_ROLE_STUDENT, test_stu_id, test_stu_name)
         _console.info(klx_stu)
         self.assertIsNotNone(klx_stu)
-        klx_tea = klx_register(KLX_ROLE_TEACHER, test_tea_id, test_teat_name, test_teat_pswd)
+        klx_tea = klx.klx_register(klx.KLX_ROLE_TEACHER, test_tea_id, test_teat_name, test_teat_pswd)
         _console.info(klx_tea)
         self.assertIsNotNone(klx_tea)
-        ok = klx_relation(klx_tea, klx_stu)
+        ok = klx.klx_relation(klx_tea, klx_stu)
         self.assertTrue(ok)
 
 
