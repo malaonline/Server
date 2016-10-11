@@ -817,7 +817,7 @@ class TestAlgorithm(SimpleTestCase):
         self.assertEqual(tree.get_path("c"), ["a", "c"])
         self.assertEqual(tree.get_path("b"), ["a", "b"])
 
-    def testParseInt(self):
+    def test_parse_int(self):
         self.assertTrue(parseInt(None) == 'NaN')
         self.assertTrue(parseInt('') == 'NaN')
         self.assertTrue(parseInt(123) == 123)

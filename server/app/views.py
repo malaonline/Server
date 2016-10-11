@@ -175,20 +175,6 @@ class ConcreteTimeSlots(View):
         return JsonResponse({'data': data})
 
 
-class autoConfirmClassesView(View):
-    template_name = "app/test_auto_confirm_classes.html"
-
-    def get(self, request):
-        if not settings.DEBUG:
-            raise PermissionDenied(detail='Disabled in prd env')
-        res = autoConfirmClasses()
-        if res:
-            res_str = '成功'
-        else:
-            res_str = '失败'
-        return HttpResponse('<h1>'+res_str+'</h1>')
-
-
 class Sms(View):
 
     @method_decorator(csrf_exempt)
@@ -245,7 +231,7 @@ class Sms(View):
                 try:
                     profile = models.Profile.objects.get(phone=phone)
                     is_found = True
-                except:
+                except Exception as e:
                     pass
                 if not is_found:
                     username = random_name()
@@ -999,9 +985,8 @@ class OrderSerializer(serializers.ModelSerializer):
         return value
 
     def validate_coupon(self, value):
-        if value is not None:
-            if value.used:
-                raise serializers.ValidationError('coupon has been used.')
+        if value is not None and value.used:
+            raise serializers.ValidationError('coupon has been used.')
         return value
 
 

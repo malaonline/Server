@@ -42,7 +42,7 @@ def _get_parent(request):
     if not request.user.is_anonymous():
         try:
             parent = request.user.parent
-        except:
+        except Exception as e:
             pass
     if not parent:
         # 通过 wx_openid 获得家长
@@ -53,7 +53,7 @@ def _get_parent(request):
             profile = models.Profile.objects.filter(wx_openid=openid).order_by('-id').first()
             try:
                 parent = profile and profile.user.parent or None
-            except:
+            except Exception as e:
                 pass
         if parent:
             parent.user.backend = _get_default_bankend_path()
@@ -568,7 +568,7 @@ def wx_pay_notify_view(request):
     order_id = data['out_trade_no']
     try:
         set_order_paid(order_id=order_id, open_id=openid)
-    except:
+    except Exception as e:
         pass # 该view为异步调用, 忽略错误
     return HttpResponse(wx.wx_dict2xml({'return_code': wx.WX_SUCCESS, 'return_msg': ''}))
 
@@ -750,7 +750,7 @@ def getSchoolsWithDistance(request):
                 'lat': float(lat),
                 'lng': float(lng)
             }
-        except:
+        except Exception as e:
             pass
 
     if not point:
@@ -892,7 +892,7 @@ def check_phone(request):
     wx_code = request.GET.get('code')
     teacherId = request.GET.get('state') # 注册, 报名, 收藏
 
-    if wx_code is None or wx_code == 'None' or wx_code == '':
+    if wx_code in [None, 'None', '']:
         return HttpResponse(json.dumps({
             "msg": '请关注麻辣老师公众号, 通过公众号访问！',
             "code": -1

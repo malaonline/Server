@@ -55,7 +55,7 @@ def get_column_cell(obj, name, default=None):
     elif hasattr(attr, 'all'):
         # A Django queryset (ManyRelatedManager)
         return ', '.join(str(x) for x in attr.all())
-    elif isinstance(attr, list) or isinstance(attr, tuple) or isinstance(attr, set) or isinstance(attr, frozenset):
+    elif isinstance(attr, (list, tuple, set, frozenset)):
         # A list or set
         return ', '.join(str(e) for e in attr)
     return attr
@@ -155,7 +155,7 @@ def read_excel_sheet(file=None, file_content=None, sheet_num=0, sheet_name=None,
         row = sheet.row_values(row_num)
         if row:
             obj = {}
-            for i in range(len(titles)):
-                obj[titles[i]] = row[i]
+            for i, title in enumerate(titles):
+                obj[title] = row[i]
             list.append(obj)
     return list
