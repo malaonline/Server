@@ -202,13 +202,13 @@ class CouponsListView(StaffRoleRequiredMixin, ListView):
             try:
                 date_from = parse_date(dateFrom)
                 coupons_list = coupons_list.filter(created_at__gte = date_from)
-            except:
+            except Exception as e:
                 pass
         if dateTo:
             try:
                 date_to = parse_date_next(dateTo)
                 coupons_list = coupons_list.filter(created_at__lt = date_to)
-            except:
+            except Exception as e:
                 pass
         if type == 'reg':
             pass
@@ -262,13 +262,13 @@ class TeacherView(BaseStaffView):
             try:
                 date_from = parse_date(reg_date_from)
                 query_set = query_set.filter(user__date_joined__gte = date_from)
-            except:
+            except Exception as e:
                 pass
         if reg_date_to:
             try:
                 date_to = parse_date_next(reg_date_to)
                 query_set = query_set.filter(user__date_joined__lt = date_to)
-            except:
+            except Exception as e:
                 pass
         if region and region.isdigit():
             query_set = query_set.filter(region_id = region)
@@ -353,8 +353,8 @@ class TeacherUnpublishedEditView(BaseStaffView):
     template_name = 'staff/teacher/teachers_unpublished_edit.html'
 
     def get_context_data(self, **kwargs):
-        teacherId = kwargs['tid']
-        teacher = get_object_or_404(models.Teacher, id=teacherId)
+        teacher_id = kwargs['tid']
+        teacher = get_object_or_404(models.Teacher, id=teacher_id)
         kwargs['teacher'] = teacher
         # 老师科目年级
         curSubject = teacher.subject()
@@ -424,9 +424,8 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 return JsonResponse({'ok': False, 'msg': '风格标记 (最少选一个，最多选3个)', 'code': -1})
             certIdHeldOk = request.POST.get('certIdHeldOk')
             id_num = request.POST.get('id_num')
-            if certIdHeldOk and certIdHeldOk=='True':
-                if not check_id_number(id_num):
-                    return JsonResponse({'ok': False, 'msg': '身份认证失败, 身份证号不合法', 'code': -1})
+            if certIdHeldOk and certIdHeldOk=='True' and not check_id_number(id_num):
+                return JsonResponse({'ok': False, 'msg': '身份认证失败, 身份证号不合法', 'code': -1})
 
             certIdHeld, created = models.Certificate.objects.get_or_create(teacher=teacher, type=models.Certificate.ID_HELD,
                                                                   defaults={'name':"",'verified':False})
@@ -514,15 +513,15 @@ class TeacherUnpublishedEditView(BaseStaffView):
             # 身份认证
             oldCertIdVerify = certIdHeld.verified
             if certIdHeldOk and certIdHeldOk=='True':
-                wasVerified = certIdHeld.verified
+                verified = certIdHeld.verified
                 certIdHeld.verified = True
-                if not wasVerified:
+                if not verified:
                     certIdHeld.show_hint = True
             elif certIdHeldOk and certIdHeldOk=='Fail':
-                wasFail = certIdHeld.audited and not certIdHeld.verified
+                fail = certIdHeld.audited and not certIdHeld.verified
                 certIdHeld.audited = True
                 certIdHeld.verified = False
-                if not wasFail:
+                if not fail:
                     certIdHeld.show_hint = True
             else:
                 certIdHeld.verified = False
@@ -556,9 +555,9 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 # send notice (sms) to teacher, when verified value is changed
                 self._send_cert_sms_notify('身份认证', certIdHeld.verified, profile.phone)
             # 学历, 教师资格证,英语水平
-            self.postSaveCert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
-            self.postSaveCert(request, teacher, models.Certificate.TEACHING, 'Teaching')
-            self.postSaveCert(request, teacher, models.Certificate.ENGLISH, 'English')
+            self.post_save_cert(request, teacher, models.Certificate.ACADEMIC, 'Academic')
+            self.post_save_cert(request, teacher, models.Certificate.TEACHING, 'Teaching')
+            self.post_save_cert(request, teacher, models.Certificate.ENGLISH, 'English')
             # 其他认证
             allCertOtherIds = request.POST.getlist('certOtherId')
             stayCertOtherIds = [s for s in allCertOtherIds if s and (not s.startswith('new'))]
@@ -567,22 +566,22 @@ class TeacherUnpublishedEditView(BaseStaffView):
                 .exclude(id__in=stayCertOtherIds).delete()
             for certId in stayCertOtherIds:
                 name = request.POST.get(certId+'certName')
-                certOk = request.POST.get(certId+'certOk')
-                certImg = None
+                cert_ok = request.POST.get(certId+'cert_ok')
+                cert_img = None
                 if request.FILES:
-                    certImg = request.FILES.get(certId+'certImg')
+                    cert_img = request.FILES.get(certId+'cert_img')
                 cert = models.Certificate.objects.get(id=certId)
                 oldCertVerify = cert.verified
                 cert.name = name
-                if certOk and certOk=='True':
+                if cert_ok and cert_ok=='True':
                     cert.verified = True
-                elif certOk and certOk=='Fail':
+                elif cert_ok and cert_ok=='Fail':
                     cert.audited = True
                     cert.verified = False
                 else:
                     cert.verified = False
-                if certImg:
-                    _img_content = ContentFile(certImg.read())
+                if cert_img:
+                    _img_content = ContentFile(cert_img.read())
                     cert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 cert.save()
                 if oldCertVerify != cert.verified:
@@ -590,19 +589,19 @@ class TeacherUnpublishedEditView(BaseStaffView):
                     self._send_cert_sms_notify('其他证书"'+cert.name+'"', cert.verified, profile.phone)
             for certId in newCertOtherIds:
                 name = request.POST.get(certId+'certName')
-                certOk = request.POST.get(certId+'certOk')
-                certImg = None
+                cert_ok = request.POST.get(certId+'cert_ok')
+                cert_img = None
                 if request.FILES:
-                    certImg = request.FILES.get(certId+'certImg')
-                if not certImg:
+                    cert_img = request.FILES.get(certId+'cert_img')
+                if not cert_img:
                     continue
                 newCert = models.Certificate(teacher=teacher,name=name,type=models.Certificate.OTHER,verified=False)
-                if certOk and certOk=='True':
+                if cert_ok and cert_ok=='True':
                     newCert.verified = True
-                elif certOk and certOk=='Fail':
+                elif cert_ok and cert_ok=='Fail':
                     newCert.audited = True
                     newCert.verified = False
-                _img_content = ContentFile(certImg.read())
+                _img_content = ContentFile(cert_img.read())
                 newCert.img.save("certOther"+str(teacher.id)+'_'+str(_img_content.size), _img_content)
                 newCert.save()
                 if newCert.verified:
@@ -660,30 +659,30 @@ class TeacherUnpublishedEditView(BaseStaffView):
             return JsonResponse({'ok': False, 'msg': BaseStaffActionView.default_err_msg, 'code': -1})
         return JsonResponse({'ok': True, 'msg': '', 'code': 0})
 
-    def postSaveCert(self, request, teacher, type_code, type_str, cert=None):
+    def post_save_cert(self, request, teacher, type_code, type_str, cert=None):
         if not cert:
             cert, created = models.Certificate.objects.get_or_create(teacher=teacher, type=type_code,
                                                                      defaults={'name':"",'verified':False})
         oldCertVerify = cert.verified
-        certOk = request.POST.get('cert'+type_str+'Ok')
-        if certOk and certOk=='True':
-            wasVerified = cert.verified
+        cert_ok = request.POST.get('cert'+type_str+'Ok')
+        if cert_ok and cert_ok=='True':
+            verified = cert.verified
             cert.verified = True
-            if not wasVerified:
+            if not verified:
                 cert.show_hint = True
-        elif certOk and certOk=='Fail':
-            wasFail = cert.audited and not cert.verified
+        elif cert_ok and cert_ok=='Fail':
+            fail = cert.audited and not cert.verified
             cert.audited = True
             cert.verified = False
-            if not wasFail:
+            if not fail:
                 cert.show_hint = True
         else:
             cert.verified = False
-        certImg = None
+        cert_img = None
         if request.FILES:
-            certImg = request.FILES.get('cert'+type_str+'Img')
-        if certImg:
-            _img_content = ContentFile(certImg.read())
+            cert_img = request.FILES.get('cert'+type_str+'Img')
+        if cert_img:
+            _img_content = ContentFile(cert_img.read())
             cert.img.save(type_str+str(teacher.id)+'_'+str(_img_content.size), _img_content)
         else:
             if request.POST.get('toDeleteCert'+type_str):
@@ -783,8 +782,8 @@ class TeacherIncomeDetailView(BaseStaffView):
     template_name = 'staff/teacher/teacher_income_detail.html'
 
     def get_context_data(self, **kwargs):
-        teacherId = kwargs['tid']
-        teacher = get_object_or_404(models.Teacher, id=teacherId)
+        teacher_id = kwargs['tid']
+        teacher = get_object_or_404(models.Teacher, id=teacher_id)
         kwargs['teacher'] = teacher
         query_data = {}
         query_data['date_from'] = self.request.GET.get('date_from', '')
@@ -802,13 +801,13 @@ class TeacherIncomeDetailView(BaseStaffView):
             try:
                 date_from = parse_date(date_from)
                 query_set = query_set.filter(submit_time__gte = date_from)
-            except:
+            except Exception as e:
                 pass
         if date_to:
             try:
                 date_to = parse_date_next(date_to)
                 query_set = query_set.filter(submit_time__lt = date_to)
-            except:
+            except Exception as e:
                 pass
         if order_id:
             query_set = query_set.filter(timeslot__order__order_id__icontains=order_id)
@@ -910,8 +909,8 @@ class TeacherIncomeDetailView(BaseStaffView):
     def get(self, request, *args, **kwargs):
         export = request.GET.get('export')
         if export == 'true':
-            teacherId = kwargs['tid']
-            teacher = get_object_or_404(models.Teacher, id=teacherId)
+            teacher_id = kwargs['tid']
+            teacher = get_object_or_404(models.Teacher, id=teacher_id)
             #
             date_from = self.request.GET.get('date_from', '')
             date_to = self.request.GET.get('date_to', '')
@@ -922,13 +921,13 @@ class TeacherIncomeDetailView(BaseStaffView):
                 try:
                     date_from = parse_date(date_from)
                     query_set = query_set.filter(submit_time__gte = date_from)
-                except:
+                except Exception as e:
                     pass
             if date_to:
                 try:
                     date_to = parse_date_next(date_to)
                     query_set = query_set.filter(submit_time__lt = date_to)
-                except:
+                except Exception as e:
                     pass
             if order_id:
                 query_set = query_set.filter(timeslot__order__order_id__icontains=order_id)
@@ -953,13 +952,13 @@ class TeacherWithdrawalView(BaseStaffView):
             try:
                 date_from = parse_date(date_from)
                 query_set = query_set.filter(submit_time__gte = date_from)
-            except:
+            except Exception as e:
                 pass
         if date_to:
             try:
                 date_to = parse_date_next(date_to)
                 query_set = query_set.filter(submit_time__lt = date_to)
-            except:
+            except Exception as e:
                 pass
         if status:
             query_set = query_set.filter(withdrawal__status = status)
@@ -1041,33 +1040,33 @@ class TeacherActionView(BaseStaffActionView):
     def get(self, request):
         action = self.request.GET.get('action')
         if action == 'list-highscore':
-            return self.getTeacherHighscore(request)
+            return self.get_teacher_highscore(request)
         if action == 'list-achievement':
-            return self.getTeacherAchievement(request)
+            return self.get_teacher_achievement(request)
         if action == 'get-weekly-schedule':
-            return self.getTeacherWeeklySchedule(request)
+            return self.get_teacher_weekly_schedule(request)
         if action == 'get-course-schedule':
-            return self.getTeacherCourseSchedule(request)
+            return self.get_teacher_course_schedule(request)
         if action == 'get-subject-grades-range':
-            return self.getGradesRangeOfSubject(request)
+            return self.get_grades_range_of_subject(request)
         return HttpResponse("", status=404)
 
     def post(self, request):
         action = self.request.POST.get('action')
         logger.debug("try to modify teacher, action = " + action)
         if action == 'donot-choose':
-            return self.updateTeacherStatus(request, models.Teacher.NOT_CHOSEN)
+            return self.update_teacher_status(request, models.Teacher.NOT_CHOSEN)
         if action == 'invite-interview':
-            return self.updateTeacherStatus(request, models.Teacher.TO_INTERVIEW)
+            return self.update_teacher_status(request, models.Teacher.TO_INTERVIEW)
         if action == 'set-interview-ok':
-            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_OK)
+            return self.update_teacher_status(request, models.Teacher.INTERVIEW_OK)
         if action == 'set-interview-fail':
-            return self.updateTeacherStatus(request, models.Teacher.INTERVIEW_FAIL)
+            return self.update_teacher_status(request, models.Teacher.INTERVIEW_FAIL)
         if action == 'publish-teacher':
-            return self.publishTeacher(request);
+            return self.publish_teacher(request);
         return HttpResponse("Not supported request.", status=403)
 
-    def publishTeacher(self, request):
+    def publish_teacher(self, request):
         tid = request.POST.get('tid')
         flag = request.POST.get('flag')
         if not tid or not flag in ['true', 'false']:
@@ -1146,7 +1145,7 @@ class TeacherActionView(BaseStaffActionView):
         #     logger.error(err)
         #     return JsonResponse({'ok': False, 'msg': self.default_err_msg, 'code': -1})
 
-    def getTeacherHighscore(self, request):
+    def get_teacher_highscore(self, request):
         """
         获取某个老师的提分榜列表
         :param request:
@@ -1161,7 +1160,7 @@ class TeacherActionView(BaseStaffActionView):
             highscores.append({'name': hs.name, 'scores': hs.increased_scores, 'from': hs.school_name, 'to': hs.admitted_to})
         return JsonResponse({'list': highscores})
 
-    def getTeacherAchievement(self, request):
+    def get_teacher_achievement(self, request):
         """
         获取某个老师的特殊成果
         :param request:
@@ -1176,7 +1175,7 @@ class TeacherActionView(BaseStaffActionView):
             achievements.append({'title': ac.title, 'img': ac.img_url()})
         return JsonResponse({'list': achievements})
 
-    def getTeacherWeeklySchedule(self, request):
+    def get_teacher_weekly_schedule(self, request):
         """
         获取某个老师的周时间表
         :param request:
@@ -1191,14 +1190,14 @@ class TeacherActionView(BaseStaffActionView):
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         return JsonResponse({'list': weekly_time_slots, 'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region)})
 
-    def getTeacherCourseSchedule(self, request):
+    def get_teacher_course_schedule(self, request):
         """
         查询老师某一周的课程安排
         :param request: 老师ID, 周偏移量
         :return: 课程记录
         """
         tid = request.GET.get('tid')
-        weekOffset = parseInt(request.GET.get('weekOffset'), 0)
+        week_offset = parseInt(request.GET.get('week_offset'), 0)
         if not tid:
             return HttpResponse("")
         teacher = get_object_or_404(models.Teacher, id=tid)
@@ -1208,8 +1207,8 @@ class TeacherActionView(BaseStaffActionView):
             weekly_time_slots.append({'weekday': wts.weekday, 'start': wts.start, 'end': wts.end})
         # 计算该周日期
         now = timezone.now()
-        from_day = now + datetime.timedelta(days=(-now.weekday()+weekOffset*7))  # 该周一
-        to_day = now + datetime.timedelta(days=(7-now.weekday()+weekOffset*7))  # 下周一
+        from_day = now + datetime.timedelta(days=(-now.weekday()+week_offset*7))  # 该周一
+        to_day = now + datetime.timedelta(days=(7-now.weekday()+week_offset*7))  # 下周一
         dates = []
         for i in range(7):
             _d = from_day + datetime.timedelta(days=i)
@@ -1217,13 +1216,13 @@ class TeacherActionView(BaseStaffActionView):
         # 查询课程安排
         from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
         to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
-        timeSlots = models.TimeSlot.objects.select_related("order__parent")\
+        time_slots = models.TimeSlot.objects.select_related("order__parent")\
             .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lt=to_time)
         courses = []
         TIME_FMT = '%H:%M:00'
         order_heap = {}
         # 组织课程信息, TODO: 调课退课退费记录
-        for timeSlot in timeSlots:
+        for timeSlot in time_slots:
             ts_dict = {}
             ts_dict['weekday'] = timeSlot.start.isoweekday()
             ts_dict['start'] = timeSlot.start.strftime(TIME_FMT)
@@ -1242,7 +1241,7 @@ class TeacherActionView(BaseStaffActionView):
                              'dailyTimeSlots': models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region),
                              'dates': dates, 'courses': courses})
 
-    def getGradesRangeOfSubject(self, request):
+    def get_grades_range_of_subject(self, request):
         """
         获取subject所属的的年级范围
         :param request:
@@ -1254,16 +1253,16 @@ class TeacherActionView(BaseStaffActionView):
         grade_ids = list(models.Ability.objects.filter(subject_id=sid).values_list('grade_id', flat=True))
         return JsonResponse({'list': grade_ids})
 
-    def updateTeacherStatus(self, request, new_status):
+    def update_teacher_status(self, request, new_status):
         """
         新注册老师修改老师状态
         :param request:
         :param new_status:
         :return:
         """
-        teacherId = request.POST.get('teacherId')
+        teacher_id = request.POST.get('teacher_id')
         try:
-            teacher = models.Teacher.objects.get(id=teacherId)
+            teacher = models.Teacher.objects.get(id=teacher_id)
             # 用带日志的方法来包裹裸的调用
             teacher.set_status(request.user, new_status)
             # teacher.status = new_status
@@ -1291,7 +1290,7 @@ class TeacherActionView(BaseStaffActionView):
                     return JsonResponse({'ok': True, 'msg': ret_msg, 'code': 3})
             return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
         except models.Teacher.DoesNotExist as e:
-            msg = self.NO_TEACHER_FORMAT.format(id=teacherId)
+            msg = self.NO_TEACHER_FORMAT.format(id=teacher_id)
             logger.error(msg)
             return JsonResponse({'ok': False, 'msg': msg, 'code': 1})
         except Exception as err:
@@ -1621,7 +1620,7 @@ class SchoolView(BaseStaffView):
         context = self.get_context_data()
         schoolId = context['schoolId']
         school = None
-        if not schoolId is None:
+        if schoolId is not None:
             school = models.School.objects.get(id=schoolId)
         else:
             school = models.School()
@@ -1725,7 +1724,8 @@ class OrderReviewView(BaseStaffView):
                     status=status,
                     refund_status=models.Order.REFUND_APPROVED,
                 )
-            if status == models.Order.REFUND_PENDING or status == models.Order.REFUND_REJECTED:
+            if status in [
+                    models.Order.REFUND_PENDING, models.Order.REFUND_REJECTED]:
                 # 退费审核中/退费被驳回: 最后审核状态
                 query_set = query_set.filter(refund_status=status)
             else:
@@ -1752,13 +1752,13 @@ class OrderReviewView(BaseStaffView):
             try:
                 date_from = parse_date(order_date_from)
                 query_set = query_set.filter(created_at__gte=date_from)
-            except:
+            except Exception as e:
                 pass
         if order_date_to:
             try:
                 date_to = parse_date_next(order_date_to)
                 query_set = query_set.filter(created_at__lt=date_to)
-            except:
+            except Exception as e:
                 pass
 
         # 可用筛选条件数据集
@@ -1887,13 +1887,13 @@ class OrderRefundView(BaseStaffView):
             try:
                 date_from = parse_date(refund_date_from)
                 query_set = query_set.filter(refund_at__gte=date_from)
-            except:
+            except Exception as e:
                 pass
         if refund_date_to:
             try:
                 date_to = parse_date_next(refund_date_to)
                 query_set = query_set.filter(refund_at__lt=date_to)
-            except:
+            except Exception as e:
                 pass
         # 家长姓名 or 学生姓名 or 老师姓名, 模糊匹配
         if name:
@@ -2131,37 +2131,36 @@ class SchoolTimeslotView(BaseStaffView):
             timeslots = timeslots.filter(Q(order__parent__user__username__icontains=searchName)|Q(order__teacher__user__username__icontains=searchName))
         if phone:
             timeslots = timeslots.filter(Q(order__parent__user__profile__phone__icontains=phone)|Q(order__teacher__user__profile__phone__icontains=phone))
-        if not schoolId:
-            if len(schools) > 0:
-                schoolId = schools[0].id
+        if not schoolId and len(schools) > 0:
+            schoolId = schools[0].id
 
         timeslots = timeslots.filter(order__school__id=schoolId).order_by('start')
 
         itemsLen = len(timeslots)
         ind = 0
-        nextEqInd = 0
+        next_eq_ind = 0
         while ind < itemsLen:
             itm = timeslots[ind]
             if itm.complaint:
                 itm.complaint.content = JSONRenderer().render(itm.complaint.content)
-            eqCount = 0
+            eq_count = 0
             nind = ind +1
-            if nind > nextEqInd:
+            if nind > next_eq_ind:
                 while nind < itemsLen:
                     nitm = timeslots[nind]
                     if(itm.start == nitm.start) and (itm.end == nitm.end):
-                        eqCount += 1
-                        nextEqInd = nind
+                        eq_count += 1
+                        next_eq_ind = nind
                         nind += 1
                     else:
                         nind += 1
                         break
-                itm.eqCount = eqCount
+                itm.eq_count = eq_count
 
             if ind > 0:
                 oitm = timeslots[ind - 1]
                 if(itm.start == oitm.start) and (itm.end == oitm.end):
-                    itm.eqCount = -1
+                    itm.eq_count = -1
             ind += 1
 
         context['schools'] = schools
@@ -2228,10 +2227,10 @@ class CouponConfigView(BaseStaffView):
 
     def get(self, request):
         context = self.get_context_data()
-        couponRules = models.CouponRule.objects.order_by('id')
-        couponGenerators = models.CouponGenerator.objects.order_by('-id')
-        context['couponRule'] = list(couponRules)
-        context['couponGenerator'] = list(couponGenerators) and couponGenerators[0]
+        coupon_rules = models.CouponRule.objects.order_by('id')
+        coupon_generators = models.CouponGenerator.objects.order_by('-id')
+        context['couponRule'] = list(coupon_rules)
+        context['couponGenerator'] = list(coupon_generators) and coupon_generators[0]
 
         return render(request, self.template_name, context)
 
@@ -2251,19 +2250,19 @@ class CouponConfigView(BaseStaffView):
         parent_phone = self.request.POST.get('parent_phone')
         expiredAt = self.request.POST.get('expiredAt')
         validatedStart = self.request.POST.get('validatedStart')
-        couponRules = self.request.POST.get('couponRules')
-        couponRules_list = None
-        if couponRules:
-            couponRules_list = json.loads(couponRules)
+        coupon_rules = self.request.POST.get('coupon_rules')
+        coupon_rules_list = None
+        if coupon_rules:
+            coupon_rules_list = json.loads(coupon_rules)
             models.CouponRule.objects.all().delete()
-            for item in couponRules_list:
+            for item in coupon_rules_list:
                 models.CouponRule(content=item).save()
 
         if couponType == 'new':
-            couponGenerators = models.CouponGenerator.objects.order_by('-id')
+            coupon_generators = models.CouponGenerator.objects.order_by('-id')
             gen = None
-            if couponGenerators:
-                gen = couponGenerators[0]
+            if coupon_generators:
+                gen = coupon_generators[0]
             else:
                 gen = models.CouponGenerator()
             gen.activated = used
@@ -2274,15 +2273,15 @@ class CouponConfigView(BaseStaffView):
                 gen.expired_at = gen.expired_at.replace(hour=23, minute=59, second=59)
             try:
                 gen.amount = int(amount)*100
-            except:
+            except Exception as e:
                 gen.amount = 0
             try:
                 gen.mini_course_count = int(mini_course_count)
-            except:
+            except Exception as e:
                 gen.mini_course_count = 0
             try:
                 gen.mini_total_price = int(mini_total_price)*100
-            except:
+            except Exception as e:
                 gen.mini_total_price = 0
 
             gen.save()
@@ -2304,15 +2303,15 @@ class CouponConfigView(BaseStaffView):
                 expired_at = timezone.now()
             try:
                 amount = int(amount)
-            except:
+            except Exception as e:
                 amount = 0
             try:
                 mini_course_count = int(mini_course_count)
-            except:
+            except Exception as e:
                 mini_course_count = 0
             try:
                 mini_total_price = int(mini_total_price)*100
-            except:
+            except Exception as e:
                 mini_total_price = 0
             cp = models.Coupon(
                 parent=query_set[0],
@@ -2370,14 +2369,14 @@ class EvaluationView(BaseStaffView):
             try:
                 date = datetime.datetime.strptime(order_date, '%Y-%m-%d')
                 query_set = query_set.filter(order__created_at__date=date.date())
-            except:
+            except Exception as e:
                 pass
         # 测评时间
         if evaluation_date:
             try:
                 date = datetime.datetime.strptime(evaluation_date, '%Y-%m-%d')
                 query_set = query_set.filter(start__date=date.date())
-            except:
+            except Exception as e:
                 pass
 
         # 可用筛选条件数据集
@@ -2507,7 +2506,7 @@ class LevelPriceConfigView(BaseStaffView):
             return HttpResponse(status=400)
         try:
             new_price = float(price)
-        except:
+        except Exception as e:
             new_price = -1
         if new_price < 0:
             return JsonResponse({'ok': False, 'msg': '价格范围错误', 'code': 1})
@@ -2564,9 +2563,9 @@ class LevelSalaryConfigView(BaseStaffView):
             return HttpResponse(status=400)
         try:
             new_percent = int(commission_percentage)
-        except:
+        except Exception as e:
             new_percent = -1
-        if new_percent < 0 or new_percent > 100:
+        if not (0 <= new_percent <= 100):
             return JsonResponse({'ok': False, 'msg': '佣金比例范围错误', 'code': 1})
         region = get_object_or_404(models.Region, id=region_id)
         level = get_object_or_404(models.Level, id=level_id)
@@ -2646,7 +2645,7 @@ class SchoolPriceConfigView(BaseStaffView):
         price = request.POST.get('price')
         try:
             new_price = float(price)
-        except:
+        except Exception as e:
             new_price = -1
         if new_price < 0:
             return JsonResponse({'ok': False, 'msg': '价格范围错误', 'code': 2})

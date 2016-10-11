@@ -20,7 +20,7 @@ from django.db.models import Q, Max, Sum
 
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.utils.algorithm import orderid, Tree, Node
-from app.utils import random_string, classproperty
+from app.utils import random_string
 from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError,\
         tpl_send_sms, TPL_STU_PAY_SUCCESS, TPL_TEACHER_COURSE_PAID
 

@@ -12,7 +12,7 @@ class TestWechatPage(TestCase):
         response = client.get(reverse('wechat:teachers'))
         self.assertEqual(response.status_code, 200)
 
-    def testWechatSchools(self):
+    def test_wechat_schools(self):
         client = Client()
         response = client.get(reverse('wechat:schools'))
         self.assertEqual(response.status_code, 200)
@@ -34,7 +34,7 @@ class TestWechatPage(TestCase):
 
 
 class TestUtils(SimpleTestCase):
-    def testXml2Dict(self):
+    def test_xml_2_dict(self):
         xml_string = '''
             <xml>
                <return_code><![CDATA[SUCCESS]]></return_code>
