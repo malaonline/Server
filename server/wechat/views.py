@@ -147,7 +147,7 @@ def _get_auth_redirect_url(request, teacher_id):
         'state': teacher_id,
         'connect_redirect': "1"
     }
-    redirect_url = WX_AUTH_URL + '&' + urlencode(params_str) + '&redirect_uri=' + checkPhoneURI + '#wechat_redirect'
+    redirect_url = wx.WX_AUTH_URL + '&' + urlencode(params_str) + '&redirect_uri=' + checkPhoneURI + '#wechat_redirect'
     return redirect_url
 
 
