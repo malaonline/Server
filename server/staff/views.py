@@ -2824,3 +2824,13 @@ class RegionView(BaseStaffView):
         region.opened = True
         region.save()
         return HttpResponse('开通"%s"成功' % region.name)
+
+
+class LiveCourseView(BaseStaffView):
+    '''
+    双师直播课程创建页面
+    '''
+    template_name = 'staff/course/live_course/show.html'
+
+    def get_context_data(self, **kwargs):
+        return super(LiveCourseView, self).get_context_data(**kwargs)
