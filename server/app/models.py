@@ -3037,3 +3037,15 @@ class SchoolIncomeRecord(BaseModel):
     def income_time_str(self):
         return self.income_time and localtime(self.income_time).strftime('%Y-%m-%d')\
                or localtime(self.created_at).strftime('%Y-%m-%d')
+
+
+class ClassRoom(BaseModel):
+    school = models.ForeignKey(School)
+    name = models.CharField(max_length=50)
+    capacity = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return '%s in %s, seats: %d' % (
+                self.name,
+                self.school.name,
+                self.capacity)
