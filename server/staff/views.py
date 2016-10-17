@@ -2833,4 +2833,12 @@ class LiveCourseView(BaseStaffView):
     template_name = 'staff/course/live_course/show.html'
 
     def get_context_data(self, **kwargs):
+        kwargs['subjects'] = models.Subject.objects.all()
+        kwargs['lecturers'] = models.Lecturer.objects.filter(deleted=False)
+        kwargs['daily_time_slots'] = models.LiveCourseWeeklyTimeSlot.DAILY_TIME_SLOTS()
+        # 校区教室, 各校区助教列表
+        class_rooms = models.ClassRoom.objects.all()
+        for class_room in class_rooms:
+            class_room.assistants = models.Teacher.objects.filter(is_assistant=True, schools__in=[class_room.school])
+        kwargs['class_rooms'] = class_rooms
         return super(LiveCourseView, self).get_context_data(**kwargs)
