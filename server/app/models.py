@@ -1605,6 +1605,25 @@ class WeeklyTimeSlot(BaseModel):
                 cls.objects.filter(weekday=1, region=region).order_by('start')]
 
 
+class LiveCourseWeeklyTimeSlot(BaseModel):
+
+
+    weeklytimeslot = models.ForeignKey(WeeklyTimeSlot)
+
+    class Meta:
+        db_table = 'app_livecourse_weeklytimeslot'
+        ordering = ['weeklytimeslot__weekday', 'weeklytimeslot__start']
+
+    def __str__(self):
+        return '%s from %s to %s' % (self.weeklytimeslot.weekday, self.weeklytimeslot.start, self.weeklytimeslot.end)
+
+    @classmethod
+    def DAILY_TIME_SLOTS(cls):
+        return [
+                dict(start=item.weeklytimeslot.start, end=item.weeklytimeslot.end) for item in
+                cls.objects.filter(weeklytimeslot__weekday=1).order_by('weeklytimeslot__start')]
+
+
 class OrderManager(models.Manager):
     def create(self, parent, teacher, school, grade, subject, hours, coupon):
         prices_set = school.priceconfig_set.filter(
