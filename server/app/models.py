@@ -855,7 +855,7 @@ class Lecturer(BaseModel):
     name = models.CharField(max_length=200)
     avatar = models.ImageField(null=True, blank=True, upload_to='lecturers')
     phone = models.CharField(max_length=20, default=None, null=True, blank=True)
-    introduce = models.CharField(max_length=500, blank=True, null=True)
+    bio = models.CharField(max_length=500, blank=True, null=True)  # 介绍
     # 软删除标识, 防止删除关联课程
     deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

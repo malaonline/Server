@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200)),
                 ('avatar', models.ImageField(blank=True, null=True, upload_to='lecturers')),
                 ('phone', models.CharField(blank=True, default=None, max_length=20, null=True)),
-                ('introduce', models.CharField(blank=True, max_length=500, null=True)),
+                ('bio', models.CharField(blank=True, max_length=500, null=True)),
                 ('deleted', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
