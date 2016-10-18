@@ -3117,6 +3117,12 @@ class LiveCourse(BaseModel):
             return self.livecoursetimeslot_set.all().count()
         return 0
 
+    @property
+    def slots(self):
+        if self.livecoursetimeslot_set.exists():
+            return self.livecoursetimeslot_set.all()
+        return None
+
 
 class LiveClass(BaseModel):
     '''
