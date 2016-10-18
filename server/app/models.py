@@ -3103,12 +3103,12 @@ class LiveCourse(BaseModel):
 
     @property
     def start_date(self):
-        # TODO:
+        # TODO: self.livecoursetimeslot_set.first().start.date()
         pass
 
     @property
     def end_date(self):
-        # TODO:
+        # TODO: self.livecoursetimeslot_set.last().start.date()
         pass
 
     @property
@@ -3146,7 +3146,7 @@ class LiveClass(BaseModel):
 
 class LiveCourseTimeSlot(BaseModel):
     class Meta:
-        ordering = ["-start", "-created_at"]
+        ordering = ["start"]
 
     live_course = models.ForeignKey(LiveCourse)
     start = models.DateTimeField()
