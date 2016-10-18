@@ -502,8 +502,8 @@ class Teacher(BaseModel):
     # 自我介绍
     introduce = models.CharField(max_length=200, blank=True, null=True)
 
-    recommended_on_wechat = models.BooleanField(default=False)
-
+    recommended_on_wechat = models.BooleanField(default=False)  # 是否推荐到微信公共号上
+    is_assistant = models.BooleanField(default=False)  # 是否是双师直播课程助教
     imported = models.BooleanField(default=False)  # 是否是从线下导入的
 
     def __str__(self):
@@ -846,6 +846,24 @@ class Teacher(BaseModel):
         user.groups.add(teacher_group)
         user.save()
         return teacher
+
+
+class Lecturer(BaseModel):
+    '''
+    双师直播讲师
+    '''
+    name = models.CharField(max_length=200)
+    avatar = models.ImageField(null=True, blank=True, upload_to='lecturers')
+    phone = models.CharField(max_length=20, default=None, null=True, blank=True)
+    introduce = models.CharField(max_length=500, blank=True, null=True)
+    # 软删除标识, 防止删除关联课程
+    deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '%s %s %s' % (
+                '+' if not self.deleted else '-', self.name, self.phone)
 
 
 class AuditRecord(BaseModel):
