@@ -3089,15 +3089,6 @@ class ClassRoom(BaseModel):
                 self.capacity)
 
 
-class LiveCourseTimeSlot(BaseModel):
-    class Meta:
-        ordering = ["-start", "-created_at"]
-
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class LiveCourse(BaseModel):
     '''
     双师直播课程信息
@@ -3108,9 +3099,7 @@ class LiveCourse(BaseModel):
     subject = models.ForeignKey(Subject, blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, null=True)
     lecturer = models.ForeignKey(Lecturer)
-    lessons = models.PositiveIntegerField(default=0)
     fee = models.PositiveIntegerField(default=0)
-    slots = models.ManyToManyField(LiveCourseTimeSlot)
 
     @property
     def start_date(self):
@@ -3121,6 +3110,12 @@ class LiveCourse(BaseModel):
     def end_date(self):
         # TODO:
         pass
+
+    @property
+    def lessons(self):
+        if self.livecoursetimeslot_set.exists():
+            return self.livecoursetimeslot_set.all().count()
+        return 0
 
 
 class LiveClass(BaseModel):
@@ -3141,3 +3136,13 @@ class LiveClass(BaseModel):
     def students_count(self):
         # TODO:
         return -1
+
+
+class LiveCourseTimeSlot(BaseModel):
+    class Meta:
+        ordering = ["-start", "-created_at"]
+
+    live_course = models.ForeignKey(LiveCourse)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
