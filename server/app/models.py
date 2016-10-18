@@ -852,9 +852,10 @@ class Lecturer(BaseModel):
     '''
     双师直播讲师
     '''
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=20)
     avatar = models.ImageField(null=True, blank=True, upload_to='lecturers')
     phone = models.CharField(max_length=20, default=None, null=True, blank=True)
+    title = models.CharField(max_length=50, default=None, null=True, blank=True)
     bio = models.CharField(max_length=500, blank=True, null=True)  # 介绍
     # 软删除标识, 防止删除关联课程
     deleted = models.BooleanField(default=False)
@@ -3086,3 +3087,44 @@ class ClassRoom(BaseModel):
                 self.name,
                 self.school.name,
                 self.capacity)
+
+
+class LiveCourse(BaseModel):
+    '''
+    双师直播课程信息
+    '''
+    course_no = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=20)
+    grade_desc = models.CharField(max_length=20, blank=True, null=True)
+    subject = models.ForeignKey(Subject, blank=True, null=True)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    lecturer = models.ForeignKey(Lecturer)
+    count = models.PositiveIntegerField(default=0)
+    start_date = models.DateField(blank=True, null=True)
+    fee = models.PositiveIntegerField(default=0)
+    slots = models.ManyToManyField(LiveCourseWeeklyTimeSlot)
+
+    @property
+    def end_date(self):
+        # TODO:
+        pass
+
+
+class LiveClass(BaseModel):
+    '''
+    双师直播班级
+    '''
+    live_course = models.ForeignKey(LiveCourse)
+    assistant = models.ForeignKey(Teacher)
+    class_room = models.ForeignKey(ClassRoom)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return ''
+
+    @property
+    def students_count(self):
+        # TODO:
+        return -1
