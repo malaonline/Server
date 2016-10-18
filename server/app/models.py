@@ -3145,6 +3145,9 @@ class LiveClass(BaseModel):
 
 
 class LiveCourseTimeSlot(BaseModel):
+    '''
+    双师直播课程具体时段
+    '''
     class Meta:
         ordering = ["start"]
 
