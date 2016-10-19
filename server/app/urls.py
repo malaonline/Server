@@ -25,6 +25,7 @@ router.register(r'timeslots', views.TimeSlotViewSet)
 router.register(r'orders', views.OrderViewSet)
 router.register(r'comments', views.CommentViewSet)
 router.register(r'favorites', views.FavoriteViewSet)
+router.register(r'liveclasses', views.LiveClassViewSet)
 
 
 urlpatterns = [

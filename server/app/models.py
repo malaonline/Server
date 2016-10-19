@@ -3083,7 +3083,7 @@ class ClassRoom(BaseModel):
     capacity = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return '%s in %s, seats: %d' % (
+        return '%s in %s, 座位: %d' % (
                 self.name,
                 self.school.name,
                 self.capacity)
@@ -3100,16 +3100,26 @@ class LiveCourse(BaseModel):
     description = models.CharField(max_length=500, blank=True, null=True)
     lecturer = models.ForeignKey(Lecturer)
     fee = models.PositiveIntegerField(default=0)
+    period_desc = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return '%s, %s, %s, %s, %s, %s, %d' % (
+            self.course_no,
+            self.name,
+            self.grade_desc,
+            self.subject.name,
+            self.lecturer.name,
+            self.period_desc,
+            self.fee,
+        )
 
     @property
-    def start_date(self):
-        # TODO: self.livecoursetimeslot_set.first().start.date()
-        pass
+    def start(self):
+        return self.livecoursetimeslot_set.first().start
 
     @property
-    def end_date(self):
-        # TODO: self.livecoursetimeslot_set.last().start.date()
-        pass
+    def end(self):
+        return self.livecoursetimeslot_set.last().end
 
     @property
     def lessons(self):
@@ -3136,12 +3146,77 @@ class LiveClass(BaseModel):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return ''
+        return '%s, %s, %s, %s' % (
+            self.live_course.name,
+            self.live_course.lecturer.name,
+            self.class_room,
+            self.assistant.name,
+        )
 
     @property
     def students_count(self):
         # TODO:
         return -1
+
+    @property
+    def course_name(self):
+        return self.live_course.name
+
+    @property
+    def course_start(self):
+        return self.live_course.start
+
+    @property
+    def course_end(self):
+        return self.live_course.end
+
+    @property
+    def course_period(self):
+        return self.live_course.period_desc
+
+    @property
+    def course_fee(self):
+        return self.live_course.fee
+
+    @property
+    def course_lessons(self):
+        return self.live_course.lessons
+
+    @property
+    def course_grade(self):
+        return self.live_course.grade_desc
+
+    @property
+    def course_description(self):
+        return self.live_course.description
+
+    @property
+    def room_capacity(self):
+        return self.class_room.capacity
+
+    @property
+    def lecturer_name(self):
+        return self.live_course.lecturer.name
+
+    @property
+    def lecturer_title(self):
+        return self.live_course.lecturer.title
+
+    @property
+    def lecturer_bio(self):
+        return self.live_course.lecturer.bio
+
+    @property
+    def lecturer_avatar(self):
+        return self.live_course.lecturer.avatar
+
+    @property
+    def assistant_name(self):
+        return self.assistant.name
+
+    @property
+    def assistant_avatar(self):
+        return self.assistant.avatar()
 
 
 class LiveCourseTimeSlot(BaseModel):
@@ -3155,3 +3230,11 @@ class LiveCourseTimeSlot(BaseModel):
     start = models.DateTimeField()
     end = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s, %s, %s - %s' % (
+            self.live_course.name,
+            self.live_course.lecturer.name,
+            self.start.astimezone(),
+            self.end.astimezone(),
+        )

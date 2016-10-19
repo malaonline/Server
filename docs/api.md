@@ -1198,3 +1198,92 @@ HTTP Status Code 200
     ...
 }
 ```
+
+### Live Class List
+
+```
+GET /api/v1/liveclasses
+```
+
+parameters:
+
+```
+school=2
+```
+
+```
+{
+    "count": 2,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "course_name": "小学新概念英语A班",
+            "course_start": 1477101600,
+            "course_end": 1477713600,
+            "course_period": "每周六 10:00-12:00",
+            "course_fee": 48000,
+            "course_lessons": 2,
+            "course_grade": "小学四-六年级",
+            "course_description": "课程介绍 blah blah",
+            "room_capacity": 20,
+            "students_count": 14,
+            "lecturer_name": "测试主讲老师1",
+            "lecturer_title": "新东方特级教师",
+            "lecturer_bio": "多年海外留学经历",
+            "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+            "assistant_name": "尚尔迪",
+            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+        },
+        {
+            "id": 2,
+            "course_name": "新概念英语高级班",
+            "course_start": 1477202400,
+            "course_end": 1477814400,
+            "course_period": "每周日 14:00-16:00",
+            "course_fee": 58000,
+            "course_lessons": 2,
+            "course_grade": "全学年",
+            "course_description": "课程介绍 blah blah",
+            "room_capacity": 30,
+            "students_count": 23,
+            "lecturer_name": "刘冠奇",
+            "lecturer_title": "新东方实力讲师",
+            "lecturer_bio": "网红！网红！网红！",
+            "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg_CtfdqWd.jpeg",
+            "assistant_name": "尚尔迪",
+            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+        },
+        ...
+    ]
+}
+```
+
+### Live Class Instance
+
+```
+GET /api/v1/liveclasses/{id}
+```
+
+```
+{
+    "id": 1,
+    "course_name": "小学新概念英语A班",
+    "course_start": 1477101600,
+    "course_end": 1477713600,
+    "course_period": "每周六 10:00-12:00",
+    "course_fee": 48000,
+    "course_lessons": 2,
+    "course_grade": "小学四-六年级",
+    "course_description": "课程介绍 blah blah",
+    "room_capacity": 20,
+    "students_count": 14,
+    "lecturer_name": "测试主讲老师1",
+    "lecturer_title": "新东方特级教师",
+    "lecturer_bio": "多年海外留学经历",
+    "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+    "assistant_name": "尚尔迪",
+    "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+}
+```
