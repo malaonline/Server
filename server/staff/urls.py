@@ -39,5 +39,6 @@ urlpatterns = [
     url(r'^school/account/income/records/$', views.SchoolIncomeRecordView.as_view(), name="school_income_records"),
     url(r'^school/account/income/audit/$', views.SchoolIncomeAuditView.as_view(), name="school_income_audit"),
     url(r'^region/(?P<rid>\d+)/$', views.RegionView.as_view(), name="region_config"),
+    url(r'^live_course/classroom/create$', views.CreateClassRoomView.as_view(), name="create_room"),
     url(r'^course/live-course/$', views.LiveCourseView.as_view(), name="live_course")
 ]

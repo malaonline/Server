@@ -2842,3 +2842,13 @@ class LiveCourseView(BaseStaffView):
             class_room.assistants = models.Teacher.objects.filter(is_assistant=True, schools__in=[class_room.school])
         kwargs['class_rooms'] = class_rooms
         return super(LiveCourseView, self).get_context_data(**kwargs)
+
+
+class CreateClassRoomView(BaseStaffView):
+    template_name = 'staff/course/live_course/create_room.html'
+
+    def get_context_data(self, **kwargs):
+        return super(CreateClassRoomView, self).get_context_data(**kwargs)
+
+    def post(self, request):
+        return JsonResponse({'ok': True, 'msg': '创建成功', 'code': 0})
