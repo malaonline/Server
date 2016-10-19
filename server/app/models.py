@@ -3100,16 +3100,15 @@ class LiveCourse(BaseModel):
     description = models.CharField(max_length=500, blank=True, null=True)
     lecturer = models.ForeignKey(Lecturer)
     fee = models.PositiveIntegerField(default=0)
+    period_desc = models.CharField(max_length=500, blank=True, null=True)
 
     @property
     def start_date(self):
-        # TODO: self.livecoursetimeslot_set.first().start.date()
-        pass
+        return self.livecoursetimeslot_set.first().start.date()
 
     @property
     def end_date(self):
-        # TODO: self.livecoursetimeslot_set.last().start.date()
-        pass
+        return self.livecoursetimeslot_set.last().start.date()
 
     @property
     def lessons(self):
@@ -3142,6 +3141,70 @@ class LiveClass(BaseModel):
     def students_count(self):
         # TODO:
         return -1
+
+    @property
+    def course_name(self):
+        return self.live_course.name
+
+    @property
+    def course_start_date(self):
+        return self.live_course.start_date
+
+    @property
+    def course_end_date(self):
+        return self.live_course.end_date
+
+    @property
+    def course_period(self):
+        return self.live_course.period_desc
+
+    @property
+    def course_fee(self):
+        return self.live_course.fee
+
+    @property
+    def course_lessons(self):
+        return self.live_course.lessons
+
+    @property
+    def course_grade(self):
+        return self.live_course.grade_desc
+
+    @property
+    def course_description(self):
+        return self.live_course.description
+
+    @property
+    def course_description(self):
+        return self.live_course.description
+
+    @property
+    def room_capacity(self):
+        return self.class_room.capacity
+
+    @property
+    def lecturer_name(self):
+        return self.live_course.lecturer.name
+
+    @property
+    def lecturer_title(self):
+        return self.live_course.lecturer.title
+
+    @property
+    def lecturer_bio(self):
+        return self.live_course.lecturer.bio
+
+    @property
+    def lecturer_avatar(self):
+        return self.live_course.lecturer.avatar
+
+    @property
+    def assistant_name(self):
+        return self.assistant.name
+
+    @property
+    def assistant_avatar(self):
+        return self.assistant.avatar()
 
 
 class LiveCourseTimeSlot(BaseModel):
