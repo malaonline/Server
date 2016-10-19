@@ -5,13 +5,16 @@
 {% load custom_tags %}
 {% block title %}新开双师直播课程{% endblock %}
 {% block addition_header %}
+    <link href="{% static 'staff/less/live_course/show.less'|compile %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block addition_js %}
+    <script src="{% static 'staff/js/live_course/show.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <form id="liveCourseEditForm" class="form-horizontal" method="post">
     {% csrf_token %}
+    <input type="hidden" id="server_timestamp" value="{{ server_timestamp }}"/>
     <div class="form-group">
         <label for="course_no" class="col-sm-3 col-md-3 col-lg-2 control-label">课程编号</label>
         <div class="col-sm-3">
@@ -28,28 +31,33 @@
         <label for="timeslots" class="col-sm-3 col-md-3 col-lg-2 control-label">可用时间</label>
         <div class="col-sm-5">
             <table class="text-center" border="1" id="weekly_time_table" width="100%" data-weekoffset="0">
-                <tr><td colspan="8" id="weekly_date_span">
-                    <span id="preWeekBtn" class="glyphicon glyphicon-chevron-left table-bordered"></span>
-                    <span id="weeky_date_start">YYYY-MM-D1</span>
+                <tr class="actions-row"><td colspan="8" id="weekly_date_span">
+                    <button type="button" id="preWeekBtn"><span class="glyphicon glyphicon-chevron-left"></span>上周</button>
+                    <span id="week_date_start">YYYY-MM-D1</span>
                     <span> -- </span>
-                    <span id="weeky_date_end">YYYY-MM-D7</span>
-                    <span id="nextWeekBtn" class="glyphicon glyphicon-chevron-right table-bordered"></span>
+                    <div id="returnToday" style="display: none;float: left;">
+                        <button type="button" id="curWeekBtn">本周</button>
+{#                        <span> -- </span>#}
+                    </div>
+                    <span id="week_date_end">YYYY-MM-D7</span>
+                    <button type="button" id="nextWeekBtn">下周<span class="glyphicon glyphicon-chevron-right"></span></button>
                 </td></tr>
-                <tr>
+                <tr class="days-row">
                     <td>时间/周</td>
-                    <td>周一</td>
-                    <td>周二</td>
-                    <td>周三</td>
-                    <td>周四</td>
-                    <td>周五</td>
-                    <td>周六</td>
-                    <td>周日</td>
+                    <td>周一<br>(<span>MM-D1</span>)</td>
+                    <td>周二<br>(<span>MM-D2</span>)</td>
+                    <td>周三<br>(<span>MM-D3</span>)</td>
+                    <td>周四<br>(<span>MM-D4</span>)</td>
+                    <td>周五<br>(<span>MM-D5</span>)</td>
+                    <td>周六<br>(<span>MM-D6</span>)</td>
+                    <td>周日<br>(<span>MM-D7</span>)</td>
                 </tr>
                 {% for time_slot in daily_time_slots %}
-                    <tr start="{{ timeslot.start|time:'H:i' }}" end="{{ timeslot.end|time:'H:i' }}">
+                    <tr class="phases-row" data-seq="{{ forloop.counter }}"
+                        data-start="{{ time_slot.start|time:'H:i' }}" data-end="{{ time_slot.end|time:'H:i' }}">
                         <td class="hours-col">{{ time_slot.start|time:'H:i' }}-{{ time_slot.end|time:'H:i' }}</td>
                         {% for day in 7|num_range %}
-                            <td class="phase" day="{{ day }}"></td>
+                            <td class="phase" data-day="{{ day }}"></td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -60,12 +68,12 @@
         <label for="timeslots" class="col-sm-3 col-md-3 col-lg-2 control-label">上课时间</label>
         <div class="col-sm-5">
             <div class="clearfix form-control-static">共<span id="lessons_count">0</span>次</div>
-            <script id="course_time_slot_template" type="text/template">
+            <script id="lesson_template" type="text/template">
                 <div class="time_slot">
-                    <%= datas.start %> - <%= datas.end %>(周<%= datas.weekday %><%= datas.short_date %>)
+                    <%= start %> - <%= end %>(周<%= weekday %><%= short_date %>)
                 </div>
             </script>
-            <div id="course_time_slots_preview">
+            <div id="lessons_preview">
             </div>
         </div>
     </div>
@@ -100,9 +108,9 @@
         <p class="form-control-static">元</p>
     </div>
     <div class="form-group">
-        <label for="intro" class="col-sm-3 col-md-3 col-lg-2 control-label">课程介绍</label>
+        <label for="description" class="col-sm-3 col-md-3 col-lg-2 control-label">课程介绍</label>
         <div class="col-sm-3">
-            <textarea rows="3" class="form-control" id="intro" name="intro">{{ dtlc.intro }}</textarea>
+            <textarea rows="3" class="form-control" id="description" name="description">{{ dtlc.intro }}</textarea>
         </div>
     </div>
     <div class="form-group">
@@ -120,7 +128,7 @@
         <label for="classes" class="col-sm-3 col-md-3 col-lg-2 control-label">绑定助教</label>
         <div class="col-sm-5">
         {% for class_room in class_rooms %}
-            <div class="clearfix class-room" class_room_id="{{ class_room.id }}">
+            <div class="clearfix class-room" data-crid="{{ class_room.id }}">
                 <div class="col-sm-4 form-control-static">
                     {{ class_room.school.name }}({{ class_room.name }})
                 </div>
@@ -139,7 +147,7 @@
     <div class="form-group">
         <div class="col-sm-3 col-md-3 col-lg-2"></div>
         <div class="col-sm-2">
-            <button class="btn btn-lg btn-primary">创建课程</button>
+            <button class="btn btn-lg btn-primary" id="submitBtn">创建课程</button>
         </div>
     </div>
 </form>

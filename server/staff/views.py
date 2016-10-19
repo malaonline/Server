@@ -2841,6 +2841,7 @@ class LiveCourseView(BaseStaffView):
         for class_room in class_rooms:
             class_room.assistants = models.Teacher.objects.filter(is_assistant=True, schools__in=[class_room.school])
         kwargs['class_rooms'] = class_rooms
+        kwargs['server_timestamp'] = int(timezone.now().timestamp())
         return super(LiveCourseView, self).get_context_data(**kwargs)
 
 
