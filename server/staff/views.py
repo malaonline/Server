@@ -2862,8 +2862,8 @@ class CreateClassRoomView(BaseStaffView):
         if not capacity > 0:
             return JsonResponse({'ok': False, 'msg': '请输入有效学生数量'})
 
-        if models.ClassRoom.objects.filter(school=school, name=name).exists():
-            return JsonResponse({'ok': False, 'msg': '创建失败, 教室名重复'})
+        if models.ClassRoom.objects.filter(school=school).exists():
+            return JsonResponse({'ok': False, 'msg': '创建失败, 该校区已有教室'})
 
         new_room = models.ClassRoom(school=school,
                                     name=name,
