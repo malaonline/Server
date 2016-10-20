@@ -2842,3 +2842,31 @@ class LiveCourseView(BaseStaffView):
             class_room.assistants = models.Teacher.objects.filter(is_assistant=True, schools__in=[class_room.school])
         kwargs['class_rooms'] = class_rooms
         return super(LiveCourseView, self).get_context_data(**kwargs)
+
+
+class CreateClassRoomView(BaseStaffView):
+    template_name = 'staff/course/live_course/create_room.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['schools'] = models.School.objects.filter(opened=True)
+        return super(CreateClassRoomView, self).get_context_data(**kwargs)
+
+    def post(self, request):
+        school_id = request.POST.get('school')
+        school = get_object_or_404(models.School, id=school_id)
+        name = request.POST.get('name', None)
+        capacity = parseInt(request.POST.get('capacity'), 0)
+
+        if not name:
+            return JsonResponse({'ok': False, 'msg': '请输入教室名称'})
+        if not capacity > 0:
+            return JsonResponse({'ok': False, 'msg': '请输入有效学生数量'})
+
+        if models.ClassRoom.objects.filter(school=school).exists():
+            return JsonResponse({'ok': False, 'msg': '创建失败, 该校区已有教室'})
+
+        new_room = models.ClassRoom(school=school,
+                                    name=name,
+                                    capacity=capacity)
+        new_room.save()
+        return JsonResponse({'ok': True, 'msg': '创建成功!'})
