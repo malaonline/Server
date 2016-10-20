@@ -104,7 +104,7 @@ $(function(){
         if (!params.subject) {
             return "科目不能为空";
         }
-        if (!params.fee || !/^\d+$/.test(params.fee) || parseInt(params.fee) < 0) {
+        if (!params.fee || !/^\d+$/.test(params.fee) || parseInt(params.fee) <= 0) {
             return "费用不能为空, 并且必须是大于0的整数";
         }
         if (!params.description) {
@@ -160,7 +160,11 @@ $(function(){
     });
     $("td.phase").click(function(e){
         e.preventDefault();
-        var $td = $(this), $tr = $td.closest('tr');
+        var $td = $(this);
+        if ($td.hasClass('past')) {
+            return false;
+        }
+        var $tr = $td.closest('tr');
         // 计算start,end
         var day = $td.data('day'), seq = $tr.data('seq');
         var date = cur_week_days[day - 1], time_slot = daily_time_slots[seq - 1];
@@ -210,13 +214,15 @@ $(function(){
             });
         }
         params['course_times'] = course_times;
-        console.log(params);
+        //console.log(params);
         var msg = check_submit_params(params);
         if (msg !== 'ok') {
             alert(msg);
             return false;
         }
-        malaAjaxPost(location.pathname, params, function(result){
+        var jsonstr = JSON.stringify(params);
+        //console.log(jsonstr);
+        malaAjaxPost(location.pathname, {'data': jsonstr}, function(result){
             if (result) {
                 if (result.ok) {
                     alert("创建成功");

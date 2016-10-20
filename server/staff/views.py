@@ -2844,6 +2844,103 @@ class LiveCourseView(BaseStaffView):
         kwargs['server_timestamp'] = int(timezone.now().timestamp())
         return super(LiveCourseView, self).get_context_data(**kwargs)
 
+    def _check_post_params(self, params):
+        if not params.get('course_no'):
+            return "课程编号不能为空"
+        if not params.get('name'):
+            return "课程名称不能为空"
+        if not params.get('course_times'):
+            return "上课时间不能为空"
+        if not params.get('period_desc'):
+            return "时间段不能为空"
+        if not params.get('grade_desc'):
+            return "年级不能为空"
+        if not params.get('subject'):
+            return "科目不能为空"
+        fee = params.get('fee')
+        if not fee or not fee.isdigit() or int(fee) <= 0:
+            return "费用不能为空, 并且必须是大于0的整数"
+        if not params.get('description'):
+            return "课程介绍不能为空"
+        if not params.get('lecturer'):
+            return "讲师不能为空"
+        if not params.get('class_rooms'):
+            return "没有校区教室"
+        chosen_as = []
+        for room in params.get('class_rooms'):
+            if not room.get('id'):
+                return "校区教室参数错误"
+            assistant = room.get('assistant')
+            if not assistant:
+                return "每个校区教室必须分配助教"
+            if assistant in chosen_as:
+                return "助教选择不能重复"
+            chosen_as.append(assistant)
+        return 'ok'
+
+    def post(self, request):
+        jsonstr = request.POST.get('data')
+        if not jsonstr:
+            return JsonResponse({'ok': False, 'msg': '参数格式错误', 'code': 1})
+        try:
+            params = json.loads(jsonstr)
+        except Exception as ex:
+            return JsonResponse({'ok': False, 'msg': '参数格式错误', 'code': 1})
+        check_msg = self._check_post_params(params)
+        if check_msg != 'ok':
+            return JsonResponse({'ok': False, 'msg': check_msg, 'code': 2})
+        course_no = params.get('course_no')
+        name = params.get('name')
+        course_times = params.get('course_times')
+        period_desc = params.get('period_desc')
+        grade_desc = params.get('grade_desc')
+        subject = get_object_or_404(models.Subject, pk=params.get('subject'))
+        fee = params.get('fee')
+        description = params.get('description')
+        lecturer = get_object_or_404(models.Lecturer, pk=params.get('lecturer'))
+        class_rooms = params.get('class_rooms')
+        live_class_list = []
+        for room in class_rooms:
+            class_room = get_object_or_404(models.ClassRoom, pk=room.get('id'))
+            assistant = get_object_or_404(models.Teacher, pk=room.get('assistant'))
+            live_class_list.append({
+                'class_room': class_room,
+                'assistant': assistant
+            })
+
+        try:
+            with transaction.atomic():
+                lc = models.LiveCourse(
+                    course_no=course_no, name=name,
+                    grade_desc=grade_desc, period_desc=period_desc,
+                    subject=subject, lecturer=lecturer,
+                    fee=int(fee) * 100, description=description,
+                )
+                lc.save()
+                db_live_class_list = []
+                for item in live_class_list:
+                    lcl = models.LiveClass(
+                        live_course=lc,
+                        class_room=item['class_room'],
+                        assistant=item['assistant'],
+                    )
+                    db_live_class_list.append(lcl)
+                models.LiveClass.objects.bulk_create(db_live_class_list)
+                db_course_time_list = []
+                for time in course_times:
+                    lctime = models.LiveCourseTimeSlot(
+                        live_course=lc,
+                        start=datetime.datetime.fromtimestamp(time.get('start')),
+                        end=datetime.datetime.fromtimestamp(time.get('end')),
+                    )
+                    db_course_time_list.append(lctime)
+                models.LiveCourseTimeSlot.objects.bulk_create(db_course_time_list)
+        except IntegrityError as err:
+            logger.error(err)
+            return JsonResponse({'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
+
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
+
 
 class CreateClassRoomView(BaseStaffView):
     template_name = 'staff/course/live_course/create_room.html'
