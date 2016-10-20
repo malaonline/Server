@@ -99,3 +99,20 @@ class TestStaffWeb(TestCase):
         client.login(username='test', password='mala-test')
         response = client.get(reverse("staff:region_config", kwargs={'rid': 1}))
         self.assertEqual(response.status_code, 200)
+
+    def test_live_course_classroom(self):
+        # 创建教室
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse("staff:create_room"))
+        self.assertEqual(response.status_code, 200)
+        data = {'school': 1, 'name': 'test_room', 'capacity': 20}
+        response = client.post(reverse("staff:create_room"), data=data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_live_course_create_course(self):
+        # 创建课程
+        client = Client()
+        client.login(username='test', password='mala-test')
+        response = client.get(reverse("staff:live_course"))
+        self.assertEqual(response.status_code, 200)
