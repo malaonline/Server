@@ -1,6 +1,14 @@
 {% load custom_tags %}
 
 <div role="tabpanel" class="tab-pane panel-group" id="staff_menu" style="display: none">
+
+  <div class="mui-heading">课程管理</div>
+  <ul class="mui-nav">
+    <li>
+      <a href="{% url 'staff:live_course' %}" class="{% menu_style 'staff:live_course' %}">新开直播课程</a>
+    </li>
+  </ul>
+
   <div class="mui-heading">老师管理</div>
   <ul class="mui-nav">
 {#    <li>#}

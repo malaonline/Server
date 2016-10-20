@@ -1,0 +1,146 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}新开双师直播课程{% endblock %}
+{% block addition_header %}
+{% endblock %}
+{% block addition_js %}
+{% endblock %}
+
+{% block content %}
+<form id="liveCourseEditForm" class="form-horizontal" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="course_no" class="col-sm-3 col-md-3 col-lg-2 control-label">课程编号</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="course_no" name="course_no" value="{{ dtlc.course_no }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="col-sm-3 col-md-3 col-lg-2 control-label">课程名称</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="name" name="name" value="{{ dtlc.name }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="timeslots" class="col-sm-3 col-md-3 col-lg-2 control-label">可用时间</label>
+        <div class="col-sm-5">
+            <table class="text-center" border="1" id="weekly_time_table" width="100%" data-weekoffset="0">
+                <tr><td colspan="8" id="weekly_date_span">
+                    <span id="preWeekBtn" class="glyphicon glyphicon-chevron-left table-bordered"></span>
+                    <span id="weeky_date_start">YYYY-MM-D1</span>
+                    <span> -- </span>
+                    <span id="weeky_date_end">YYYY-MM-D7</span>
+                    <span id="nextWeekBtn" class="glyphicon glyphicon-chevron-right table-bordered"></span>
+                </td></tr>
+                <tr>
+                    <td>时间/周</td>
+                    <td>周一</td>
+                    <td>周二</td>
+                    <td>周三</td>
+                    <td>周四</td>
+                    <td>周五</td>
+                    <td>周六</td>
+                    <td>周日</td>
+                </tr>
+                {% for time_slot in daily_time_slots %}
+                    <tr start="{{ timeslot.start|time:'H:i' }}" end="{{ timeslot.end|time:'H:i' }}">
+                        <td class="hours-col">{{ time_slot.start|time:'H:i' }}-{{ time_slot.end|time:'H:i' }}</td>
+                        {% for day in 7|num_range %}
+                            <td class="phase" day="{{ day }}"></td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="timeslots" class="col-sm-3 col-md-3 col-lg-2 control-label">上课时间</label>
+        <div class="col-sm-5">
+            <div class="clearfix form-control-static">共<span id="lessons_count">0</span>次</div>
+            <script id="course_time_slot_template" type="text/template">
+                <div class="time_slot">
+                    <%= datas.start %> - <%= datas.end %>(周<%= datas.weekday %><%= datas.short_date %>)
+                </div>
+            </script>
+            <div id="course_time_slots_preview">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="period_desc" class="col-sm-3 col-md-3 col-lg-2 control-label">输入时间段</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="period_desc" name="period_desc" value="{{ dtlc.period_desc }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="grade_desc" class="col-sm-3 col-md-3 col-lg-2 control-label">输入年级</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="grade_desc" name="grade_desc" value="{{ dtlc.grade_desc }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="subject" class="col-sm-3 col-md-3 col-lg-2 control-label">选择科目</label>
+        <div class="col-sm-1">
+            <select class="form-control" id="subject" name="subject">
+                <option value="">请选择科目</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}" {% if subject.id == dtlc.subject.id %} selected="selected"{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="fee" class="col-sm-3 col-md-3 col-lg-2 control-label">课程费用</label>
+        <div class="col-sm-1">
+            <input type="text" class="form-control" id="fee" name="fee" value="{{ dtlc.fee }}">
+        </div>
+        <p class="form-control-static">元</p>
+    </div>
+    <div class="form-group">
+        <label for="intro" class="col-sm-3 col-md-3 col-lg-2 control-label">课程介绍</label>
+        <div class="col-sm-3">
+            <textarea rows="3" class="form-control" id="intro" name="intro">{{ dtlc.intro }}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lecturer" class="col-sm-3 col-md-3 col-lg-2 control-label">绑定讲师</label>
+        <div class="col-sm-1">
+            <select class="form-control" id="lecturer" name="lecturer">
+                <option value="">请选择讲师</option>
+                {% for lecturer in lecturers %}
+                    <option value="{{ lecturer.id }}" {% if lecturer.id == dtlc.lecturer.id %} selected="selected"{% endif %}>{{ lecturer.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="classes" class="col-sm-3 col-md-3 col-lg-2 control-label">绑定助教</label>
+        <div class="col-sm-5">
+        {% for class_room in class_rooms %}
+            <div class="clearfix class-room" class_room_id="{{ class_room.id }}">
+                <div class="col-sm-4 form-control-static">
+                    {{ class_room.school.name }}({{ class_room.name }})
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control" name="assistant">
+                        <option value="">请选择助教</option>
+                        {% for assistant in class_room.assistants %}
+                            <option value="{{ assistant.id }}" {% if assistant.id == dtlc.assistant.id %} selected="selected"{% endif %}>{{ assistant.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 col-md-3 col-lg-2"></div>
+        <div class="col-sm-2">
+            <button class="btn btn-lg btn-primary">创建课程</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
