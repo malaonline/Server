@@ -6,19 +6,21 @@ from django.contrib.auth.models import Group
 
 logger = logging.getLogger('app')
 
-def is_manager(u):
+
+def is_manager(u, role='师资管理员'):
     if u.is_active:
         if u.is_superuser:
             return True
         try:
             all_group = u.groups.all()
-            group = Group.objects.get(name='师资管理员')
+            group = Group.objects.get(name=role)
             return group in all_group
         except Group.DoesNotExist as ex:
             logger.error("Group DoesNotExist: {0}".format(ex))
         except Exception as err:
             logger.error(err)
     return False
+
 
 def mala_staff_required(view_func, redirect_field_name=REDIRECT_FIELD_NAME, login_url='staff:login'):
     """

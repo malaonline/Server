@@ -3,22 +3,12 @@ import logging
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
+from staff.decorators import is_manager as _is_manager
 
 logger = logging.getLogger('app')
 
 def is_manager(u):
-    if u.is_active:
-        if u.is_superuser:
-            return True
-        try:
-            all_group = u.groups.all()
-            group = Group.objects.get(name='历史数据录入员')
-            return group in all_group
-        except Group.DoesNotExist as ex:
-            logger.error("Group DoesNotExist: {0}".format(ex))
-        except Exception as err:
-            logger.error(err)
-    return False
+    return _is_manager(u, role='历史数据录入员')
 
 def mala_staff_required(view_func, redirect_field_name=REDIRECT_FIELD_NAME, login_url='import_:login'):
     """
