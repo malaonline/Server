@@ -1600,7 +1600,7 @@ class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        school_id = self.request.query_params.get('school', None)
+        school_id = self.request.query_params.get('school')
         if school_id:
             queryset = queryset.filter(class_room__school_id=school_id)
         return queryset
