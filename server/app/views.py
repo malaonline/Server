@@ -359,6 +359,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 class SchoolNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
@@ -392,6 +393,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 class SubjectNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
@@ -400,6 +402,7 @@ class SubjectNameSerializer(serializers.ModelSerializer):
 class SubjectIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Subject
+        fields = ('id',)
 
     def to_representation(self, instance):
         return self.fields['id'].get_attribute(instance)
@@ -419,6 +422,7 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 class TagNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
@@ -450,6 +454,7 @@ class GradeSimpleSerializer(serializers.ModelSerializer):
 class GradeNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Grade
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
@@ -482,6 +487,7 @@ class LevelSerializer(serializers.HyperlinkedModelSerializer):
 class LevelNameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Level
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
@@ -507,6 +513,7 @@ class HighscoreViewSet(viewsets.ReadOnlyModelViewSet):
 class PhotoUrlSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Photo
+        fields = ('img',)
 
     def to_representation(self, instance):
         return self.fields['img'].get_attribute(instance).url
@@ -576,6 +583,7 @@ class TeacherSerializer(serializers.ModelSerializer):
 class TeacherNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Teacher
+        fields = ('name',)
 
     def to_representation(self, instance):
         return self.fields['name'].get_attribute(instance)
