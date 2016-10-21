@@ -2952,7 +2952,7 @@ class CreateClassRoomView(BaseStaffView):
     def post(self, request):
         school_id = request.POST.get('school')
         school = get_object_or_404(models.School, id=school_id)
-        name = request.POST.get('name', None)
+        name = request.POST.get('name')
         capacity = parseInt(request.POST.get('capacity'), 0)
 
         if not name:
