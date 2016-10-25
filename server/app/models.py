@@ -1876,8 +1876,8 @@ class Order(BaseModel):
             Level, null=True, blank=True, on_delete=models.SET_NULL)
 
     commission_percentage = models.PositiveIntegerField(default=0)
-    price = models.PositiveIntegerField()  # TODO: 双师课程待定
-    hours = models.PositiveIntegerField()  # TODO: 双师课程待定
+    price = models.PositiveIntegerField()  # fee / (lessons * 2) if 双师课程
+    hours = models.PositiveIntegerField()  # lessons * 2 if 双师课程
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
     to_pay = models.PositiveIntegerField(default=0)
