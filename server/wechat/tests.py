@@ -7,29 +7,43 @@ from .wxapi import wx_dict2xml, wx_xml2dict
 
 
 class TestWechatPage(TestCase):
-    def test_teachers(self):
-        client = Client()
-        response = client.get(reverse('wechat:teachers'))
+    def setUp(self):
+        self.client = Client()
+
+    def tearDown(self):
+        pass
+
+    def test_index(self):
+        response = self.client.get(reverse('wechat:index'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_schools(self):
+        response = self.client.get(reverse('wechat:schools'))
         self.assertEqual(response.status_code, 200)
 
-    def test_wechat_schools(self):
-        client = Client()
-        response = client.get(reverse('wechat:schools'))
+    def test_school_map(self):
+        response = self.client.get(reverse('wechat:school-map', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_school_photos(self):
+        response = self.client.get(reverse('wechat:school-photos', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_teachers(self):
+        response = self.client.get(reverse('wechat:teachers'))
         self.assertEqual(response.status_code, 200)
 
     def test_teacher(self):
         teachers = Teacher.objects.filter(published=True)
         one = list(teachers) and teachers[0]
         if one:
-            client = Client()
-            response = client.get(reverse("wechat:teacher") + '?teacher_id=' + str(one.id))
+            response = self.client.get(reverse("wechat:teacher") + '?teacher_id=' + str(one.id))
             self.assertEqual(response.status_code, 200)
         else:
             print('TestWechat.test_teacher: no teacher exist!')
 
     def test_phone_page(self):
-        client = Client()
-        response = client.get(reverse("wechat:phone_page"))
+        response = self.client.get(reverse("wechat:phone_page"))
         self.assertEqual(response.status_code, 200)
 
 
