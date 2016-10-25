@@ -33,6 +33,20 @@ class TestWechatPage(TestCase):
         response = self.client.get(reverse('wechat:teachers'))
         self.assertEqual(response.status_code, 200)
 
+    def test_order_course_choosing(self):
+        pass
+        #response = self.client.get(reverse('wechat:order-course-choosing') + '?teacher_id=1')
+        #self.assertEqual(response.status_code, 200)
+        # TODO: Update
+
+    def test_order_coupon_list(self):
+        response = self.client.get(reverse('wechat:order-coupon-list') + '?teacher_id=1')
+        self.assertEqual(response.status_code, 200)
+
+    def test_order_evaluate_list(self):
+        response = self.client.get(reverse('wechat:order-evaluate-list') + '?teacher_id=1')
+        self.assertEqual(response.status_code, 200)
+
     def test_teacher(self):
         teachers = Teacher.objects.filter(published=True)
         one = list(teachers) and teachers[0]
@@ -42,8 +56,44 @@ class TestWechatPage(TestCase):
         else:
             print('TestWechat.test_teacher: no teacher exist!')
 
+    def test_teacher_schools(self):
+        data = dict(lat=1, lng=1, tid=1)
+        response = self.client.post(reverse('wechat:teacher-schools'), data=data)
+        self.assertEqual(response.status_code, 200)
+
     def test_phone_page(self):
         response = self.client.get(reverse("wechat:phone_page"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_openid(self):
+        response = self.client.get(reverse("wechat:add_openid"))
+        self.assertEqual(response.status_code, 200)
+        # TODO: check result is True
+
+    def test_check_phone(self):
+        response = self.client.get(reverse("wechat:add_openid"))
+        self.assertEqual(response.status_code, 200)
+        # TODO: check result is True
+
+    def test_pay_notify(self):
+        pass  # TODO
+
+    def test_policy(self):
+        response = self.client.get(reverse("wechat:policy"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_report_sample(self):
+        response = self.client.get(reverse("wechat:report-sample"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_vip(self):
+        response = self.client.get(reverse("wechat:vip"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_register(self):
+        response = self.client.get(reverse("wechat:register"))
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse("wechat:register") + '?step=success')
         self.assertEqual(response.status_code, 200)
 
 
