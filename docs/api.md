@@ -632,6 +632,7 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 data:
 ```
 {
+    'live_class': 12,  // only for live class
     'teacher': 1,
     'school': 1,
     'grade': 1,

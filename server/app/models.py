@@ -1864,10 +1864,11 @@ class Order(BaseModel):
 
     objects = OrderManager()
 
+    live_class = models.ForeignKey('LiveClass', null=True, blank=True)
     parent = models.ForeignKey(Parent, null=True, blank=True)
     teacher = models.ForeignKey(Teacher)
     school = models.ForeignKey(School)
-    grade = models.ForeignKey(Grade)
+    grade = models.ForeignKey(Grade, null=True, blank=True)
     subject = models.ForeignKey(Subject)
     coupon = models.ForeignKey(Coupon, null=True, blank=True)
     weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
@@ -1875,8 +1876,8 @@ class Order(BaseModel):
             Level, null=True, blank=True, on_delete=models.SET_NULL)
 
     commission_percentage = models.PositiveIntegerField(default=0)
-    price = models.PositiveIntegerField()
-    hours = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()  # fee / (lessons * 2) if 双师课程
+    hours = models.PositiveIntegerField()  # lessons * 2 if 双师课程
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
     to_pay = models.PositiveIntegerField(default=0)
