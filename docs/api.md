@@ -722,8 +722,14 @@ data:
                 "avatar": "http://127.0.0.1:8000/upload/avatars/img0_f7jKV3b.jpg",
                 "name": "冯老师"
             },
+            "lecturer": {
+                "id": 1,
+                "avatar": "http://127.0.0.1:8000/upload/avatars/img0_f7jKV3b.jpg",
+                "name": "刘冠奇"
+            },
             "comment": null,
-            "is_expired": false
+            "is_expired": false,
+            "is_live": true
         },
         ...
     ]
