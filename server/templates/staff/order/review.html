@@ -27,6 +27,17 @@
         </div>
 
         <div class="form-group">
+            <label>课程类型</label>
+            <select name="type" class="form-control">
+                <option value="">全部类型</option>
+                <option value="1to1" {% if '1to1' == query_data.type %}
+                        selected="selected"{% endif %}>1对1</option>
+                <option value="lc" {% if 'lc' == query_data.type %}
+                        selected="selected"{% endif %}>双师直播</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label>订单状态</label>
             <select name="status" class="form-control">
                 <option value="">全部</option>
@@ -94,6 +105,7 @@
             <th>订单号</th>
             <th>下单时间</th>
 {#            <th>支付平台</th>#}
+            <th>课程类型</th>
             <th>订单状态</th>
 {#            <th>是否排课</th>#}
             <th>家长手机号</th>
@@ -129,6 +141,7 @@
 {#                        {% endfor %}#}
 {#                    {% endif %}#}
 {#                </td>#}
+{# 课程类型#}     <td>{% if order.live_class %}双师直播{% else %}1对1{% endif %}</td>
 {# 订单状态 #}    <td>
                     {% if order.is_student_first_subject %}
                         <div style="color: #c9302c; font-weight: bold">首单</div>
