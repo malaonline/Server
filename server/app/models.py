@@ -1626,7 +1626,8 @@ class LiveCourseWeeklyTimeSlot(BaseModel):
 
 
 class OrderManager(models.Manager):
-    def create(self, parent, teacher, school, grade, subject, hours, coupon):
+    def create(self, parent, teacher=None, school=None, grade=None,
+               subject=None, hours=None, coupon=None, live_class=None):
         prices_set = school.priceconfig_set.filter(
             deleted=False,
             grade=grade,
@@ -1866,18 +1867,18 @@ class Order(BaseModel):
 
     live_class = models.ForeignKey('LiveClass', null=True, blank=True)
     parent = models.ForeignKey(Parent, null=True, blank=True)
-    teacher = models.ForeignKey(Teacher)
-    school = models.ForeignKey(School)
+    teacher = models.ForeignKey(Teacher, null=True, blank=True)
+    school = models.ForeignKey(School, null=True, blank=True)
     grade = models.ForeignKey(Grade, null=True, blank=True)
-    subject = models.ForeignKey(Subject)
+    subject = models.ForeignKey(Subject, null=True, blank=True)
     coupon = models.ForeignKey(Coupon, null=True, blank=True)
-    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot)
+    weekly_time_slots = models.ManyToManyField(WeeklyTimeSlot, blank=True)
     level = models.ForeignKey(
             Level, null=True, blank=True, on_delete=models.SET_NULL)
 
     commission_percentage = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField()  # fee / (lessons * 2) if 双师课程
-    hours = models.PositiveIntegerField()  # lessons * 2 if 双师课程
+    hours = models.PositiveIntegerField(default=0)  # lessons * 2 if 双师课程
     order_id = models.CharField(max_length=20, default=orderid, unique=True)
     total = models.PositiveIntegerField()
     to_pay = models.PositiveIntegerField(default=0)
