@@ -14,7 +14,7 @@ from django.views.generic import View, TemplateView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.db import IntegrityError, transaction
-from django.db.models import Q, Sum, Max
+from django.db.models import Q, Sum, Max, Min
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
 from django.contrib.auth.mixins import AccessMixin
@@ -2977,15 +2977,33 @@ class CreateClassRoomView(BaseStaffView):
         return JsonResponse({'ok': True, 'msg': '创建成功!'})
 
 
-class LiveClassListView(BaseStaffView):
-    template_name = 'staff/course/live_course/live_class_list.html'
+class LiveCourseListView(BaseStaffView):
+    template_name = 'staff/course/live_course/live_course_list.html'
 
     def get_context_data(self, **kwargs):
-        # paginate
+        kwargs['query_data'] = self.request.GET.dict()
+        status = self.request.GET.get('status')
         page = self.request.GET.get('page')
-        live_classes = models.LiveClass.objects.all()
-        live_classes = live_classes.order_by('-id')
-        live_classes, pager = paginate(live_classes, page)
-        kwargs['live_classes'] = live_classes
+        live_courses = models.LiveCourse.objects.all()
+        now = timezone.now()
+        if status == 'to_start':
+            live_courses = live_courses.annotate(
+                start_time=Min("livecoursetimeslot__start"))
+            live_courses = live_courses.filter(start_time__gt=now)
+        elif status == 'under_way':
+            live_courses = live_courses.annotate(
+                start_time=Min("livecoursetimeslot__start"))
+            live_courses = live_courses.annotate(
+                end_time=Max("livecoursetimeslot__end"))
+            live_courses = live_courses.filter(start_time__lte=now).filter(
+                end_time__gte=now)
+        elif status == 'end':
+            live_courses = live_courses.annotate(
+                end_time=Max("livecoursetimeslot__end"))
+            live_courses = live_courses.filter(end_time__lt=now)
+        live_courses = live_courses.order_by('-id')
+        # paginate
+        live_courses, pager = paginate(live_courses, page)
+        kwargs['live_courses'] = live_courses
         kwargs['pager'] = pager
-        return super(LiveClassListView, self).get_context_data(**kwargs)
+        return super(LiveCourseListView, self).get_context_data(**kwargs)

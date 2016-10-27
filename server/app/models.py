@@ -3150,10 +3150,33 @@ class LiveCourse(BaseModel):
         return 0
 
     @property
+    def finish_lessons(self):
+        now = timezone.now()
+        return self.livecoursetimeslot_set.filter(end__lte=now).count()
+
+    @property
     def slots(self):
         if self.livecoursetimeslot_set.exists():
             return self.livecoursetimeslot_set.all()
         return None
+
+    @property
+    def room_capacity(self):
+        # students in all class room
+        return LiveClass.objects.filter(live_course=self).aggregate(
+            total=Sum('class_room__capacity')).get('total')
+
+    @property
+    def students_count(self):
+        # students whose enrolled course in all school class room
+        return Order.objects.filter(live_class__in=self.liveclass_set.all(),
+                                    status=Order.PAID).count()
+
+    @property
+    def refund_count(self):
+        # refund students in all class
+        return Order.objects.filter(live_class__in=self.liveclass_set.all(),
+                                    status=Order.REFUND).count()
 
 
 class LiveClass(BaseModel):
@@ -3178,6 +3201,10 @@ class LiveClass(BaseModel):
     @property
     def students_count(self):
         return Order.objects.filter(live_class=self, status=Order.PAID).count()
+
+    @property
+    def refund_count(self):
+        return Order.objects.filter(live_class=self, status=Order.REFUND).count()
 
     @property
     def course_name(self):
