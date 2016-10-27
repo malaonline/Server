@@ -1687,6 +1687,7 @@ class OrderReviewView(BaseStaffView):
         name = self.request.GET.get('name')
         phone = self.request.GET.get('phone')
         order_id = self.request.GET.get('order_id')
+        course_type = self.request.GET.get('type')
         status = self.request.GET.get('status')
         grade = self.request.GET.get('grade')
         subject = self.request.GET.get('subject')
@@ -1715,6 +1716,12 @@ class OrderReviewView(BaseStaffView):
         # 后台系统订单号, 模糊匹配
         if order_id:
             query_set = query_set.filter(order_id__icontains=order_id)
+        # 课程类型
+        if course_type:
+            if course_type == '1to1':
+                query_set = query_set.filter(live_class__isnull=True)
+            elif course_type == 'lc':
+                query_set = query_set.filter(live_class__isnull=False)
         # 订单状态
         if status:
             # 此处 status 是前端传过来的值, 需要进一步判断具体状态
