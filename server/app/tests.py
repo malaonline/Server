@@ -15,7 +15,7 @@ from rest_framework.authtoken.models import Token
 
 from app.models import Parent, Teacher, Checkcode, Profile, TimeSlot, Order, \
         WeeklyTimeSlot, AuditRecord, Coupon, School, Region, Subject, Grade, \
-        Ability
+        Ability, Lecturer, LiveClass, ClassRoom
 from app.utils.algorithm import Tree, Node, verify_sig
 from app.utils.types import parseInt, parse_date, parse_date_next
 import app.utils.klx_api as klx
@@ -558,6 +558,58 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertFalse(json_ret['ok'])
         self.assertEqual(-1, json_ret['code'])
+
+    def test_create_live_class_order(self):
+        # login as superuser
+        client = Client()
+        client.login(username='test', password='mala-test')
+        # create classroom
+        response = client.get(reverse("staff:create_room"))
+        self.assertEqual(response.status_code, 200)
+        data = {'school': 1, 'name': 'test_room', 'capacity': 20}
+        response = client.post(reverse("staff:create_room"), data=data)
+        self.assertEqual(response.status_code, 200)
+
+        # create live course and class
+        if Lecturer.objects.exists():
+            lecturer = Lecturer.objects.first()
+        else:
+            lecturer = Lecturer(name='何芳')
+            lecturer.save()
+        response = client.get(reverse("staff:live_course"))
+        self.assertEqual(response.status_code, 200)
+        data = {"course_no": "1002", "name": "新概念英语",
+                "period_desc": "每周六 08:00-10:00;每周日 10:20-12:20",
+                "grade_desc": "小学四-六年级", "subject": 2, "fee": "48000",
+                "description": "blah blah blah", "lecturer": lecturer.id,
+                "class_rooms": [{"id": ClassRoom.objects.first().id,
+                                 "assistant": Teacher.objects.first().id}],
+                "course_times": [{"start": 1477699200, "end": 1477706400},
+                                 {"start": 1477794000, "end": 1477801200}]}
+        response = client.post(reverse("staff:live_course"),
+                               data={"data": json.dumps(data)})
+        self.assertEqual(response.status_code, 200)
+
+        # create order for live course
+        client = Client()
+        username = "parent2"
+        password = "123123"
+        client.login(username=username, password=password)
+        request_url = "/api/v1/orders"
+        json_data = json.dumps({
+            'live_class': LiveClass.objects.first().id
+        })
+        response = client.post(request_url, content_type="application/json",
+                               data=json_data, )
+        self.assertEqual(201, response.status_code)
+
+        pk = json.loads(response.content.decode())['id']
+        request_url = "/api/v1/orders/%d" % pk
+        response = client.get(request_url, content_type='application/json')
+        self.assertEqual(200, response.status_code)
+
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(json_ret['status'], 'u')
 
     def test_cancel_order(self):
         client = Client()

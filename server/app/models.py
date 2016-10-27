@@ -1628,25 +1628,40 @@ class LiveCourseWeeklyTimeSlot(BaseModel):
 class OrderManager(models.Manager):
     def create(self, parent, teacher=None, school=None, grade=None,
                subject=None, hours=None, coupon=None, live_class=None):
-        prices_set = school.priceconfig_set.filter(
-            deleted=False,
-            grade=grade,
-            level=teacher.level,
-            min_hours__lte=hours,
-        ).order_by('-min_hours')
-        price_obj = prices_set.first()
-        price = price_obj.price
+        if live_class is not None:
+            # live course workflow
+            teacher = live_class.assistant
+            school = live_class.class_room.school
+            subject = live_class.live_course.subject
+            total = live_class.live_course.fee
+            to_pay = max(total - (coupon.amount if coupon else 0), 1)
+            # hours: lessons count * 2
+            hours = live_class.live_course.lessons * 2
+            price = int(total / hours)
+            # grade here not used for live course
+            grade = None
+        else:
+            # one to one workflow
+            prices_set = school.priceconfig_set.filter(
+                deleted=False,
+                grade=grade,
+                level=teacher.level,
+                min_hours__lte=hours,
+            ).order_by('-min_hours')
+            price_obj = prices_set.first()
+            price = price_obj.price
 
-        # pure total price, not calculate coupon's amount
-        total = price * hours
-        to_pay = max(total - (coupon.amount if coupon else 0), 1)
+            # pure total price, not calculate coupon's amount
+            total = price * hours
+            to_pay = max(total - (coupon.amount if coupon else 0), 1)
 
         order_id = orderid()
 
         order = super(OrderManager, self).create(
                 parent=parent, teacher=teacher, school=school, grade=grade,
                 subject=subject, price=price, hours=hours, level=teacher.level,
-                total=total, coupon=coupon, order_id=order_id, to_pay=to_pay)
+                total=total, coupon=coupon, order_id=order_id, to_pay=to_pay,
+                live_class=live_class)
 
         order.save()
         return order
@@ -1928,7 +1943,8 @@ class Order(BaseModel):
                         pk=self.pk, student_name=self.parent.student_name,
                         submit_time=self.local_time_str(self.created_at),
                         teacher_name=self.teacher.name, local=self.school,
-                        subject=self.subject.name, grade=self.grade.name,
+                        subject=self.subject.name,
+                        grade='' if self.grade is None else self.grade.name,
                         teacher_phone=self.teacher.user.profile.phone,
                         student_phone=self.parent.user.profile.phone,
                         order_status=self.status,
@@ -2106,6 +2122,10 @@ class Order(BaseModel):
 
     def school_id(self):
         return self.school.id
+
+    @property
+    def is_live(self):
+        return self.live_class is not None
 
 
 class OrderRefundRecord(BaseModel):

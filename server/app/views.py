@@ -980,7 +980,8 @@ class OrderSerializer(serializers.ModelSerializer):
         model = models.Order
         fields = ('id', 'teacher', 'parent', 'school', 'grade', 'subject',
                   'coupon', 'hours', 'weekly_time_slots', 'price', 'total',
-                  'status', 'order_id', 'to_pay', 'is_timeslot_allocated')
+                  'status', 'order_id', 'to_pay', 'is_timeslot_allocated',
+                  'live_class')
         read_only_fields = (
                 'parent', 'price', 'total', 'status', 'order_id', 'to_pay')
 
@@ -1017,6 +1018,10 @@ class OrderViewSet(ParentBasedMixin,
         return queryset
 
     def validate_create(self, request):
+        live_class = request.data.get('live_class', None)
+        # Do not validate coupon for live class for now
+        if live_class is not None:
+            return 0
         school = get_object_or_404(
             models.School, pk=request.data.get('school'))
         # 奖学金使用校验
@@ -1047,7 +1052,7 @@ class OrderViewSet(ParentBasedMixin,
         # 课程占用校验
         weekly_time_slots = request.data.get('weekly_time_slots')
         if weekly_time_slots is None or len(weekly_time_slots) == 0:
-            return False
+            return -1
         weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=x)
                              for x in weekly_time_slots]
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
