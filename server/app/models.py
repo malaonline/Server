@@ -3157,8 +3157,7 @@ class LiveClass(BaseModel):
 
     @property
     def students_count(self):
-        # TODO:
-        return -1
+        return Order.objects.filter(live_class=self, status=Order.PAID).count()
 
     @property
     def course_name(self):

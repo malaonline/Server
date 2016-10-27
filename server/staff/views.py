@@ -2546,8 +2546,8 @@ class LevelSalaryConfigView(BaseStaffView):
         level_list = list(levels)
         price_dict = {price.level_id: price for price in prices}
         for level in level_list:
-            level.commission_percentage = price_dict[
-                    level.id].commission_percentage
+            p = price_dict.get(level.id)
+            level.commission_percentage = p and p.commission_percentage or 0
         context['level_list'] = level_list
 
     def get_context_data(self, **kwargs):
@@ -2975,3 +2975,17 @@ class CreateClassRoomView(BaseStaffView):
                                     capacity=capacity)
         new_room.save()
         return JsonResponse({'ok': True, 'msg': '创建成功!'})
+
+
+class LiveClassListView(BaseStaffView):
+    template_name = 'staff/course/live_course/live_class_list.html'
+
+    def get_context_data(self, **kwargs):
+        # paginate
+        page = self.request.GET.get('page')
+        live_classes = models.LiveClass.objects.all()
+        live_classes = live_classes.order_by('-id')
+        live_classes, pager = paginate(live_classes, page)
+        kwargs['live_classes'] = live_classes
+        kwargs['pager'] = pager
+        return super(LiveClassListView, self).get_context_data(**kwargs)
