@@ -209,3 +209,7 @@ class TestStaffWeb(TestCase):
                                  {"start": 1477794000, "end": 1477801200}]}
         response = self.client.post(reverse("staff:live_course"), data=data)
         self.assertEqual(response.status_code, 200)
+
+    def test_live_class_list(self):
+        response = self.client.get(reverse("staff:live_class_list"))
+        self.assertEqual(response.status_code, 200)
