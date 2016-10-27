@@ -41,4 +41,5 @@ urlpatterns = [
     url(r'^region/(?P<rid>\d+)/$', views.RegionView.as_view(), name="region_config"),
     url(r'^course/live-course/$', views.LiveCourseView.as_view(), name="live_course"),
     url(r'^course/live-course/classroom/$', views.CreateClassRoomView.as_view(), name="create_room"),
+    url(r'^course/live-class/list/$', views.LiveClassListView.as_view(), name="live_class_list"),
 ]

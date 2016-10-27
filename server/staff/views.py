@@ -2975,3 +2975,17 @@ class CreateClassRoomView(BaseStaffView):
                                     capacity=capacity)
         new_room.save()
         return JsonResponse({'ok': True, 'msg': '创建成功!'})
+
+
+class LiveClassListView(BaseStaffView):
+    template_name = 'staff/course/live_course/live_class_list.html'
+
+    def get_context_data(self, **kwargs):
+        # paginate
+        page = self.request.GET.get('page')
+        live_classes = models.LiveClass.objects.all()
+        live_classes = live_classes.order_by('-id')
+        live_classes, pager = paginate(live_classes, page)
+        kwargs['live_classes'] = live_classes
+        kwargs['pager'] = pager
+        return super(LiveClassListView, self).get_context_data(**kwargs)
