@@ -1,13 +1,37 @@
 from app import models
 from django.test import Client, TestCase
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 
 
 # Create your tests here.
 class TestStaffWeb(TestCase):
+
+    def _init_test_school_master(self):
+        if hasattr(self, '_school_master'):
+            return
+        self.school_master = "school_master_1LlwZyCR3"
+        self.school_master_pswd = "123"
+        user_data = {
+            'password': make_password(self.school_master_pswd),
+            'is_staff': True,
+            'is_superuser': True,
+        }
+        user, _ = User.objects.get_or_create(username=self.school_master, defaults=user_data)
+        user.groups.add(Group.objects.get(name="超级管理员"))
+        school = models.School.objects.filter(opened=True).first()
+        _school_master, _ = models.SchoolMaster.objects.get_or_create(user=user, defaults={
+            "school": school, "name": "test_schoolmaster"
+        })
+        self._school_master = _school_master
+
     def setUp(self):
         self.client = Client()
         self.client.login(username='test', password='mala-test')
+        self._init_test_school_master()
+        self.school_master_client = Client()
+        self.school_master_client.login(username=self.school_master, password=self.school_master_pswd)
 
     def tearDown(self):
         pass
@@ -150,26 +174,41 @@ class TestStaffWeb(TestCase):
     def test_level_price_cfg(self):
         response = self.client.get(reverse('staff:level_price_cfg'))
         self.assertEqual(200, response.status_code)
+        rid = models.Price.objects.first().region_id
+        response = self.client.get(reverse('staff:level_price_cfg')+"?region="+str(rid))
+        self.assertEqual(200, response.status_code)
+        sid = models.Subject.objects.first().id
+        response = self.client.get(reverse('staff:level_price_cfg') + "?region=" + str(rid) + '&subject=' + str(sid))
+        self.assertEqual(200, response.status_code)
         # TODO: update
 
     def test_level_salary_cfg(self):
         response = self.client.get(reverse('staff:level_salary_cfg'))
+        self.assertEqual(200, response.status_code)
+        rid = models.Price.objects.first().region_id
+        response = self.client.get(reverse('staff:level_salary_cfg')+"?region="+str(rid))
         self.assertEqual(200, response.status_code)
         # TODO: update
 
     def test_school_account_info(self):
         response = self.client.get(reverse('staff:school_account_info'))
         self.assertEqual(200, response.status_code)
+        response = self.school_master_client.get(reverse('staff:school_account_info'))
+        self.assertEqual(200, response.status_code)
         # TODO: update
 
     def test_school_price_cfg(self):
         response = self.client.get(reverse('staff:school_price_cfg'))
+        self.assertEqual(200, response.status_code)
+        response = self.school_master_client.get(reverse('staff:school_price_cfg'))
         self.assertEqual(200, response.status_code)
         # TODO: update
 
     def test_school_income_records(self):
         response = self.client.get(reverse("staff:school_income_records"))
         self.assertEqual(response.status_code, 200)
+        response = self.school_master_client.get(reverse('staff:school_income_records'))
+        self.assertEqual(200, response.status_code)
 
     def test_school_income_audit(self):
         response = self.client.get(reverse("staff:school_income_audit"))
