@@ -1,3 +1,4 @@
+import json
 from app import models
 from django.test import Client, TestCase
 from django.contrib.auth.hashers import make_password
@@ -231,6 +232,12 @@ class TestStaffWeb(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_live_course_create_course(self):
+        # 创建教室
+        response = self.client.get(reverse("staff:create_room"))
+        self.assertEqual(response.status_code, 200)
+        data = {'school': 2, 'name': 'test_room2', 'capacity': 15}
+        response = self.client.post(reverse("staff:create_room"), data=data)
+        self.assertEqual(response.status_code, 200)
         # 创建课程
         if models.Lecturer.objects.exists():
             lecturer = models.Lecturer.objects.first()
@@ -241,12 +248,14 @@ class TestStaffWeb(TestCase):
         self.assertEqual(response.status_code, 200)
         data = {"course_no": "1001", "name": "新概念英语",
                 "period_desc": "每周六 08:00-10:00;每周日 10:20-12:20",
-                "grade_desc": "小学四-六年级", "subject": 2, "fee": 480,
+                "grade_desc": "小学四-六年级", "subject": 2, "fee": "48000",
                 "description": "blah blah blah", "lecturer": lecturer.id,
-                "class_rooms": [{"id": 1, "assistant": "1"}],
+                "class_rooms": [{"id": models.ClassRoom.objects.first().id,
+                                 "assistant": models.Teacher.objects.first().id}],
                 "course_times": [{"start": 1477699200, "end": 1477706400},
                                  {"start": 1477794000, "end": 1477801200}]}
-        response = self.client.post(reverse("staff:live_course"), data=data)
+        response = self.client.post(reverse("staff:live_course"),
+                                    data={"data": json.dumps(data)})
         self.assertEqual(response.status_code, 200)
 
     def test_live_class_list(self):
