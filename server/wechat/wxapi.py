@@ -31,6 +31,7 @@ __all__ = [
     "WX_FAIL",
     "WX_PAYERROR",
     "WX_AUTH_URL",
+    "WX_GET_OPENID_RUL",
     "WX_TPL_MSG_URL",
     ]
 logger = logging.getLogger('app')
@@ -44,6 +45,7 @@ WX_FAIL = 'FAIL'
 WX_PAYERROR = 'PAYERROR'
 
 WX_AUTH_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+settings.WEIXIN_APPID
+WX_GET_OPENID_RUL = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
 # 微信模板消息
 WX_TPL_MSG_URL = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={token}'
 

@@ -888,7 +888,7 @@ def _get_reg_next_page(state, openid):
 
 @csrf_exempt
 def check_phone(request):
-    get_openid_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code'
+    get_openid_url = wx.WX_GET_OPENID_RUL
     wx_code = request.GET.get('code')
     teacherId = request.GET.get('state') # 注册, 报名, 收藏
 
