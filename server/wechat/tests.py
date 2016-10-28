@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 
 from app.models import Parent, Teacher
 
-from .wxapi import wx_dict2xml, wx_xml2dict
+from . import wxapi
 
 
 class TestWechatPage(TestCase):
@@ -97,7 +97,7 @@ class TestWechatPage(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class TestUtils(SimpleTestCase):
+class TestWxApi(SimpleTestCase):
     def test_xml_2_dict(self):
         xml_string = '''
             <xml>
@@ -112,7 +112,7 @@ class TestUtils(SimpleTestCase):
                <trade_type><![CDATA[JSAPI]]></trade_type>
             </xml>
         '''
-        xml_dict = wx_xml2dict(xml_string)
+        xml_dict = wxapi.wx_xml2dict(xml_string)
         # print(xml_dict)
         self.assertEqual(xml_dict['return_code'], 'SUCCESS')
         self.assertEqual(xml_dict['return_msg'], 'OK')
@@ -124,10 +124,10 @@ class TestUtils(SimpleTestCase):
         self.assertEqual(xml_dict['prepay_id'], 'wx201411101639507cbf6ffd8b0779950874')
         self.assertEqual(xml_dict['trade_type'], 'JSAPI')
 
-        xml_string2 = wx_dict2xml(xml_dict)
+        xml_string2 = wxapi.wx_dict2xml(xml_dict)
         # print(xml_string2)
 
-        xml_dict2 = wx_xml2dict(xml_string)
+        xml_dict2 = wxapi.wx_xml2dict(xml_string)
         # print(xml_dict2)
         self.assertEqual(xml_dict2['return_code'], 'SUCCESS')
         self.assertEqual(xml_dict2['return_msg'], 'OK')
@@ -138,3 +138,20 @@ class TestUtils(SimpleTestCase):
         self.assertEqual(xml_dict2['result_code'], 'SUCCESS')
         self.assertEqual(xml_dict2['prepay_id'], 'wx201411101639507cbf6ffd8b0779950874')
         self.assertEqual(xml_dict2['trade_type'], 'JSAPI')
+
+    def test_make_nonce_str(self):
+        s1 = wxapi.make_nonce_str()
+        s2 = wxapi.make_nonce_str()
+        self.assertNotEqual(s1, s2)
+
+    def test_wx_sign(self):
+        data = {'noncestr': wxapi.make_nonce_str(),
+                'jsapi_ticket': wxapi.make_nonce_str(),
+                'timestamp': '1473475948',
+                'url': "http://localhost/"}
+        sign = wxapi.wx_signature(data)
+        self.assertEqual(len(sign), 40)
+
+        # test wx_sign_for_pay
+        sign = wxapi.wx_sign_for_pay(data)
+        self.assertEqual(len(sign), 32)
