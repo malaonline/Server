@@ -108,7 +108,7 @@ class ChargeSucceeded(View):
         if order.status == models.Order.CANCELED:
             order_charge_available = False
         # 一对一不允许对下架老师下单, 双师直播下架老师可能是助教, 允许下单
-        elif not order.live_class and not order.is_teacher_published():
+        elif not order.is_live() and not order.is_teacher_published():
             order_charge_available = False
         order.status = order.PAID
         order.paid_at = timezone.now()

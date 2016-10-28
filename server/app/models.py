@@ -1721,7 +1721,7 @@ class OrderManager(models.Manager):
 
     def get_order_timeslots(self, order, check_conflict=True):
         # live course
-        if order.live_class:
+        if order.is_live():
             if check_conflict:
                 capacity = order.live_class.class_room.capacity
                 if order.live_class.students_count >= capacity:
@@ -1750,7 +1750,7 @@ class OrderManager(models.Manager):
             return
 
         name = '/teacher_%d' % order.teacher.id
-        if order.live_class:
+        if order.is_live():
             name = '/liveclass_%d' % order.live_class.id
         semaphore = posix_ipc.Semaphore(
                 name, flags=posix_ipc.O_CREAT, initial_value=1)
@@ -1775,7 +1775,7 @@ class OrderManager(models.Manager):
         # 短信通知老师, 以及家长
         teacher_name = order.teacher.name
         student_name = order.parent.student_name
-        if order.live_class:
+        if order.is_live():
             grade = order.live_class.live_course.grade_desc
         else:
             grade = order.grade.name + order.subject.name
@@ -2137,7 +2137,6 @@ class Order(BaseModel):
     def school_id(self):
         return self.school.id
 
-    @property
     def is_live(self):
         return self.live_class is not None
 
