@@ -580,7 +580,7 @@ class TestApi(TestCase):
         self.assertEqual(response.status_code, 200)
         data = {"course_no": "1002", "name": "新概念英语",
                 "period_desc": "每周六 08:00-10:00;每周日 10:20-12:20",
-                "grade_desc": "小学四-六年级", "subject": 2, "fee": "48000",
+                "grade_desc": "小学四-六年级", "subject": 2, "fee": "480",
                 "description": "blah blah blah", "lecturer": lecturer.id,
                 "class_rooms": [{"id": ClassRoom.objects.first().id,
                                  "assistant": Teacher.objects.first().id}],
@@ -610,6 +610,10 @@ class TestApi(TestCase):
 
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
+
+        order = Order.objects.get(pk=int(pk))
+        ans = Order.objects.get_order_timeslots(order, False)
+        self.assertNotEqual(len(ans), 0)
 
     def test_cancel_order(self):
         client = Client()

@@ -648,27 +648,30 @@ result:
 (Success)HTTP Status Code 201
 ```
 {
-    'teacher': 1,
-    'order_id': '1234123412341234',
-    'parent': 1,
-    'grade': 1,
-    'id': 15,
-    'total': 360,
-    'price': 180,
-    'hours': 14,
-    'coupon': None,
-    'status': 'u',
-    'weekly_time_slots': [3, 8],
-    'subject': 1,
-    'school': 1
+    "teacher": 1,
+    "order_id": "1234123412341234",
+    "parent": 1,
+    "grade": 1,
+    "id": 15,
+    "total": 360,
+    "price": 180,
+    "hours": 14,
+    "coupon": null,
+    "status": "u",
+    "weekly_time_slots": [3, 8],
+    "subject": 1,
+    "school": 1,
+    "to_pay": 360,
+    "is_timeslot_allocated": false,
+    "live_class": 1
 }
 ```
 
 (Fail)HTTP Status Code 200
 ```
 {
-    'ok': false,
-    'code': -1 // One or more course in the order has been assigned to other parent
+    "ok": false,
+    "code": -1 // One or more course in the order has been assigned to other parent
             -2 // Coupon limitation validate Failed
 }
 ```
@@ -963,7 +966,7 @@ result:
             "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
             "school_id": 3,
             "school": "洛阳中心店",
-            "grade": null,
+            "grade": "小学",  // always "小学" for live class
             "subject": "语文",
             "hours": 4,
             "status": "p",
@@ -1046,7 +1049,7 @@ Live Course:
     "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
     "school_id": 3,
     "school": "洛阳中心店",
-    "grade": null,
+    "grade": "小学",  // always "小学" for live class
     "subject": "语文",
     "hours": 4,
     "status": "u",
