@@ -611,6 +611,10 @@ class TestApi(TestCase):
         json_ret = json.loads(response.content.decode())
         self.assertEqual(json_ret['status'], 'u')
 
+        order = Order.objects.get(pk=int(pk))
+        ans = Order.objects.get_order_timeslots(order, False)
+        self.assertNotEqual(len(ans), 0)
+
     def test_cancel_order(self):
         client = Client()
         username = "parent2"
