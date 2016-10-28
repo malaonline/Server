@@ -258,6 +258,15 @@ class TestStaffWeb(TestCase):
                                     data={"data": json.dumps(data)})
         self.assertEqual(response.status_code, 200)
 
-    def test_live_class_list(self):
-        response = self.client.get(reverse("staff:live_class_list"))
+    def test_live_course_list(self):
+        response = self.client.get(reverse("staff:live_course_list"))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            reverse("staff:live_course_list")+"?status=to_start")
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            reverse("staff:live_course_list")+"?status=under_way")
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            reverse("staff:live_course_list")+"?status=end")
         self.assertEqual(response.status_code, 200)

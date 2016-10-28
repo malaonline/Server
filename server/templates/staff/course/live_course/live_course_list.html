@@ -1,0 +1,71 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}直播课程列表{% endblock %}
+
+{% block addition_js %}
+    <script>
+        $(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="form-inline">
+        <div class="form-group">
+            <label for="status">状态
+            <select name="status" class="form-control">
+                <option value="">全部</option>
+                <option value="to_start" {% if 'to_start' == query_data.status %}
+                        selected="selected"{% endif %}>报名中</option>
+                <option value="under_way" {% if 'under_way' == query_data.status %}
+                        selected="selected"{% endif %}>进行中</option>
+                <option value="end" {% if 'end' == query_data.status %}
+                        selected="selected"{% endif %}>已结课</option>
+            </select>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="form-control btn-success" value="查询"/>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th class="text-center">课程编号</th>
+            <th class="text-center">课程名称</th>
+            <th class="text-center">讲师</th>
+            <th class="text-center">课时次数</th>
+            <th class="text-center col-finish-lessons">完成次数</th>
+            <th class="text-center">费用</th>
+            <th class="text-center">
+                总报名人数/总满班人数
+                <span class="glyphicon glyphicon-question-sign"
+                      data-toggle="tooltip" data-placement="right"
+                      title="所有校区的人数"></span>
+            </th>
+            <th class="text-center col-refund-count">退费人数</th>
+            <th class="text-center">操作</th>
+        </tr>
+        {% for lc in live_courses %}
+            <tr align="center">
+{# 课程编号 #}    <td>{{ lc.course_no }}</td>
+{# 课程名称 #}    <td>{{ lc.name }}</td>
+{# 讲师 #}       <td>{{ lc.lecturer.name }}</td>
+{# 课时次数 #}    <td>{{ lc.lessons }}</td>
+{# 完成次数 #}    <td class="col-finish-lessons">{{ lc.finish_lessons }}</td>
+{# 费用 #}       <td>{{ lc.fee|money_format:'/' }}</td>
+{# 报名人数/慢班人数 #}
+                <td>{{ lc.students_count }}/{{ lc.room_capacity }}</td>
+{# 退费人数 #}    <td class="col-refund-count">{{ lc.refund_count }}</td>
+{# 操作 #}       <td>无</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+
+{% endblock %}
