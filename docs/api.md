@@ -953,6 +953,8 @@ result:
             "to_pay": 1140,
             "evaluated": true,
             "is_teacher_published": true,
+            "live_class": null,
+            "is_live": false
         },
         {
             "id": 32,
@@ -961,7 +963,7 @@ result:
             "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
             "school_id": 3,
             "school": "洛阳中心店",
-            "grade": "一年级",
+            "grade": null,
             "subject": "语文",
             "hours": 4,
             "status": "p",
@@ -969,6 +971,15 @@ result:
             "to_pay": 840,
             "evaluated": true,
             "is_teacher_published": true,
+            "live_class": {
+                "id": 1,
+                "course_name": "小学新概念英语A班",
+                "lecturer_name": "测试主讲老师1",
+                "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+                "assistant_name": "尚尔迪",
+                "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+            },
+            "is_live": true
         }
     ]
 }
@@ -986,6 +997,8 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 ```
 
 result:
+
+One To One:
 ```
 {
     "id": 32,
@@ -1019,7 +1032,66 @@ result:
             1464307200,
             1464314400
         ]
-    ]
+    ],
+    "live_class": null,
+    "is_live": false
+}
+```
+Live Course:
+```
+{
+    "id": 32,
+    "teacher": 4,
+    "teacher_name": "李老师",
+    "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
+    "school_id": 3,
+    "school": "洛阳中心店",
+    "grade": null,
+    "subject": "语文",
+    "hours": 4,
+    "status": "u",
+    "order_id": "1216670256607750",
+    "to_pay": 840,
+    "created_at": 1462528779,
+    "paid_at": null,
+    "charge_channel": null,
+    "evaluated": true,
+    "is_timeslot_allocated": false,
+    "is_teacher_published": true,
+    "timeslots": [
+        [
+            1464134400,
+            1464141600
+        ],
+        [
+            1464220800,
+            1464228000
+        ],
+        [
+            1464307200,
+            1464314400
+        ]
+    ],
+    "live_class": {
+        "id": 1,
+        "course_name": "小学新概念英语A班",
+        "course_start": 1477101600,
+        "course_end": 1477713600,
+        "course_period": "每周六 10:00-12:00",
+        "course_fee": 48000,
+        "course_lessons": 2,
+        "course_grade": "小学四-六年级",
+        "course_description": "课程介绍 blah blah",
+        "room_capacity": 20,
+        "students_count": 12,
+        "lecturer_name": "测试主讲老师1",
+        "lecturer_title": "新东方特级教师",
+        "lecturer_bio": "多年海外留学经历",
+        "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+        "assistant_name": "尚尔迪",
+        "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+    },
+    "is_live": true
 }
 ```
 ```

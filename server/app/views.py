@@ -934,17 +934,65 @@ class ParentViewSet(ParentBasedMixin,
                 request, *args, **kwargs)
 
 
+class LiveClassSimpleSerializer(serializers.ModelSerializer):
+    lecturer_avatar = serializers.ImageField()
+    assistant_avatar = serializers.ImageField()
+
+    class Meta:
+        model = models.LiveClass
+        fields = ('id', 'course_name', 'lecturer_name', 'lecturer_avatar',
+                  'assistant_name', 'assistant_avatar',
+                  )
+
+
+class LiveClassSerializer(serializers.ModelSerializer):
+    course_start = serializers.SerializerMethodField()
+    course_end = serializers.SerializerMethodField()
+    lecturer_avatar = serializers.ImageField()
+    assistant_avatar = serializers.ImageField()
+
+    class Meta:
+        model = models.LiveClass
+        fields = ('id', 'course_name', 'course_start', 'course_end',
+                  'course_period', 'course_fee', 'course_lessons',
+                  'course_grade', 'course_description', 'room_capacity',
+                  'students_count', 'lecturer_name', 'lecturer_title',
+                  'lecturer_bio', 'lecturer_avatar', 'assistant_name',
+                  'assistant_avatar',
+                  )
+
+    def get_course_start(self, obj):
+        return int(obj.course_start.timestamp())
+
+    def get_course_end(self, obj):
+        return int(obj.course_end.timestamp())
+
+
+class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = models.LiveClass.objects.all()
+    serializer_class = LiveClassSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        school_id = self.request.query_params.get('school')
+        if school_id:
+            queryset = queryset.filter(class_room__school_id=school_id)
+        return queryset
+
+
 class OrderListSerializer(serializers.ModelSerializer):
     grade = GradeNameSerializer()
     subject = SubjectNameSerializer()
     school = SchoolNameSerializer()
     teacher_avatar = serializers.ImageField()
+    live_class = LiveClassSimpleSerializer()
 
     class Meta:
         model = models.Order
         fields = ('id', 'teacher', 'teacher_name', 'teacher_avatar',
                   'school_id', 'school', 'grade', 'subject', 'hours', 'status',
-                  'order_id', 'to_pay', 'evaluated', 'is_teacher_published')
+                  'order_id', 'to_pay', 'evaluated', 'is_teacher_published',
+                  'live_class', 'is_live')
 
 
 class OrderRetrieveSerializer(serializers.ModelSerializer):
@@ -955,6 +1003,7 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
     created_at = serializers.SerializerMethodField()
     paid_at = serializers.SerializerMethodField()
     charge_channel = serializers.CharField()
+    live_class = LiveClassSerializer()
 
     class Meta:
         model = models.Order
@@ -962,7 +1011,7 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
                   'school_id', 'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'created_at', 'paid_at',
                   'charge_channel', 'evaluated', 'is_timeslot_allocated',
-                  'is_teacher_published', 'timeslots')
+                  'is_teacher_published', 'timeslots', 'live_class', 'is_live')
 
     def get_created_at(self, obj):
         if obj.created_at:
@@ -1582,39 +1631,3 @@ class TeacherSchoolPrices(View):
             'next': None,
             'results': data
         })
-
-
-class LiveClassSerializer(serializers.ModelSerializer):
-    course_start = serializers.SerializerMethodField()
-    course_end = serializers.SerializerMethodField()
-    lecturer_avatar = serializers.ImageField()
-    assistant_avatar = serializers.ImageField()
-
-    class Meta:
-        model = models.LiveClass
-        fields = ('id', 'course_name', 'course_start', 'course_end',
-                  'course_period', 'course_fee', 'course_lessons',
-                  'course_grade', 'course_description', 'room_capacity',
-                  'students_count', 'lecturer_name', 'lecturer_title',
-                  'lecturer_bio', 'lecturer_avatar', 'assistant_name',
-                  'assistant_avatar',
-                  )
-
-    def get_course_start(self, obj):
-        return int(obj.course_start.timestamp())
-
-    def get_course_end(self, obj):
-        return int(obj.course_end.timestamp())
-
-
-class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.LiveClass.objects.all()
-    serializer_class = LiveClassSerializer
-
-    def get_queryset(self):
-        queryset = self.queryset
-        school_id = self.request.query_params.get('school')
-        if school_id:
-            queryset = queryset.filter(class_room__school_id=school_id)
-        return queryset
-
