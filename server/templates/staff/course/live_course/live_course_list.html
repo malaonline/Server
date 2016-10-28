@@ -6,6 +6,11 @@
 {% block title %}直播课程列表{% endblock %}
 
 {% block addition_js %}
+    <script>
+        $(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -37,7 +42,12 @@
             <th class="text-center">课时次数</th>
             <th class="text-center col-finish-lessons">完成次数</th>
             <th class="text-center">费用</th>
-            <th class="text-center">报名人数/满班人数</th>
+            <th class="text-center">
+                总报名人数/总满班人数
+                <span class="glyphicon glyphicon-question-sign"
+                      data-toggle="tooltip" data-placement="right"
+                      title="所有校区的人数"></span>
+            </th>
             <th class="text-center col-refund-count">退费人数</th>
             <th class="text-center">操作</th>
         </tr>
