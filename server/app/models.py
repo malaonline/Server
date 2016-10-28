@@ -188,6 +188,7 @@ class School(BaseModel):
                 ('高三', [270, 265, 260, 250]),
             ]
             hours_ranges = [(1, 10), (11, 20), (21, 50), (51, 100)]
+            price_configs = []
             for level_id in range(1, 10+1):
                 # each level's price delta, 10 yuan
                 price_delta = (level_id-1)*10
@@ -201,16 +202,13 @@ class School(BaseModel):
                         max_hours = hours_range[1]
                         # real price is in fen unit
                         price = (prices[index] + price_delta)*100
-                        price_config, created =\
-                            PriceConfig.objects.get_or_create(
-                                school=self,
-                                level=level,
-                                grade=grade,
-                                min_hours=min_hours,
-                                max_hours=max_hours,
-                                price=price,
-                            )
-                        price_config.save()
+                        price_config = PriceConfig(school=self, level=level,
+                                                   grade=grade,
+                                                   min_hours=min_hours,
+                                                   max_hours=max_hours,
+                                                   price=price, )
+                        price_configs.append(price_config)
+            PriceConfig.objects.bulk_create(price_configs)
 
     def balance(self, end_time=None):
         '''
@@ -1637,9 +1635,9 @@ class OrderManager(models.Manager):
             to_pay = max(total - (coupon.amount if coupon else 0), 1)
             # hours: lessons count * 2
             hours = live_class.live_course.lessons * 2
-            price = int(total / hours)
-            # grade here not used for live course
-            grade = None
+            price = total // hours
+            # grade here not used for live course, but avoid None value
+            grade = Grade.objects.get(name='小学')
         else:
             # one to one workflow
             prices_set = school.priceconfig_set.filter(
@@ -1722,6 +1720,17 @@ class OrderManager(models.Manager):
         return ans
 
     def get_order_timeslots(self, order, check_conflict=True):
+        # live course
+        if order.live_class:
+            if check_conflict:
+                capacity = order.live_class.class_room.capacity
+                if order.live_class.students_count >= capacity:
+                    # todo: maybe need another exception
+                    raise TimeSlotConflict()
+            live_ts = order.live_class.live_course.livecoursetimeslot_set.all()
+            ans = [dict(start=lt.start, end=lt.end) for lt in live_ts]
+            return ans
+        # one to one
         weekly_time_slots = list(order.weekly_time_slots.all())
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
 
@@ -1741,6 +1750,8 @@ class OrderManager(models.Manager):
             return
 
         name = '/teacher_%d' % order.teacher.id
+        if order.live_class:
+            name = '/liveclass_%d' % order.live_class.id
         semaphore = posix_ipc.Semaphore(
                 name, flags=posix_ipc.O_CREAT, initial_value=1)
         semaphore.acquire()
@@ -1764,7 +1775,10 @@ class OrderManager(models.Manager):
         # 短信通知老师, 以及家长
         teacher_name = order.teacher.name
         student_name = order.parent.student_name
-        grade = order.grade.name + order.subject.name
+        if order.live_class:
+            grade = order.live_class.live_course.grade_desc
+        else:
+            grade = order.grade.name + order.subject.name
         coursetime = '，'.join(x for x in course_times)
         try:
             tpl_send_sms(order.teacher.phone(), TPL_TEACHER_COURSE_PAID, {
@@ -3125,14 +3139,14 @@ class LiveCourse(BaseModel):
     period_desc = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
-        return '%s, %s, %s, %s, %s, %s, %d' % (
+        return '%s, %s, %s, %s, %s, %s, %.2f' % (
             self.course_no,
             self.name,
             self.grade_desc,
             self.subject.name,
             self.lecturer.name,
             self.period_desc,
-            self.fee,
+            self.fee/100,
         )
 
     @property
