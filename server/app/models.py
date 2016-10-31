@@ -2475,6 +2475,15 @@ class TimeSlot(BaseModel):
     def teacher(self):
         return self.order.teacher
 
+    @property
+    def lecturer(self):
+        if self.order.is_live():
+            return self.order.live_class.live_course.lecturer
+        return None
+
+    def is_live(self):
+        return self.order.is_live()
+
     def confirm(self):
         # try:
         """

@@ -722,12 +722,10 @@ data:
             "is_passed": false,
             "teacher": {
                 "id": 9,
-                "avatar": "http://127.0.0.1:8000/upload/avatars/img0_f7jKV3b.jpg",
                 "name": "冯老师"
             },
             "lecturer": {
                 "id": 1,
-                "avatar": "http://127.0.0.1:8000/upload/avatars/img0_f7jKV3b.jpg",
                 "name": "刘冠奇"
             },
             "comment": null,

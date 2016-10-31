@@ -545,11 +545,10 @@ class TeacherListSerializer(serializers.ModelSerializer):
 
 
 class TeacherShortSerializer(serializers.ModelSerializer):
-    avatar = serializers.ImageField()
 
     class Meta:
         model = models.Teacher
-        fields = ('id', 'avatar', 'name',)
+        fields = ('id', 'name',)
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -837,6 +836,13 @@ class CommentViewSet(ParentBasedMixin,
         return queryset
 
 
+class LecturerShortSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Lecturer
+        fields = ('id', 'name',)
+
+
 class TimeSlotListSerializer(serializers.ModelSerializer):
     subject = SubjectNameSerializer()
     end = serializers.SerializerMethodField()
@@ -857,11 +863,13 @@ class TimeSlotSerializer(serializers.ModelSerializer):
     comment = CommentSerializer()
     school = SchoolNameSerializer()
     grade = GradeNameSerializer()
+    lecturer = LecturerShortSerializer()
 
     class Meta:
         model = models.TimeSlot
         fields = ('id', 'start', 'end', 'subject', 'grade', 'school',
-                  'is_passed', 'teacher', 'comment', 'is_expired')
+                  'is_passed', 'teacher', 'comment', 'is_expired', 'lecturer',
+                  'is_live')
 
     def get_start(self, obj):
         return int(obj.start.timestamp())
