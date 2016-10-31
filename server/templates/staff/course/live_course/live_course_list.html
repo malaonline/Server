@@ -39,9 +39,8 @@
             <th class="text-center">课程编号</th>
             <th class="text-center">课程名称</th>
             <th class="text-center">讲师</th>
-            <th class="text-center">课时次数</th>
-            <th class="text-center col-finish-lessons">完成次数</th>
-            <th class="text-center">费用</th>
+            <th class="text-center">完成/课时次数</th>
+{#            <th class="text-center">费用</th>#}
             <th class="text-center">
                 总报名人数/总满班人数
                 <span class="glyphicon glyphicon-question-sign"
@@ -56,10 +55,9 @@
 {# 课程编号 #}    <td>{{ lc.course_no }}</td>
 {# 课程名称 #}    <td>{{ lc.name }}</td>
 {# 讲师 #}       <td>{{ lc.lecturer.name }}</td>
-{# 课时次数 #}    <td>{{ lc.lessons }}</td>
-{# 完成次数 #}    <td class="col-finish-lessons">{{ lc.finish_lessons }}</td>
-{# 费用 #}       <td>{{ lc.fee|money_format:'/' }}</td>
-{# 报名人数/慢班人数 #}
+{# 完成/课时次数 #}    <td>{{ lc.finish_lessons }}/{{ lc.lessons }}</td>
+{# 费用        <td>{{ lc.fee|money_format:'/' }}</td>#}
+{# 报名人数/满班人数 #}
                 <td>{{ lc.students_count }}/{{ lc.room_capacity }}</td>
 {# 退费人数 #}    <td class="col-refund-count">{{ lc.refund_count }}</td>
 {# 操作 #}       <td>无</td>
