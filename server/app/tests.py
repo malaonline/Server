@@ -480,6 +480,14 @@ class TestApi(TestCase):
         order = Order.objects.get(pk=pk)
         self.assertEqual(order.status, 'p')
 
+        # validate time slots of the order
+        self.assertTrue(order.is_timeslot_allocated())
+        request_url = "/api/v1/timeslots"
+        response = client.get(request_url)
+        self.assertEqual(200, response.status_code)
+        json_ret = json.loads(response.content.decode())
+        self.assertEqual(order.timeslots().count(), json_ret['count'])
+
         request_url = "/api/v1/subject/1/record"
         response = client.get(request_url)
         self.assertEqual(200, response.status_code)
