@@ -2840,6 +2840,13 @@ class LiveCourseView(BaseStaffView):
     template_name = 'staff/course/live_course/show.html'
 
     def get_context_data(self, **kwargs):
+        course_id = kwargs.get('cid')
+        lc = None
+        if course_id:
+            lc = get_object_or_404(models.LiveCourse, pk=course_id)
+            kwargs['dtlc'] = lc
+        is_show = lc is not None
+        kwargs['is_show'] = is_show
         kwargs['subjects'] = models.Subject.objects.all()
         kwargs['lecturers'] = models.Lecturer.objects.filter(deleted=False)
         kwargs['daily_time_slots'] = models.LiveCourseWeeklyTimeSlot.DAILY_TIME_SLOTS()
@@ -2847,6 +2854,13 @@ class LiveCourseView(BaseStaffView):
         class_rooms = models.ClassRoom.objects.all()
         for class_room in class_rooms:
             class_room.assistants = models.Teacher.objects.filter(is_assistant=True, schools__in=[class_room.school])
+        if is_show:
+            live_classes = models.LiveClass.objects.filter(live_course=lc)
+            room_assistant_dict = {c.class_room_id: c.assistant_id for c in live_classes}
+            for class_room in class_rooms:
+                class_room.assistant_id = room_assistant_dict.get(class_room.id)
+            lc_timeslots = models.LiveCourseTimeSlot.objects.filter(live_course=lc)
+            kwargs['timeslots'] = lc_timeslots
         kwargs['class_rooms'] = class_rooms
         kwargs['server_timestamp'] = int(timezone.now().timestamp())
         return super(LiveCourseView, self).get_context_data(**kwargs)

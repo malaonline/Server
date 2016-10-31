@@ -130,6 +130,16 @@ $(function(){
         return 'ok';
     };
     // init
+    if (is_show) {
+        for(var i in timeslots) {
+            var t = timeslots[i];
+            chosen_time_slots.push({
+                'start': moment(t.start * 1000),
+                'end': moment(t.end * 1000)
+            });
+        }
+        update_lessons_preview();
+    }
     init_daily_time_slots();
     init_weekly_time_table(0);
     // events
@@ -158,6 +168,10 @@ $(function(){
         init_weekly_time_table(0);
         e.stopPropagation();
     });
+    if (is_show) {
+        $("#submitBtn").hide();
+        return;
+    }
     $("td.phase").click(function(e){
         e.preventDefault();
         var $td = $(this);

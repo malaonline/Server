@@ -60,7 +60,9 @@
 {# 报名人数/满班人数 #}
                 <td>{{ lc.students_count }}/{{ lc.room_capacity }}</td>
 {# 退费人数 #}    <td class="col-refund-count">{{ lc.refund_count }}</td>
-{# 操作 #}       <td>无</td>
+{# 操作 #}       <td>
+                    <a href="{% url 'staff:live_course_detail' cid=lc.id %}">查看</a>
+                </td>
             </tr>
         {% endfor %}
     </table>

@@ -8,6 +8,10 @@
     <link href="{% static 'staff/less/live_course/show.less'|compile %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block addition_js %}
+    <script>
+        var is_show = {% if is_show %}true{% else %}false{% endif %}, timeslots = [];
+        {% for t in timeslots %}timeslots.push({'start':{{t.start.timestamp}}, 'end':{{t.end.timestamp}}});{% endfor %}
+    </script>
     <script src="{% static 'staff/js/live_course/show.js' %}"></script>
 {% endblock %}
 
@@ -110,7 +114,7 @@
     <div class="form-group">
         <label for="description" class="col-sm-3 col-md-3 col-lg-2 control-label">课程介绍</label>
         <div class="col-sm-3">
-            <textarea rows="3" class="form-control" id="description" name="description">{{ dtlc.intro }}</textarea>
+            <textarea rows="3" class="form-control" id="description" name="description">{{ dtlc.description }}</textarea>
         </div>
     </div>
     <div class="form-group">
@@ -136,7 +140,8 @@
                     <select class="form-control" name="assistant">
                         <option value="">请选择助教</option>
                         {% for assistant in class_room.assistants %}
-                            <option value="{{ assistant.id }}" {% if assistant.id == dtlc.assistant.id %} selected="selected"{% endif %}>{{ assistant.name }}</option>
+                            <option value="{{ assistant.id }}" {% if assistant.id == class_room.assistant_id %}
+                                    selected="selected"{% endif %}>{{ assistant.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
