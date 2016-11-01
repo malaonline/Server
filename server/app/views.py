@@ -545,10 +545,11 @@ class TeacherListSerializer(serializers.ModelSerializer):
 
 
 class TeacherShortSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField()
 
     class Meta:
         model = models.Teacher
-        fields = ('id', 'name',)
+        fields = ('id', 'avatar', 'name',)
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -837,10 +838,11 @@ class CommentViewSet(ParentBasedMixin,
 
 
 class LecturerShortSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField()
 
     class Meta:
         model = models.Lecturer
-        fields = ('id', 'name',)
+        fields = ('id', 'avatar', 'name',)
 
 
 class TimeSlotListSerializer(serializers.ModelSerializer):
@@ -890,7 +892,7 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
         timeslots = models.TimeSlot.objects.filter(
             order__parent=parent, deleted=False)
         evaluations = []
-        # for_review 之获取特定的课程, 不包括测评建档
+        # for_review 只获取特定的课程, 不包括测评建档
         if for_review == 'true':
             timeslots = timeslots.filter(end__lt=timezone.now())
         else:
@@ -1080,7 +1082,7 @@ class OrderViewSet(ParentBasedMixin,
     def validate_create(self, request):
         live_class = request.data.get('live_class', None)
         # Do not validate coupon for live class for now
-        if live_class is not None:
+        if live_class:
             return 0
         school = get_object_or_404(
             models.School, pk=request.data.get('school'))
