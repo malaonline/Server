@@ -170,6 +170,8 @@ $(function(){
     });
     if (is_show) {
         $("#submitBtn").hide();
+        $("input,textarea").attr('readonly', true);
+        $("select").attr('disabled', true);
         return;
     }
     $("td.phase").click(function(e){
