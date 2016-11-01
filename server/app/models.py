@@ -3220,6 +3220,9 @@ class LiveClass(BaseModel):
             self.assistant.name,
         )
 
+    def is_full(self):
+        return self.students_count >= self.class_room.capacity
+
     @property
     def students_count(self):
         return Order.objects.filter(live_class=self, status=Order.PAID).count()
