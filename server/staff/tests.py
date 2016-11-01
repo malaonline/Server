@@ -270,3 +270,11 @@ class TestStaffWeb(TestCase):
         response = self.client.get(
             reverse("staff:live_course_list")+"?status=end")
         self.assertEqual(response.status_code, 200)
+
+    def test_live_course_detail(self):
+        lc = models.LiveCourse.objects.order_by('?').first()
+        if not lc:
+            self.test_live_course_create_course()
+            lc = models.LiveCourse.objects.first()
+        response = self.client.get(reverse("staff:live_course_detail",  kwargs={'cid': lc.id}))
+        self.assertEqual(response.status_code, 200)
