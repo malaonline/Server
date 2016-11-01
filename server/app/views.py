@@ -1083,6 +1083,8 @@ class OrderViewSet(ParentBasedMixin,
         live_class = request.data.get('live_class', None)
         # Do not validate coupon for live class for now
         if live_class:
+            live_class = get_object_or_404(
+                models.LiveClass, pk=request.data.get('live_class'))
             if live_class.is_full():
                 return -3  # class room is full!
             return 0
