@@ -1626,7 +1626,7 @@ class LiveCourseWeeklyTimeSlot(BaseModel):
 class OrderManager(models.Manager):
     def create(self, parent, teacher=None, school=None, grade=None,
                subject=None, hours=None, coupon=None, live_class=None):
-        if live_class is not None:
+        if live_class:
             # live course workflow
             teacher = live_class.assistant
             school = live_class.class_room.school
@@ -3219,6 +3219,9 @@ class LiveClass(BaseModel):
             self.class_room,
             self.assistant.name,
         )
+
+    def is_full(self):
+        return self.students_count >= self.class_room.capacity
 
     @property
     def students_count(self):
