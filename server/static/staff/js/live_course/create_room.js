@@ -11,6 +11,9 @@ $(function () {
             success: function (result) {
                 if (result) {
                     alert(result.msg);
+                    if (result.ok) {
+                        $('#form [name=name]').val('');
+                    }
                 }
                 else {
                     alert(defaultErrMsg);
