@@ -157,6 +157,19 @@
                     </div>
                 </div>
             {% endif %}
+            <div class="form-group">
+                <label for="interaction"
+                       class="col-sm-3 col-md-3 col-lg-2 control-label">双师助教</label>
+                <div class="col-sm-9">
+                    <label><input type="radio" name="is_assistant" value="1"
+                                  {% if teacher.is_assistant %}checked="checked"{% endif %}
+                    />&nbsp;&nbsp;是&nbsp;&nbsp;</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="is_assistant" value="0"
+                                  {% if not teacher.is_assistant %}checked="checked"{% endif %}
+                    />&nbsp;&nbsp;否&nbsp;&nbsp;</label>
+                </div>
+            </div>
         </div>
     </div>
     <hr>

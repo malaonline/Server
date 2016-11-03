@@ -465,6 +465,10 @@ class TeacherUnpublishedEditView(BaseStaffView):
             show_on_wechat = request.POST.get('show_on_wechat')
             if show_on_wechat:  # if None: do not change
                 teacher.recommended_on_wechat = (show_on_wechat == '1')
+            # 是否为双师助教
+            is_assistant = request.POST.get('is_assistant')
+            if is_assistant:  # if None: do not change
+                teacher.is_assistant = (is_assistant == '1')
             certIdHeld.save()
             # 科目年级 & 风格标签
             teacher.abilities.clear()
