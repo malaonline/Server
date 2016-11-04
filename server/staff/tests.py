@@ -114,14 +114,20 @@ class TestStaffWeb(TestCase):
     def test_teachers_income_list(self):
         response = self.client.get(reverse('staff:teachers_income_list'))
         self.assertEqual(200, response.status_code)
+        response = self.client.get(reverse('staff:teachers_income_list')+"?export=true")
+        self.assertEqual(200, response.status_code)
 
     def test_teachers_income_detail(self):
         teacher = models.Teacher.objects.filter(published=True)[0]
         response = self.client.get(reverse('staff:teachers_income_detail', kwargs={'tid': teacher.pk}))
         self.assertEqual(200, response.status_code)
+        response = self.client.get(reverse('staff:teachers_income_detail', kwargs={'tid': teacher.pk}) + "?export=true")
+        self.assertEqual(200, response.status_code)
 
     def test_teachers_withdrawal_list(self):
         response = self.client.get(reverse('staff:teachers_withdrawal_list'))
+        self.assertEqual(200, response.status_code)
+        response = self.client.get(reverse('staff:teachers_withdrawal_list')+"?export=true")
         self.assertEqual(200, response.status_code)
 
     def test_schools(self):
@@ -142,9 +148,13 @@ class TestStaffWeb(TestCase):
     def test_orders_review(self):
         response = self.client.get(reverse("staff:orders_review"))
         self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse("staff:orders_review")+"?export=true")
+        self.assertEqual(response.status_code, 200)
 
     def test_orders_refund(self):
         response = self.client.get(reverse("staff:orders_refund"))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(reverse("staff:orders_refund")+"?export=true")
         self.assertEqual(response.status_code, 200)
 
     def test_orders_action(self):
