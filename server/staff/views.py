@@ -1644,6 +1644,10 @@ class SchoolView(BaseStaffView):
         study_seat = self.request.POST.get('study_seat')
         if study_seat == '':
             study_seat = 0
+        share_rate = self.request.POST.get('share_rate')
+        if share_rate == '' or int(share_rate) > 100 or int(share_rate) < 0:
+            return JsonResponse({'ok': False, 'msg': '分成比例值错误', 'code': 4})
+        school.share_rate = share_rate
         school.study_seat = study_seat
         school.longitude = self.request.POST.get('longitude')
         school.latitude = self.request.POST.get('latitude')
