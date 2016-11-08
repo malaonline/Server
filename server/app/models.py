@@ -145,6 +145,7 @@ class School(BaseModel):
     member_services = models.ManyToManyField(Memberservice)
     desc_title = models.CharField(max_length=200, null=True)
     desc_content = models.CharField(max_length=500, null=True)
+    share_rate = models.PositiveIntegerField(default=60)  # 校区分成比例
 
     def __str__(self):
         return '%s%s %s' % (self.region, self.name, 'C' if self.center else '')
@@ -212,7 +213,7 @@ class School(BaseModel):
 
     def balance(self, end_time=None):
         '''
-        未转账到校区银行账号的收入总额
+        未转账到校区银行账号的收入总额(该方法只统计一对一课程)
         '''
         school_account = None
         if hasattr(self, 'schoolaccount'):
@@ -221,18 +222,22 @@ class School(BaseModel):
         # 查询最后转账日期
         latest_time = None
         if school_account:
-            latest_time = SchoolIncomeRecord.objects.filter(school_account=school_account).aggregate(
+            latest_time = SchoolIncomeRecord.objects.filter(
+                school_account=school_account,
+                type=SchoolIncomeRecord.ONE_TO_ONE).aggregate(
                 Max('income_time')
             )["income_time__max"] or None
-        query_set = Order.objects.filter(school=self, status=Order.PAID)
+        query_set = Order.objects.filter(school=self, status=Order.PAID,
+                                         live_class__isnull=True)
         if latest_time:
             query_set = query_set.filter(paid_at__gt=latest_time)
         if end_time:
             query_set = query_set.filter(paid_at__lte=end_time)
-        # 计算校区账户余额
+        # 计算校区账户余额(订单总额)
         return query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
 
     def create_income_record(self, end_time=None):
+        # 该方法只处理一对一课程
         if not hasattr(self, 'schoolaccount'):
             # 没有填写学校账户, 就不创建收入记录
             return False
@@ -244,7 +249,9 @@ class School(BaseModel):
         # 查询校区未提现转账de收入总额
         account_balance = self.balance(end_time=end_time)
         # 创建收入记录, 并保存
-        new_income_record = SchoolIncomeRecord(school_account=school_account, status=SchoolIncomeRecord.PENDING)
+        new_income_record = SchoolIncomeRecord(school_account=school_account,
+                                               status=SchoolIncomeRecord.PENDING,
+                                               type=SchoolIncomeRecord.ONE_TO_ONE)
         new_income_record.amount = account_balance
         new_income_record.income_time = end_time
         new_income_record.save()
@@ -3096,8 +3103,17 @@ class SchoolIncomeRecord(BaseModel):
         (REJECTED, '被驳回')
     )
 
+    # 课程类型
+    ONE_TO_ONE = '1'
+    LIVE_COURSE = 'l'
+    TYPE_CHOICES = (
+        (ONE_TO_ONE, "一对一"),
+        (LIVE_COURSE, "双师直播"),
+    )
+
     school_account = models.ForeignKey(SchoolAccount)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=PENDING)
+    type = models.CharField(max_length=2, choices=TYPE_CHOICES, default=ONE_TO_ONE)
 
     # 收入金额 (单位是分)
     amount = models.PositiveIntegerField(default=0)
