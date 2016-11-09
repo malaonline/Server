@@ -29,6 +29,7 @@
         <table class="record-list" border="1" width="100%">
             <tr class="heading text-primary">
                 <th class="text-center">提交时间</th>
+                <th class="text-center">课程类型</th>
                 <th class="text-center">校区名</th>
                 <th class="text-center">手机号</th>
                 <th class="text-center">转账金额</th>
@@ -42,6 +43,7 @@
             {% for hist in records %}
                 <tr class="item" recordId="{{ hist.id }}">
                     <td class="text-center time">{{ hist.income_time_str }}</td>
+                    <td class="text-center">{{ hist.type_display }}</td>
                     <td class="text-center">{{ hist.school_account.school.name }}</td>
                     <td class="text-center">{{ hist.school_account.school.master_phone }}</td>
                     <td class="text-center">{{ hist.amount|money_format:'/a' }}元</td>
@@ -64,7 +66,7 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td class="text-center" colspan="10">没有记录</td>
+                    <td class="text-center" colspan="11">没有记录</td>
                 </tr>
             {% endfor %}
         </table>

@@ -29,7 +29,8 @@
             <table class="record-list" border="1" width="100%">
                 <tr class="heading text-primary">
                     <th class="text-center" width="30%">时间</th>
-                    <th class="text-center" width="25%">金额</th>
+                    <th class="text-center" width="20%">金额</th>
+                    <th class="text-center" width="20%">类型</th>
                     <th class="text-center">状态</th>
                 </tr>
                 {% for hist in records %}
@@ -38,6 +39,7 @@
                         <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
                             {{ hist.amount|money_format:'/a' }}元
                         </td>
+                        <td class="text-center">{{ hist.type_display }}</td>
                         <td class="text-center status">
                             {% if hist.status == hist.APPROVED %}
                                 已打款
@@ -48,7 +50,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td class="text-center" colspan="3">没有记录</td>
+                        <td class="text-center" colspan="4">没有记录</td>
                     </tr>
                 {% endfor %}
             </table>
