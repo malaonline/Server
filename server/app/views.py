@@ -1163,7 +1163,12 @@ class OrderViewSet(ParentBasedMixin,
         if not teacher.is_longterm_available(periods, school, parent):
             return JsonResponse({'ok': False, 'code': -1})
 
-        ch = pingpp.Charge.create(
+        if data['channel'] == 'wx_pub_qr':
+            prd_id = 'one_to_one'
+            if order.is_live():
+                prd_id = 'live'
+
+            ch = pingpp.Charge.create(
                 order_no=order.order_id,
                 amount=order.to_pay,
                 app=dict(id=settings.PINGPP_APP_ID),
@@ -1172,7 +1177,19 @@ class OrderViewSet(ParentBasedMixin,
                 client_ip='127.0.0.1',
                 subject='麻辣老师',
                 body='课时费',
-        )
+                extra=dict(product_id=prd_id),
+            )
+        else:
+            ch = pingpp.Charge.create(
+                order_no=order.order_id,
+                amount=order.to_pay,
+                app=dict(id=settings.PINGPP_APP_ID),
+                channel=data['channel'],
+                currency='cny',
+                client_ip='127.0.0.1',
+                subject='麻辣老师',
+                body='课时费',
+            )
         logger.info(ch)
 
         charge, created = models.Charge.objects.get_or_create(ch_id=ch['id'])
