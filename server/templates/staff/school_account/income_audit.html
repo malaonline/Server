@@ -43,7 +43,7 @@
             {% for hist in records %}
                 <tr class="item" recordId="{{ hist.id }}">
                     <td class="text-center time">{{ hist.income_time_str }}</td>
-                    <td class="text-center">{{ hist.type_display }}</td>
+                    <td class="text-center">{{ hist.get_type_display }}</td>
                     <td class="text-center">{{ hist.school_account.school.name }}</td>
                     <td class="text-center">{{ hist.school_account.school.master_phone }}</td>
                     <td class="text-center">{{ hist.amount|money_format:'/a' }}元</td>
