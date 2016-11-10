@@ -264,7 +264,7 @@ class School(BaseModel):
             )["income_time__max"] or None
         # 校区该时间段双师课程(以TimeSlot为准)
         query_set = TimeSlot.objects.filter(
-            order__school=self, order__status=Order.PAID,
+            deleted=False, order__school=self, order__status=Order.PAID,
             order__live_class__isnull=False)
         if latest_time:
             query_set = query_set.filter(end__gt=latest_time)
