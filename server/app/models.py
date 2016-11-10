@@ -1,5 +1,6 @@
 import logging
 import datetime
+import math
 
 import posix_ipc
 from segmenttree import SegmentTree
@@ -16,7 +17,7 @@ from django.apps import apps
 from django.utils import timezone
 from django.utils.timezone import make_aware, localtime
 from django.conf import settings
-from django.db.models import Q, Max, Sum
+from django.db.models import Q, Max, Sum, Count
 
 from app.exception import TimeSlotConflict, OrderStatusIncorrect, RefundError
 from app.utils.algorithm import orderid, Tree, Node
@@ -212,6 +213,14 @@ class School(BaseModel):
             PriceConfig.objects.bulk_create(price_configs)
 
     def balance(self, end_time=None):
+        one_to_one = self.balance_of_one_to_one(end_time)
+        live_course = self.balance_of_live_course(end_time)
+        return (one_to_one + live_course, {
+            'one_to_one': one_to_one,
+            'live_course': live_course
+        })
+
+    def balance_of_one_to_one(self, end_time=None):
         '''
         未转账到校区银行账号的收入总额(该方法只统计一对一课程)
         '''
@@ -227,6 +236,7 @@ class School(BaseModel):
                 type=SchoolIncomeRecord.ONE_TO_ONE).aggregate(
                 Max('income_time')
             )["income_time__max"] or None
+        # 校区该时间段一对一订单收入(以Order为准)
         query_set = Order.objects.filter(school=self, status=Order.PAID,
                                          live_class__isnull=True)
         if latest_time:
@@ -235,6 +245,40 @@ class School(BaseModel):
             query_set = query_set.filter(paid_at__lte=end_time)
         # 计算校区账户余额(订单总额)
         return query_set.aggregate(Sum('to_pay'))["to_pay__sum"] or 0
+
+    def balance_of_live_course(self, end_time=None):
+        '''
+        未转账到校区银行账号的收入总额(该方法只统计双师直播课程)
+        '''
+        school_account = None
+        if hasattr(self, 'schoolaccount'):
+            school_account = self.schoolaccount
+
+        # 查询最后转账日期
+        latest_time = None
+        if school_account:
+            latest_time = SchoolIncomeRecord.objects.filter(
+                school_account=school_account,
+                type=SchoolIncomeRecord.LIVE_COURSE).aggregate(
+                Max('income_time')
+            )["income_time__max"] or None
+        # 校区该时间段双师课程(以TimeSlot为准)
+        query_set = TimeSlot.objects.filter(
+            order__school=self, order__status=Order.PAID,
+            order__live_class__isnull=False)
+        if latest_time:
+            query_set = query_set.filter(end__gt=latest_time)
+        if end_time:
+            query_set = query_set.filter(end__lte=end_time)
+        query_set = query_set.values('order').annotate(lesson_count=Count("id"))
+        sum_lc = 0
+        for item in query_set:
+            order = item.order
+            lesson_count = item.lesson_count
+            fee = order.live_class.live_course.fee
+            total_count = order.live_class.live_course.lessons
+            sum_lc += math.ceil(lesson_count * fee / total_count)
+        return sum_lc
 
     def create_income_record(self, end_time=None):
         # 该方法只处理一对一课程
@@ -247,7 +291,7 @@ class School(BaseModel):
             end_time = now
         school_account = self.schoolaccount
         # 查询校区未提现转账de收入总额
-        account_balance = self.balance(end_time=end_time)
+        account_balance = self.balance_of_one_to_one(end_time=end_time)
         # 创建收入记录, 并保存
         new_income_record = SchoolIncomeRecord(school_account=school_account,
                                                status=SchoolIncomeRecord.PENDING,

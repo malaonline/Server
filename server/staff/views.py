@@ -2706,7 +2706,7 @@ class SchoolAccountInfoView(BaseStaffView):
         kwargs['school_account'] = school_account
 
         # 计算校区账户余额
-        kwargs['account_balance'] = school.balance()
+        kwargs['account_balance'], _ = school.balance()
 
         return super(SchoolAccountInfoView, self).get_context_data(**kwargs)
 
@@ -2764,7 +2764,9 @@ class SchoolIncomeRecordView(BaseStaffView):
         kwargs['school_account'] = school_account
 
         # 计算校区账户余额
-        kwargs['account_balance'] = school.balance()
+        kwargs['account_balance'], balance_detail = school.balance()
+        kwargs['balance_one_to_one'] = balance_detail.get('one_to_one')
+        kwargs['balance_live_course'] = balance_detail.get('live_course')
 
         if school_account:
             # paginate
