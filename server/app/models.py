@@ -268,8 +268,9 @@ class School(BaseModel):
             order__live_class__isnull=False)
         if latest_time:
             query_set = query_set.filter(end__gt=latest_time)
-        if end_time:
-            query_set = query_set.filter(end__lte=end_time)
+        if not end_time:
+            end_time = timezone.now()
+        query_set = query_set.filter(end__lte=end_time)
         query_set = query_set.values('order').annotate(lesson_count=Count("id"))
         sum_lc = 0
         for item in query_set:
