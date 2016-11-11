@@ -691,7 +691,7 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 result:
 ```
 {
-    "ok": true
+    "ok": true(false if order status is not pending)
 }
 ```
 
