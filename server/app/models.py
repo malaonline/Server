@@ -273,11 +273,12 @@ class School(BaseModel):
         query_set = query_set.values('order').annotate(lesson_count=Count("id"))
         sum_lc = 0
         for item in query_set:
-            order = item.order
-            lesson_count = item.lesson_count
+            order = Order.objects.get(pk=item.get('order'))
+            lesson_count = item.get('lesson_count')
             fee = order.live_class.live_course.fee
             total_count = order.live_class.live_course.lessons
-            sum_lc += math.ceil(lesson_count * fee / total_count)
+            sum_lc += math.ceil(lesson_count * fee / total_count
+                                * self.share_rate / 100)
         return sum_lc
 
     def create_income_record(self, end_time=None):
