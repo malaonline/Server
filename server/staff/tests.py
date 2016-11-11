@@ -30,6 +30,7 @@ class TestStaffWeb(TestCase):
     def _init_school_income_records(self):
         school = self._school_master.school if self._school_master \
             else models.School.objects.filter(opened=True).first()
+        models.SchoolAccount.objects.get_or_create(school=school)
         school.create_income_record()
 
     def setUp(self):
@@ -210,6 +211,9 @@ class TestStaffWeb(TestCase):
         response = self.client.get(reverse('staff:school_account_info'))
         self.assertEqual(200, response.status_code)
         response = self.school_master_client.get(reverse('staff:school_account_info'))
+        self.assertEqual(200, response.status_code)
+        self._init_school_income_records()
+        response = self.school_master_client.get(reverse('staff:school_account_info')+"?show=true")
         self.assertEqual(200, response.status_code)
         # TODO: update
 
