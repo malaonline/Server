@@ -264,7 +264,7 @@ class School(BaseModel):
             )["income_time__max"] or None
         # 校区该时间段双师课程(以TimeSlot为准)
         query_set = TimeSlot.objects.filter(
-            order__school=self, order__status=Order.PAID,
+            deleted=False, order__school=self, order__status=Order.PAID,
             order__live_class__isnull=False)
         if latest_time:
             query_set = query_set.filter(end__gt=latest_time)
@@ -281,7 +281,6 @@ class School(BaseModel):
         return sum_lc
 
     def create_income_record(self, end_time=None):
-        # 该方法只处理一对一课程
         if not hasattr(self, 'schoolaccount'):
             # 没有填写学校账户, 就不创建收入记录
             return False
@@ -291,6 +290,7 @@ class School(BaseModel):
             end_time = now
         school_account = self.schoolaccount
         # 查询校区未提现转账de收入总额
+        # (1) 处理一对一课程
         account_balance = self.balance_of_one_to_one(end_time=end_time)
         # 创建收入记录, 并保存
         new_income_record = SchoolIncomeRecord(school_account=school_account,
@@ -299,7 +299,16 @@ class School(BaseModel):
         new_income_record.amount = account_balance
         new_income_record.income_time = end_time
         new_income_record.save()
-        return new_income_record
+        # (2) 处理双师直播课程
+        lc_balance = self.balance_of_live_course(end_time=end_time)
+        # 创建收入记录, 并保存
+        lc_income_record = SchoolIncomeRecord(school_account=school_account,
+                                               status=SchoolIncomeRecord.PENDING,
+                                               type=SchoolIncomeRecord.LIVE_COURSE)
+        lc_income_record.amount = lc_balance
+        lc_income_record.income_time = end_time
+        lc_income_record.save()
+        return True
 
 
 class SchoolPhoto(BaseModel):
