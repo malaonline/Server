@@ -1220,7 +1220,8 @@ class OrderViewSet(ParentBasedMixin,
         parent = self.get_parent()
         if order.parent == parent and order.status == models.Order.PENDING:
             self.perform_destroy(order)
-        return JsonResponse({'ok': True})
+            return JsonResponse({'ok': True})
+        return JsonResponse({'ok': False})
 
     def perform_destroy(self, order):
         order.cancel()
