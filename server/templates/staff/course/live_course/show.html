@@ -107,7 +107,7 @@
     <div class="form-group">
         <label for="fee" class="col-sm-3 col-md-3 col-lg-2 control-label">课程费用</label>
         <div class="col-sm-1">
-            <input type="text" class="form-control" id="fee" name="fee" value="{{ dtlc.fee }}">
+            <input type="text" class="form-control" id="fee" name="fee" value="{{ dtlc.fee|money_format:'/a' }}">
         </div>
         <p class="form-control-static">元</p>
     </div>
