@@ -2081,7 +2081,9 @@ class Order(BaseModel):
     def completed_hours(self):
         completed_hours = 0
         for one_timeslot in self.timeslot_set.filter(deleted=False):
-            if one_timeslot.is_settled():
+            if self.is_live():
+                completed_hours += one_timeslot.duration_hours()
+            elif one_timeslot.is_settled():
                 completed_hours += one_timeslot.duration_hours()
         return completed_hours
 
