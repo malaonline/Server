@@ -2889,8 +2889,8 @@ class LiveCourseView(BaseStaffView):
         if not params.get('subject'):
             return "科目不能为空"
         fee = params.get('fee')
-        if not fee or not fee.isdigit() or int(fee) <= 0:
-            return "费用不能为空, 并且必须是大于0的整数"
+        if not fee or float(fee) <= 0:
+            return "费用不能为空, 并且必须是大于0的数"
         if not params.get('description'):
             return "课程介绍不能为空"
         if not params.get('lecturer'):
@@ -2945,7 +2945,7 @@ class LiveCourseView(BaseStaffView):
                     course_no=course_no, name=name,
                     grade_desc=grade_desc, period_desc=period_desc,
                     subject=subject, lecturer=lecturer,
-                    fee=int(fee) * 100, description=description,
+                    fee=int(float(fee) * 100), description=description,
                 )
                 lc.save()
                 db_live_class_list = []

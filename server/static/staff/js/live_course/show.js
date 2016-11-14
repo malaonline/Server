@@ -104,8 +104,8 @@ $(function(){
         if (!params.subject) {
             return "科目不能为空";
         }
-        if (!params.fee || !/^\d+$/.test(params.fee) || parseInt(params.fee) <= 0) {
-            return "费用不能为空, 并且必须是大于0的整数";
+        if (!params.fee || !/^\d+(\.\d*)?$/.test(params.fee) || parseFloat(params.fee) <= 0) {
+            return "费用不能为空, 并且必须是大于0的数";
         }
         if (!params.description) {
             return "课程介绍不能为空";

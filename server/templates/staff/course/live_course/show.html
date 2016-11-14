@@ -95,7 +95,7 @@
     </div>
     <div class="form-group">
         <label for="subject" class="col-sm-3 col-md-3 col-lg-2 control-label">选择科目</label>
-        <div class="col-sm-1">
+        <div class="col-sm-2">
             <select class="form-control" id="subject" name="subject">
                 <option value="">请选择科目</option>
                 {% for subject in subjects %}
@@ -106,8 +106,8 @@
     </div>
     <div class="form-group">
         <label for="fee" class="col-sm-3 col-md-3 col-lg-2 control-label">课程费用</label>
-        <div class="col-sm-1">
-            <input type="text" class="form-control" id="fee" name="fee" value="{{ dtlc.fee|money_format:'/a' }}">
+        <div class="col-sm-2">
+            <input type="text" class="form-control" id="fee" name="fee" value="{%if dtlc %}{{ dtlc.fee|money_format:'/a' }}{%endif%}">
         </div>
         <p class="form-control-static">元</p>
     </div>
@@ -119,7 +119,7 @@
     </div>
     <div class="form-group">
         <label for="lecturer" class="col-sm-3 col-md-3 col-lg-2 control-label">绑定讲师</label>
-        <div class="col-sm-1">
+        <div class="col-sm-2">
             <select class="form-control" id="lecturer" name="lecturer">
                 <option value="">请选择讲师</option>
                 {% for lecturer in lecturers %}
