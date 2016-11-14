@@ -278,8 +278,8 @@ class School(BaseModel):
             lesson_count = item.get('lesson_count')
             fee = order.live_class.live_course.fee
             total_count = order.live_class.live_course.lessons
-            sum_lc += math.ceil(lesson_count * fee / total_count
-                                * self.share_rate / 100)
+            sum_lc += lesson_count * fee / total_count * self.share_rate / 100
+        sum_lc = math.ceil(sum_lc)
         return sum_lc
 
     def create_income_record(self, end_time=None):
@@ -2080,8 +2080,9 @@ class Order(BaseModel):
     # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0
+        now = timezone.now()
         for one_timeslot in self.timeslot_set.filter(deleted=False):
-            if self.is_live():
+            if self.is_live() and one_timeslot.end <= now:
                 completed_hours += one_timeslot.duration_hours()
             elif one_timeslot.is_settled():
                 completed_hours += one_timeslot.duration_hours()
