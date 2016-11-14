@@ -13,3 +13,8 @@ class TestIndex(TestCase):
         client = Client()
         response = client.get(reverse('web:teacher-index'))
         self.assertEqual(response.status_code, 200)
+
+    def test_app_ad(self):
+        client = Client()
+        response = client.get(reverse('web:app-ad'))
+        self.assertEqual(response.status_code, 200)

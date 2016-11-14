@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
@@ -20,3 +20,7 @@ class PolicyView(View):
     def get(self, request):
         policy = get_object_or_404(models.StaticContent, name='policy')
         return HttpResponse(policy.content) 
+
+
+class AppADView(TemplateView):
+    template_name = 'web/m/ad.html'
