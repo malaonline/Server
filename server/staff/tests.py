@@ -109,9 +109,17 @@ class TestStaffWeb(TestCase):
         # TODO: update unpublished teacher
 
     def test_teachers_action(self):
+        url = reverse('staff:teachers_action')
+        tid = models.Teacher.objects.order_by('?').first().id
         for action in ('list-highscore', 'list-achievement', 'get-weekly-schedule', 'get-course-schedule', 'get-subject-grades-range'):
-            response = self.client.get(reverse('staff:teachers_action') + '?action=%s' % action)
+            response = self.client.get(url + '?action=%s&tid=%s' % (action, tid))
             self.assertEqual(200, response.status_code)
+        data = {'action': 'set-interview-ok', 'teacher_id': tid}
+        response = self.client.post(url, data=data)
+        self.assertEqual(200, response.status_code)
+        data = {'action': 'publish-teacher', 'tid': tid, 'flag': "true"}
+        response = self.client.post(url, data=data)
+        self.assertEqual(200, response.status_code)
 
     def test_bankcard_list(self):
         response = self.client.get(reverse('staff:teachers_bankcard_list'))
