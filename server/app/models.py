@@ -2204,6 +2204,9 @@ class Order(BaseModel):
     def school_id(self):
         return self.school.id
 
+    def school_address(self):
+        return self.school.address
+
     def is_live(self):
         return self.live_class is not None
 
@@ -2547,6 +2550,10 @@ class TimeSlot(BaseModel):
         if self.order.is_live():
             return self.order.live_class.live_course.lecturer
         return None
+
+    @property
+    def school_address(self):
+        return self.order.school_address()
 
     def is_live(self):
         return self.order.is_live()
@@ -3370,6 +3377,14 @@ class LiveClass(BaseModel):
     @property
     def assistant_phone(self):
         return self.assistant.phone()
+
+    @property
+    def school_name(self):
+        return self.class_room.school.name
+
+    @property
+    def school_address(self):
+        return self.class_room.school.address
 
 
 class LiveCourseTimeSlot(BaseModel):

@@ -871,7 +871,7 @@ class TimeSlotSerializer(serializers.ModelSerializer):
         model = models.TimeSlot
         fields = ('id', 'start', 'end', 'subject', 'grade', 'school',
                   'is_passed', 'teacher', 'comment', 'is_expired', 'lecturer',
-                  'is_live')
+                  'is_live', 'school_address')
 
     def get_start(self, obj):
         return int(obj.start.timestamp())
@@ -971,7 +971,8 @@ class LiveClassSerializer(serializers.ModelSerializer):
                   'course_grade', 'course_description', 'room_capacity',
                   'students_count', 'lecturer_name', 'lecturer_title',
                   'lecturer_bio', 'lecturer_avatar', 'assistant_name',
-                  'assistant_avatar', 'assistant_phone',
+                  'assistant_avatar', 'assistant_phone', 'school_name',
+                  'school_address',
                   )
 
     def get_course_start(self, obj):
@@ -1024,7 +1025,8 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
                   'school_id', 'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'created_at', 'paid_at',
                   'charge_channel', 'evaluated', 'is_timeslot_allocated',
-                  'is_teacher_published', 'timeslots', 'live_class', 'is_live')
+                  'is_teacher_published', 'timeslots', 'live_class', 'is_live',
+                  'school_address')
 
     def get_created_at(self, obj):
         if obj.created_at:
