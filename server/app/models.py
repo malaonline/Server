@@ -3367,6 +3367,10 @@ class LiveClass(BaseModel):
     def assistant_avatar(self):
         return self.assistant.avatar()
 
+    @property
+    def assistant_phone(self):
+        return self.assistant.phone()
+
 
 class LiveCourseTimeSlot(BaseModel):
     '''

@@ -971,7 +971,7 @@ class LiveClassSerializer(serializers.ModelSerializer):
                   'course_grade', 'course_description', 'room_capacity',
                   'students_count', 'lecturer_name', 'lecturer_title',
                   'lecturer_bio', 'lecturer_avatar', 'assistant_name',
-                  'assistant_avatar',
+                  'assistant_avatar', 'assistant_phone',
                   )
 
     def get_course_start(self, obj):
