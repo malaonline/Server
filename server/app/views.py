@@ -383,7 +383,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
         if teacher_id is not None:
             queryset = queryset.filter(teacher__id=teacher_id)
 
-        queryset = queryset.extra(order_by=['-center'])
+        queryset = queryset.extra(order_by=['-center', 'name'])
         return queryset
 
 
