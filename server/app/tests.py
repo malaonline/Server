@@ -598,6 +598,18 @@ class TestApi(TestCase):
                                data={"data": json.dumps(data)})
         self.assertEqual(response.status_code, 200)
 
+        # test live class list and instance
+        client = Client()
+        url = "/api/v1/liveclasses"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+        url = "/api/v1/liveclasses?school=1"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+        url = "/api/v1/liveclasses/1"
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
         # create order for live course
         client = Client()
         username = "parent2"
