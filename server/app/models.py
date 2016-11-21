@@ -3371,6 +3371,14 @@ class LiveClass(BaseModel):
     def assistant_phone(self):
         return self.assistant.phone()
 
+    @property
+    def school_name(self):
+        return self.class_room.school.name
+
+    @property
+    def school_address(self):
+        return self.class_room.school.address
+
 
 class LiveCourseTimeSlot(BaseModel):
     '''

@@ -1317,8 +1317,10 @@ school=2
             "lecturer_bio": "多年海外留学经历",
             "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
             "assistant_name": "尚尔迪",
-            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
-            "assistant_phone": "13011111111"
+            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+            "assistant_phone": "13011111111",
+            "school_name": "洛阳社区一店",
+            "school_address": "南京路21号"
         },
         {
             "id": 2,
@@ -1337,8 +1339,10 @@ school=2
             "lecturer_bio": "网红！网红！网红！",
             "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg_CtfdqWd.jpeg",
             "assistant_name": "尚尔迪",
-            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
-            "assistant_phone": "13011111111"
+            "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+            "assistant_phone": "13011111111",
+            "school_name": "洛阳社区一店",
+            "school_address": "南京路21号"
         },
         ...
     ]
@@ -1369,7 +1373,9 @@ GET /api/v1/liveclasses/{id}
     "lecturer_bio": "多年海外留学经历",
     "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
     "assistant_name": "尚尔迪",
-    "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
-    "assistant_phone": "13011111111"
+    "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
+    "assistant_phone": "13011111111",
+    "school_name": "洛阳社区一店",
+    "school_address": "南京路21号"
 }
 ```
