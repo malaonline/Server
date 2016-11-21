@@ -2551,6 +2551,10 @@ class TimeSlot(BaseModel):
             return self.order.live_class.live_course.lecturer
         return None
 
+    @property
+    def school_address(self):
+        return self.order.school_address()
+
     def is_live(self):
         return self.order.is_live()
 

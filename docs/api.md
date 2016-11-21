@@ -720,6 +720,7 @@ data:
             "subject": "英语",
             "grade": "六年级",
             "school": "洛阳社区三店",
+            "school_address": "南京路21号",
             "is_passed": false,
             "teacher": {
                 "id": 9,
