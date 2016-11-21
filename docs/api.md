@@ -1318,6 +1318,7 @@ school=2
             "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
             "assistant_name": "尚尔迪",
             "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+            "assistant_phone": "13011111111"
         },
         {
             "id": 2,
@@ -1337,6 +1338,7 @@ school=2
             "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg_CtfdqWd.jpeg",
             "assistant_name": "尚尔迪",
             "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+            "assistant_phone": "13011111111"
         },
         ...
     ]
@@ -1368,5 +1370,6 @@ GET /api/v1/liveclasses/{id}
     "lecturer_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg",
     "assistant_name": "尚尔迪",
     "assistant_avatar": "http://127.0.0.1:8000/upload/lecturers/1034716_jej5wlhj.jpeg1e_189w_219h_1c_0i_1o_90Q_1xjpeg.jpeg"
+    "assistant_phone": "13011111111"
 }
 ```
