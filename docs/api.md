@@ -1011,6 +1011,7 @@ One To One:
     "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
     "school_id": 3,
     "school": "洛阳中心店",
+    "school_address": "南京路21号",
     "grade": "一年级",
     "subject": "语文",
     "hours": 4,
@@ -1050,6 +1051,7 @@ Live Course:
     "teacher_avatar": "http://127.0.0.1:8000/upload/avatars/img3_6bygJpA.jpg",
     "school_id": 3,
     "school": "洛阳中心店",
+    "school_address": "南京路21号",
     "grade": "小学",  // always "小学" for live class
     "subject": "语文",
     "hours": 4,

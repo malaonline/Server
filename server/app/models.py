@@ -2204,6 +2204,9 @@ class Order(BaseModel):
     def school_id(self):
         return self.school.id
 
+    def school_address(self):
+        return self.school.address
+
     def is_live(self):
         return self.live_class is not None
 

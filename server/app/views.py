@@ -1025,7 +1025,8 @@ class OrderRetrieveSerializer(serializers.ModelSerializer):
                   'school_id', 'school', 'grade', 'subject', 'hours', 'status',
                   'order_id', 'to_pay', 'created_at', 'paid_at',
                   'charge_channel', 'evaluated', 'is_timeslot_allocated',
-                  'is_teacher_published', 'timeslots', 'live_class', 'is_live')
+                  'is_teacher_published', 'timeslots', 'live_class', 'is_live',
+                  'school_address')
 
     def get_created_at(self, obj):
         if obj.created_at:
