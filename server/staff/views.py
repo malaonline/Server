@@ -1531,7 +1531,7 @@ class StudentScheduleActionView(BaseStaffActionView):
         new_end = new_end_datetime.astimezone().strftime("%H:%M")
         subject = timeslot.order.subject.name
         grade = timeslot.order.grade.name
-        msg = "您在%s-%s的%s%s课程已调整到%s-%s，去查看>>" % (
+        msg = "您在%s-%s的%s%s课程已调整到%s-%s，快去看看吧" % (
             old_start,
             old_end,
             grade,
@@ -2095,7 +2095,7 @@ class OrderRefundActionView(BaseStaffActionView):
                     "code": order.id
                 }
                 send_push.delay(
-                    "您有一笔退费已完成>>",
+                    "您有一笔退费已完成，点击查看",
                     title=Remind.title(Remind.ORDER_REFUNDED),
                     user_ids=[parent.user_id],
                     extras=extras
