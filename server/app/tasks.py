@@ -56,7 +56,7 @@ def autoConfirmClasses():
         "code": None
     }
     send_push.delay(
-        "您有课程已完成, 去评价>>",
+        "您有课程已完成，去评价>>",
         title=Remind.title(Remind.COURSE_CONFIRMED),
         user_ids=user_ids,
         extras=extras
@@ -75,9 +75,9 @@ def autoNotifyComment():
     }
     for timeslot in operateTargets:
         logger.debug("[autoNotifyComment] The Timeslot ends at %s" % (timeslot.end))
-        teacher_name = timeslot.lecturer.name if timeslot.is_live() else timeslot.teacher.name
+        teacher_name = timeslot.main_teacher.name
         send_push.delay(
-            "%s 老师的课上完了, 觉得怎么样呢, 去评价发表你的看法吧>>" % teacher_name,
+            "%s 老师的课上完了，觉得怎么样呢，去评价发表你的看法吧>>" % teacher_name,
             title=Remind.title(Remind.COURSE_CONFIRMED),
             user_ids=[timeslot.order.parent.user_id],
             extras=extras
@@ -110,9 +110,10 @@ def autoRemindClasses():
 
     for target in targets:
         user_ids = [target.order.parent.user_id]
-        msg = "您在%s-%s有一节%s课，记得准时参加哦>>" % (
+        msg = "[今日有课] 您在 %s-%s，有 %s 老师的 %s 课。带好学习资料，不要迟到哦，点击查看更多课程详情>>" % (
             target.start.astimezone().time().strftime("%H:%M"),
             target.end.astimezone().time().strftime("%H:%M"),
+            target.main_teacher.name,
             target.subject.name
         )
         send_push.delay(
@@ -124,6 +125,7 @@ def autoRemindClasses():
         # 标记为已推送
         target.reminded = True
         target.save()
+    return True
 
 
 @shared_task

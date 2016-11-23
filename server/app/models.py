@@ -2562,6 +2562,13 @@ class TimeSlot(BaseModel):
         return None
 
     @property
+    def main_teacher(self):
+        # 返回真正讲课的老师，双师直播返回主讲老师
+        if self.is_live():
+            return self.lecturer
+        return self.teacher
+
+    @property
     def school_address(self):
         return self.order.school_address()
 
