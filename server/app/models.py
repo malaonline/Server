@@ -2414,6 +2414,14 @@ class TimeSlotShouldAutoConfirmManager(models.Manager):
                          accounthistory__isnull=True)
 
 
+class TimeSlotAutoNotifyCommentManager(models.Manager):
+    def get_queryset(self):
+        return super(TimeSlotAutoNotifyCommentManager, self).get_queryset(
+                ).filter(end__lt=timezone.now(),
+                         order__status=Order.PAID,
+                         deleted=False)
+
+
 class TimeSlot(BaseModel):
     class Meta:
         ordering=["-start", "-created_at"]
@@ -2452,6 +2460,7 @@ class TimeSlot(BaseModel):
     objects = models.Manager()
     # 返回应该被自动确认的TimeSlot
     should_auto_confirmed_objects = TimeSlotShouldAutoConfirmManager()
+    auto_notify_comment_objects = TimeSlotAutoNotifyCommentManager()
 
     # 用于记录侧边栏的显示,没有访问过的新课程,会被记录
     web_visited = models.BooleanField(default=False)

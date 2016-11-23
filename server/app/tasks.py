@@ -48,7 +48,7 @@ def autoConfirmClasses():
     user_ids = []
     for timeslot in operateTargets:
         timeslot.confirm()
-        logger.debug("[autoConfirmClasses] The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.start, timeslot.attendance))
+        logger.debug("[autoConfirmClasses] The Timeslot ends at %s ,was been set the attendance to %s" %(timeslot.end, timeslot.attendance))
         user_ids.append(timeslot.order.parent.user_id)
     # JPush 通知
     extras = {
@@ -61,6 +61,27 @@ def autoConfirmClasses():
         user_ids=user_ids,
         extras=extras
     )
+    return True
+
+
+@shared_task
+def autoNotifyComment():
+    operateTargets = TimeSlot.auto_notify_comment_objects.all()
+    logger.debug("[autoNotifyComment] target amount:%d" % (len(operateTargets)))
+    # JPush 通知
+    extras = {
+        "type": Remind.COURSE_CONFIRMED,  # 完课评价
+        "code": None
+    }
+    for timeslot in operateTargets:
+        logger.debug("[autoNotifyComment] The Timeslot ends at %s" % (timeslot.end))
+        teacher_name = timeslot.lecturer.name if timeslot.is_live() else timeslot.teacher.name
+        send_push.delay(
+            "%s 老师的课上完了, 觉得怎么样呢, 去评价发表你的看法吧>>" % teacher_name,
+            title=Remind.title(Remind.COURSE_CONFIRMED),
+            user_ids=[timeslot.order.parent.user_id],
+            extras=extras
+        )
     return True
 
 
