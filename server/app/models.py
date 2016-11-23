@@ -2417,7 +2417,8 @@ class TimeSlotShouldAutoConfirmManager(models.Manager):
 class TimeSlotAutoNotifyCommentManager(models.Manager):
     def get_queryset(self):
         return super(TimeSlotAutoNotifyCommentManager, self).get_queryset(
-                ).filter(end__lt=timezone.now(),
+                ).filter(attendance__isnull=True,
+                         end__lt=timezone.now(),
                          order__status=Order.PAID,
                          deleted=False)
 

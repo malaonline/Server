@@ -82,6 +82,9 @@ def autoNotifyComment():
             user_ids=[timeslot.order.parent.user_id],
             extras=extras
         )
+        attendance = TimeSlotAttendance.objects.create(record_type='a')
+        timeslot.attendance = attendance
+        timeslot.save()
     return True
 
 
