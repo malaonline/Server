@@ -32,6 +32,11 @@ celery_app.conf.update(
         #     "schedule":timedelta(
         #         seconds=15),
         #     },
+        "notify-comment": {
+            "task": "app.tasks.autoNotifyComment",
+            "schedule": timedelta(
+                seconds=15),
+        },
         "remind-classes": {
             "task": "app.tasks.autoRemindClasses",
             "schedule": timedelta(
