@@ -2210,6 +2210,12 @@ class Order(BaseModel):
     def is_live(self):
         return self.live_class is not None
 
+    @property
+    def course_name(self):
+        if self.is_live():
+            return self.live_class.live_course.name
+        return self.subject and self.subject.name
+
 
 class OrderRefundRecord(BaseModel):
     status = models.CharField(max_length=2,
@@ -2574,6 +2580,10 @@ class TimeSlot(BaseModel):
 
     def is_live(self):
         return self.order.is_live()
+
+    @property
+    def course_name(self):
+        return self.order.course_name
 
     def confirm(self):
         # try:
