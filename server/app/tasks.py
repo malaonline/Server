@@ -99,6 +99,7 @@ def autoRemindClasses():
     timeslots = TimeSlot.objects.filter(
         deleted=False,
         start__lt=remind_time,
+        end__gt=timezone.now(),  # 已经结束的不再提醒
         reminded=False
     )
     evaluations = Evaluation.objects.filter(
@@ -130,7 +131,7 @@ def autoRemindClasses():
             'course': target.course_name,
             'address': target.school_address,
         }
-        send_sms.delay(phone, TPL_STU_REMIND_COURSE, params=params, times=2)
+        send_sms.delay(phone, TPL_STU_REMIND_COURSE, params=params, times=3)
         # 标记为已推送
         target.reminded = True
         target.save()
