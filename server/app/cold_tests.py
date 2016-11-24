@@ -150,3 +150,8 @@ class TasksTest(unittest.TestCase):
         # autoCreateSchoolIncomeRecord()
         autoCreateSchoolIncomeRecord.delay()
         self.assertTrue(True)
+
+    def test_send_sms_task(self):
+        from app.tasks import send_sms
+        send_sms.delay('18613888646', smsUtil.TPL_STU_REFUND_APPROVE, {'studentname': '测试学院', 'amount': '20.00'}, 3)
+        self.assertTrue(True)
