@@ -2431,7 +2431,7 @@ class TimeSlot(BaseModel):
     SHORTTERM = datetime.timedelta(days=7)
     GRACE_TIME = datetime.timedelta(days=0)  # 测评建档时间暂时拿掉
     CONFIRM_TIME = datetime.timedelta(hours=2)
-    REMIND_TIME = datetime.timedelta(hours=2)
+    REMIND_TIME = datetime.timedelta(hours=1)
     COMMENT_DELAY = datetime.timedelta(days=15)
 
     order = models.ForeignKey(Order)
