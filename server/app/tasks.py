@@ -13,7 +13,7 @@ from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance,\
     Order, Teacher, Coupon, Evaluation, School
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
-from .utils.smsUtil import tpl_send_sms
+from .utils.smsUtil import tpl_send_sms, TPL_STU_REMIND_COURSE
 
 logger = logging.getLogger('tasks')
 
@@ -122,6 +122,15 @@ def autoRemindClasses():
             user_ids=user_ids,
             extras=extras
         )
+        phone = target.order.parent.user.profile.phone
+        params = {
+            'starttime': "%s-%s" % (
+                target.start.astimezone().time().strftime("%H:%M"), target.end.astimezone().time().strftime("%H:%M")),
+            'teacher': target.main_teacher.name,
+            'course': target.course_name,
+            'address': target.school_address,
+        }
+        send_sms.delay(phone, TPL_STU_REMIND_COURSE, params=params, times=2)
         # 标记为已推送
         target.reminded = True
         target.save()
