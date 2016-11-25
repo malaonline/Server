@@ -567,8 +567,7 @@ class Teacher(BaseModel):
     imported = models.BooleanField(default=False)  # 是否是从线下导入的
 
     def __str__(self):
-        return '%s %s %s' % (
-                '⬆' if not self.published else '  ', self.name, self.phone())
+        return '%s %s' % (self.name, self.phone())
 
     def phone(self):
         if not hasattr(self.user, 'profile'):
@@ -3114,7 +3113,8 @@ class SchoolMaster(BaseModel):
     name = models.CharField(max_length=200)
 
     def __str__(self):
-        return '{name} school:{school}'.format(
+        return '[{user}] {name} @ {school}'.format(
+            user=self.user.username,
             name=self.name,
             school=self.school
         )
