@@ -186,6 +186,11 @@ def send_push(msg, user_ids=None, extras=None, title=None):
             alert=msg, android=android_msg, ios=ios_msg)
     push.platform = jpush.all_
 
+    # for ios dev or prd env
+    options = dict()
+    options['apns_production'] = settings.APNS_PRODUCTION
+    jpush.options(options)
+
     if user_ids is None:
         push.audience = jpush.all_
         return str(push.send())
