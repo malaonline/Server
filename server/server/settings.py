@@ -301,4 +301,7 @@ KUAILEXUE_TEACHING_SUBJECTS = ['英语', '数学', '物理', '化学', '生物']
 KUAILEXUE_API_PRI_KEY = open(os.path.join(BASE_DIR, 'server', 'mala_kuailexue.pem'), 'rb').read() # 用于调用快乐学API时的私钥
 KUAILEXUE_API_PUB_KEY = open(os.path.join(BASE_DIR, 'server', 'mala_kuailexue.pub'), 'rb').read() # 用于快乐学API, 给快乐学用的公钥 (单元测试用了)
 
+# for ios jpush, default prd env, dev env should set to False
+APNS_PRODUCTION = True
+
 from .local_settings import *
