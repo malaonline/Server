@@ -64,5 +64,5 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 ### Kuailexue API Config
 - `mala_kuailexue.pem`:  RSA private key
 - `mala_kuailexue.pub`:  RSA public key, kuailexue verify sign with it, unit test also use it.    
+***Please overwrite them in folder ```"/server/server/"``` with real keys***
 
-*** Please overwrite them in folder "/server/server/" with real keys ***
