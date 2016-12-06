@@ -53,15 +53,17 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 
 
 ### Celery worker
-celery worker --app=server -l info
-celery -A server beat
+- celery worker --app=server -l info
+- celery -A server beat
 
-celery multi start taskman --app=server  -c2  --pidfile=taskman.pid --beat
-celery multi restart taskman --app=server  -c2  --pidfile=taskman.pid --beat
-celery multi stop taskman
+- celery multi start taskman --app=server  -c2  --pidfile=taskman.pid --beat
+- celery multi restart taskman --app=server  -c2  --pidfile=taskman.pid --beat
+- celery multi stop taskman
 
 
 ### Kuailexue API Config
-- mala_kuailexue.pem:  RSA private key
-- mala_kuailexue.pub:  RSA public key, kuailexue verify sign with it, unit test also use it.
+- `mala_kuailexue.pem`:  RSA private key
+- `mala_kuailexue.pub`:  RSA public key, kuailexue verify sign with it, unit test also use it.    
+
 *** Please overwrite them in folder "/server/server/" with real keys ***
+
