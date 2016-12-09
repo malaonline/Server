@@ -911,6 +911,7 @@ class Lecturer(BaseModel):
     '''
     双师直播讲师
     '''
+    user = models.OneToOneField(User, null=True)
     name = models.CharField(max_length=20)
     avatar = models.ImageField(null=True, blank=True, upload_to='lecturers')
     phone = models.CharField(max_length=20, default=None, null=True, blank=True)
