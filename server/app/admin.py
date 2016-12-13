@@ -71,7 +71,8 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class LecturerAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'phone']
+    search_fields = ('name', 'phone', 'user__username')
+    list_display = ('__str__', 'user', 'subject')
 
 
 class LiveCourseAdmin(admin.ModelAdmin):
