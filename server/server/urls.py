@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^staff/', include('staff.urls', namespace='staff')),
     url(r'^import_/', include('import_.urls', namespace='import_')),
     url(r'^wechat/', include('wechat.urls', namespace='wechat')),
+    url(r'^lecturer/', include('lecturer.urls', namespace='lecturer')),
     url(r'^upload/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
     url(r'^api/v1/(?P<path>.*(\.json|\.yaml))$', django.views.static.serve,
