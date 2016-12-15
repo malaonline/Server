@@ -3,8 +3,7 @@ import logging
 
 # django modules
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
