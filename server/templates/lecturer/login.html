@@ -1,0 +1,49 @@
+{% extends "lecturer/lecturer_base.html" %}
+
+{% load i18n admin_static %}
+
+{% block title %}麻辣老师双师直播后台 - 登录{% endblock %}
+{% block nav %}{% endblock %}
+{% block menu %}{% endblock %}
+
+{% block body %}
+    <div style="max-width:600px;margin:30px auto;">
+        {% for error in  errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+
+        <div id="content-main">
+            {% if user.is_authenticated %}
+                <p class="errornote">
+                    {% blocktrans with username=request.user.get_username trimmed %}
+                        You are authenticated as {{ username }}, but are not
+                        authorized to
+                        access this page. Would you like to login to a different
+                        account?
+                    {% endblocktrans %}
+                </p>
+            {% endif %}
+
+            <form method="post" id="login-form">{% csrf_token %}
+                <table class="table">
+                    <th>
+                        <td><h2>麻辣老师双师直播后台</h2></td>
+                    </th>
+                    <tr>
+                        <td>账号</td>
+                        <td><input name="username" id="id_username"/></td>
+                    </tr>
+                    <tr>
+                        <td>密码</td>
+                        <td><input name="password" type="password"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="登录"/></td>
+                    </tr>
+                </table>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
