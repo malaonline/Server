@@ -2,13 +2,12 @@ import logging
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
-from app import models
 
 logger = logging.getLogger('app')
 
 
 def is_lecturer(u):
-    if u.is_active and models.Lecturer.objects.filter(user=u).count() > 0:
+    if u.is_active and hasattr(u, 'lecturer'):
         return True
     return False
 

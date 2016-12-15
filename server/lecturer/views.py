@@ -28,9 +28,7 @@ class LoginView(View):
     def get(self, request):
         if is_lecturer(request.user):
             return redirect('lecturer:index')
-        schools = models.School.objects.filter(opened=True)
-        context = dict(schools=schools)
-        return render(request, 'lecturer/login.html', context)
+        return render(request, 'lecturer/login.html')
 
     def post(self, request):
         var = ('username', 'password',)
@@ -50,7 +48,6 @@ class LoginView(View):
             return JsonResponse({'error': 'you are not authorized'})
 
         auth.login(request, user)
-
         return redirect('lecturer:index')
 
 
@@ -67,20 +64,6 @@ class BaseLectureView(TemplateView):
     @method_decorator(mala_lecturer_required)
     def dispatch(self, request, *args, **kwargs):
         return super(BaseLectureView, self).dispatch(request, *args, **kwargs)
-
-
-class BaseLectureActionView(View):
-    """
-    Base view for lecturer management action views.
-    """
-
-    default_err_msg = "操作失败,请稍后重试或联系管理员"
-
-    # @method_decorator(csrf_exempt) # 不加csrf,不允许跨域访问
-    @method_decorator(mala_lecturer_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super(BaseLectureActionView, self).dispatch(
-                request, *args, **kwargs)
 
 
 class IndexView(BaseLectureView):
