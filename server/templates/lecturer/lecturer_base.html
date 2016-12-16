@@ -37,7 +37,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">欢迎您，<{{ request.user.lecturer.name }}>老师</a></li>
+                        <li><a href="#">欢迎您，&lt;{{ request.user.lecturer.name }}&gt;老师</a></li>
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'lecturer:logout' %}">退出</a></li>
                         {% endif %}
