@@ -122,14 +122,17 @@ class QuestionForm(forms.ModelForm):
 
 class QuestionAdmin(admin.ModelAdmin):
     form = QuestionForm
-    list_display = ('__str__', 'question_options', 'solution')
+    list_display = ('__str__', 'solution', 'question_options',)
 
     def question_options(self, instance):
         return ' , '.join([o.text for o in instance.questionoption_set.all()])
 
 
 class QuestionOptionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'question')
+    list_display = ('__str__', 'is_solution', 'question',)
+
+    def is_solution(self, instance):
+        return '√' if instance.question_set.exists() else None
 
 
 admin.site.register(m.Region, RegionAdmin)
