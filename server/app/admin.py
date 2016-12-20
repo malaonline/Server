@@ -122,7 +122,7 @@ class QuestionForm(forms.ModelForm):
 
 class QuestionAdmin(admin.ModelAdmin):
     form = QuestionForm
-    list_display = ('__str__', 'question_options',)
+    list_display = ('__str__', 'question_options', 'solution')
 
     def question_options(self, instance):
         return ' , '.join([o.text for o in instance.questionoption_set.all()])
