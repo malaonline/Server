@@ -3447,9 +3447,11 @@ class QuestionOption(BaseModel):
 
     # 选项文本
     text = models.CharField(max_length=50)
+    # 所属题目
+    question = models.ForeignKey('Question')
 
     def __str__(self):
-        return '(refs: %d) %s' % (self.ref_questions.count(), self.text)
+        return self.text
 
 
 class Question(BaseModel):
@@ -3459,12 +3461,12 @@ class Question(BaseModel):
 
     # 题目标题
     title = models.CharField(max_length=200)
-    # 题目选项
-    options = models.ManyToManyField(QuestionOption, related_name='ref_questions')
     # 正确选项
-    solution = models.ForeignKey(QuestionOption, related_name='solution_questions')
+    solution = models.ForeignKey(QuestionOption)
     # 详细解析
     explanation = models.TextField()
+    # 软删除标记
+    deleted = models.BooleanField(default=False)
 
     created_by = models.ForeignKey(Lecturer)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -3485,6 +3487,8 @@ class QuestionGroup(BaseModel):
     description = models.TextField()
     # 包含的题目
     questions = models.ManyToManyField(Question)
+    # 软删除标记
+    deleted = models.BooleanField(default=False)
 
     created_by = models.ForeignKey(Lecturer)
     created_at = models.DateTimeField(auto_now_add=True)
