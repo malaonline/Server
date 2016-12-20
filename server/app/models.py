@@ -3426,12 +3426,69 @@ class LiveCourseTimeSlot(BaseModel):
     live_course = models.ForeignKey(LiveCourse)
     start = models.DateTimeField()
     end = models.DateTimeField()
+    # 课时中包含的题组
+    question_groups = models.ManyToManyField('QuestionGroup')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '%s, %s, %s - %s' % (
+        return '(%d) %s, %s, %s - %s' % (
+            self.question_groups.count(),
             self.live_course.name,
             self.live_course.lecturer.name,
             self.start.astimezone(),
             self.end.astimezone(),
         )
+
+
+class QuestionOption(BaseModel):
+    '''
+    题库题目选项模型
+    '''
+
+    # 选项文本
+    text = models.CharField(max_length=50)
+
+    def __str__(self):
+        return '(refs: %d) %s' % (self.ref_questions.count(), self.text)
+
+
+class Question(BaseModel):
+    '''
+    题库题目模型
+    '''
+
+    # 题目标题
+    title = models.CharField(max_length=200)
+    # 题目选项
+    options = models.ManyToManyField(QuestionOption, related_name='ref_questions')
+    # 正确选项
+    solution = models.ForeignKey(QuestionOption, related_name='solution_questions')
+    # 详细解析
+    explanation = models.TextField()
+
+    created_by = models.ForeignKey(Lecturer)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class QuestionGroup(BaseModel):
+    '''
+    题库虚拟题组模型
+    '''
+
+    # 题组标题
+    title = models.CharField(max_length=50)
+    # 题组描述
+    description = models.TextField()
+    # 包含的题目
+    questions = models.ManyToManyField(Question)
+
+    created_by = models.ForeignKey(Lecturer)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '(Q: %d) %s' % (self.questions.count(), self.title)
