@@ -109,8 +109,27 @@ class SchoolMasterAdmin(admin.ModelAdmin):
 class StaffPermissionAdmin(admin.ModelAdmin):
     search_fields = ['allowed_url_name', 'groups__name']
     list_display = ('__str__', 'group_names')
+
     def group_names(self, instance):
         return ', '.join([g.name for g in instance.groups.all()])
+
+
+class QuestionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        self.fields['solution'].queryset = m.QuestionOption.objects.filter(question=self.instance)
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    form = QuestionForm
+    list_display = ('__str__', 'question_options',)
+
+    def question_options(self, instance):
+        return ' , '.join([o.text for o in instance.questionoption_set.all()])
+
+
+class QuestionOptionAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'question')
 
 
 admin.site.register(m.Region, RegionAdmin)
@@ -161,6 +180,6 @@ admin.site.register(m.LiveCourseWeeklyTimeSlot)
 admin.site.register(m.LiveCourse, LiveCourseAdmin)
 admin.site.register(m.LiveClass, LiveClassAdmin)
 admin.site.register(m.LiveCourseTimeSlot, LiveCourseTimeSlotAdmin)
-admin.site.register(m.QuestionOption)
-admin.site.register(m.Question)
+admin.site.register(m.QuestionOption, QuestionOptionAdmin)
+admin.site.register(m.Question, QuestionAdmin)
 admin.site.register(m.QuestionGroup)

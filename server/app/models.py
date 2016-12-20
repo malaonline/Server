@@ -3462,7 +3462,12 @@ class Question(BaseModel):
     # 题目标题
     title = models.CharField(max_length=200)
     # 正确选项
-    solution = models.ForeignKey(QuestionOption, related_name='question_set')
+    solution = models.ForeignKey(
+        QuestionOption,
+        related_name='question_set',
+        null=True,
+        blank=True,
+    )
     # 详细解析
     explanation = models.TextField()
     # 软删除标记
@@ -3495,4 +3500,4 @@ class QuestionGroup(BaseModel):
     last_updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '(Q: %d) %s' % (self.questions.count(), self.title)
+        return '%s (Questions: %d)' % (self.title, self.questions.count())
