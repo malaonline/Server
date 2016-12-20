@@ -3462,7 +3462,7 @@ class Question(BaseModel):
     # 题目标题
     title = models.CharField(max_length=200)
     # 正确选项
-    solution = models.ForeignKey(QuestionOption)
+    solution = models.ForeignKey(QuestionOption, related_name='question_set')
     # 详细解析
     explanation = models.TextField()
     # 软删除标记
