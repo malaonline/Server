@@ -8,6 +8,7 @@ from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 # local modules
 from app import models
@@ -78,5 +79,19 @@ class LCTimeslotQuestionsView(BaseLectureView):
     def get_context_data(self, **kwargs):
         context = super(LCTimeslotQuestionsView, self).get_context_data(**kwargs)
         tsid = context.get('tsid')
+        lc_timeslot = models.LiveCourseTimeSlot.objects.filter(pk=tsid).first()
+        context['lc_timeslot'] = lc_timeslot
+        if not lc_timeslot:
+            context['error_msg'] = "未找到该课时"
+            return context
+        lc = lc_timeslot.live_course
+        context['course_name'] = lc.name
+        context['lecturer_name'] = lc.lecturer.name
+        context['date'] = timezone.localtime(
+            lc_timeslot.start).strftime('%Y-%m-%d')
+        context['start'] = timezone.localtime(
+            lc_timeslot.start).strftime('%H:%M')
+        context['end'] = timezone.localtime(
+            lc_timeslot.end).strftime('%H:%M')
         return context
 
