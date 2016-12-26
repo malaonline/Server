@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^logout$', views.logout, name="logout"),
     url(r'^timeslot/(?P<tsid>\d+)/questions$',
         views.LCTimeslotQuestionsView.as_view(), name="timeslot-questions"),
+    url(r'^exercise/store$',
+        views.ExerciseStore.as_view(), name="exercise-store"),
 ]
