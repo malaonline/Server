@@ -67,3 +67,16 @@ class BaseLectureView(TemplateView):
 
 class IndexView(BaseLectureView):
     template_name = 'lecturer/index.html'
+
+
+class LCTimeslotQuestionsView(BaseLectureView):
+    '''
+    双师直播课程-课时题组管理页面
+    '''
+    template_name = 'lecturer/timeslot/questions.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LCTimeslotQuestionsView, self).get_context_data(**kwargs)
+        tsid = context.get('tsid')
+        return context
+
