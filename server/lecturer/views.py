@@ -72,7 +72,7 @@ class IndexView(BaseLectureView):
 
 class LCTimeslotQuestionsView(BaseLectureView):
     '''
-    双师直播课程-课时题组管理页面
+    双师直播课程 - 课时题组管理页面
     '''
     template_name = 'lecturer/timeslot/questions.html'
 
@@ -94,4 +94,11 @@ class LCTimeslotQuestionsView(BaseLectureView):
         context['end'] = timezone.localtime(
             lc_timeslot.end).strftime('%H:%M')
         return context
+
+
+class ExerciseStore(BaseLectureView):
+    '''
+    双师直播课程 - 题库题组管理页面
+    '''
+    template_name = 'lecturer/questions/index.html'
 

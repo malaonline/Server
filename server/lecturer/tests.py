@@ -1,0 +1,71 @@
+import json
+from app import models
+from django.test import Client, TestCase
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+
+
+# Create your tests here.
+class TestLecturerWeb(TestCase):
+    def _init_test_lecturer(self):
+        if hasattr(self, '_lecturer'):
+            return
+        self.lecturer = "lecturer_oUP1zwTO9"
+        self.lecturer_pswd = "123"
+        user_data = {
+            'password': make_password(self.lecturer_pswd),
+            'is_staff': False,
+            'is_superuser': False,
+        }
+        user, _ = User.objects.get_or_create(username=self.lecturer,
+                                             defaults=user_data)
+        _lecturer, _ = models.Lecturer.objects.get_or_create(
+            user=user,
+            defaults={
+                "subject": models.Subject.get_english(),
+                "name": "kaoru"
+            })
+        self._lecturer = _lecturer
+
+    def setUp(self):
+        self.client = Client()
+        self._init_test_lecturer()
+        self.client.login(username=self.lecturer, password=self.lecturer_pswd)
+
+    def tearDown(self):
+        pass
+
+    def test_home(self):
+        response = self.client.get(reverse('lecturer:home'))
+        self.assertEqual(302, response.status_code)
+
+    def test_index(self):
+        response = self.client.get(reverse('lecturer:index'))
+        self.assertEqual(200, response.status_code)
+
+    def test_login(self):
+        client = Client()
+        response = client.get(reverse('lecturer:login'))
+        self.assertEqual(200, response.status_code)
+
+    def test_login_auth(self):
+        client = Client()
+        data = {'username': self.lecturer, 'password': self.lecturer_pswd}
+        response = client.post(reverse('lecturer:login'), data=data)
+        self.assertEqual(302, response.status_code)
+
+    def test_logout(self):
+        client = Client()
+        client.login(username=self.lecturer, password=self.lecturer_pswd)
+        response = client.get(reverse('lecturer:logout'))
+        self.assertEqual(302, response.status_code)
+
+    def test_timeslot_questions(self):
+        response = self.client.get(
+            reverse('lecturer:timeslot-questions', kwargs={'tsid': 1}))
+        self.assertEqual(200, response.status_code)
+
+    def test_exercise_store(self):
+        response = self.client.get(reverse('lecturer:exercise-store'))
+        self.assertEqual(200, response.status_code)
