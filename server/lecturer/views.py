@@ -70,6 +70,22 @@ class IndexView(BaseLectureView):
     template_name = 'lecturer/index.html'
 
 
+class ApiExerciseStore(View):
+    '''
+    题库接口API
+    提供题组列表、题组内题目列表等接口
+    '''
+    @method_decorator(mala_lecturer_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ApiExerciseStore, self).dispatch(request, *args, **kwargs)
+
+    def json_res(self, ok=True, code=0, msg='', data=None):
+        return JsonResponse(dict(ok=ok, code=code, msg=msg, data=data))
+
+    def get(self, request):
+        return self.json_res()
+
+
 class LCTimeslotQuestionsView(BaseLectureView):
     '''
     双师直播课程 - 课时题组管理页面
