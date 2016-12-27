@@ -74,6 +74,11 @@ class TestLecturerWeb(TestCase):
         url = reverse('lecturer:api-exercise-store')
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
+
         url = reverse('lecturer:api-exercise-store') + '?action=group_list'
+        response = self.client.get(url)
+        self.assertEqual(200, response.status_code)
+
+        url = reverse('lecturer:api-exercise-store') + '?action=group&gid=1'
         response = self.client.get(url)
         self.assertEqual(200, response.status_code)
