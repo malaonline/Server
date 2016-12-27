@@ -12,10 +12,12 @@ from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
+
 # local modules
 from app import models
 from app.utils.db import paginate
 from .decorators import mala_lecturer_required, is_lecturer
+from .serializers import QuestionGroupSerializer, QuestionSerializer
 
 
 logger = logging.getLogger('app')
@@ -87,6 +89,8 @@ class ApiExerciseStore(LecturerBasedMixin, View):
     提供题组列表、题组内题目列表等接口
     '''
     _params = None
+    group_serializer = QuestionGroupSerializer()
+    question_serializer = QuestionSerializer()
 
     @method_decorator(mala_lecturer_required)
     def dispatch(self, request, *args, **kwargs):
@@ -117,7 +121,7 @@ class ApiExerciseStore(LecturerBasedMixin, View):
         lecturer = self.get_lecturer()
         question_groups = models.QuestionGroup.objects.filter(
             deleted=False, created_by=lecturer).order_by('pk')
-        gl = [model_to_dict(qg, fields=['id', 'title', 'description'])
+        gl = [self.group_serializer.to_representation(qg)
               for qg in question_groups]
         return self.json_res(data=gl)
 
@@ -128,13 +132,12 @@ class ApiExerciseStore(LecturerBasedMixin, View):
         if not question_group:
             return self.json_res(ok=False, code=1, msg="[404]找不到该对象")
 
-        group_dict = model_to_dict(question_group,
-                                   fields=['id', 'title', 'description'])
+        group_dict = self.group_serializer.to_representation(question_group)
 
         questions = question_group.questions.filter(deleted=False).order_by('pk')
         ql = []
         for q in questions:
-            q_dict = model_to_dict(q, fields=['id', 'solution', 'explanation'])
+            q_dict = self.question_serializer.to_representation(q)
 
             q_opts = q.questionoption_set.all().order_by('pk')
             opt_list = [model_to_dict(o, ['id', 'text']) for o in q_opts]
