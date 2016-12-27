@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
+from django.forms import model_to_dict
 from django.contrib import auth
 from django.core import exceptions
 from django.core.urlresolvers import reverse
@@ -103,11 +104,20 @@ class ApiExerciseStore(LecturerBasedMixin, View):
         return self._params
 
     def get(self, request):
-        lecturer = self.get_lecturer()
         action = self.request_params.get('action')
-        group_id = self.request_params.get('gid')
 
-        return self.json_res()
+        if action == 'group_list':
+            return self.get_question_group_list()
+
+        return self.json_res(ok=False, code=-1, msg='不支持该方法')
+
+    def get_question_group_list(self):
+        lecturer = self.get_lecturer()
+        question_groups = models.QuestionGroup.objects.filter(
+            deleted=False, created_by=lecturer)
+        gl = [model_to_dict(qg, fields=['id', 'title', 'description'])
+              for qg in question_groups]
+        return self.json_res(data=gl)
 
 
 class LCTimeslotQuestionsView(BaseLectureView):
