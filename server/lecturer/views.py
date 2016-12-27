@@ -108,16 +108,42 @@ class ApiExerciseStore(LecturerBasedMixin, View):
 
         if action == 'group_list':
             return self.get_question_group_list()
+        elif action == 'group':
+            return self.get_questions_of_group()
 
         return self.json_res(ok=False, code=-1, msg='不支持该方法')
 
     def get_question_group_list(self):
         lecturer = self.get_lecturer()
         question_groups = models.QuestionGroup.objects.filter(
-            deleted=False, created_by=lecturer)
+            deleted=False, created_by=lecturer).order_by('pk')
         gl = [model_to_dict(qg, fields=['id', 'title', 'description'])
               for qg in question_groups]
         return self.json_res(data=gl)
+
+    def get_questions_of_group(self):
+        gid = self.request_params.get('gid')
+        question_group = models.QuestionGroup.objects.filter(
+            pk=gid, deleted=False).first()
+        if not question_group:
+            return self.json_res(ok=False, code=1, msg="[404]找不到该对象")
+
+        group_dict = model_to_dict(question_group,
+                                   fields=['id', 'title', 'description'])
+
+        questions = question_group.questions.filter(deleted=False).order_by('pk')
+        ql = []
+        for q in questions:
+            q_dict = model_to_dict(q, fields=['id', 'solution', 'explanation'])
+
+            q_opts = q.questionoption_set.all().order_by('pk')
+            opt_list = [model_to_dict(o, ['id', 'text']) for o in q_opts]
+            q_dict['options'] = opt_list
+
+            ql.append(q_dict)
+
+        group_dict['questions'] = ql
+        return self.json_res(data=group_dict)
 
 
 class LCTimeslotQuestionsView(BaseLectureView):
