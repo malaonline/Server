@@ -3481,6 +3481,10 @@ class Question(BaseModel):
     def __str__(self):
         return self.title
 
+    @property
+    def analyse(self):
+        return self.explanation
+
 
 class QuestionGroup(BaseModel):
     '''
@@ -3502,3 +3506,7 @@ class QuestionGroup(BaseModel):
 
     def __str__(self):
         return '%s (Questions: %d)' % (self.title, self.questions.count())
+
+    @property
+    def desc(self):
+        return self.description

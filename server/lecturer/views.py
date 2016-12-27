@@ -6,14 +6,18 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
+from django.forms import model_to_dict
 from django.contrib import auth
+from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+
 
 # local modules
 from app import models
 from app.utils.db import paginate
 from .decorators import mala_lecturer_required, is_lecturer
+from .serializers import QuestionGroupSerializer, QuestionSerializer
 
 
 logger = logging.getLogger('app')
@@ -56,7 +60,16 @@ def logout(request):
     return redirect('lecturer:login')
 
 
-class BaseLectureView(TemplateView):
+class LecturerBasedMixin(object):
+    def get_lecturer(self):
+        try:
+            lecturer = self.request.user.lecturer
+        except (AttributeError, exceptions.ObjectDoesNotExist) as e:
+            raise e
+        return lecturer
+
+
+class BaseLectureView(LecturerBasedMixin, TemplateView):
     """
     Base view for lecturer management page views.
     """
@@ -68,6 +81,72 @@ class BaseLectureView(TemplateView):
 
 class IndexView(BaseLectureView):
     template_name = 'lecturer/index.html'
+
+
+class ApiExerciseStore(LecturerBasedMixin, View):
+    '''
+    题库接口API
+    提供题组列表、题组内题目列表等接口
+    '''
+    _params = None
+    group_serializer = QuestionGroupSerializer()
+    question_serializer = QuestionSerializer()
+
+    @method_decorator(mala_lecturer_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(ApiExerciseStore, self).dispatch(request, *args, **kwargs)
+
+    def json_res(self, ok=True, code=0, msg='', data=None):
+        return JsonResponse(dict(ok=ok, code=code, msg=msg, data=data))
+
+    @property
+    def request_params(self):
+        if self._params is None:
+            _p = self.request.GET.copy()
+            _p.update(self.request.POST)
+            self._params = _p
+        return self._params
+
+    def get(self, request):
+        action = self.request_params.get('action')
+
+        if action == 'group_list':
+            return self.get_question_group_list()
+        elif action == 'group':
+            return self.get_questions_of_group()
+
+        return self.json_res(ok=False, code=-1, msg='不支持该方法')
+
+    def get_question_group_list(self):
+        lecturer = self.get_lecturer()
+        question_groups = models.QuestionGroup.objects.filter(
+            deleted=False, created_by=lecturer).order_by('pk')
+        gl = [self.group_serializer.to_representation(qg)
+              for qg in question_groups]
+        return self.json_res(data=gl)
+
+    def get_questions_of_group(self):
+        gid = self.request_params.get('gid')
+        question_group = models.QuestionGroup.objects.filter(
+            pk=gid, deleted=False).first()
+        if not question_group:
+            return self.json_res(ok=False, code=1, msg="[404]找不到该对象")
+
+        group_dict = self.group_serializer.to_representation(question_group)
+
+        questions = question_group.questions.filter(deleted=False).order_by('pk')
+        ql = []
+        for q in questions:
+            q_dict = self.question_serializer.to_representation(q)
+
+            q_opts = q.questionoption_set.all().order_by('pk')
+            opt_list = [model_to_dict(o, ['id', 'text']) for o in q_opts]
+            q_dict['options'] = opt_list
+
+            ql.append(q_dict)
+
+        group_dict['questions'] = ql
+        return self.json_res(data=group_dict)
 
 
 class LCTimeslotQuestionsView(BaseLectureView):
@@ -84,6 +163,7 @@ class LCTimeslotQuestionsView(BaseLectureView):
         if not lc_timeslot:
             context['error_msg'] = "未找到该课时"
             return context
+        lecturer = self.get_lecturer()
         lc = lc_timeslot.live_course
         context['course_name'] = lc.name
         context['lecturer_name'] = lc.lecturer.name

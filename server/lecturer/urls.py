@@ -11,4 +11,6 @@ urlpatterns = [
         views.LCTimeslotQuestionsView.as_view(), name="timeslot-questions"),
     url(r'^exercise/store$',
         views.ExerciseStore.as_view(), name="exercise-store"),
+    url(r'^api/exercise/store$',
+        views.ApiExerciseStore.as_view(), name="api-exercise-store"),
 ]
