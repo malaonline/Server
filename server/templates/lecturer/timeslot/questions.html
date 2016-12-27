@@ -1,0 +1,14 @@
+{% extends "lecturer/lecturer_base.html" %}
+
+{% block title %}麻辣老师双师直播后台 - 课时题组管理页面{% endblock %}
+
+{% block content %}
+    {% if lc_timeslot %}
+        <div>
+            {{ course_name }}({{ lecturer_name }})
+            @{{ date }} {{ start }}-{{ end }}
+        </div>
+    {% else %}
+        {{ error_msg }}
+    {% endif %}
+{% endblock %}
