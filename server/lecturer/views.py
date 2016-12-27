@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib import auth
+from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
@@ -56,7 +57,16 @@ def logout(request):
     return redirect('lecturer:login')
 
 
-class BaseLectureView(TemplateView):
+class LecturerBasedMixin(object):
+    def get_lecturer(self):
+        try:
+            lecturer = self.request.user.lecturer
+        except (AttributeError, exceptions.ObjectDoesNotExist) as e:
+            raise e
+        return lecturer
+
+
+class BaseLectureView(LecturerBasedMixin, TemplateView):
     """
     Base view for lecturer management page views.
     """
@@ -70,11 +80,13 @@ class IndexView(BaseLectureView):
     template_name = 'lecturer/index.html'
 
 
-class ApiExerciseStore(View):
+class ApiExerciseStore(LecturerBasedMixin, View):
     '''
     题库接口API
     提供题组列表、题组内题目列表等接口
     '''
+    _params = None
+
     @method_decorator(mala_lecturer_required)
     def dispatch(self, request, *args, **kwargs):
         return super(ApiExerciseStore, self).dispatch(request, *args, **kwargs)
@@ -82,7 +94,19 @@ class ApiExerciseStore(View):
     def json_res(self, ok=True, code=0, msg='', data=None):
         return JsonResponse(dict(ok=ok, code=code, msg=msg, data=data))
 
+    @property
+    def request_params(self):
+        if self._params is None:
+            _p = self.request.GET.copy()
+            _p.update(self.request.POST)
+            self._params = _p
+        return self._params
+
     def get(self, request):
+        lecturer = self.get_lecturer()
+        action = self.request_params.get('action')
+        group_id = self.request_params.get('gid')
+
         return self.json_res()
 
 
@@ -100,6 +124,7 @@ class LCTimeslotQuestionsView(BaseLectureView):
         if not lc_timeslot:
             context['error_msg'] = "未找到该课时"
             return context
+        lecturer = self.get_lecturer()
         lc = lc_timeslot.live_course
         context['course_name'] = lc.name
         context['lecturer_name'] = lc.lecturer.name
