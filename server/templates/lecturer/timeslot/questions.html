@@ -1,12 +1,48 @@
 {% extends "lecturer/lecturer_base.html" %}
 
+{% load staticfiles %}
+{% load compile_static %}
+
 {% block title %}麻辣老师双师直播后台 - 课时题组管理页面{% endblock %}
+{% block addition_js %}
+    <script src='https://unpkg.com/vue@2.1.8/dist/vue.min.js'></script>
+    <script>
+        var old_group_ids = [];
+        {% for g in old_groups %}old_group_ids.push({{ g.id }});{% endfor %}
+    </script>
+    <script src="{% static 'lecturer/js/timeslot/groups.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
     {% if lc_timeslot %}
         <div>
             {{ course_name }}({{ lecturer_name }})
             @{{ date }} {{ start }}-{{ end }}
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-9">
+                所选题组题目列表
+                <div id="selected-groups">
+                    {% for g in old_groups %}
+                        <div id="selected-g-{{ g.id }}" class="selected-group">
+                            <h4>{{ g.title }}</h4>
+                            <p>{{ g.desc }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-3">
+                所有题组列表
+                <div id="all-groups">
+                    <div v-for="group in groupList"
+                         v-bind:id="'group-'+group.id"
+                         v-bind:title="group.desc">
+                        [[group.title]]
+                    </div>
+                </div>
+            </div>
         </div>
     {% else %}
         {{ error_msg }}
