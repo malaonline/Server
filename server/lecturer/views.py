@@ -134,7 +134,8 @@ class ApiExerciseStore(LecturerBasedMixin, View):
 
         group_dict = self.group_serializer.to_representation(question_group)
 
-        questions = question_group.questions.filter(deleted=False).order_by('pk')
+        questions = question_group.questions.filter(
+            deleted=False).order_by('pk')
         ql = []
         for q in questions:
             q_dict = self.question_serializer.to_representation(q)
@@ -156,7 +157,8 @@ class LCTimeslotQuestionsView(BaseLectureView):
     template_name = 'lecturer/timeslot/questions.html'
 
     def get_context_data(self, **kwargs):
-        context = super(LCTimeslotQuestionsView, self).get_context_data(**kwargs)
+        context = super(LCTimeslotQuestionsView, self
+                        ).get_context_data(**kwargs)
         tsid = context.get('tsid')
         lc_timeslot = models.LiveCourseTimeSlot.objects.filter(pk=tsid).first()
         context['lc_timeslot'] = lc_timeslot
@@ -173,6 +175,8 @@ class LCTimeslotQuestionsView(BaseLectureView):
             lc_timeslot.start).strftime('%H:%M')
         context['end'] = timezone.localtime(
             lc_timeslot.end).strftime('%H:%M')
+        old_groups = lc_timeslot.question_groups.filter(deleted=False)
+        context['old_groups'] = old_groups
         return context
 
 
