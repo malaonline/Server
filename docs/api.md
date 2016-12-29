@@ -1394,7 +1394,7 @@ POST /api/v1/pad/login
 parameters:
 
 ```
-phone=150123456
+phone=15127525377
 ```
 
 result:
