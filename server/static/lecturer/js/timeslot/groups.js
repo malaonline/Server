@@ -4,11 +4,25 @@
 
 $(function(){
     let caches = {};
+
     let all_groups = new Vue({
         delimiters: ["[[", "]]"],
         el: '#all-groups',
         data: {
             groupList: []
+        },
+        methods: {
+            doAdd: function(e){
+                let $group = $(e.target).closest('.group-item');
+                let gid = $group.attr('gid');
+                let isAdded = _.find(selected_groups.groupList, function(g){
+                    return g.id == gid;
+                });
+                if (isAdded) {
+                    return;
+                }
+                render_selected_groups([gid]);
+            }
         }
     });
 
@@ -17,6 +31,19 @@ $(function(){
         el: '#selected-groups',
         data: {
             groupList: []
+        },
+        methods: {
+            doDelete: function(e){
+                let $group = $(e.target).closest('.selected-group');
+                let gid = $group.attr('gid');
+                let idx = _.findIndex(selected_groups.groupList, function(g){
+                    return g.id == gid;
+                });
+                if (idx < 0) {
+                    return;
+                }
+                selected_groups.groupList.splice(idx, 1);
+            }
         }
     });
 
@@ -29,7 +56,7 @@ $(function(){
         }
     });
 
-    function render_selected_groups(group_ids){
+    function render_selected_groups(group_ids, clear){
         for (let gid of group_ids) {
             if (!caches['g' + gid]) {
                 $.ajax({
@@ -43,12 +70,22 @@ $(function(){
                     }
                 });
             }
-            selected_groups.groupList.push(caches['g' + gid])
+            if (caches['g' + gid]) {
+                selected_groups.groupList.push(caches['g' + gid]);
+            }
         }
     }
 
     // init origin selected group
     render_selected_groups(old_group_ids);
 
-
+    $('#save-btn').click(function(e){
+        let selected_ids = _.map(selected_groups.groupList, function(g){
+            return g.id;
+        });
+        let diffIn = _.difference(old_group_ids, selected_ids);
+        let diffOut = _.difference(selected_ids, old_group_ids);
+        console.log(diffIn);
+        console.log(diffOut)
+    });
 });
