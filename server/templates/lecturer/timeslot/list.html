@@ -10,34 +10,40 @@
             <th class="text-center">课程名称</th>
             <th class="text-center">日期</th>
             <th class="text-center">时间</th>
-            <th class="text-center">题目</th>
+            <th class="text-center">题组数量</th>
+            <th class="text-center">题组管理</th>
             <th class="text-center">课程状态</th>
         </tr>
         {% for timeslot in timeslots %}
             <tr align="center">
-                <td>{{ timeslot.idx }}</td>
+                <td>
+                    <span class="badge">{{ timeslot.idx }}</span>
+                </td>
                 <td>{{ timeslot.live_course.name }}</td>
                 <td>{{ timeslot.start | date:"Y-m-d" }}</td>
                 <td>{{ timeslot.start | date:"H:i" }}
                     -- {{ timeslot.end | date:"H:i" }}</td>
+                <td>{{ timeslot.question_groups.count }}</td>
                 <td>
                     <a href="{% url 'lecturer:timeslot-questions' tsid=timeslot.id %}">
-                        {% if timeslot.status < 0 %}
-                            查看题目
-                        {% elif timeslot.status > 0 %}
-                            管理课题
+                        {% if timeslot.status > 0 %}
+                            {% if timeslot.question_groups.count > 0 %}
+                                管理课题
+                            {% else %}
+                                添加课题
+                            {% endif %}
                         {% else %}
-                            查看题目
+                            查看课题
                         {% endif %}
                     </a>
                 </td>
                 <td>
                     {% if timeslot.status < 0 %}
-                        已结束
+                        <span class="badge">已结束</span>
                     {% elif timeslot.status > 0 %}
-                        未开始
+                        <span class="badge" style="background-color: #3a87ad">未开始</span>
                     {% else %}
-                        进行中
+                        <span class="badge" style="background-color: #468847">进行中</span>
                     {% endif %}
                 </td>
             </tr>
