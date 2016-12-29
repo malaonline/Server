@@ -189,7 +189,7 @@ class TimeslotsView(BaseLectureView):
     '''
     双师直播课程 - 课程安排，课程列表页
     '''
-    template_name = 'lecturer/timeslot/index.html'
+    template_name = 'lecturer/timeslot/list.html'
 
 
 class LivingView(BaseLectureView):
