@@ -12,13 +12,11 @@ from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
-
 # local modules
 from app import models
 from app.utils.db import paginate
 from .decorators import mala_lecturer_required, is_lecturer
 from .serializers import QuestionGroupSerializer, QuestionSerializer
-
 
 logger = logging.getLogger('app')
 
@@ -45,7 +43,7 @@ class LoginView(View):
             vard[k] = v
 
         user = auth.authenticate(
-                username=vard['username'], password=vard['password'])
+            username=vard['username'], password=vard['password'])
         if user is None:
             return JsonResponse({'error': 'username or password incorrect'})
         if not is_lecturer(user):
@@ -186,3 +184,16 @@ class ExerciseStore(BaseLectureView):
     '''
     template_name = 'lecturer/exercise/store.html'
 
+
+class TimeslotsView(BaseLectureView):
+    '''
+    双师直播课程 - 课程安排，课程列表页
+    '''
+    template_name = 'lecturer/timeslot/index.html'
+
+
+class LivingView(BaseLectureView):
+    '''
+    双师直播课程 - 开始上课首页
+    '''
+    template_name = 'lecturer/living/index.html'
