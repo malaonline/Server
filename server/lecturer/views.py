@@ -191,6 +191,27 @@ class TimeslotsView(BaseLectureView):
     '''
     template_name = 'lecturer/timeslot/list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(TimeslotsView, self).get_context_data(**kwargs)
+
+        kwargs['query_data'] = self.request.GET.dict()
+        page = self.request.GET.get('page')
+        lecturer = self.request.user.lecturer
+        timeslots = models.LiveCourseTimeSlot.objects.filter(
+            live_course__lecturer=lecturer)
+        timeslots, pager = paginate(timeslots, page)
+        page = pager.number
+        for idx, timeslot in enumerate(timeslots):
+            timeslot.idx = pager.page_size * (page - 1) + idx + 1
+            timeslot.status = -1  # 已结束
+            if timeslot.start > timezone.now():
+                timeslot.status = 1  # 未开始
+            elif timeslot.start <= timezone.now() <= timeslot.end:
+                timeslot.status = 0  # 进行中
+        context['timeslots'] = timeslots
+        kwargs['pager'] = pager
+        return context
+
 
 class LivingView(BaseLectureView):
     '''
