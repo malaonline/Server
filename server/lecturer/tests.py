@@ -61,6 +61,14 @@ class TestLecturerWeb(TestCase):
         response = client.get(reverse('lecturer:logout'))
         self.assertEqual(302, response.status_code)
 
+    def test_timeslots(self):
+        response = self.client.get(reverse('lecturer:timeslots'))
+        self.assertEqual(200, response.status_code)
+
+    def test_living(self):
+        response = self.client.get(reverse('lecturer:living'))
+        self.assertEqual(200, response.status_code)
+
     def test_timeslot_questions(self):
         response = self.client.get(
             reverse('lecturer:timeslot-questions', kwargs={'tsid': 1}))
