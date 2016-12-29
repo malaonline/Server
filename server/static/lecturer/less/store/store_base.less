@@ -1,18 +1,148 @@
 @page_min_width: 1150px;
 @page_height: 800px;
 
-.grid-content{
-  min-height: @page_height;
+// Store
+#store-root {
+  margin-top: -10px;
+}
+.container {
+  padding: 0px;
+}
+.store-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.store-col {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
-.bg-body {
+// Body
+.store-content{
+  min-height: 800px;
   background: #F8F8F8;
 }
 
-.grid-content {
+// Content
+.content-pane {
   min-height: 900px;
+  background: #F0F0F0;
+  display: flex;
+  justify-content: center;
+  align: middle;
+}
+.page-pane {
+  background: #FFF;
+  margin: 80px 0px 80px 0px;
+  padding: 20px 0 20px 0;
+  min-height: 800px;
+  width: 70%;
+  border: 1px solid #DADADA;
+}
+.text {
+  font-size: 14px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  &:hover {
+    background: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+}
+.item-submit {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 0 0;
+}
+.item-input {
+  min-width: 700px;
+  min-height: 40px;
+  padding: 4px 50px 0 50px;
+  margin-bottom: 5px;
 }
 
-.el-col {
+input,
+input.el-input__inner {
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid transparent;
+  }
+  &:focus {
+    border: 1px solid #E0E0E0;
+  }
+}
+#ex-title.input {
+  input.el-input__inner {
+    text-align: center;
+  }
+}
+#ex-desc.input {
+  input.el-input__inner {
+    text-align: center;
+  }
+}
+
+// SideBar
+.sidebar-pane {
+  min-height: 900px;
   background: #F4F4F4;
+}
+
+#tree-content {
+  margin-top: 80px;
+  border-style: none;
+  border-top: 1px solid #DDD;
+  background: #F4F4F4;
+}
+
+// Exercise
+.item-exercise {
+  min-width: 700px;
+  min-height: 200px;
+  padding: 20px 55px 0;
+  margin: 0px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  #removeBtn {
+    display: none;
+  }
+  &:hover {
+    background: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+    #removeBtn {
+      display: inline-block;
+    }
+  }
+}
+.title-item {
+  display: inline-block;
+  width: 95%;
+}
+#removeBtn {
+  margin-left: 5px;
+}
+.radio-item {
+  margin-bottom: 5px;
+}
+.radio-item-radio {
+  display: inline;
+  margin: 0px;
+  margin-right: 5px;
+}
+.radio-group {
+  padding: 10px 0 0 10px;
+}
+
+textarea.el-textarea__inner {
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid transparent;
+  }
+  &:focus {
+    border: 1px solid #E0E0E0;
+  }
+}
+span.el-radio__label {
+  display: none;
 }
