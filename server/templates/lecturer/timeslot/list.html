@@ -3,5 +3,48 @@
 {% block title %}麻辣老师双师直播后台 - 课程列表{% endblock %}
 
 {% block content %}
-    课程列表页面
+    <h1>备课列表</h1>
+    <table class="table table-striped table-hover table-bordered">
+        <tr>
+            <th class="text-center">序号</th>
+            <th class="text-center">课程名称</th>
+            <th class="text-center">日期</th>
+            <th class="text-center">时间</th>
+            <th class="text-center">题目</th>
+            <th class="text-center">课程状态</th>
+        </tr>
+        {% for timeslot in timeslots %}
+            <tr align="center">
+                <td>{{ timeslot.idx }}</td>
+                <td>{{ timeslot.live_course.name }}</td>
+                <td>{{ timeslot.start | date:"Y-m-d" }}</td>
+                <td>{{ timeslot.start | date:"H:i" }}
+                    -- {{ timeslot.end | date:"H:i" }}</td>
+                <td>
+                    <a href="{% url 'lecturer:timeslot-questions' tsid=timeslot.id %}">
+                        {% if timeslot.status < 0 %}
+                            查看题目
+                        {% elif timeslot.status > 0 %}
+                            管理课题
+                        {% else %}
+                            查看题目
+                        {% endif %}
+                    </a>
+                </td>
+                <td>
+                    {% if timeslot.status < 0 %}
+                        已结束
+                    {% elif timeslot.status > 0 %}
+                        未开始
+                    {% else %}
+                        进行中
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% include 'pagination_nav.html' %}
+    <script type="text/javascript">
+        paginationInit();
+    </script>
 {% endblock %}
