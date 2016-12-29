@@ -194,7 +194,7 @@ class TimeslotsView(BaseLectureView):
     def get_context_data(self, **kwargs):
         context = super(TimeslotsView, self).get_context_data(**kwargs)
 
-        kwargs['query_data'] = self.request.GET.dict()
+        context['query_data'] = self.request.GET.dict()
         page = self.request.GET.get('page')
         lecturer = self.request.user.lecturer
         timeslots = models.LiveCourseTimeSlot.objects.filter(
@@ -209,7 +209,7 @@ class TimeslotsView(BaseLectureView):
             elif timeslot.start <= timezone.now() <= timeslot.end:
                 timeslot.status = 0  # 进行中
         context['timeslots'] = timeslots
-        kwargs['pager'] = pager
+        context['pager'] = pager
         return context
 
 
