@@ -7,12 +7,12 @@ $(function () {
   // 题库页面布局容器
   Vue.component('store-container', {
     template: '\
-      <div class="row">\
-       <div class="col-sm-9">\
-         <exercise-group class="grid-content store-background"/>\
+      <div class="row store-row">\
+       <div class="col-sm-9 store-col">\
+         <exercise-group class="store-content"/>\
        </div>\
-       <div class="col-sm-3">\
-         <store-group-list class="grid-content store-background"/>\
+       <div class="col-sm-3 store-col">\
+         <store-group-list class="store-content"/>\
        </div>\
       </div>\
     '
@@ -21,7 +21,7 @@ $(function () {
   // 题组 组件
   Vue.component('exercise-group', {
     template: '\
-      <el-row type="flex" justify="center" align="middle" class="content-pane">\
+      <div class="row store-row content-pane">\
         <el-form ref="form" :model="form" label-width="0px" class="page-pane">\
           <el-form-item label-width="0px"  class="text item-input">\
             <el-input v-model="form.title" class="input" id="ex-title"></el-input>\
@@ -43,7 +43,7 @@ $(function () {
             <el-button type="primary" icon="edit" @click="onSave">保存题组</el-button>\
           </el-form-item>\
         </el-form>\
-      </el-row>\
+      </div>\
     ',
     data: function () {
       return {
@@ -167,11 +167,9 @@ $(function () {
   // 题组列表 组件
   Vue.component('store-group-list', {
     template: '\
-      <el-row type="flex" justify="center" class="sidebar-pane">\
-        <el-col>\
-          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" class="tree-content"></el-tree>\
-        </el-col>\
-      </el-row>\
+      <div class="row store-row sidebar-pane">\
+          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" id="tree-content"></el-tree>\
+      </div>\
     ',
     data: function () {
       return {

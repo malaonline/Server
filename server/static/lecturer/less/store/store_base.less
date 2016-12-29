@@ -1,28 +1,43 @@
 @page_min_width: 1150px;
 @page_height: 800px;
 
-// Body
-.grid-content{
-  min-height: 800px;
+// Store
+#store-root {
+  margin-top: -10px;
+}
+.container {
+  padding: 0px;
+}
+.store-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.store-col {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
-.store-background {
+// Body
+.store-content{
+  min-height: 800px;
   background: #F8F8F8;
 }
-
 
 // Content
 .content-pane {
   min-height: 900px;
   background: #F0F0F0;
+  display: flex;
+  justify-content: center;
+  align: middle;
 }
 .page-pane {
   background: #FFF;
-  margin: 50px 50px 50px 50px;
-  min-height: 800px;
-  min-width: 800px;
-  border: 1px solid #DADADA;
+  margin: 80px 0px 80px 0px;
   padding: 20px 0 20px 0;
+  min-height: 800px;
+  width: 70%;
+  border: 1px solid #DADADA;
 }
 .text {
   font-size: 14px;
@@ -67,6 +82,19 @@ input.el-input__inner {
   }
 }
 
+// SideBar
+.sidebar-pane {
+  min-height: 900px;
+  background: #F4F4F4;
+}
+
+#tree-content {
+  margin-top: 80px;
+  border-style: none;
+  border-top: 1px solid #DDD;
+  background: #F4F4F4;
+}
+
 // Exercise
 .item-exercise {
   min-width: 700px;
@@ -82,9 +110,9 @@ input.el-input__inner {
     background: #FAFAFA;
     border-top: 1px solid #E0E0E0;
     border-bottom: 1px solid #E0E0E0;
-  }
-  #removeBtn {
-    display: inline-block;
+    #removeBtn {
+      display: inline-block;
+    }
   }
 }
 .title-item {
@@ -99,7 +127,6 @@ input.el-input__inner {
 }
 .radio-item-radio {
   display: inline;
-  width: 70px;
   margin: 0px;
   margin-right: 5px;
 }
