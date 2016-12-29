@@ -33,11 +33,11 @@
 }
 .page-pane {
   background: #FFF;
-  margin: 80px 0px 80px 0px;
+  margin: 50px 0px 50px 0px;
   padding: 20px 0 20px 0;
-  min-height: 800px;
-  width: 70%;
+  width: 85%;
   border: 1px solid #DADADA;
+  align: middle;
 }
 .text {
   font-size: 14px;
@@ -55,10 +55,10 @@
   margin: 10px 0 0 0;
 }
 .item-input {
-  min-width: 700px;
   min-height: 40px;
-  padding: 4px 50px 0 50px;
-  margin-bottom: 5px;
+  width: 100%;
+  padding: 0 20px 0 20px;
+  margin: 5px 0 5px 0;
 }
 
 input,
@@ -89,7 +89,7 @@ input.el-input__inner {
 }
 
 #tree-content {
-  margin-top: 80px;
+  margin-top: 50px;
   border-style: none;
   border-top: 1px solid #DDD;
   background: #F4F4F4;
@@ -97,7 +97,7 @@ input.el-input__inner {
 
 // Exercise
 .item-exercise {
-  min-width: 700px;
+  width: 100%;
   min-height: 200px;
   padding: 20px 55px 0;
   margin: 0px;
@@ -115,11 +115,18 @@ input.el-input__inner {
     }
   }
 }
+.el-form-item__content {
+  display: flex;
+  flex-direction: row;
+}
 .title-item {
   display: inline-block;
-  width: 95%;
+  width: 80%;
 }
 #removeBtn {
+  display: inline-block;
+  width: 50px;
+  height: 36px;
   margin-left: 5px;
 }
 .radio-item {
