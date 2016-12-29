@@ -1,18 +1,121 @@
 @page_min_width: 1150px;
 @page_height: 800px;
 
+// Body
 .grid-content{
-  min-height: @page_height;
+  min-height: 800px;
 }
 
-.bg-body {
+.store-background {
   background: #F8F8F8;
 }
 
-.grid-content {
+
+// Content
+.content-pane {
   min-height: 900px;
+  background: #F0F0F0;
+}
+.page-pane {
+  background: #FFF;
+  margin: 50px 50px 50px 50px;
+  min-height: 800px;
+  min-width: 800px;
+  border: 1px solid #DADADA;
+  padding: 20px 0 20px 0;
+}
+.text {
+  font-size: 14px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  &:hover {
+    background: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+}
+.item-submit {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 0 0;
+}
+.item-input {
+  min-width: 700px;
+  min-height: 40px;
+  padding: 4px 50px 0 50px;
+  margin-bottom: 5px;
 }
 
-.el-col {
-  background: #F4F4F4;
+input,
+input.el-input__inner {
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid transparent;
+  }
+  &:focus {
+    border: 1px solid #E0E0E0;
+  }
+}
+#ex-title.input {
+  input.el-input__inner {
+    text-align: center;
+  }
+}
+#ex-desc.input {
+  input.el-input__inner {
+    text-align: center;
+  }
+}
+
+// Exercise
+.item-exercise {
+  min-width: 700px;
+  min-height: 200px;
+  padding: 20px 55px 0;
+  margin: 0px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  #removeBtn {
+    display: none;
+  }
+  &:hover {
+    background: #FAFAFA;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  #removeBtn {
+    display: inline-block;
+  }
+}
+.title-item {
+  display: inline-block;
+  width: 95%;
+}
+#removeBtn {
+  margin-left: 5px;
+}
+.radio-item {
+  margin-bottom: 5px;
+}
+.radio-item-radio {
+  display: inline;
+  width: 70px;
+  margin: 0px;
+  margin-right: 5px;
+}
+.radio-group {
+  padding: 10px 0 0 10px;
+}
+
+textarea.el-textarea__inner {
+  border: 1px solid transparent;
+  &:hover {
+    border: 1px solid transparent;
+  }
+  &:focus {
+    border: 1px solid #E0E0E0;
+  }
+}
+span.el-radio__label {
+  display: none;
 }
