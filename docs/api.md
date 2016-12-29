@@ -1384,3 +1384,53 @@ GET /api/v1/liveclasses/{id}
     "school_address": "南京路21号"
 }
 ```
+
+### Pad Login
+
+```
+POST /api/v1/pad/login
+```
+
+parameters:
+
+```
+phone=150123456
+```
+
+result:
+
+```
+{
+    "code": 0,
+    "msg": "登录成功",
+    "data": {
+        "token": "mQlgxIUC1512752537746883b9bdc314bf9a400",
+        "phone": "15127525377",
+        "name": "小张",
+        "school_id": 2,
+        "school": "洛阳社区一店",
+        "live_course": {
+            "id": 1,
+            "course_no": "1001",
+            "name": "小学新概念英语A班",
+            "lecturer": "测试主讲老师1",
+            "grade": "小学四-六年级",
+            "subject": "英语"
+        }
+    },
+}
+```
+
+```
+{
+    "code": -1,
+    "msg": "当前账号未注册，请查证"
+}
+```
+
+```
+{
+    "code": -2,
+    "msg": "您好，暂无有效课程"
+}
+```
