@@ -4,6 +4,10 @@
 {% load compile_static %}
 
 {% block title %}麻辣老师双师直播后台 - 课时题组管理页面{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'lecturer/less/timeslot/questions.less'|compile %}">
+{% endblock %}
 {% block addition_js %}
     <script src='https://unpkg.com/vue@2.1.8/dist/vue.min.js'></script>
     <script>
@@ -29,22 +33,26 @@
                          v-bind:id="'selected-g-'+g.id">
                         <h4>[[ g.title ]]</h4>
                         <p>[[ g.desc ]]</p>
-                        <div class="question-list">
-                            <div v-for="q in g.questions" class="question-item"
-                                 v-bind:id="'q-'+q.id">
+                        <ol class="question-list">
+                            <li v-for="q in g.questions" class="question-item"
+                                v-bind:id="'q-'+q.id">
                                 <h5>[[q.title]]</h5>
                                 <ol class="option-list">
-                                    <li v-for="o in q.options"
-                                        class="option-item"
-                                        v-bind:id="'option-'+o.id">
-                                        <span v-if="q.solution == o.id"
-                                              class="icon glyphicon glyphicon-ok">
-                                        </span>
-                                        [[o.text]]
-                                    </li>
+                                    <template v-for="o in q.options">
+                                        <li v-if="q.solution == o.id"
+                                            class="option-item solution"
+                                            v-bind:id="'option-'+o.id">
+                                            [[o.text]]
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </li>
+                                        <li v-else class="option-item"
+                                            v-bind:id="'option-'+o.id">
+                                            [[o.text]]
+                                        </li>
+                                    </template>
                                 </ol>
-                            </div>
-                        </div>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>
