@@ -184,5 +184,5 @@ class ExerciseStore(BaseLectureView):
     '''
     双师直播课程 - 题库题组管理页面
     '''
-    template_name = 'lecturer/questions/index.html'
+    template_name = 'lecturer/exercise/store.html'
 
