@@ -1404,7 +1404,7 @@ result:
     "code": 0,
     "msg": "登录成功",
     "data": {
-        "token": "mQlgxIUC1512752537746883b9bdc314bf9a400",
+        "token": "XeF3pIw15127525377f9d14b2cb5a1433e84437a4bb7d65254",
         "phone": "15127525377",
         "name": "小张",
         "school_id": 2,

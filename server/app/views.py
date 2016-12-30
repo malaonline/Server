@@ -1675,7 +1675,9 @@ class PadLogin(View):
         else:
             phone = request.POST.get('phone')
         parents = models.Parent.objects.filter(user__profile__phone=phone)
-        if parents.count() > 0:
+        if parents.count() == 0:
+            return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
+        else:
             parent = parents.first()
             now = timezone.now()
             timeslots = models.TimeSlot.objects.filter(
@@ -1694,6 +1696,7 @@ class PadLogin(View):
                 school = live_class.class_room.school
                 live_course = live_class.live_course
                 parent.pad_token = random_pad_token(parent.user.profile.phone)
+                parent.save()
                 return JsonResponse({
                     'code': 0,
                     'msg': '登录成功',
@@ -1713,5 +1716,3 @@ class PadLogin(View):
                         'school_id': school.id,
                     },
                 })
-
-        return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})

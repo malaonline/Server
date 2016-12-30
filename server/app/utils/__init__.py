@@ -15,7 +15,7 @@ def random_string():
     return str(uuid.uuid4())
 
 def random_pad_token(phone):
-    return random_chars(8) + phone + str(uuid.uuid4())[:23].replace('-', '')
+    return random_chars(7) + phone + str(uuid.uuid4()).replace('-', '')
 
 def get_request_ip(request):
     if 'HTTP_X_FORWARDED_FOR' in request.META:
