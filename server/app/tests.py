@@ -842,7 +842,25 @@ class TestApi(TestCase):
         teacher = Teacher.objects.first()
         response = client.get(request_url + '?teacher='+str(teacher.id), content_type='application/json')
         self.assertEqual(200, response.status_code)
-        pass
+
+    def test_teacher_school_prices(self):
+        client = Client()
+        teacher = Teacher.objects.first()
+        school = teacher.schools.first() or School.objects.first()
+        url = reverse('teacher_school_prices', kwargs={
+            'teacher_id': teacher.id, 'school_id': school.id})
+        response = client.get(url)
+        self.assertEqual(200, response.status_code)
+
+    def test_pad_login(self):
+        client = Client()
+        parent = Parent.objects.first()
+        phone = parent.user.profile.phone
+        url = reverse('pad_login')
+        response = client.get(url + '?phone=%s' % phone)
+        self.assertEqual(403, response.status_code)
+        response = client.post(url, data={'phone': phone})
+        self.assertEqual(200, response.status_code)
 
 
 class TestModels(TestCase):

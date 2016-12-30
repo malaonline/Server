@@ -9,7 +9,6 @@
           href="{% static 'lecturer/less/timeslot/questions.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script src='https://unpkg.com/vue@2.1.8/dist/vue.min.js'></script>
     <script>
         var old_group_ids = [];
         {% for g in old_groups %}old_group_ids.push({{ g.id }});{% endfor %}
