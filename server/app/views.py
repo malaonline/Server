@@ -1677,42 +1677,42 @@ class PadLogin(View):
         parents = models.Parent.objects.filter(user__profile__phone=phone)
         if parents.count() == 0:
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
+
+        parent = parents.first()
+        now = timezone.now()
+        timeslots = models.TimeSlot.objects.filter(
+            deleted=False,
+            order__parent=parent,
+            order__status=models.Order.PAID,
+            order__live_class__isnull=False,
+            start__lte=now,
+            end__gte=now,
+        )
+        if timeslots.count() == 0:
+            return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
         else:
-            parent = parents.first()
-            now = timezone.now()
-            timeslots = models.TimeSlot.objects.filter(
-                deleted=False,
-                order__parent=parent,
-                order__status=models.Order.PAID,
-                order__live_class__isnull=False,
-                start__lte=now,
-                end__gte=now,
-            )
-            if timeslots.count() == 0:
-                return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
-            else:
-                current_lesson = timeslots.first()
-                live_class = current_lesson.order.live_class
-                school = live_class.class_room.school
-                live_course = live_class.live_course
-                parent.pad_token = random_pad_token(parent.user.profile.phone)
-                parent.save()
-                return JsonResponse({
-                    'code': 0,
-                    'msg': '登录成功',
-                    'data': {
-                        'token': parent.pad_token,
-                        'live_course': {
-                            'id': live_course.id,
-                            'course_no': live_course.course_no,
-                            'name': live_course.name,
-                            'grade': live_course.grade_desc,
-                            'subject': live_course.subject.name,
-                            'lecturer': live_course.lecturer.name,
-                        },
-                        'phone': parent.user.profile.phone,
-                        'name': parent.student_name,
-                        'school': school.name,
-                        'school_id': school.id,
+            current_lesson = timeslots.first()
+            live_class = current_lesson.order.live_class
+            school = live_class.class_room.school
+            live_course = live_class.live_course
+            parent.pad_token = random_pad_token(parent.user.profile.phone)
+            parent.save()
+            return JsonResponse({
+                'code': 0,
+                'msg': '登录成功',
+                'data': {
+                    'token': parent.pad_token,
+                    'live_course': {
+                        'id': live_course.id,
+                        'course_no': live_course.course_no,
+                        'name': live_course.name,
+                        'grade': live_course.grade_desc,
+                        'subject': live_course.subject.name,
+                        'lecturer': live_course.lecturer.name,
                     },
-                })
+                    'phone': parent.user.profile.phone,
+                    'name': parent.student_name,
+                    'school': school.name,
+                    'school_id': school.id,
+                },
+            })
