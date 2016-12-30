@@ -87,5 +87,8 @@ $(function(){
         let diffOut = _.difference(selected_ids, old_group_ids);
         console.log(diffIn);
         console.log(diffOut)
+        if (diffIn.length || diffOut.length) {
+            old_group_ids = selected_ids;
+        }
     });
 });
