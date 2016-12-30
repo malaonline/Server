@@ -22,6 +22,11 @@ $(function(){
                     return;
                 }
                 render_selected_groups([gid]);
+            },
+            not_selected: function(gid){
+                return !_.find(selected_groups.groupList, function(g){
+                    return g.id == gid;
+                });
             }
         }
     });

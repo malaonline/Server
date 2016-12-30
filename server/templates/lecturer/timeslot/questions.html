@@ -86,6 +86,7 @@
                         [[group.title]]
                         <div class="pull-right">
                             <button class="btn btn-success btn-sm action-add"
+                                    v-if="not_selected(group.id)"
                                     v-on:click="doAdd">
                                 添加
                             </button>
