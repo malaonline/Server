@@ -117,8 +117,8 @@ $(function () {
   Vue.component('store-exercise', {
     template: '\
       <div>\
-        <el-form ref="form" label-width="55px" class="item-exercise">\
-          <el-form-item v-bind:label="serialNum+\'.\'" prop="title">\
+        <el-form ref="form" label-width="15px" class="item-exercise">\
+          <el-form-item v-bind:label="serialNum+\'.\'" prop="title" class="item-exercise-title">\
              <el-input v-model="exercise.title" class="title-item"></el-input>\
              <el-button type="danger" icon="close" @click="onRemove" size="mini" id="removeBtn"></el-button>\
           </el-form-item>\
