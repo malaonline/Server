@@ -5,96 +5,97 @@
 
 {% block title %}麻辣老师双师直播后台 - 课时题组管理页面{% endblock %}
 {% block extrastyle %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static 'lecturer/less/timeslot/questions.less'|compile %}">
+  <link rel="stylesheet" type="text/css"
+        href="{% static 'lecturer/less/timeslot/questions.less'|compile %}">
 {% endblock %}
 {% block addition_js %}
-    <script>
-        var old_group_ids = [];
-        {% for g in old_groups %}old_group_ids.push({{ g.id }});{% endfor %}
-    </script>
-    <script src="{% static 'lecturer/js/timeslot/groups.js' %}"></script>
+  <script>
+    var old_group_ids = [];
+    {% for g in old_groups %}old_group_ids.push({{ g.id }});{% endfor %}
+  </script>
+  <script src="{% static 'lecturer/js/timeslot/groups.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
-    {% if lc_timeslot %}
-        <div>
-            {{ course_name }}({{ lecturer_name }})
-            @{{ date }} {{ start }}-{{ end }}
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-sm-9">
-                <span class="text-warning">所选题组题目列表</span>
-                <div id="selected-groups">
-                    <div v-for="g in groupList" class="selected-group"
-                         v-bind:id="'selected-g-'+g.id"
-                         v-bind:gid="g.id">
-                        {#题组header#}
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <h4>
-                                    <span class="glyphicon glyphicon-tasks"></span>
-                                    [[ g.title ]]
-                                </h4>
-                                <p>[[ g.desc ]]</p>
-                            </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-danger action-delete"
-                                        v-on:click="doDelete">
-                                    删除
-                                </button>
-                            </div>
-                        </div>
-                        {#问题列表#}
-                        <ol class="question-list">
-                            <li v-for="q in g.questions" class="question-item"
-                                v-bind:id="'q-'+q.id">
-                                <h5>[[q.title]]</h5>
-                                {#选项列表#}
-                                <ol class="option-list">
-                                    <template v-for="o in q.options">
-                                        <li v-if="q.solution == o.id"
-                                            class="option-item solution"
-                                            v-bind:id="'option-'+o.id">
-                                            [[o.text]]
-                                            <span class="glyphicon glyphicon-ok"></span>
-                                        </li>
-                                        <li v-else class="option-item"
-                                            v-bind:id="'option-'+o.id">
-                                            [[o.text]]
-                                        </li>
-                                    </template>
-                                </ol>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="action-btns">
-                    <button id="save-btn" class="btn btn-primary">提交</button>
-                </div>
+  {% if lc_timeslot %}
+    <div>
+      {{ course_name }}({{ lecturer_name }})
+      @{{ date }} {{ start }}-{{ end }}
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-sm-9">
+        <span class="text-warning">所选题组题目列表</span>
+        <div id="selected-groups">
+          <div v-for="g in groupList" class="selected-group"
+               v-bind:id="'selected-g-'+g.id"
+               v-bind:gid="g.id">
+            {#题组header#}
+            <div class="row">
+              <div class="col-sm-8">
+                <h4>
+                  <span class="glyphicon glyphicon-tasks"></span>
+                  [[ g.title ]]
+                </h4>
+                <p>[[ g.desc ]]</p>
+              </div>
+              <div class="col-sm-4">
+                <button class="btn btn-danger action-delete"
+                        v-on:click="doDelete">
+                  删除
+                </button>
+              </div>
             </div>
-            <div class="col-sm-3">
-                <span class="text-warning">所有题组列表</span>
-                <div id="all-groups">
-                    <div v-for="group in groupList"
-                         v-bind:id="'group-'+group.id"
-                         v-bind:gid="group.id"
-                         v-bind:title="group.desc"
-                         class="group-item clearfix">
-                        [[group.title]]
-                        <div class="pull-right">
-                            <button class="btn btn-success btn-sm action-add"
-                                    v-on:click="doAdd">
-                                添加
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {#问题列表#}
+            <ol class="question-list">
+              <li v-for="q in g.questions" class="question-item"
+                  v-bind:id="'q-'+q.id">
+                <h5>[[q.title]]</h5>
+                {#选项列表#}
+                <ol class="option-list">
+                  <template v-for="o in q.options">
+                    <li v-if="q.solution == o.id"
+                        class="option-item solution"
+                        v-bind:id="'option-'+o.id">
+                      [[o.text]]
+                      <span class="glyphicon glyphicon-ok"></span>
+                    </li>
+                    <li v-else class="option-item"
+                        v-bind:id="'option-'+o.id">
+                      [[o.text]]
+                    </li>
+                  </template>
+                </ol>
+              </li>
+            </ol>
+          </div>
         </div>
-    {% else %}
-        {{ error_msg }}
-    {% endif %}
+        <div class="action-btns">
+          <button id="save-btn" class="btn btn-primary">提交</button>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <span class="text-warning">所有题组列表</span>
+        <div id="all-groups">
+          <div v-for="group in groupList"
+               v-bind:id="'group-'+group.id"
+               v-bind:gid="group.id"
+               v-bind:title="group.desc"
+               class="group-item clearfix">
+            [[group.title]]
+            <div class="pull-right">
+              <button class="btn btn-success btn-sm action-add"
+                      v-if="not_selected(group.id)"
+                      v-on:click="doAdd">
+                添加
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {{ error_msg }}
+  {% endif %}
 {% endblock %}
