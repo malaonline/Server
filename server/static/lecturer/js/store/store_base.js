@@ -4,7 +4,7 @@
 
 $(function () {
 
-  // 题库页面布局容器
+  // container component
   Vue.component('store-container', {
     template: '\
       <div class="row store-row">\
@@ -18,7 +18,7 @@ $(function () {
     '
   });
 
-  // 题组 组件
+  // group component
   Vue.component('exercise-group', {
     template: '\
       <div class="row store-row content-pane">\
@@ -64,7 +64,7 @@ $(function () {
     }
   });
 
-  // 习题模型
+  // model
   function exerciseModel () {
     return {
       title: '',
@@ -74,7 +74,7 @@ $(function () {
     }
   }
 
-  // 测试数据
+  // test data
   let t_group = {
     title: '动词不定式',
     desc: '题组描述根据上句意思完成下句，使两句意思相近或相同，每空一词。',
@@ -113,7 +113,7 @@ $(function () {
   }
 
 
-  // 习题 组件
+  // exercise component
   Vue.component('store-exercise', {
     template: '\
       <div>\
@@ -164,7 +164,19 @@ $(function () {
 
 
 
-  // 题组列表 组件
+  // group_list component
+  let t_group_list = []
+
+  var load_group_list = function () {
+    $.getJSON('/lecturer/api/exercise/store?action=group_list', function (json) {
+      if (json && json.ok) {
+        for (let g of json.data) {
+          t_group_list.push(g);
+        }
+      }
+    });
+  };
+
   Vue.component('store-group-list', {
     template: '\
       <div class="row store-row sidebar-pane">\
@@ -181,27 +193,15 @@ $(function () {
       }
     },
     methods: {
-      handleNodeClick (data) {
-        console.log(data)
+      handleNodeClick () {
+        load_group_list()
       }
     }
   });
 
-  let t_group_list = [
-    {
-      id: 0,
-      title: '动词'
-    }, {
-      id: 1,
-      title: '助动词'
-    }, {
-      id: 2,
-      title: 'be动词'
-    }
-  ]
+  load_group_list()
 
-
-
+  // render DOM
   let root = new Vue({
     el: '#store-root'
   });

@@ -6,17 +6,16 @@
 {% block title %}麻辣老师双师直播后台 - 题组管理页面{% endblock %}
 
 {% block extrastyle %}
-    <link rel="stylesheet" type="text/css" href="{% static 'lecturer/less/store/store_base.less'|compile %}?{% lorem 1 w random%}">
-    <link rel="stylesheet" type="text/css" href="{% static 'common/css/element-ui/index.css' %}?{% lorem 1 w random%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'lecturer/less/store/store_base.less'|compile %}?{% lorem 1 w random %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'common/css/element-ui/index.css' %}?{% lorem 1 w random %}">
 {% endblock %}
 {% block addition_js %}
-    <script src="{% static 'common/js/vue/vue.min.js' %}?{% lorem 1 w random%}"></script>
-    <script src="{% static 'common/js/vue/element-ui/index.js' %}?{% lorem 1 w random%}"></script>
-    <script src="{% static 'lecturer/js/store/store_base.js' %}?{% lorem 1 w random%}"></script>
+    <script src="{% static 'common/js/element-ui/index.js' %}?{% lorem 1 w random %}"></script>
+    <script src="{% static 'lecturer/js/store/store_base.js' %}?{% lorem 1 w random %}"></script>
 {% endblock %}
 
 {% block content %}
-<div id="store-root">
-    <store-container></store-container>
-</div>
+    <div id="store-root">
+        <store-container></store-container>
+    </div>
 {% endblock %}
