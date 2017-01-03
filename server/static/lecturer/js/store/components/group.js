@@ -65,6 +65,7 @@ define(['Exercise'], function () {
           form.id = json.data.id;
           form.title = json.data.title;
           form.desc = json.data.desc;
+          let exercises = [];
           for (question of json.data.questions) {
             let exercise = {};
             exercise.id = question.id;
@@ -76,10 +77,9 @@ define(['Exercise'], function () {
                 exercise.solution = option.text;
               }
             }
-            let exercises = [];
             exercises.push(exercise);
-            form.exercises = exercises;
           }
+          form.exercises = exercises;
           return form
         },
         defaultExercise () {
