@@ -19,12 +19,12 @@ define(function () {
             <el-radio-group v-model="exercise.solution" class="radio-group">\
               <div v-for="(option, index) in exercise.options" class="radio-item">\
                 <el-radio v-bind:label="option.text" class="radio-item-radio"></el-radio>\
-                <input class="el-radio__label" v-model="exercise.options[index]"/>\
+                <input class="el-radio__label" v-model="exercise.options[index].text"/>\
               </div>\
             </el-radio-group>\
           </el-form-item>\
           <el-form-item v-bind:label="analyzeStr">\
-            <el-input type="textarea" v-model="exercise.analyse"></el-input>\
+            <el-input type="textarea" autosize=true v-model="exercise.analyse"></el-input>\
           </el-form-item>\
         </el-form>\
       </div>\
@@ -44,7 +44,7 @@ define(function () {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            let item = this.list.splice(this.index, 1)
+            let item = this.list.splice(this.index, 1);
             if (item != null) {
               this.$message({type: 'success', message: '删除成功!'})
             } else {
