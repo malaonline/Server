@@ -11,11 +11,11 @@
 {% endblock %}
 {% block addition_js %}
     <script src="{% static 'common/js/element-ui/index.js' %}?{% lorem 1 w random %}"></script>
-    <script src="{% static 'lecturer/js/store/store_base.js' %}?{% lorem 1 w random %}"></script>
+    <script src="{% static 'common/js/require.js' %}" data-main="{% static 'lecturer/js/store/store_main.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div id="store-root">
-        <store-container></store-container>
+        <store-container/>
     </div>
 {% endblock %}
