@@ -19,7 +19,7 @@ define(function () {
             <el-radio-group v-model="exercise.solution" class="radio-group">\
               <div v-for="(option, index) in exercise.options" class="radio-item">\
                 <el-radio v-bind:label="option.text" class="radio-item-radio"></el-radio>\
-                <input class="el-radio__label" v-model="exercise.options[index]"/>\
+                <input class="el-radio__label" v-model="exercise.options[index].text"/>\
               </div>\
             </el-radio-group>\
           </el-form-item>\
