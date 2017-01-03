@@ -6,18 +6,6 @@
 define(function () {
   $(function () {
 
-    let g_group_list = [];
-
-    var load_group_list = function () {
-      $.getJSON('/lecturer/api/exercise/store?action=group_list', function (json) {
-        if (json && json.ok) {
-          for (let g of json.data) {
-            g_group_list.push(g);
-          }
-        }
-      });
-    };
-
     Vue.component('store-group-list', {
       template: '\
       <div class="row store-row sidebar-pane">\
@@ -26,21 +14,38 @@ define(function () {
     ',
       data: function () {
         return {
-          data: g_group_list,
+          data: [],
           defaultProps: {
             children: 'list',
             label: 'title'
           }
         }
       },
+      mounted () {
+        console.info('list init');
+        this.load_list();
+        this.handleNodeClick(this.data[0]);
+      },
       methods: {
-        handleNodeClick () {
-          load_group_list()
+        load_list () {
+          let group_list = this;
+          $.getJSON('/lecturer/api/exercise/store?action=group_list', function (json) {
+            if (json && json.ok) {
+              for (let g of json.data) {
+                group_list.data.push(g);
+              }
+            }
+          });
+        },
+        refresh_list () {
+          this.data = [];
+          this.load_list();
+        },
+        handleNodeClick (data) {
+          this.$emit('selected', data);
         }
       }
     });
-
-    load_group_list();
 
   });
 });

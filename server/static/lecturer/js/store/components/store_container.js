@@ -13,11 +13,25 @@ define(['GroupList', 'ExerciseGroup'], function () {
          <exercise-group class="store-content"/>\
        </div>\
        <div class="col-sm-3 store-col">\
-         <store-group-list class="store-content"/>\
+         <store-group-list class="store-content"\
+           v-on:selected="handleGroupSelect"\
+         />\
        </div>\
       </div>\
-    '
+    ',
+      mounted: function () {
+
+      },
+      methods: {
+        handleGroupSelect (data) {
+          console.debug('Container Selected', data);
+        },
+        refreshGroupList () {
+          this.$children[1].refresh_list();
+        }
+      }
     });
+
 
     // render DOM
     let root = new Vue({
