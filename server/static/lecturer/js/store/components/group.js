@@ -6,52 +6,6 @@
 define(['Exercise'], function () {
   $(function () {
 
-    let t_group = {
-      title: '动词不定式',
-      desc: '题组描述根据上句意思完成下句，使两句意思相近或相同，每空一词。',
-      exercises: [
-        {
-          title: 'What`s the weather ______ today?',
-          options: ['like', 'is', 'it is', 'there'],
-          solution: 'like',
-          analyze: '这是这道题的题目解析文字。'
-        },
-        {
-          title: 'How`s the weather ______ today?',
-          options: ['like', 'is', 'it is', '空'],
-          solution: '空',
-          analyze: '这是这道题的题目解析文字。'
-        },
-        {
-          title: 'Would you please ____ it in English?',
-          options: ['say', 'speak', 'tell', 'talk'],
-          solution: 'say',
-          analyze: '这是这道题的题目解析文字。'
-        },
-        {
-          title: 'What`s the weather ______ today?',
-          options: ['like', 'is', 'it is', 'there'],
-          solution: 'like',
-          analyze: '这是这道题的题目解析文字。'
-        },
-        {
-          title: 'What`s the weather ______ today?',
-          options: ['like', 'is', 'it is', 'there'],
-          solution: 'like',
-          analyze: '这是这道题的题目解析文字。'
-        }
-      ]
-    };
-
-    var emptyModel = function () {
-      return {
-        title: '',
-        options: ['', '', '', ''],
-        solution: null,
-        desc: ''
-      }
-    }
-
     Vue.component('exercise-group', {
       template: '\
       <div class="row store-row content-pane">\
@@ -71,7 +25,7 @@ define(['Exercise'], function () {
               :key="index+\'ex\'">\
             </store-exercise>\
           </transition-group>\
-          <el-form-item class="item-submit">\
+          <el-form-item class="item-submit" v-show="form.exercise != undefined">\
             <el-button type="success" icon="plus" @click="onInsert">新增习题</el-button>\
             <el-button type="primary" icon="edit" @click="onSave">保存题组</el-button>\
           </el-form-item>\
@@ -80,19 +34,56 @@ define(['Exercise'], function () {
     ',
       data: function () {
         return {
-          form: t_group
+          form: {}
         }
       },
       methods: {
+        loadGroup (data) {
+          let group = this.$.ajax({
+            async: false,
+            dataType: "json",
+            url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
+            success: function (json) {
+              if (json && json.ok) {
+                group.form = this.handleData(json);
+              }
+            }
+          });
+        },
         onInsert () {
-          var model = emptyModel()
+          let model = this.defaultExercise();
           this.form.exercises.push(model)
         },
         onSave () {
           console.log(this.form.exercises)
         },
-        onCancel () {
-          console.log('Cancel!')
+        handleData (json) {
+          let form = {};
+          form.id = json.data.id;
+          form.title = json.data.title;
+          form.desc = json.data.desc;
+          for (question of json.data.questions) {
+            exercise.id = question.id;
+            exercise.title = question.title;
+            exercise.analyse = question.analyse;
+            exercise.options = question.options;
+            for (option of question.options) {
+              if (question.solution === option.id) {
+                exercise.solution = option.text;
+              }
+            }
+            form.exercises.push()
+          }
+          return form
+        },
+        defaultExercise () {
+          return {
+            id: null,
+            title: '',
+            solution: null,
+            analyse: '',
+            options: ['', '', '', '']
+          }
         }
       }
     });
