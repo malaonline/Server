@@ -24,7 +24,8 @@ define(['GroupList', 'ExerciseGroup'], function () {
       },
       methods: {
         handleGroupSelect (data) {
-          console.debug('Container Selected', data);
+          console.debug('Selected Group '+ data.id);
+          this.$children[0].loadGroup(data);
         },
         refreshGroupList () {
           this.$children[1].refresh_list();

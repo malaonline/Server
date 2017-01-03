@@ -18,13 +18,13 @@ define(function () {
           <el-form-item v-bind:label="optionStr">\
             <el-radio-group v-model="exercise.solution" class="radio-group">\
               <div v-for="(option, index) in exercise.options" class="radio-item">\
-                <el-radio v-bind:label="option" class="radio-item-radio"></el-radio>\
+                <el-radio v-bind:label="option.text" class="radio-item-radio"></el-radio>\
                 <input class="el-radio__label" v-model="exercise.options[index]"/>\
               </div>\
             </el-radio-group>\
           </el-form-item>\
           <el-form-item v-bind:label="analyzeStr">\
-            <el-input type="textarea" v-model="exercise.analyze"></el-input>\
+            <el-input type="textarea" v-model="exercise.analyse"></el-input>\
           </el-form-item>\
         </el-form>\
       </div>\

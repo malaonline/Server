@@ -25,7 +25,7 @@ define(['Exercise'], function () {
               :key="index+\'ex\'">\
             </store-exercise>\
           </transition-group>\
-          <el-form-item class="item-submit" v-show="form.exercise != undefined">\
+          <el-form-item class="item-submit" v-show="shouldShow">\
             <el-button type="success" icon="plus" @click="onInsert">新增习题</el-button>\
             <el-button type="primary" icon="edit" @click="onSave">保存题组</el-button>\
           </el-form-item>\
@@ -34,25 +34,28 @@ define(['Exercise'], function () {
     ',
       data: function () {
         return {
-          form: {}
+          form: {},
+          shouldShow: false
         }
       },
       methods: {
         loadGroup (data) {
-          let group = this.$.ajax({
+          let group = this;
+          $.ajax({
             async: false,
             dataType: "json",
             url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
             success: function (json) {
               if (json && json.ok) {
-                group.form = this.handleData(json);
+                group.form = group.handleData(json);
+                group.shouldShow = true;
               }
             }
           });
         },
         onInsert () {
           let model = this.defaultExercise();
-          this.form.exercises.push(model)
+          this.form.exercises.push(model);
         },
         onSave () {
           console.log(this.form.exercises)
@@ -63,6 +66,7 @@ define(['Exercise'], function () {
           form.title = json.data.title;
           form.desc = json.data.desc;
           for (question of json.data.questions) {
+            let exercise = {};
             exercise.id = question.id;
             exercise.title = question.title;
             exercise.analyse = question.analyse;
@@ -72,7 +76,9 @@ define(['Exercise'], function () {
                 exercise.solution = option.text;
               }
             }
-            form.exercises.push()
+            let exercises = [];
+            exercises.push(exercise);
+            form.exercises = exercises;
           }
           return form
         },

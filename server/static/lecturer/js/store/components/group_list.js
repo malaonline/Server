@@ -22,17 +22,20 @@ define(function () {
         }
       },
       mounted () {
-        console.info('list init');
         this.load_list();
-        this.handleNodeClick(this.data[0]);
       },
       methods: {
         load_list () {
           let group_list = this;
-          $.getJSON('/lecturer/api/exercise/store?action=group_list', function (json) {
-            if (json && json.ok) {
-              for (let g of json.data) {
-                group_list.data.push(g);
+          $.ajax({
+            async: false,
+            dataType: "json",
+            url: '/lecturer/api/exercise/store?action=group_list',
+            success: function (json) {
+              if (json && json.ok) {
+                for (let g of json.data) {
+                  group_list.data.push(g);
+                }
               }
             }
           });
