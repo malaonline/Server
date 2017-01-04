@@ -4,10 +4,9 @@
  */
 
 define(['Exercise'], function () {
-  $(function () {
 
-    Vue.component('exercise-group', {
-      template: '\
+  Vue.component('exercise-group', {
+    template: '\
       <div class="row store-row content-pane">\
         <el-form ref="form" :model="form" label-width="0px" class="page-pane">\
           <el-form-item label-width="0px"  class="text item-input"  v-show="shouldShow">\
@@ -32,68 +31,67 @@ define(['Exercise'], function () {
         </el-form>\
       </div>\
     ',
-      data: function () {
-        return {
-          form: {},
-          shouldShow: false
-        }
+    data: function () {
+      return {
+        form: {},
+        shouldShow: false
+      }
+    },
+    methods: {
+      loadGroup (data) {
+        let group = this;
+        $.ajax({
+          async: false,
+          dataType: "json",
+          url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
+          success: function (json) {
+            if (json && json.ok) {
+              group.form = group.handleData(json);
+              group.shouldShow = true;
+            }
+          }
+        });
       },
-      methods: {
-        loadGroup (data) {
-          let group = this;
-          $.ajax({
-            async: false,
-            dataType: "json",
-            url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
-            success: function (json) {
-              if (json && json.ok) {
-                group.form = group.handleData(json);
-                group.shouldShow = true;
-              }
+      onInsert () {
+        let model = this.defaultExercise();
+        this.form.exercises.push(model);
+      },
+      onSave () {
+        console.log(this.form.exercises)
+      },
+      handleData (json) {
+        let form = {};
+        form.id = json.data.id;
+        form.title = json.data.title;
+        form.desc = json.data.desc;
+        let exercises = [];
+        for (question of json.data.questions) {
+          let exercise = {};
+          exercise.id = question.id;
+          exercise.title = question.title;
+          exercise.analyse = question.analyse;
+          exercise.options = question.options;
+          exercise.solution = '';
+          for (option of question.options) {
+            if (question.solution === option.id) {
+              exercise.solution = option.text;
             }
-          });
-        },
-        onInsert () {
-          let model = this.defaultExercise();
-          this.form.exercises.push(model);
-        },
-        onSave () {
-          console.log(this.form.exercises)
-        },
-        handleData (json) {
-          let form = {};
-          form.id = json.data.id;
-          form.title = json.data.title;
-          form.desc = json.data.desc;
-          let exercises = [];
-          for (question of json.data.questions) {
-            let exercise = {};
-            exercise.id = question.id;
-            exercise.title = question.title;
-            exercise.analyse = question.analyse;
-            exercise.options = question.options;
-            exercise.solution = '';
-            for (option of question.options) {
-              if (question.solution === option.id) {
-                exercise.solution = option.text;
-              }
-            }
-            exercises.push(exercise);
           }
-          form.exercises = exercises;
-          return form
-        },
-        defaultExercise () {
-          return {
-            id: '',
-            title: '',
-            solution: '',
-            analyse: '',
-            options: ['', '', '', '']
-          }
+          exercises.push(exercise);
+        }
+        form.exercises = exercises;
+        return form
+      },
+      defaultExercise () {
+        return {
+          id: '',
+          title: '',
+          solution: '',
+          analyse: '',
+          options: ['', '', '', '']
         }
       }
-    });
-
+    }
   });
+
 });

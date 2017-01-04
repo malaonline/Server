@@ -4,10 +4,9 @@
  */
 
 define(['GroupList', 'ExerciseGroup'], function () {
-  $(function () {
 
-    Vue.component('store-container', {
-      template: '\
+  Vue.component('store-container', {
+    template: '\
       <div class="row store-row">\
        <div class="col-sm-9 store-col">\
          <exercise-group class="store-content"/>\
@@ -19,25 +18,23 @@ define(['GroupList', 'ExerciseGroup'], function () {
        </div>\
       </div>\
     ',
-      mounted: function () {
+    mounted: function () {
 
+    },
+    methods: {
+      handleGroupSelect (data) {
+        console.debug('Selected Group ' + data.id);
+        this.$children[0].loadGroup(data);
       },
-      methods: {
-        handleGroupSelect (data) {
-          console.debug('Selected Group '+ data.id);
-          this.$children[0].loadGroup(data);
-        },
-        refreshGroupList () {
-          this.$children[1].refresh_list();
-        }
+      refreshGroupList () {
+        this.$children[1].refresh_list();
       }
-    });
-
-
-    // render DOM
-    let root = new Vue({
-      el: '#store-root'
-    });
-
+    }
   });
+
+  // render DOM
+  let root = new Vue({
+    el: '#store-root'
+  });
+
 });
