@@ -19,12 +19,39 @@ import random
 from pprint import pprint as pp
 
 
-class TestTeacherWeb(TestCase):
+class TestTeacherWebApi(TestCase):
     def setUp(self):
         self.assertTrue(settings.FAKE_SMS_SERVER)
 
     def tearDown(self):
         pass
+
+    def test_create_new_teacher(self):
+        """
+        创建老师的测试内容
+        :return:
+        """
+        new_teacher = Teacher.new_teacher("12345")
+
+    def test_teacher_account(self):
+        teacher = random.choice(list(Teacher.objects.filter(user__username__istartswith="test")))
+        account = teacher.safe_get_account()
+        self.assertIsNotNone(account.calculated_balance)
+        self.assertIsNotNone(account.accumulated_income)
+        self.assertIsNotNone(account.anticipated_income)
+
+    def test_sms_generate(self):
+        # 检查api生成是否正确
+        client = Client()
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
+        self.assertEqual(response.status_code, 200)
+        response = client.post(reverse("sms"), json.dumps({"action": "send", "phone": "18922405996"}),
+                               "application/json")
+        self.assertEqual(response.status_code, 200)
+        # 错误数据输入后的检测
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"},
+                               "application/json")
+        self.assertEqual(400, response.status_code)
 
     def test_verify_sms_code(self):
         phone = "18922405996"
@@ -57,7 +84,7 @@ class TestTeacherWeb(TestCase):
 
 
 # Create your tests here.
-class TestWebPage(TestCase):
+class TestTeacherWebPage(TestCase):
     teacher_name = "teacher name"
     teacher_password = "I'm password"
     teacher_email = "teacher@mail.com"
@@ -163,6 +190,36 @@ class TestWebPage(TestCase):
         profile.delete()
         old_user.delete()
 
+    def the_parent(self):
+        return User.objects.get(username=self.parent_name).parent
+
+    def the_teacher(self):
+        return User.objects.get(username=self.teacher_name).teacher
+
+    def check_page_accesibility(self, tag_name, params=None):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        register_url = reverse(tag_name, kwargs=params)
+        response = client.get(register_url)
+        # response.render()
+        self.assertEqual(response.status_code, 200)
+
+    def test_teacher_login(self):
+        client = Client()
+        # 未获得验证码的时候,进行的验证
+        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(json.loads(response.content.decode())["result"])
+        # 获得验证码以后,进行的验证
+        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
+        self.assertEqual(response.status_code, 200)
+        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(json.loads(response.content.decode())["result"])
+        # 测试退出logout
+        response = client.post(reverse("teacher:logout"))
+        self.assertEqual(response.status_code, 302)
+
     def test_information_complete(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
@@ -187,99 +244,6 @@ class TestWebPage(TestCase):
         client.login(username=self.teacher_name, password=self.teacher_password)
         response = client.get(reverse("teacher:register-progress"))
         self.assertEqual(response.status_code, 200)
-
-    def test_first_page(self):
-        client = Client()
-        client.login(username=self.teacher_name, password=self.teacher_password)
-        response = client.get(reverse("teacher:first-page"))
-        self.assertEqual(response.status_code, 200, response.content.decode())
-
-    def test_my_school_timetable(self):
-        client = Client()
-        client.login(username=self.teacher_name, password=self.teacher_password)
-        response = client.get(reverse("teacher:my-school-timetable",
-                                      kwargs={"year": "2016", "month": "01"}))
-        time_slot_data = json.loads(response.context["time_slot_data"])
-        self.assertTrue("20160101" in time_slot_data)
-        self.assertTrue("20151230" in time_slot_data)
-        self.assertEqual(1, len(time_slot_data["20160101"]))
-        self.assertEqual(1, len(time_slot_data["20151230"]))
-        self.assertEqual(response.status_code, 200)
-
-    def the_parent(self):
-        return User.objects.get(username=self.parent_name).parent
-
-    def the_teacher(self):
-        return User.objects.get(username=self.teacher_name).teacher
-
-    def test_my_students(self):
-        client = Client()
-        client.login(username=self.teacher_name, password=self.teacher_password)
-        teacher = self.the_teacher()
-        parent = self.the_parent()
-        school = teacher.schools.all()[0]
-        grade = teacher.abilities.all()[0].grade
-        subject = teacher.abilities.all()[0].subject
-        hours = 5
-        coupon = None
-        # 创建订单
-        # TODO: 这个地方的OrderManager有问题
-        new_order = Order.objects.create(parent, teacher, school, grade, subject, hours, coupon)
-        # 对订单进行退费
-
-        for student_type in range(3):
-            response = client.get(reverse("teacher:my-students", kwargs={
-                "student_type": student_type, "page_offset": 1
-            }))
-            self.assertEqual(response.status_code, 200)
-
-    def test_course_show(self):
-        """
-        测试课程的正确获得姿势
-        """
-        user = User.objects.get(username=self.teacher_name)
-        teacher = Teacher.objects.get(user=user)
-        order_set = Order.objects.filter(teacher=teacher)
-        first_page = FirstPage()
-        self.assertEqual(3, first_page.class_complete(teacher))
-        self.assertEqual(2, first_page.class_waiting(teacher,
-                                                     make_aware(datetime.datetime(2015, 12, 20, 16, 0, 0))))
-        self.assertEqual(1, first_page.class_waiting(teacher,
-                                                     make_aware(datetime.datetime(2016, 1, 1, 5, 0, 0))))
-        current_student, complete_student = first_page.student_on_class(teacher)
-        self.assertEqual(1, complete_student)
-
-    def test_create_new_teacher(self):
-        """
-        创建老师的测试内容
-        :return:
-        """
-        new_teacher = Teacher.new_teacher("12345")
-
-    def test_split_list(self):
-        """
-        测试切分列表
-        :return:
-        """
-        the_list = split_list(list(range(10)), 3)
-        self.assertEqual(4, len(the_list))
-        self.assertEqual([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]], the_list)
-
-    def test_teacher_account(self):
-        teacher = random.choice(list(Teacher.objects.filter(user__username__istartswith="test")))
-        account = teacher.safe_get_account()
-        self.assertIsNotNone(account.calculated_balance)
-        self.assertIsNotNone(account.accumulated_income)
-        self.assertIsNotNone(account.anticipated_income)
-
-    def test_my_evaluation(self):
-        for comment_type in range(4):
-            client = Client()
-            client.login(username=self.teacher_name, password=self.teacher_password)
-            response = client.get(reverse("teacher:my-evaluation", kwargs={
-                "comment_type": comment_type, "page_offset": 1
-            }))
-            self.assertEqual(response.status_code, 200)
 
     def test_information_complete_percent(self):
         new_user = Teacher.new_teacher("54321")
@@ -350,13 +314,71 @@ class TestWebPage(TestCase):
         # 头像
         pass
 
-    def check_page_accesibility(self, tag_name):
+    def test_first_page(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
-        register_url = reverse(tag_name)
-        response = client.get(register_url)
-        # response.render()
+        response = client.get(reverse("teacher:first-page"))
+        self.assertEqual(response.status_code, 200, response.content.decode())
+        response = client.get(reverse("teacher:default-page"))
+        self.assertEqual(response.status_code, 200, response.content.decode())
+
+    def test_my_school_timetable(self):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        response = client.get(reverse("teacher:my-school-timetable",
+                                      kwargs={"year": "2016", "month": "01"}))
+        time_slot_data = json.loads(response.context["time_slot_data"])
+        self.assertTrue("20160101" in time_slot_data)
+        self.assertTrue("20151230" in time_slot_data)
+        self.assertEqual(1, len(time_slot_data["20160101"]))
+        self.assertEqual(1, len(time_slot_data["20151230"]))
         self.assertEqual(response.status_code, 200)
+
+    def test_my_students(self):
+        client = Client()
+        client.login(username=self.teacher_name, password=self.teacher_password)
+        teacher = self.the_teacher()
+        parent = self.the_parent()
+        school = teacher.schools.all()[0]
+        grade = teacher.abilities.all()[0].grade
+        subject = teacher.abilities.all()[0].subject
+        hours = 5
+        coupon = None
+        # 创建订单
+        # TODO: 这个地方的OrderManager有问题
+        new_order = Order.objects.create(parent, teacher, school, grade, subject, hours, coupon)
+        # 对订单进行退费
+
+        for student_type in range(3):
+            response = client.get(reverse("teacher:my-students", kwargs={
+                "student_type": student_type, "page_offset": 1
+            }))
+            self.assertEqual(response.status_code, 200)
+
+    def test_course_show(self):
+        """
+        测试课程的正确获得姿势
+        """
+        user = User.objects.get(username=self.teacher_name)
+        teacher = Teacher.objects.get(user=user)
+        order_set = Order.objects.filter(teacher=teacher)
+        first_page = FirstPage()
+        self.assertEqual(3, first_page.class_complete(teacher))
+        self.assertEqual(2, first_page.class_waiting(teacher,
+                                                     make_aware(datetime.datetime(2015, 12, 20, 16, 0, 0))))
+        self.assertEqual(1, first_page.class_waiting(teacher,
+                                                     make_aware(datetime.datetime(2016, 1, 1, 5, 0, 0))))
+        current_student, complete_student = first_page.student_on_class(teacher)
+        self.assertEqual(1, complete_student)
+
+    def test_my_evaluation(self):
+        for comment_type in range(4):
+            client = Client()
+            client.login(username=self.teacher_name, password=self.teacher_password)
+            response = client.get(reverse("teacher:my-evaluation", kwargs={
+                "comment_type": comment_type, "page_offset": 1
+            }))
+            self.assertEqual(response.status_code, 200)
 
     def test_my_level(self):
         # 我的级别
@@ -374,18 +396,6 @@ class TestWebPage(TestCase):
         # 提现界面
         self.check_page_accesibility("teacher:my-wallet-withdrawal")
 
-    def test_wallet(self):
-        # 我的钱包界面
-        self.check_page_accesibility("teacher:wallet")
-
-    def test_basic_doc(self):
-        # 基本信息页面
-        self.check_page_accesibility("teacher:basic_doc")
-
-    def test_highscore(self):
-        # 提分榜页面
-        self.check_page_accesibility("teacher:highscore")
-
     def test_withdrawal_request(self):
         client = Client()
         client.login(username=self.teacher_name, password=self.teacher_password)
@@ -398,31 +408,35 @@ class TestWebPage(TestCase):
             })
         self.assertEqual(response.status_code, 200)
 
-    def test_sms_generate(self):
-        # 检查api生成是否正确
-        client = Client()
-        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
-        self.assertEqual(response.status_code, 200)
-        response = client.post(reverse("sms"), json.dumps({"action": "send", "phone": "18922405996"}),
-                               "application/json")
-        self.assertEqual(response.status_code, 200)
-        # 错误数据输入后的检测
-        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"},
-                               "application/json")
-        self.assertEqual(400, response.status_code)
+    def test_certificate(self):
+        self.check_page_accesibility("teacher:certificate")
+        self.check_page_accesibility("teacher:certificate-id")
+        self.check_page_accesibility("teacher:certificate-academic")
+        self.check_page_accesibility("teacher:certificate-teaching")
+        self.check_page_accesibility("teacher:certificate-english")
+        self.check_page_accesibility("teacher:certificate-others")
 
-    def test_teacher_login(self):
-        client = Client()
-        # 未获得验证码的时候,进行的验证
-        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
-        self.assertEqual(response.status_code, 200)
-        self.assertFalse(json.loads(response.content.decode())["result"])
-        # 获得验证码以后,进行的验证
-        response = client.post(reverse("sms"), {"action": "send", "phone": "18922405996"})
-        self.assertEqual(response.status_code, 200)
-        response = client.post(reverse("teacher:login"), {"phone": "18922405996", "code": "1111"})
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue(json.loads(response.content.decode())["result"])
+    def test_highscore(self):
+        # 提分榜页面
+        self.check_page_accesibility("teacher:highscore")
+
+    def test_basic_doc(self):
+        # 基本信息页面
+        self.check_page_accesibility("teacher:basic_doc")
+
+    def test_achievement(self):
+        self.check_page_accesibility("teacher:achievement")
+        self.check_page_accesibility(
+            "teacher:achievement-add", {'action': 'add'})
+
+    def test_wallet(self):
+        # 我的钱包界面
+        self.check_page_accesibility("teacher:wallet")
+        self.check_page_accesibility(
+            "teacher:wallet-histories", {'action': 'histories'})
+        self.check_page_accesibility("teacher:wallet-bankcard-add")
+        self.check_page_accesibility(
+            "teacher:wallet-bankcard-add-success", {'step': 'success'})
 
     def test_student_letter(self):
         client = None
@@ -460,3 +474,9 @@ class TestWebPage(TestCase):
                     "student_type": student_type, "page_offset": 1, "student_id": student_list[0].id
                 }))
                 self.assertEqual(response.status_code, 200)
+
+    def test_klx_account(self):
+        self.check_page_accesibility("teacher:klx-account")
+
+    def test_schedule_weekly_config(self):
+        self.check_page_accesibility("teacher:schedule-weekly-config")

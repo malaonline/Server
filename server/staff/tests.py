@@ -82,7 +82,18 @@ class TestStaffWeb(TestCase):
         self.assertEqual(200, response.status_code)
 
     def test_student_schedule_action(self):
-        pass  # TODO
+        ts = models.TimeSlot.objects.filter(
+            deleted=False, suspended=False).order_by('?').first()
+        if ts:
+            data = {'action': 'view-available', 'tid': ts.id}
+            response = self.client.post(
+                reverse('staff:student_schedule_action'), data=data)
+            self.assertEqual(200, response.status_code)
+            data = {'action': 'suspend-course', 'tid': ts.id}
+            response = self.client.post(
+                reverse('staff:student_schedule_action'), data=data)
+            self.assertEqual(200, response.status_code)
+            # TODO(tbd): transfer-course
 
     def test_teachers(self):
         response = self.client.get(reverse('staff:teachers'))
