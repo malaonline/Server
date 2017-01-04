@@ -8,7 +8,7 @@ define(function () {
   Vue.component('store-group-list', {
     template: '\
       <div class="row store-row sidebar-pane">\
-        <div id="group-operat"><el-button type="success" icon="plus" @click="onCreateGroup">新建题组</el-button></div>\
+        <div id="group-operat"><el-button type="success" icon="plus" @click="onCreate">新建题组</el-button></div>\
         <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" id="tree-content"></el-tree>\
       </div>\
     ',
@@ -22,10 +22,18 @@ define(function () {
       }
     },
     mounted () {
-      this.load_list();
+      this.loadList();
     },
     methods: {
-      load_list () {
+      // Events Handle Method
+      handleNodeClick (data) {
+        this.$emit('selected', data);
+      },
+      onCreate () {
+        this.$emit('onCreate');
+      },
+      // Public Method
+      loadList () {
         let group_list = this;
         $.ajax({
           async: false,
@@ -40,15 +48,9 @@ define(function () {
           }
         });
       },
-      refresh_list () {
+      refreshList () {
         this.data = [];
-        this.load_list();
-      },
-      handleNodeClick (data) {
-        this.$emit('selected', data);
-      },
-      onCreateGroup () {
-        this.$emit('onCreate');
+        this.loadList();
       }
     }
   });

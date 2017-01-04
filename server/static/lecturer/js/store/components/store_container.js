@@ -13,7 +13,7 @@ define(['GroupList', 'ExerciseGroup'], function () {
        </div>\
        <div class="col-sm-3 store-col">\
          <store-group-list class="store-content"\
-           v-on:selected="handleGroupSelect"\
+           v-on:selected="selectedGroup"\
            v-on:onCreate="createGroup"\
          />\
        </div>\
@@ -23,12 +23,15 @@ define(['GroupList', 'ExerciseGroup'], function () {
 
     },
     methods: {
-      handleGroupSelect (data) {
+      refreshGroupList () {
+        this.$children[1].refreshList();
+      },
+      selectedGroup (data) {
         console.debug('Selected Group ' + data.id);
         this.$children[0].loadGroup(data);
       },
-      refreshGroupList () {
-        this.$children[1].refresh_list();
+      createGroup () {
+        this.$children[0].createGroup();
       }
     }
   });

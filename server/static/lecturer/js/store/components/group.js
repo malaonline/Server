@@ -38,6 +38,14 @@ define(['Exercise'], function () {
       }
     },
     methods: {
+      // Events Handle Method
+      onInsert () {
+        this.form.exercises.push(this.defaultExercise());
+      },
+      onSave () {
+        console.log(this.form.exercises)
+      },
+      // Public Method
       loadGroup (data) {
         let group = this;
         $.ajax({
@@ -52,13 +60,11 @@ define(['Exercise'], function () {
           }
         });
       },
-      onInsert () {
-        let model = this.defaultExercise();
-        this.form.exercises.push(model);
+      createGroup () {
+        this.form = this.defaultGroup();
+        this.shouldShow = true;
       },
-      onSave () {
-        console.log(this.form.exercises)
-      },
+      // Private Method
       handleData (json) {
         let form = {};
         form.id = json.data.id;
@@ -81,6 +87,16 @@ define(['Exercise'], function () {
         }
         form.exercises = exercises;
         return form
+      },
+      defaultGroup () {
+        return {
+          id: '',
+          title: '题组名称',
+          desc: '题组描述',
+          exercises: [
+            this.defaultExercise()
+          ]
+        }
       },
       defaultExercise () {
         return {
