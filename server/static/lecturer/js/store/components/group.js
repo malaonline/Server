@@ -10,10 +10,10 @@ define(['Exercise'], function () {
       template: '\
       <div class="row store-row content-pane">\
         <el-form ref="form" :model="form" label-width="0px" class="page-pane">\
-          <el-form-item label-width="0px"  class="text item-input">\
+          <el-form-item label-width="0px"  class="text item-input"  v-show="shouldShow">\
             <el-input v-model="form.title" class="input" id="ex-title"></el-input>\
           </el-form-item>\
-         <el-form-item label-width="0px"  class="text item-input">\
+         <el-form-item label-width="0px"  class="text item-input"  v-show="shouldShow">\
             <el-input v-model="form.desc" class="input" id="ex-desc"></el-input>\
          </el-form-item>\
           <transition-group name="list" tag="div">\
