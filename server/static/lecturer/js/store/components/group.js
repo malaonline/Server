@@ -54,7 +54,7 @@ define(['Exercise'], function () {
           url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
           success: function (json) {
             if (json && json.ok) {
-              group.form = group.handleData(json);
+              group.form = group.handleData(json.data);
               group.shouldShow = true;
             }
           }
@@ -66,27 +66,18 @@ define(['Exercise'], function () {
       },
       // Private Method
       handleData (json) {
-        let form = {};
-        form.id = json.data.id;
-        form.title = json.data.title;
-        form.desc = json.data.desc;
-        let exercises = [];
-        for (question of json.data.questions) {
-          let exercise = {};
-          exercise.id = question.id;
-          exercise.title = question.title;
-          exercise.analyse = question.analyse;
-          exercise.options = question.options;
-          exercise.solution = '';
-          for (option of question.options) {
-            if (question.solution === option.id) {
+        // format
+        json.exercises = json.questions;
+        delete json.questions;
+        // set solution string
+        for (exercise of json.exercises) {
+          for (option of exercise.options) {
+            if (exercise.solution === option.id) {
               exercise.solution = option.text;
             }
           }
-          exercises.push(exercise);
         }
-        form.exercises = exercises;
-        return form
+        return json
       },
       defaultGroup () {
         return {
