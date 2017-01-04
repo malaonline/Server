@@ -4,40 +4,41 @@
  */
 
 define(['GroupList', 'ExerciseGroup'], function () {
-  $(function () {
 
-    Vue.component('store-container', {
-      template: '\
+  Vue.component('store-container', {
+    template: '\
       <div class="row store-row">\
        <div class="col-sm-9 store-col">\
          <exercise-group class="store-content"/>\
        </div>\
        <div class="col-sm-3 store-col">\
          <store-group-list class="store-content"\
-           v-on:selected="handleGroupSelect"\
+           v-on:selected="selectedGroup"\
+           v-on:onCreate="createGroup"\
          />\
        </div>\
       </div>\
     ',
-      mounted: function () {
+    mounted: function () {
 
+    },
+    methods: {
+      refreshGroupList () {
+        this.$children[1].refreshList();
       },
-      methods: {
-        handleGroupSelect (data) {
-          console.debug('Selected Group '+ data.id);
-          this.$children[0].loadGroup(data);
-        },
-        refreshGroupList () {
-          this.$children[1].refresh_list();
-        }
+      selectedGroup (data) {
+        console.debug('Selected Group ' + data.id);
+        this.$children[0].loadGroup(data);
+      },
+      createGroup () {
+        this.$children[0].createGroup();
       }
-    });
-
-
-    // render DOM
-    let root = new Vue({
-      el: '#store-root'
-    });
-
+    }
   });
+
+  // render DOM
+  let root = new Vue({
+    el: '#store-root'
+  });
+
 });
