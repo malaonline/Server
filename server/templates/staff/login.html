@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>麻辣老师后台管理系统 - 登录</title>
+    {% load staticfiles%}
+    {% load compile_static %}
+    <link href="{% static 'staff/less/footer.less'|compile %}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1 align="center">麻辣老师后台管理系统</h1>
@@ -38,6 +41,8 @@
 </form>
 </div>
 {% endblock %}
+
+{% include 'footer.html' %}
 
 </body>
 </html>

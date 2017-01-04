@@ -4,6 +4,7 @@ html,body{
   height:100%;
 }
 @import "../../common/less/loading_dialog.less";
+@import "footer.less";
 .navbar{
   margin-bottom:0;
 }
@@ -47,6 +48,9 @@ html,body{
     padding-left:280px;
     position:relative;
     min-height:870px;
+    &.lecturer-content {
+      padding-left: 0;
+    }
     >.container{
       min-height:100%;
       padding-top:10px;
@@ -72,16 +76,6 @@ img.navbar-brand {
   width:100%;
   .form-inline{
     margin-bottom:10px;
-  }
-}
-#footer{
-  position:absolute;
-  bottom:0;
-  left:0;
-  height:38px;
-  width:100%;
-  >.container{
-    padding-left:300px;
   }
 }
 
