@@ -14,6 +14,7 @@ define(['GroupList', 'ExerciseGroup'], function () {
        <div class="col-sm-3 store-col">\
          <store-group-list class="store-content"\
            v-on:selected="handleGroupSelect"\
+           v-on:onCreate="createGroup"\
          />\
        </div>\
       </div>\

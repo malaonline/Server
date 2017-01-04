@@ -8,7 +8,8 @@ define(function () {
   Vue.component('store-group-list', {
     template: '\
       <div class="row store-row sidebar-pane">\
-          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" id="tree-content"></el-tree>\
+        <div id="group-operat"><el-button type="success" icon="plus" @click="onCreateGroup">新建题组</el-button></div>\
+        <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" id="tree-content"></el-tree>\
       </div>\
     ',
     data: function () {
@@ -45,6 +46,9 @@ define(function () {
       },
       handleNodeClick (data) {
         this.$emit('selected', data);
+      },
+      onCreateGroup () {
+        this.$emit('onCreate');
       }
     }
   });
