@@ -72,6 +72,7 @@ define(['Exercise'], function () {
             exercise.title = question.title;
             exercise.analyse = question.analyse;
             exercise.options = question.options;
+            exercise.solution = '';
             for (option of question.options) {
               if (question.solution === option.id) {
                 exercise.solution = option.text;
@@ -84,9 +85,9 @@ define(['Exercise'], function () {
         },
         defaultExercise () {
           return {
-            id: null,
+            id: '',
             title: '',
-            solution: null,
+            solution: '',
             analyse: '',
             options: ['', '', '', '']
           }
