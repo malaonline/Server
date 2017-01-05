@@ -1672,13 +1672,54 @@ class PadLogin(View):
             except ValueError:
                 return HttpResponse(status=400)
             phone = jsonData.get('phone', '')
+            test = jsonData.get('test')
         else:
             phone = request.POST.get('phone', '')
+            test = request.POST.get('test')
         phone = phone.strip()
 
         parents = models.Parent.objects.filter(user__profile__phone=phone)
         if parents.count() == 0:
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
+
+        # 测试代码
+        if test == 'true':
+            parent = parents.first()
+            order = models.Order.objects.filter(
+                parent=parent,
+                live_class__isnull=False,
+            ).first()
+            if not order:
+                return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
+            live_class = order.live_class
+            school = live_class.class_room.school
+            live_course = live_class.live_course
+            parent.pad_token = random_pad_token(parent.user.profile.phone)
+            parent.save()
+            return JsonResponse({
+                'code': 0,
+                'msg': '登录成功',
+                'data': {
+                    'token': parent.pad_token,
+                    'live_class': {
+                        'id': live_class.id,
+                        'assistant': live_class.assistant.name,
+                        'class_room': live_class.class_room.name,
+                        'live_course': {
+                            'id': live_course.id,
+                            'course_no': live_course.course_no,
+                            'name': live_course.name,
+                            'grade': live_course.grade_desc,
+                            'subject': live_course.subject.name,
+                            'lecturer': live_course.lecturer.name,
+                        },
+                    },
+                    'phone': parent.user.profile.phone,
+                    'name': parent.student_name,
+                    'school': school.name,
+                    'school_id': school.id,
+                },
+            })
 
         parent = parents.first()
         now = timezone.now()
