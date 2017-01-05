@@ -75,7 +75,17 @@ class LecturerAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'user', 'subject')
 
 
+class LiveCourseForm(forms.ModelForm):
+    class Meta:
+        model = m.LiveCourse
+        fields = '__all__'
+        widgets = {
+            'description': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+        }
+
+
 class LiveCourseAdmin(admin.ModelAdmin):
+    form = LiveCourseForm
     search_fields = ['name', 'course_no', 'grade_desc', 'lecturer__name']
     list_filter = ['subject']
 
