@@ -43,7 +43,19 @@ define(['Exercise'], function () {
         this.form.exercises.push(this.defaultExercise());
       },
       onSave () {
-        console.log(this.form.exercises)
+        console.log(JSON.stringify(this.form));
+
+        $.ajax({
+          type: "POST",
+          async: false,
+          dataType: "json",
+          url: '/lecturer/api/exercise/store',
+          data: {'group': JSON.stringify(this.form)},
+          success: function (json) {
+            console.log(json);
+          }
+        });
+
       },
       // Public Method
       loadGroup (data) {
@@ -54,7 +66,7 @@ define(['Exercise'], function () {
           url: '/lecturer/api/exercise/store?action=group&gid=' + data.id,
           success: function (json) {
             if (json && json.ok) {
-              group.form = group.handleData(json);
+              group.form = group.handleData(json.data);
               group.shouldShow = true;
             }
           }
@@ -66,27 +78,18 @@ define(['Exercise'], function () {
       },
       // Private Method
       handleData (json) {
-        let form = {};
-        form.id = json.data.id;
-        form.title = json.data.title;
-        form.desc = json.data.desc;
-        let exercises = [];
-        for (question of json.data.questions) {
-          let exercise = {};
-          exercise.id = question.id;
-          exercise.title = question.title;
-          exercise.analyse = question.analyse;
-          exercise.options = question.options;
-          exercise.solution = '';
-          for (option of question.options) {
-            if (question.solution === option.id) {
+        // format
+        json.exercises = json.questions;
+        delete json.questions;
+        // set solution string
+        for (exercise of json.exercises) {
+          for (option of exercise.options) {
+            if (exercise.solution === option.id) {
               exercise.solution = option.text;
             }
           }
-          exercises.push(exercise);
         }
-        form.exercises = exercises;
-        return form
+        return json
       },
       defaultGroup () {
         return {
@@ -101,10 +104,27 @@ define(['Exercise'], function () {
       defaultExercise () {
         return {
           id: '',
-          title: '',
-          solution: '',
-          analyse: '',
-          options: ['', '', '', '']
+          title: '题目',
+          solution: '选项1',
+          analyse: '题目解析',
+          options: [
+            {
+              id: '',
+              text: '选项1'
+            },
+            {
+              id: '',
+              text: '选项2'
+            },
+            {
+              id: '',
+              text: '选项3'
+            },
+            {
+              id: '',
+              text: '选项4'
+            }
+          ]
         }
       }
     }
