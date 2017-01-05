@@ -43,7 +43,19 @@ define(['Exercise'], function () {
         this.form.exercises.push(this.defaultExercise());
       },
       onSave () {
-        console.log(this.form.exercises)
+        console.log(JSON.stringify(this.form));
+
+        $.ajax({
+          type: "POST",
+          async: false,
+          dataType: "json",
+          url: '/lecturer/api/exercise/store',
+          data: {'group': JSON.stringify(this.form)},
+          success: function (json) {
+            console.log(json);
+          }
+        });
+
       },
       // Public Method
       loadGroup (data) {
