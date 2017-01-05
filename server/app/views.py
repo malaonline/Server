@@ -1671,11 +1671,10 @@ class PadLogin(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            phone = jsonData.get('phone')
+            phone = jsonData.get('phone', '')
         else:
-            phone = request.POST.get('phone')
-        if phone:
-            phone = phone.strip()
+            phone = request.POST.get('phone', '')
+        phone = phone.strip()
 
         parents = models.Parent.objects.filter(user__profile__phone=phone)
         if parents.count() == 0:
@@ -1740,14 +1739,13 @@ class PadStatus(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            token = jsonData.get('token')
-            live_class = jsonData.get('live_class')
+            token = jsonData.get('token', 'invalid_token')
+            live_class = jsonData.get('live_class', '0')
         else:
-            token = request.POST.get('token')
-            live_class = request.POST.get('live_class')
-        if token:
-            token = token.strip()
-        live_class_id = int(live_class) if live_class else 0
+            token = request.POST.get('token', 'invalid_token')
+            live_class = request.POST.get('live_class', '0')
+        token = token.strip()
+        live_class_id = int(live_class)
 
         parents = models.Parent.objects.filter(pad_token=token)
         if parents.count() == 0:
