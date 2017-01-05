@@ -1409,13 +1409,18 @@ result:
         "name": "小张",
         "school_id": 2,
         "school": "洛阳社区一店",
-        "live_course": {
+        "live_class": {
             "id": 1,
-            "course_no": "1001",
-            "name": "小学新概念英语A班",
-            "lecturer": "测试主讲老师1",
-            "grade": "小学四-六年级",
-            "subject": "英语"
+            "assistant": "尚尔迪",
+            "class_room": "测试教室1",
+            "live_course": {
+                "id": 1,
+                "course_no": "1001",
+                "name": "小学新概念英语A班",
+                "lecturer": "测试主讲老师1",
+                "grade": "小学四-六年级",
+                "subject": "英语"
+            }
         }
     },
 }
