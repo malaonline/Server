@@ -92,10 +92,27 @@ define(['Exercise'], function () {
       defaultExercise () {
         return {
           id: '',
-          title: '',
-          solution: '',
-          analyse: '',
-          options: ['', '', '', '']
+          title: '题目',
+          solution: '选项1',
+          analyse: '题目解析',
+          options: [
+            {
+              id: '',
+              text: '选项1'
+            },
+            {
+              id: '',
+              text: '选项2'
+            },
+            {
+              id: '',
+              text: '选项3'
+            },
+            {
+              id: '',
+              text: '选项4'
+            }
+          ]
         }
       }
     }
