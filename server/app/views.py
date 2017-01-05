@@ -1674,7 +1674,8 @@ class PadLogin(View):
             phone = jsonData.get('phone')
         else:
             phone = request.POST.get('phone')
-        phone = phone.strip()
+        if phone:
+            phone = phone.strip()
 
         parents = models.Parent.objects.filter(user__profile__phone=phone)
         if parents.count() == 0:
@@ -1722,4 +1723,52 @@ class PadLogin(View):
                 'school': school.name,
                 'school_id': school.id,
             },
+        })
+
+
+class PadStatus(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PadStatus, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return HttpResponse("Not supported request.", status=403)
+
+    def post(self, request):
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                jsonData = json.loads(request.body.decode())
+            except ValueError:
+                return HttpResponse(status=400)
+            token = jsonData.get('token')
+            live_class = jsonData.get('live_class')
+        else:
+            token = request.POST.get('token')
+            live_class = request.POST.get('live_class')
+        if token:
+            token = token.strip()
+        live_class_id = int(live_class) if live_class else 0
+
+        parents = models.Parent.objects.filter(pad_token=token)
+        if parents.count() == 0:
+            return JsonResponse({'code': -1, 'msg': '您好，当前账号已在别处登录'})
+
+        parent = parents.first()
+        now = timezone.now()
+        live_class = get_object_or_404(models.LiveClass, pk=live_class_id)
+        timeslots = models.TimeSlot.objects.filter(
+            deleted=False,
+            order__parent=parent,
+            order__status=models.Order.PAID,
+            order__live_class=live_class,
+            start__lte=now,
+            end__gte=now,
+        )
+        if timeslots.count() == 0:
+            return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
+        return JsonResponse({
+            'code': 0,
+            'msg': '成功',
+            'type': 1,
+            'data': {}
         })

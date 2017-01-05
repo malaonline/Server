@@ -1439,3 +1439,41 @@ result:
     "msg": "您好，暂无有效课程"
 }
 ```
+
+### Pad Status (HeartBeat)
+
+```
+POST /api/v1/pad/status
+```
+
+parameters:
+
+```
+token=DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+live_class=1
+```
+
+result:
+
+```
+{
+    "code": 0,
+    "msg": "成功",
+    "type": 1,
+    "data": {/* to do */}
+}
+```
+
+```
+{
+    "code": -1,
+    "msg": "您好，当前账号已在别处登录"
+}
+```
+
+```
+{
+    "code": -2,
+    "msg": "您好，下课自动登出"
+}
+```

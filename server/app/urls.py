@@ -57,5 +57,6 @@ urlpatterns = [
     url(r'^api/v1/teacher/(?P<teacher_id>\d+)/school/(?P<school_id>\d+)/prices',
         views.TeacherSchoolPrices.as_view(), name='teacher_school_prices'),
     url(r'^api/v1/pad/login', views.PadLogin.as_view(), name='pad_login'),
+    url(r'^api/v1/pad/status', views.PadStatus.as_view(), name='pad_status'),
     url(r'^api/v1/', include(router.urls)),
 ]
