@@ -1674,6 +1674,7 @@ class PadLogin(View):
             phone = jsonData.get('phone')
         else:
             phone = request.POST.get('phone')
+        phone = phone.strip()
 
         parents = models.Parent.objects.filter(user__profile__phone=phone)
         if parents.count() == 0:
@@ -1703,13 +1704,18 @@ class PadLogin(View):
             'msg': '登录成功',
             'data': {
                 'token': parent.pad_token,
-                'live_course': {
-                    'id': live_course.id,
-                    'course_no': live_course.course_no,
-                    'name': live_course.name,
-                    'grade': live_course.grade_desc,
-                    'subject': live_course.subject.name,
-                    'lecturer': live_course.lecturer.name,
+                'live_class' : {
+                    'id': live_class.id,
+                    'assistant': live_class.assistant.name,
+                    'class_room': live_class.class_room.name,
+                    'live_course': {
+                        'id': live_course.id,
+                        'course_no': live_course.course_no,
+                        'name': live_course.name,
+                        'grade': live_course.grade_desc,
+                        'subject': live_course.subject.name,
+                        'lecturer': live_course.lecturer.name,
+                    },
                 },
                 'phone': parent.user.profile.phone,
                 'name': parent.student_name,
