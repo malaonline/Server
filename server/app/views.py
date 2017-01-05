@@ -1739,10 +1739,10 @@ class PadStatus(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            token = jsonData.get('token', 'invalid_token')
+            token = jsonData.get('token', '')
             live_class = jsonData.get('live_class', '0')
         else:
-            token = request.POST.get('token', 'invalid_token')
+            token = request.POST.get('token', '')
             live_class = request.POST.get('live_class', '0')
         token = token.strip()
         live_class_id = int(live_class)
