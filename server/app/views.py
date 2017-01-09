@@ -1683,7 +1683,7 @@ class PadLogin(View):
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
 
         # 测试代码
-        if test == 'true':
+        if test:
             parent = parents.first()
             order = models.Order.objects.filter(
                 parent=parent,
@@ -1782,9 +1782,11 @@ class PadStatus(View):
                 return HttpResponse(status=400)
             token = jsonData.get('token', '')
             live_class = jsonData.get('live_class', '0')
+            test = jsonData.get('test')
         else:
             token = request.POST.get('token', '')
             live_class = request.POST.get('live_class', '0')
+            test = request.POST.get('test')
         token = token.strip()
         live_class_id = int(live_class)
 
@@ -1794,7 +1796,10 @@ class PadStatus(View):
 
         parent = parents.first()
         now = timezone.now()
-        live_class = get_object_or_404(models.LiveClass, pk=live_class_id)
+        live_classes = models.LiveClass.objects.filter(pk=live_class_id)
+        if live_classes.count() == 0:
+            return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
+        live_class = live_classes.first()
         timeslots = models.TimeSlot.objects.filter(
             deleted=False,
             order__parent=parent,
@@ -1803,6 +1808,13 @@ class PadStatus(View):
             start__lte=now,
             end__gte=now,
         )
+        if test:
+            return JsonResponse({
+                'code': 0,
+                'msg': '成功',
+                'type': 1,
+                'data': {}
+            })
         if timeslots.count() == 0:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
         return JsonResponse({
