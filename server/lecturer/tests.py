@@ -74,6 +74,14 @@ class TestLecturerWeb(TestCase):
             reverse('lecturer:timeslot-questions', kwargs={'tsid': 1}))
         self.assertEqual(200, response.status_code)
 
+        # update test
+        response = self.client.post(
+            reverse('lecturer:timeslot-questions', kwargs={'tsid': 0}),
+            data={'gids': ''}
+        )
+        self.assertEqual(404, response.status_code)
+        # TODO: create test LiveCourse
+
     def test_exercise_store(self):
         response = self.client.get(reverse('lecturer:exercise-store'))
         self.assertEqual(200, response.status_code)
