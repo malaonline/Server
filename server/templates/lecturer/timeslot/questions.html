@@ -2,11 +2,12 @@
 
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 
 {% block title %}麻辣老师双师直播后台 - 课时题组管理页面{% endblock %}
 {% block extrastyle %}
   <link rel="stylesheet" type="text/css"
-        href="{% static 'lecturer/less/timeslot/questions.less'|compile %}">
+        href="{% static 'lecturer/less/timeslot/questions.less'|compile %}?{{ 'lecturer/less/timeslot/questions.less'|file_hash }}">
 {% endblock %}
 {% block addition_js %}
   <script>
