@@ -1460,7 +1460,11 @@ result:
     "code": 0,
     "msg": "成功",
     "type": 1,
-    "data": {/* to do */}
+    "data": {
+        "question_group": {
+            "id": 1
+        }
+    }
 }
 ```
 
@@ -1475,5 +1479,69 @@ result:
 {
     "code": -2,
     "msg": "您好，下课自动登出"
+}
+```
+
+### Pad Retrieve Question(Group)
+
+```
+POST /api/v1/pad/question
+```
+
+parameters:
+
+```
+token=DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+question_group=1
+```
+
+result:
+
+```
+{
+    "code": 0,
+    "msg": "成功",
+    "data": {
+        "id": 1,
+        "title": "基础语法",
+        "questions": [
+            {
+                "id": 1,
+                "title": "Would you please ____ it in English?",
+                "options": [
+                    {
+                        "id": 1,
+                        "text": "speak"
+                    },
+                    {
+                        "id": 2,
+                        "text": "say"
+                    },
+                    {
+                        "id": 3,
+                        "text": "tell"
+                    },
+                    {
+                        "id": 4,
+                        "text": "talk"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+```
+{
+    "code": -1,
+    "msg": "您好，当前账号已在别处登录"
+}
+```
+
+```
+{
+    "code": -2,
+    "msg": "题组不存在"
 }
 ```

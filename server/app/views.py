@@ -1678,18 +1678,18 @@ class PadLogin(View):
             test = request.POST.get('test')
         phone = phone.strip()
 
-        parents = models.Parent.objects.filter(user__profile__phone=phone)
-        if parents.count() == 0:
+        parent = models.Parent.objects.filter(
+            user__profile__phone=phone).first()
+        if parent is None:
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
 
         # 测试代码
         if test:
-            parent = parents.first()
             order = models.Order.objects.filter(
                 parent=parent,
                 live_class__isnull=False,
             ).first()
-            if not order:
+            if order is None:
                 return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
             live_class = order.live_class
             school = live_class.class_room.school
@@ -1721,20 +1721,19 @@ class PadLogin(View):
                 },
             })
 
-        parent = parents.first()
         now = timezone.now()
-        timeslots = models.TimeSlot.objects.filter(
+        timeslot = models.TimeSlot.objects.filter(
             deleted=False,
             order__parent=parent,
             order__status=models.Order.PAID,
             order__live_class__isnull=False,
             start__lte=now,
             end__gte=now,
-        )
-        if timeslots.count() == 0:
+        ).first()
+        if timeslot is None:
             return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
 
-        current_lesson = timeslots.first()
+        current_lesson = timeslot
         live_class = current_lesson.order.live_class
         school = live_class.class_room.school
         live_course = live_class.live_course
@@ -1790,36 +1789,104 @@ class PadStatus(View):
         token = token.strip()
         live_class_id = int(live_class)
 
-        parents = models.Parent.objects.filter(pad_token=token)
-        if parents.count() == 0:
+        parent = models.Parent.objects.filter(pad_token=token).first()
+        if parent is None:
             return JsonResponse({'code': -1, 'msg': '您好，当前账号已在别处登录'})
 
-        parent = parents.first()
         now = timezone.now()
-        live_classes = models.LiveClass.objects.filter(pk=live_class_id)
-        if live_classes.count() == 0:
+        live_class = models.LiveClass.objects.filter(pk=live_class_id).first()
+        if live_class is None:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
-        live_class = live_classes.first()
-        timeslots = models.TimeSlot.objects.filter(
+        timeslot = models.TimeSlot.objects.filter(
             deleted=False,
             order__parent=parent,
             order__status=models.Order.PAID,
             order__live_class=live_class,
             start__lte=now,
             end__gte=now,
-        )
+        ).first()
+
+        import random
+        question_groups = models.QuestionGroup.objects.filter(deleted=False)
+        question_group = random.choice(question_groups)
+
         if test:
             return JsonResponse({
                 'code': 0,
                 'msg': '成功',
                 'type': 1,
-                'data': {}
+                'data': {
+                    'question_group': {
+                        'id': question_group.id
+                    }
+                }
             })
-        if timeslots.count() == 0:
+        if timeslot is None:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
         return JsonResponse({
             'code': 0,
             'msg': '成功',
             'type': 1,
-            'data': {}
+            'data': {
+                'question_group': {
+                    'id': question_group.id
+                }
+            }
+        })
+
+
+class PadQuestion(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PadQuestion, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return HttpResponse("Not supported request.", status=403)
+
+    def post(self, request):
+        if request.META.get('CONTENT_TYPE', '').startswith('application/json'):
+            try:
+                jsonData = json.loads(request.body.decode())
+            except ValueError:
+                return HttpResponse(status=400)
+            token = jsonData.get('token', '')
+            question_group = jsonData.get('question_group', '0')
+        else:
+            token = request.POST.get('token', '')
+            question_group = request.POST.get('question_group', '0')
+        token = token.strip()
+        question_group_id = int(question_group)
+
+        parent = models.Parent.objects.filter(pad_token=token).first()
+        if parent is None:
+            return JsonResponse({'code': -1, 'msg': '您好，当前账号已在别处登录'})
+
+        question_group = models.QuestionGroup.objects.filter(
+            deleted=False,
+            pk=question_group_id,
+        ).first()
+        if question_group is None:
+            return JsonResponse({'code': -2, 'msg': '题组不存在'})
+
+        questions = question_group.questions.filter(deleted=False)
+        return JsonResponse({
+            'code': 0,
+            'msg': '成功',
+            'data': {
+                'id': question_group.id,
+                'title': question_group.title,
+                'questions': [
+                    {
+                        'id': q.id,
+                        'title': q.title,
+                        'options': [
+                            {
+                                'id': o.id,
+                                'text': o.text,
+                            } for o in
+                            models.QuestionOption.objects.filter(question=q)
+                        ]
+                    } for q in questions
+                ]
+            }
         })
