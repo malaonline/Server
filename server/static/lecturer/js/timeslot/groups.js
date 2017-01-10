@@ -90,10 +90,25 @@ $(function() {
     });
     let diffIn = _.difference(old_group_ids, selected_ids);
     let diffOut = _.difference(selected_ids, old_group_ids);
-    console.log(diffIn);
-    console.log(diffOut)
     if (diffIn.length || diffOut.length) {
-      old_group_ids = selected_ids;
+      let params = {'gids': selected_ids.join(',')};
+      malaAjaxPost(location.pathname, params, function(result) {
+        if (result) {
+          if (result.ok) {
+            alert("操作成功");
+            old_group_ids = selected_ids;
+          } else {
+            alert(result.msg);
+          }
+          return;
+        }
+        alert(DEFAULT_ERR_MSG);
+      }, 'json', function(jqXHR, errorType, errorDesc) {
+        let errMsg = errorDesc ? ('[' + errorDesc + '] ') : '';
+        alert(errMsg + DEFAULT_ERR_MSG);
+      });
+    } else {
+      alert('没有更改');
     }
   });
 });

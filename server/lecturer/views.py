@@ -2,7 +2,7 @@ import re
 import logging
 
 # django modules
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import View, TemplateView
 from django.utils.decorators import method_decorator
@@ -11,6 +11,7 @@ from django.contrib import auth
 from django.core import exceptions
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from django.db import IntegrityError, transaction
 
 # local modules
 from app import models
@@ -176,6 +177,25 @@ class LCTimeslotQuestionsView(BaseLectureView):
         old_groups = lc_timeslot.question_groups.filter(deleted=False)
         context['old_groups'] = old_groups
         return context
+
+    def post(self, request, *args, **kwargs):
+        tsid = kwargs.get('tsid')
+        gids = request.POST.get('gids')
+        gid_list = gids and gids.split(',') or []
+        lcts = get_object_or_404(models.LiveCourseTimeSlot, pk=tsid)
+        try:
+            with transaction.atomic():
+                lcts.question_groups.clear()
+                if gid_list:
+                    for g in models.QuestionGroup.objects.filter(
+                            id__in=gid_list, deleted=False):
+                        lcts.question_groups.add(g)
+                lcts.save()
+        except IntegrityError as err:
+            logger.error(err)
+            return JsonResponse(
+                {'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
 class ExerciseStore(BaseLectureView):

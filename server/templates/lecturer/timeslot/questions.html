@@ -14,7 +14,7 @@
     var old_group_ids = [];
     {% for g in old_groups %}old_group_ids.push({{ g.id }});{% endfor %}
   </script>
-  <script src="{% static 'lecturer/js/timeslot/groups.js' %}"></script>
+  <script src="{% static 'lecturer/js/timeslot/groups.js' %}?{{ 'lecturer/js/timeslot/groups.js'|file_hash }}"></script>
 {% endblock %}
 
 
