@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
+import hashlib
 from django import template
+from django.conf import settings
 from django.core import urlresolvers
+from django.contrib.staticfiles import finders
 
 register = template.Library()
 
@@ -10,6 +14,28 @@ def num_range(value, offset=1):
     if not value:
         return None
     return range(offset, value+offset)
+
+
+@register.filter('file_hash')
+def file_hash(filename):
+    if not filename:
+        return None
+
+    def _get_full_path(path):
+        rel_source_path = path.lstrip("/")
+        if settings.STATIC_ROOT:
+            full_path = os.path.join(settings.STATIC_ROOT, rel_source_path)
+            if os.path.exists(full_path):
+                return full_path
+        try:
+            full_path = finders.find(rel_source_path)
+        except Exception:
+            full_path = None
+        return full_path
+
+    full_path = _get_full_path(filename)
+    return None if full_path is None \
+        else hashlib.md5(open(full_path, 'rb').read()).hexdigest()[:7]
 
 
 @register.filter('sub_list')
