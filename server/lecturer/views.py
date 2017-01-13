@@ -106,6 +106,9 @@ class ApiExerciseStore(LecturerBasedMixin, View):
             self._params = _p
         return self._params
 
+    def post(self, request):
+        return self.get(request)
+
     def get(self, request):
         action = self.request_params.get('action')
 
