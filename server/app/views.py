@@ -1779,13 +1779,12 @@ class PadStatus(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            token = jsonData.get('token', '')
             live_class = jsonData.get('live_class', '0')
             test = jsonData.get('test')
         else:
-            token = request.POST.get('token', '')
             live_class = request.POST.get('live_class', '0')
             test = request.POST.get('test')
+        token = request.META.get('HTTP_PAD_TOKEN', '')
         token = token.strip()
         live_class_id = int(live_class)
 
@@ -1849,11 +1848,10 @@ class PadQuestion(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            token = jsonData.get('token', '')
             question_group = jsonData.get('question_group', '0')
         else:
-            token = request.POST.get('token', '')
             question_group = request.POST.get('question_group', '0')
+        token = request.META.get('HTTP_PAD_TOKEN', '')
         token = token.strip()
         question_group_id = int(question_group)
 
