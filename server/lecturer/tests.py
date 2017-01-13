@@ -85,6 +85,10 @@ class TestLecturerWeb(TestCase):
     def test_exercise_store(self):
         response = self.client.get(reverse('lecturer:exercise-store'))
         self.assertEqual(200, response.status_code)
+        data = {
+            "group": '{"exercises":[{"analyse":"题目解析","solution":"选项1","id":"","title":"题目","options":[{"text":"选项1","id":""},{"text":"选项2","id":""},{"text":"选项3","id":""},{"text":"选项4","id":""}]}],"desc":"题组描述","id":"","title":"题组名称"}'}
+        response = self.client.post(reverse('lecturer:exercise-store'), data)
+        self.assertEqual(200, response.status_code)
 
     def test_api_exercise_store(self):
         url = reverse('lecturer:api-exercise-store')
