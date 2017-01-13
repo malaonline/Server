@@ -43,19 +43,23 @@ define(['Exercise'], function () {
         this.form.exercises.push(this.defaultExercise());
       },
       onSave () {
-        console.log(JSON.stringify(this.form));
-
-        $.ajax({
-          type: "POST",
-          async: false,
-          dataType: "json",
-          url: '/lecturer/api/exercise/store',
-          data: {'group': JSON.stringify(this.form)},
-          success: function (json) {
-            console.log(json);
+        let data = {'group': JSON.stringify(this.form)};
+        console.log(data);
+        malaAjaxPost('/lecturer/exercise/store', data, function(json) {
+          if (json) {
+            if (json.ok) {
+              alert("操作成功");
+              location.reload()
+            } else {
+              alert(json.msg);
+            }
+            return;
           }
+          alert(DEFAULT_ERR_MSG);
+        }, 'json', function(jqXHR, errorType, errorDesc) {
+          let errMsg = errorDesc ? ('[' + errorDesc + '] ') : '';
+          alert(errMsg + DEFAULT_ERR_MSG);
         });
-
       },
       // Public Method
       loadGroup (data) {
