@@ -1,4 +1,5 @@
 import re
+import json
 import logging
 
 # django modules
@@ -206,6 +207,68 @@ class ExerciseStore(BaseLectureView):
     双师直播课程 - 题库题组管理页面
     '''
     template_name = 'lecturer/exercise/store.html'
+
+    def post(self, request, *args, **kwargs):
+        jsonstr = request.POST.get('group')
+        try:
+            params = json.loads(jsonstr)
+        except Exception as ex:
+            return JsonResponse({'ok': False, 'msg': '参数格式错误', 'code': 1})
+        lecturer = self.get_lecturer()
+        try:
+            with transaction.atomic():
+                gid = params.get('id')
+                if gid:
+                    group = models.QuestionGroup.objects.get(id=gid)
+                else:
+                    group = models.QuestionGroup.objects.create(
+                        created_by=lecturer)
+                group.title = (params.get('title', '')).strip()
+                group.description = (params.get('desc', '')).strip()
+                # 处理题组中的题目
+                questions = params.get('exercises')
+                group.questions.clear()  # 清除旧的题组关联的题目
+                for q in questions:
+                    qid = q.get('id')
+                    if qid:
+                        question = models.Question.objects.get(id=qid)
+                    else:
+                        question = models.Question.objects.create(
+                            created_by=lecturer)
+                    question.title = (q.get('title', '')).strip()
+                    question.explanation = (q.get('analyse', '')).strip()
+                    # 处理题目的选项
+                    options = q.get('options')
+                    solution_str = (q.get('solution', '')).strip()
+                    old_optids = [o.id for o in
+                                  question.questionoption_set.all()]
+                    solution = question.solution
+                    for o in options:
+                        oid = o.get('id')
+                        o_text = (o.get('text', '')).strip()
+                        if oid:
+                            q_opt = models.QuestionOption.objects.get(id=oid)
+                            q_opt.text = o_text
+                            q_opt.save()
+                        else:
+                            q_opt = models.QuestionOption.objects.create(
+                                question=question, text=o_text)
+                        old_optids = [i for i in old_optids if i != q_opt.id]
+                        if o_text == solution_str:
+                            solution = q_opt  # 正确选项
+                    # 处理被删除选项
+                    old_optids and models.QuestionOption.objects.filter(
+                        id__in=old_optids).delete()
+                    question.solution = solution
+                    question.save()
+                    group.questions.add(question)  # 把题目添加到题组
+                group.save()
+        except IntegrityError as err:
+            logger.error(err)
+            return JsonResponse(
+                {'ok': False, 'msg': '操作失败, 请稍后重试或联系管理员', 'code': -1})
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
 
 
 class TimeslotsView(BaseLectureView):
