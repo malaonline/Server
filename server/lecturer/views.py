@@ -208,6 +208,41 @@ class ExerciseStore(BaseLectureView):
     '''
     template_name = 'lecturer/exercise/store.html'
 
+    def _build_group(self, params, lecturer):
+        '''build half-saved question-group'''
+        gid = params.get('id')
+        if gid:
+            group = models.QuestionGroup.objects.get(id=gid)
+        else:
+            group = models.QuestionGroup.objects.create(created_by=lecturer)
+        group.title = (params.get('title', '')).strip()
+        group.description = (params.get('desc', '')).strip()
+        return group
+
+    def _build_quesiton(self, q_dict, lecturer):
+        '''build half-saved question'''
+        qid = q_dict.get('id')
+        if qid:
+            question = models.Question.objects.get(id=qid)
+        else:
+            question = models.Question.objects.create(created_by=lecturer)
+        question.title = (q_dict.get('title', '')).strip()
+        question.explanation = (q_dict.get('analyse', '')).strip()
+        return question
+
+    def _build_option(self, o_dict, question):
+        '''return saved question-option'''
+        oid = o_dict.get('id')
+        o_text = (o_dict.get('text', '')).strip()
+        if oid:
+            q_opt = models.QuestionOption.objects.get(id=oid)
+            q_opt.text = o_text
+            q_opt.save()
+        else:
+            q_opt = models.QuestionOption.objects.create(
+                question=question, text=o_text)
+        return q_opt
+
     def post(self, request, *args, **kwargs):
         jsonstr = request.POST.get('group')
         try:
@@ -217,26 +252,12 @@ class ExerciseStore(BaseLectureView):
         lecturer = self.get_lecturer()
         try:
             with transaction.atomic():
-                gid = params.get('id')
-                if gid:
-                    group = models.QuestionGroup.objects.get(id=gid)
-                else:
-                    group = models.QuestionGroup.objects.create(
-                        created_by=lecturer)
-                group.title = (params.get('title', '')).strip()
-                group.description = (params.get('desc', '')).strip()
+                group = self._build_group(params, lecturer)
                 # 处理题组中的题目
                 questions = params.get('exercises')
                 group.questions.clear()  # 清除旧的题组关联的题目
                 for q in questions:
-                    qid = q.get('id')
-                    if qid:
-                        question = models.Question.objects.get(id=qid)
-                    else:
-                        question = models.Question.objects.create(
-                            created_by=lecturer)
-                    question.title = (q.get('title', '')).strip()
-                    question.explanation = (q.get('analyse', '')).strip()
+                    question = self._build_quesiton(q, lecturer)
                     # 处理题目的选项
                     options = q.get('options')
                     solution_str = (q.get('solution', '')).strip()
@@ -244,18 +265,11 @@ class ExerciseStore(BaseLectureView):
                                   question.questionoption_set.all()]
                     solution = question.solution
                     for o in options:
-                        oid = o.get('id')
-                        o_text = (o.get('text', '')).strip()
-                        if oid:
-                            q_opt = models.QuestionOption.objects.get(id=oid)
-                            q_opt.text = o_text
-                            q_opt.save()
-                        else:
-                            q_opt = models.QuestionOption.objects.create(
-                                question=question, text=o_text)
+                        q_opt = self._build_option(o, question)
                         old_optids = [i for i in old_optids if i != q_opt.id]
-                        if o_text == solution_str:
-                            solution = q_opt  # 正确选项
+                        # 题目的正确选项
+                        if q_opt.text == solution_str:
+                            solution = q_opt
                     # 处理被删除选项
                     old_optids and models.QuestionOption.objects.filter(
                         id__in=old_optids).delete()
