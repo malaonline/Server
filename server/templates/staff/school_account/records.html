@@ -41,7 +41,11 @@
                     <th class="text-center" width="30%">时间</th>
                     <th class="text-center" width="20%">金额</th>
                     <th class="text-center" width="20%">类型</th>
-                    <th class="text-center">状态</th>
+                    <th class="text-center">
+                      状态
+                      <span class="badge" data-toggle="tooltip"
+                            title="已打款提交后，钱款收入会在1-7个工作日内打到您的银行卡账户，具体以银行到账为主，请您注意查收。">?</span>
+                    </th>
                 </tr>
                 {% for hist in records %}
                     <tr class="item">
