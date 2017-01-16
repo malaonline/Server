@@ -22,4 +22,5 @@ $(function(){
     });
 
     paginationInit();
+    $("[data-toggle='tooltip']").tooltip();
 });
