@@ -43,4 +43,5 @@ urlpatterns = [
     url(r'^course/live-course/classroom/$', views.CreateClassRoomView.as_view(), name="create_room"),
     url(r'^course/live-course/list/$', views.LiveCourseListView.as_view(), name="live_course_list"),
     url(r'^course/live-course/detail/(?P<cid>\d+)/$$', views.LiveCourseView.as_view(), name="live_course_detail"),
+    url(r'^auth/$', views.StaffAuthView.as_view(), name="staff_auth"),
 ]

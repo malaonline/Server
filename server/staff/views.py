@@ -1,6 +1,7 @@
 import logging
 import datetime
 import json
+import re
 from collections import OrderedDict
 import xlwt
 
@@ -3031,3 +3032,23 @@ class LiveCourseListView(BaseStaffView):
         kwargs['live_courses'] = live_courses
         kwargs['pager'] = pager
         return super(LiveCourseListView, self).get_context_data(**kwargs)
+
+class StaffAuthView(BaseStaffView):
+    def post(self, request):
+        action = request.POST.get('action')
+        if action == 'modpswd':
+            return self._mod_password(request)
+        return HttpResponse(status=403)
+
+    def _mod_password(self, request):
+        oldpswd = request.POST.get('oldpswd')
+        newpswd = request.POST.get('newpswd')
+        _re_pswd = re.compile(r'^[\W\w]{6,32}$')
+        if not _re_pswd.match(newpswd):
+            return JsonResponse({'ok': False, 'msg': '密码格式错误', 'code': 1})
+        user = request.user
+        if not user.check_password(oldpswd):
+            return JsonResponse({'ok': False, 'msg': '原密码不正确', 'code': 2})
+        user.set_password(newpswd)
+        user.save()
+        return JsonResponse({'ok': True, 'msg': '', 'code': 0})
