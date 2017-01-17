@@ -52,16 +52,10 @@
             <div class="row form-row">
                 <label>所属地区</label>
                 <div class="school-place">
-                    <select class="form-control">
-                      <option>河南</option>
-                    </select>
                     <select class="form-control" name="regionId">
                     {% for region in region_list %}
-                        <option value="{{region.id}}" {%if region.id|stringformat:"i" == school.region.id %} selected="selected"{% endif %}>{{ region.name }}</option>
+                        <option value="{{region.id}}" {%if region.id == school.region.id %} selected="selected"{% endif %}>{{ region.name }}</option>
                     {% endfor %}
-                    </select>
-                    <select class="form-control">
-                      <option></option>
                     </select>
                 </div>
             </div>
