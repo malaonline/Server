@@ -36,12 +36,58 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if request.user.schoolmaster %}
                         <li><a href="#">{{ request.user.schoolmaster.name }}, {{ request.user.schoolmaster.school.name }}</a></li>
+                        <li><a href="javascript:void(0)" id="modPswd">修改密码</a></li>
                     {% endif %}
                     <li><a href="{% url 'staff:logout' %}">退出</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="modal fade" id="modPswdModal" tabindex="-1" role="dialog"
+         aria-labelledby="modPswdLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center" id="modPswdLabel">修改密码</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" id="modPswdForm">
+              <fieldset>
+                <div class="control-group">
+                  <label class="col-sm-3 control-label" for="oldpswd">原密码</label>
+                  <div class="col-sm-9">
+                    <input type="password" class="form-control" id="oldpswd">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="col-sm-3 control-label" for="newpswd">新密码</label>
+                  <div class="col-sm-9">
+                    <input type="password" class="form-control" id="newpswd">
+                    <span class="text-muted">6到32个字母、数字或特殊字符</span>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="col-sm-3 control-label" for="newpswd2">确认新密码</label>
+                  <div class="col-sm-9">
+                    <input type="password" class="form-control" id="newpswd2">
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <input type="button" id="modPswdSubmitBtn" value="提交"
+                   class="btn btn-primary">
+            <input type="button" value="关闭" data-dismiss="modal"
+                   class="btn btn-default">
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="staff-content">
         <div class="menu-sidebar">
             {% include "staff/menu.html" %}
