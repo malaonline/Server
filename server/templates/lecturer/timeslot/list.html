@@ -1,24 +1,37 @@
 {% extends "lecturer/lecturer_base.html" %}
 
+{% load staticfiles %}
+{% load compile_static %}
+
 {% block title %}麻辣老师双师直播后台 - 课程列表{% endblock %}
+
+{% block addition_js %}
+  <script src="{% static 'lecturer/js/timeslot/list.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <h1>备课列表</h1>
     <table class="table table-striped table-hover table-bordered">
         <tr>
-            <th class="text-center">序号</th>
+{#            <th class="text-center">序号</th>#}
             <th class="text-center">课程名称</th>
             <th class="text-center">日期</th>
             <th class="text-center">时间</th>
             <th class="text-center">题组数量</th>
             <th class="text-center">题组管理</th>
-            <th class="text-center">课程状态</th>
+            <th class="text-center">
+              课程状态
+              <select id="status-select">
+                <option>未开始</option>
+                <option value="all" {% if query_data.show_all %}selected="selected"{% endif %}>全部</option>
+              </select>
+            </th>
         </tr>
         {% for timeslot in timeslots %}
             <tr align="center">
-                <td>
-                    <span class="badge">{{ timeslot.idx }}</span>
-                </td>
+{#                <td>#}
+{#                    <span class="badge">{{ timeslot.idx }}</span>#}
+{#                </td>#}
                 <td>{{ timeslot.live_course.name }}</td>
                 <td>{{ timeslot.start | date:"Y-m-d" }}</td>
                 <td>{{ timeslot.start | date:"H:i" }}

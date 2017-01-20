@@ -296,9 +296,13 @@ class TimeslotsView(BaseLectureView):
 
         context['query_data'] = self.request.GET.dict()
         page = self.request.GET.get('page')
+        show_all = self.request.GET.get('show_all')
         lecturer = self.request.user.lecturer
         timeslots = models.LiveCourseTimeSlot.objects.filter(
             live_course__lecturer=lecturer)
+        if not show_all:
+            now = timezone.now()
+            timeslots = timeslots.filter(start__gt=now)
         timeslots, pager = paginate(timeslots, page)
         page = pager.number
         for idx, timeslot in enumerate(timeslots):
