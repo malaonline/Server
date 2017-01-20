@@ -44,7 +44,7 @@ class TimeSlotAdmin(admin.ModelAdmin):
     raw_id_fields = (
             'order', 'confirmed_by', 'transferred_from', 'last_updated_by',
             'comment', 'complaint', 'attendance')
-    search_fields = ['order__teacher__name', 'order__parent__student_name']
+    search_fields = ['order__teacher__name', 'order__parent__students__name']
     list_display = ['__str__', 'deleted', 'suspended', 'reminded']
     list_filter = ['start']
 
