@@ -639,8 +639,8 @@ class Teacher(BaseModel):
         # 设置老师等级
         if self.level_id:
             # 如果反复重复设置
-            self.level_id == new_level.id
-            return
+            if self.level_id == new_level.id:
+                return
         new_level_record = LevelRecord(to_level=new_level, teacher=self)
         if self.level_id:
             if self.level.level_order < new_level.level_order:
