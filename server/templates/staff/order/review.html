@@ -128,7 +128,7 @@
             <th class="text-right" bgcolor="#00bfff">退费金额</th>
             <th class="text-right">实际上课小时</th>
             <th class="text-right" bgcolor="#00bfff">实际订单金额</th>
-            <th>操作</th>
+{#            <th>操作</th>#}
         </tr>
         {% for order in orders %}
             <tr align="center">
@@ -201,17 +201,17 @@
                 </td>
 {# 实际上课小时 #} <td class="text-right">{{ order.real_completed_hours }}</td>
 {# 实际订单金额 #} <td class="text-right">{{ order.real_order_amount|money_format:'/' }}</td>
-{# 操作 #}       <td>
-                    {% if order.status == order.PAID and not order.refund_status %}
-                        <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>
-                    {% elif order.status == order.PAID and order.refund_status == order.REFUND_REJECTED %}
-                        <a data-action="show-refund-preview" orderId={{ order.id }}>重新申请退款</a>
-                    {% elif order.refund_status == order.REFUND_PENDING or order.refund_status == order.REFUND_APPROVED %}
-                        <a data-action="show-refund-record" orderId={{ order.id }}>查看记录</a>
-                    {% else %}
-                        无
-                    {% endif %}
-                </td>
+{# 操作        <td>#}
+{#                    {% if order.status == order.PAID and not order.refund_status %}#}
+{#                        <a data-action="show-refund-preview" orderId={{ order.id }}>申请退款</a>#}
+{#                    {% elif order.status == order.PAID and order.refund_status == order.REFUND_REJECTED %}#}
+{#                        <a data-action="show-refund-preview" orderId={{ order.id }}>重新申请退款</a>#}
+{#                    {% elif order.refund_status == order.REFUND_PENDING or order.refund_status == order.REFUND_APPROVED %}#}
+{#                        <a data-action="show-refund-record" orderId={{ order.id }}>查看记录</a>#}
+{#                    {% else %}#}
+{#                        无#}
+{#                    {% endif %}#}
+{#                </td>#}
             </tr>
         {% endfor %}
     </table>
