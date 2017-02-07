@@ -64,7 +64,7 @@ class CheckcodeAdmin(admin.ModelAdmin):
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    search_fields = ('name', 'phone')
+    search_fields = ('name', 'user__profile__phone')
     list_display = ('__str__', 'region', 'level', 'status',
                     'published', 'is_assistant', 'recommended_on_wechat')
     list_filter = ('status', 'degree',)
