@@ -1639,7 +1639,7 @@ class TeacherSchoolPrices(View):
             school=school,
             grade__in=teacher.grades(),
             level=teacher.level
-        )
+        ).order_by('grade_id')
         prices = list(prices)
         step_prices = itertools.groupby(prices, key=lambda x: x.grade)
 
