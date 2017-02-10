@@ -865,7 +865,7 @@ class TimeSlotSerializer(serializers.ModelSerializer):
     teacher = TeacherShortSerializer()
     comment = CommentSerializer()
     school = SchoolNameSerializer()
-    grade = GradeNameSerializer()
+    grade = serializers.SerializerMethodField()
     lecturer = LecturerShortSerializer()
 
     class Meta:
@@ -879,6 +879,11 @@ class TimeSlotSerializer(serializers.ModelSerializer):
 
     def get_end(self, obj):
         return int(obj.end.timestamp())
+
+    def get_grade(self, obj):
+        if obj.order.is_live():
+            return obj.order.live_class.live_course.grade_desc
+        return obj.order.grade.name
 
 
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet, ParentBasedMixin):
