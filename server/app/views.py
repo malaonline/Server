@@ -969,6 +969,8 @@ class LiveClassSerializer(serializers.ModelSerializer):
     course_end = serializers.SerializerMethodField()
     lecturer_avatar = serializers.ImageField()
     assistant_avatar = serializers.ImageField()
+    # Create a custom method field
+    is_paid = serializers.SerializerMethodField('_is_paid')
 
     class Meta:
         model = models.LiveClass
@@ -978,7 +980,7 @@ class LiveClassSerializer(serializers.ModelSerializer):
                   'students_count', 'lecturer_name', 'lecturer_title',
                   'lecturer_bio', 'lecturer_avatar', 'assistant_name',
                   'assistant_avatar', 'assistant_phone', 'school_name',
-                  'school_address',
+                  'school_address', 'is_paid',
                   )
 
     def get_course_start(self, obj):
@@ -986,6 +988,21 @@ class LiveClassSerializer(serializers.ModelSerializer):
 
     def get_course_end(self, obj):
         return int(obj.course_end.timestamp())
+
+    # Use this method for the custom field
+    def _is_paid(self, obj):
+        live_class = obj
+        try:
+            parent = self.context['request'].user.parent
+            if models.Order.objects.filter(
+                    parent=parent,
+                    status=models.Order.PAID,
+                    live_class__live_course=live_class.live_course,
+            ).count() > 0:
+                return True
+        except (AttributeError, exceptions.ObjectDoesNotExist):
+            pass
+        return False
 
 
 class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
