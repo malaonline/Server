@@ -1112,6 +1112,13 @@ class OrderViewSet(ParentBasedMixin,
                 models.LiveClass, pk=request.data.get('live_class'))
             if live_class.is_full():
                 return -3  # class room is full!
+            parent = request.user.parent
+            if models.Order.objects.filter(
+                    parent=parent,
+                    status=models.Order.PAID,
+                    live_class__live_course=live_class.live_course,
+            ).count() > 0:
+                return -4  # this class is paid!
             return 0
         school = get_object_or_404(
             models.School, pk=request.data.get('school'))

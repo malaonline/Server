@@ -674,6 +674,7 @@ result:
     "code": -1 // One or more course in the order has been assigned to other parent
             -2 // Coupon limitation validate Failed
             -3 // Live course, class room is full
+            -4 // Live course, is paid
 }
 ```
 
