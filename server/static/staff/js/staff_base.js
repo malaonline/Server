@@ -28,7 +28,7 @@ $(function() {
     $("#modPswdModal").modal('show');
   });
   $('#modPswdSubmitBtn').click(function(e) {
-    let rpswd = /^[\W\w]{6,32}$/,
+    var rpswd = /^[\W\w]{6,32}$/,
         oldpswd = $('#oldpswd').val(),
         newpswd = $('#newpswd').val(),
         newpswd2 = $('#newpswd2').val();
@@ -38,7 +38,7 @@ $(function() {
     if (newpswd != newpswd2) {
       return alert('两次新密码不一样');
     }
-    let data = {'action': 'modpswd', 'oldpswd': oldpswd, 'newpswd': newpswd};
+    var data = {'action': 'modpswd', 'oldpswd': oldpswd, 'newpswd': newpswd};
     malaAjaxPost("/staff/auth/", data, function(result) {
       if (result) {
         if (result.ok) {
@@ -53,7 +53,7 @@ $(function() {
         alert(DEFAULT_ERR_MSG);
       }
     }, 'json', function(jqXHR, errorType, errorDesc) {
-      let errMsg = errorDesc ? ('[' + errorDesc + '] ') : '';
+      var errMsg = errorDesc ? ('[' + errorDesc + '] ') : '';
       alert(errMsg + DEFAULT_ERR_MSG);
     });
   });
