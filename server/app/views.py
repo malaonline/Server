@@ -1014,7 +1014,7 @@ class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
         school_id = self.request.query_params.get('school')
         if school_id:
             queryset = queryset.filter(class_room__school_id=school_id)
-        return queryset
+        return queryset.order_by('-id')
 
 
 class OrderListSerializer(serializers.ModelSerializer):
