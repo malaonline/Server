@@ -1790,7 +1790,7 @@ class OrderManager(models.Manager):
         if order.is_live():
             if check_conflict:
                 capacity = order.live_class.class_room.capacity
-                if order.live_class.students_count >= capacity:
+                if order.live_class.students_count > capacity:
                     # todo: maybe need another exception
                     raise TimeSlotConflict()
             live_ts = order.live_class.live_course.livecoursetimeslot_set.all()
