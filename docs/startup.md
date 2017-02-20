@@ -66,3 +66,9 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 - `mala_kuailexue.pub`:  RSA public key, kuailexue verify sign with it, unit test also use it.    
 ***Please overwrite them in folder ```"/server/server/"``` with real keys***
 
+
+## Settings/Configurations
+See file `server/settings.py`.Please make your own settings in the file `server/local_settings.py`.
+
+- ``SERVICE_SUPPORT_TEL``: Service Support telephone NO.
+
