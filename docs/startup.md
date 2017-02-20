@@ -21,38 +21,8 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## TokenAuthentication
-
-View detail documentation [here](http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication).
-
-Url: `/api/token-auth/`
-
-Method: POST
-
-Parameters:
-
-- username
-- password
-
-
-Return:
-
-- token
-
-
-###Example:
-
-
-```
-curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
-```
-
-```
-{ 'token' : '9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' }
-```
-
-
 ### Celery worker
+See Celery Settings [here](#celery).
 - celery worker --app=server -l info
 - celery -A server beat
 
@@ -61,14 +31,59 @@ curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
 - celery multi stop taskman
 
 
-### Kuailexue API Config
-- `mala_kuailexue.pem`:  RSA private key
-- `mala_kuailexue.pub`:  RSA public key, kuailexue verify sign with it, unit test also use it.    
-***Please overwrite them in folder ```"/server/server/"``` with real keys***
+## Implicit APIs
+
+### TokenAuthentication
+View detail documentation [here](http://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication).
+
+Url: `/api/token-auth/`
+
+Method: POST
+
+Parameters:
+- `username`
+- `password`
+
+Return:
+- token
+
+Example:
+```
+curl http://127.0.0.1:8000/api/token-auth/ -d 'username=user1&password=pass1'
+{ 'token' : '9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b' }
+```
+
+### Manage Region
+Open region or show region info, need authentication staff login.
+
+URL: `/staff/region/${region_id}/`
+
+Method: GET
+
+Parameters:
+- `action`: None or in ('open',)
+
+Return: text/html
+
+Example:
+```
+http://127.0.0.1:8000/staff/region/1/?action=open
+```
 
 
 ## Settings/Configurations
 See file `server/settings.py`.Please make your own settings in the file `server/local_settings.py`.
 
-- ``SERVICE_SUPPORT_TEL``: Service Support telephone NO.
+### Site
+- ``SERVICE_SUPPORT_TEL``: Service Support telephone NO., 'service_hotline' in template.
 
+### Kuailexue API Config
+- `KUAILEXUE_API_PRI_KEY`: content of API RSA private key, default `server/server/mala_kuailexue.pem`.
+- `KUAILEXUE_API_PUB_KEY`: content of API RSA public key, kuailexue verify sign with it, unit test also use it, default `server/server/mala_kuailexue.pub`.
+
+*Please overwrite them in folder `"/server/server/"` with real keys*
+
+### Celery
+- `CELERY_TIMEZONE`: i.e. 'Asia/Shanghai'
+- `BROKER_URL`: i.e. 'redis://localhost:6379/0'
+- `CELERY_RESULT_BACKEND`: i.e. 'redis://localhost:6379/0'
