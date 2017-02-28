@@ -27,7 +27,7 @@ class ParentAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('timeslots', )
-    search_fields = ['teacher__name', 'parent__student_name']
+    search_fields = ['teacher__name', 'parent__students__name', 'order_id']
     list_filter = ['subject', 'paid_at', 'status', 'refund_status']
 
     def timeslots(self, instance):
