@@ -517,6 +517,8 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
 
 
 def _get_wx_jsapi_ticket(access_token):
+    if settings.TESTING:
+        return "", ""
     jsapi_ticket = _get_wx_jsapi_ticket_from_db()
     msg = None
     if not jsapi_ticket:
@@ -536,6 +538,8 @@ def _get_wx_jsapi_ticket_from_db():
 
 
 def _get_wx_token():
+    if settings.TESTING:
+        return "", ""
     token = _get_wx_token_from_db()
     msg = None
     if not token:
