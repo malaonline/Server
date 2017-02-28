@@ -591,7 +591,7 @@ class Teacher(BaseModel):
         return abilities[0].subject
 
     def grades(self):
-        abilities = self.abilities.all()
+        abilities = self.abilities.all().order_by("grade_id")
         return [ability.grade for ability in abilities]
 
     def grades_shortname(self):
