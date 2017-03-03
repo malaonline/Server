@@ -1,7 +1,31 @@
 {% extends "lecturer/lecturer_base.html" %}
 
+{% load staticfiles %}
+{% load compile_static %}
+
 {% block title %}麻辣老师双师直播后台 - 上课首页{% endblock %}
 
+{% block addition_js %}
+    <script src="{% static 'lecturer/js/index.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    <h1>开始上课首页 - 敬请期待</h1>
+  <h1>开始上课首页</h1>
+  <form name="query_form" class="form-inline">
+    <div class="form-group">
+      <label>选择题组</label>
+      <select name="question-group" id="question-group" class="form-control">
+        {% for question_group in question_groups %}
+          <option
+              value="{{ question_group.id }}">{{ question_group.title }}</option>
+        {% endfor %}
+      </select>
+      <div class="form-group">
+        <input type="button" class="form-control btn-success"
+               data-action="start" value="开始答题"/>
+        <input type="button" class="form-control btn-danger" data-action="stop"
+               value="结束答题" style="display: none"/>
+      </div>
+    </div>
+  </form>
 {% endblock %}
