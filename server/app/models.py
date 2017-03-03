@@ -3546,3 +3546,6 @@ class LiveResult(BaseModel):
     option = models.ForeignKey(QuestionOption)
     # 正确答案快照
     solution = models.ForeignKey(QuestionOption)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_updated_at = models.DateTimeField(auto_now=True)
