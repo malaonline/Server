@@ -3514,7 +3514,7 @@ class QuestionGroup(BaseModel):
         return self.description
 
 
-class LiveSession(BaseModel):
+class ExerciseSession(BaseModel):
     '''
     答题会话模型
     '''
@@ -3527,16 +3527,16 @@ class LiveSession(BaseModel):
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    last_updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
-class LiveResult(BaseModel):
+class ExerciseSubmit(BaseModel):
     '''
     答题结果模型
     '''
 
     # 提交会话
-    live_session = models.ForeignKey(LiveSession)
+    exercise_session = models.ForeignKey(ExerciseSession)
     # 提交家长(学生)
     parent = models.ForeignKey(Parent)
     # 提交题目
@@ -3547,4 +3547,4 @@ class LiveResult(BaseModel):
     solution = models.ForeignKey(QuestionOption)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    last_updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
