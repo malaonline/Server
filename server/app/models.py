@@ -3526,7 +3526,6 @@ class LiveSession(BaseModel):
     # 激活标记
     is_active = models.BooleanField(default=True)
 
-    created_by = models.ForeignKey(Lecturer)
     created_at = models.DateTimeField(auto_now_add=True)
     last_updated_at = models.DateTimeField(auto_now=True)
 
