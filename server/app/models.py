@@ -3543,8 +3543,6 @@ class ExerciseSubmit(BaseModel):
     question = models.ForeignKey(Question)
     # 提交答案
     option = models.ForeignKey(QuestionOption)
-    # 正确答案快照
-    solution = models.ForeignKey(QuestionOption)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
