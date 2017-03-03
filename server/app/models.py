@@ -3512,3 +3512,37 @@ class QuestionGroup(BaseModel):
     @property
     def desc(self):
         return self.description
+
+
+class ExerciseSession(BaseModel):
+    '''
+    答题会话模型
+    '''
+
+    # 具体课次
+    live_course_timeslot = models.ForeignKey(LiveCourseTimeSlot)
+    # 题组
+    question_group = models.ForeignKey(QuestionGroup)
+    # 激活标记
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class ExerciseSubmit(BaseModel):
+    '''
+    答题结果模型
+    '''
+
+    # 提交会话
+    exercise_session = models.ForeignKey(ExerciseSession)
+    # 提交家长(学生)
+    parent = models.ForeignKey(Parent)
+    # 提交题目
+    question = models.ForeignKey(Question)
+    # 提交答案
+    option = models.ForeignKey(QuestionOption)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
