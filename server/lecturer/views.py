@@ -322,3 +322,20 @@ class LivingView(BaseLectureView):
     双师直播课程 - 开始上课首页
     '''
     template_name = 'lecturer/living/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LivingView, self).get_context_data(**kwargs)
+
+        lecturer = self.request.user.lecturer
+        live_course_timeslot = models.LiveCourseTimeSlot.objects.filter(
+            live_course__lecturer=lecturer
+        ).order_by("start").first()
+        if live_course_timeslot is None:
+            return context
+        question_groups = models.QuestionGroup.objects.filter(
+            livecoursetimeslot=live_course_timeslot
+        )
+
+        context['question_groups'] = question_groups
+
+        return context
