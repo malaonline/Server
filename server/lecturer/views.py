@@ -117,6 +117,8 @@ class ApiExerciseStore(LecturerBasedMixin, View):
             return self.get_question_group_list()
         elif action == 'group':
             return self.get_questions_of_group()
+        elif action == 'exercise_submits':
+            return self.get_exercise_submits()
 
         return self.json_res(ok=False, code=-1, msg='不支持该方法')
 
@@ -151,6 +153,28 @@ class ApiExerciseStore(LecturerBasedMixin, View):
 
         group_dict['questions'] = ql
         return self.json_res(data=group_dict)
+
+    def get_exercise_submits(self):
+        session_id = self.request_params.get('sid')
+        session = get_object_or_404(models.ExerciseSession, pk=session_id)
+        submits = models.ExerciseSubmit.objects.filter(exercise_session=session)
+        q2o_ids = {  # dict of questions to its option_id list
+                     q.id: list(q.questionoption_set.values_list(flat=True))
+                     for q in session.question_group.questions.all()
+                     }
+        sbl = [
+            {"id": sb.id,
+             "pid": sb.parent.id,
+             "stu": sb.parent.student_name,
+             "qid": sb.question.id,
+             "oid": sb.option.id,
+             "seq": q2o_ids.get(sb.question_id) and
+                    sb.option_id in q2o_ids.get(sb.question_id) and
+                    q2o_ids.get(sb.question_id).index(sb.option_id),
+             "ok": sb.option_id == sb.question.solution_id,
+             }
+            for sb in submits]
+        return self.json_res(data=sbl)
 
 
 class LCTimeslotQuestionsView(BaseLectureView):
