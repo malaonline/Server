@@ -9,8 +9,9 @@
 4. `cd server`
 5. `cp server/local_settings.sample server/local_settings.py`
 6. `pip install -r pip_install.txt --upgrade`
-7. `python manage.py migrate`
-8. `python manage.py runserver`
+7. `create user malauser createdb login password 'mala123';` && `create database maladb owner malauser;`
+8. `python manage.py migrate`
+9. `python manage.py runserver`
 
 ### To Create a Pull Request
 
