@@ -1465,6 +1465,9 @@ result:
     "data": {
         "question_group": {
             "id": 1
+        },
+        "exercise_session": {
+            "id": 5
         }
     }
 }
