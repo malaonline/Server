@@ -274,11 +274,13 @@ class ExerciseStore(BaseLectureView):
         except Exception as ex:
             return JsonResponse({'ok': False, 'msg': '参数格式错误', 'code': 1})
         lecturer = self.get_lecturer()
+        questions = params.get('exercises')
+        if len(questions) == 0:
+            return JsonResponse({'ok': False, 'msg': '不支持空题组，至少一个问题', 'code': 2})
         try:
             with transaction.atomic():
                 group = self._build_group(params, lecturer)
                 # 处理题组中的题目
-                questions = params.get('exercises')
                 group.questions.clear()  # 清除旧的题组关联的题目
                 for q in questions:
                     question = self._build_quesiton(q, lecturer)
