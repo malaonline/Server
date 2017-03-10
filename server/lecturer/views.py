@@ -354,8 +354,11 @@ class LivingView(BaseLectureView):
         context = super(LivingView, self).get_context_data(**kwargs)
 
         lecturer = self.request.user.lecturer
+        now = timezone.now()
         live_course_timeslot = models.LiveCourseTimeSlot.objects.filter(
-            live_course__lecturer=lecturer
+            live_course__lecturer=lecturer,
+            start__lte=now,
+            end__gte=now,
         ).order_by("start").first()
         if live_course_timeslot is None:
             return context

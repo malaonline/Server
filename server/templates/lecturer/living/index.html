@@ -14,6 +14,9 @@
   {% if not live_course_timeslot %}
     <h2><span class="label label-info">当前暂无您的直播课程</span></h2>
   {% else %}
+    <h2><span
+        class="label label-primary">课程名称 - {{ live_course_timeslot.live_course.name }}</span>
+    </h2>
     <form class="form-inline">
       <div class="form-group">
         <label>选择题组</label>
