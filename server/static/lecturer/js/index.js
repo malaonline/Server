@@ -3,14 +3,51 @@
  */
 
 $(function() {
+  var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
+
   $("[data-action=start]").click(function() {
-    $("#question-group").enable(false);
-    $(this).hide();
-    $("[data-action=stop]").show();
+    var params = {
+      'action': 'start',
+      'question_group': $("#question-group").val(),
+      'live_course_timeslot': $("#live-course-timeslot").val()
+    };
+    malaAjaxPost(location.pathname, params, function(result) {
+      if (result) {
+        if (result.ok) {
+          $("#question-group").enable(false);
+          $("[data-action=start]").hide();
+          $("[data-action=stop]").show();
+        } else {
+          alert(result.msg);
+        }
+        return;
+      }
+      alert(defaultErrMsg);
+    }, 'json', function() {
+      alert(defaultErrMsg);
+    });
   });
+
   $("[data-action=stop]").click(function() {
-    $("#question-group").enable(true);
-    $(this).hide();
-    $("[data-action=start]").show();
+    var params = {
+      'action': 'stop',
+      'question_group': $("#question-group").val(),
+      'live_course_timeslot': $("#live-course-timeslot").val()
+    };
+    malaAjaxPost(location.pathname, params, function(result) {
+      if (result) {
+        if (result.ok) {
+          $("#question-group").enable(true);
+          $("[data-action=stop]").hide();
+          $("[data-action=start]").show();
+        } else {
+          alert(result.msg);
+        }
+        return;
+      }
+      alert(defaultErrMsg);
+    }, 'json', function() {
+      alert(defaultErrMsg);
+    });
   });
 });
