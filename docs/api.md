@@ -1457,6 +1457,7 @@ live_class=1
 result:
 
 ```
+// There is available exercise session
 {
     "code": 0,
     "msg": "成功",
@@ -1466,6 +1467,16 @@ result:
             "id": 1
         }
     }
+}
+```
+
+```
+// No available exercise session
+{
+    "code": 0,
+    "msg": "成功",
+    "type": 1,
+    "data": {}
 }
 ```
 

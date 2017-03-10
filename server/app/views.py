@@ -1851,15 +1851,32 @@ class PadStatus(View):
             })
         if timeslot is None:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
+
+        exercise_session = models.ExerciseSession.objects.filter(
+            is_active=True,
+            live_course_timeslot__live_course=live_class.live_course
+        ).order_by('-created_at').first()
+
+        if exercise_session is not None:
+            return JsonResponse({
+                'code': 0,
+                'msg': '成功',
+                'type': 1,
+                'data': {
+                    'question_group': {
+                        'id': exercise_session.question_group.id
+                    },
+                    'exercise_session': {
+                        'id': exercise_session.id
+                    }
+                }
+            })
+
         return JsonResponse({
             'code': 0,
             'msg': '成功',
             'type': 1,
-            'data': {
-                'question_group': {
-                    'id': question_group.id
-                }
-            }
+            'data': {}
         })
 
 
