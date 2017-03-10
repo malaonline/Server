@@ -276,7 +276,8 @@ class ExerciseStore(BaseLectureView):
         lecturer = self.get_lecturer()
         questions = params.get('exercises')
         if len(questions) == 0:
-            return JsonResponse({'ok': False, 'msg': '不支持空题组，至少一个问题', 'code': 2})
+            return JsonResponse(
+                {'ok': False, 'msg': '不支持空题组，至少一个问题', 'code': 2})
         try:
             with transaction.atomic():
                 group = self._build_group(params, lecturer)
@@ -362,6 +363,46 @@ class LivingView(BaseLectureView):
             livecoursetimeslot=live_course_timeslot
         )
 
+        context['live_course_timeslot'] = live_course_timeslot
         context['question_groups'] = question_groups
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+        question_group_id = request.POST.get('question_group')
+        live_course_timeslot_id = request.POST.get('live_course_timeslot')
+
+        response = JsonResponse({'ok': False, 'msg': '异常错误', 'code': -99})
+        if action == 'start':
+            response = self.set_exercise_session(
+                live_course_timeslot_id=live_course_timeslot_id,
+                question_group_id=question_group_id,
+                is_active=True,
+            )
+        elif action == 'stop':
+            response = self.set_exercise_session(
+                live_course_timeslot_id=live_course_timeslot_id,
+                question_group_id=question_group_id,
+                is_active=False,
+            )
+
+        return response
+
+    def set_exercise_session(self, live_course_timeslot_id, question_group_id,
+                             is_active):
+        question_group = get_object_or_404(
+            models.QuestionGroup,
+            pk=question_group_id
+        )
+        live_course_timeslot = get_object_or_404(
+            models.LiveCourseTimeSlot,
+            pk=live_course_timeslot_id
+        )
+        exercise_session, created = models.ExerciseSession.objects.get_or_create(
+            live_course_timeslot=live_course_timeslot,
+            question_group=question_group)
+        exercise_session.is_active = is_active
+        exercise_session.save()
+
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
