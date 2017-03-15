@@ -408,4 +408,5 @@ class LivingView(BaseLectureView):
         exercise_session.is_active = is_active
         exercise_session.save()
 
-        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0})
+        return JsonResponse({'ok': True, 'msg': 'OK', 'code': 0,
+                             'sid': exercise_session.id})
