@@ -59,5 +59,6 @@ urlpatterns = [
     url(r'^api/v1/pad/login', views.PadLogin.as_view(), name='pad_login'),
     url(r'^api/v1/pad/status', views.PadStatus.as_view(), name='pad_status'),
     url(r'^api/v1/pad/question', views.PadQuestion.as_view(), name='pad_question'),
+    url(r'^api/v1/pad/submit', views.PadSubmit.as_view(), name='pad_submit'),
     url(r'^api/v1/', include(router.urls)),
 ]
