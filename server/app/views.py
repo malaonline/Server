@@ -1813,8 +1813,7 @@ class PadStatus(View):
         else:
             live_class = request.POST.get('live_class', '0')
             test = request.POST.get('test')
-        token = request.META.get('HTTP_PAD_TOKEN', '')
-        token = token.strip()
+        token = request.META.get('HTTP_PAD_TOKEN', '').strip()
         live_class_id = int(live_class)
 
         parent = models.Parent.objects.filter(pad_token=token).first()
@@ -1844,9 +1843,7 @@ class PadStatus(View):
                 'msg': '成功',
                 'type': 1,
                 'data': {
-                    'question_group': {
-                        'id': question_group.id
-                    }
+                    'question_group': question_group.id
                 }
             })
         if timeslot is None:
@@ -1863,12 +1860,8 @@ class PadStatus(View):
                 'msg': '成功',
                 'type': 1,
                 'data': {
-                    'question_group': {
-                        'id': exercise_session.question_group.id
-                    },
-                    'exercise_session': {
-                        'id': exercise_session.id
-                    }
+                    'question_group': exercise_session.question_group.id,
+                    'exercise_session': exercise_session.id
                 }
             })
 
@@ -1897,8 +1890,7 @@ class PadQuestion(View):
             question_group = jsonData.get('question_group', '0')
         else:
             question_group = request.POST.get('question_group', '0')
-        token = request.META.get('HTTP_PAD_TOKEN', '')
-        token = token.strip()
+        token = request.META.get('HTTP_PAD_TOKEN', '').strip()
         question_group_id = int(question_group)
 
         parent = models.Parent.objects.filter(pad_token=token).first()
@@ -1934,3 +1926,21 @@ class PadQuestion(View):
                 ]
             }
         })
+
+
+class PadSubmit(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PadSubmit, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return HttpResponse("Not supported request.", status=403)
+
+    def post(self, request):
+        try:
+            jsonData = json.loads(request.body.decode())
+        except ValueError:
+            return HttpResponse(status=400)
+        token = request.META.get('HTTP_PAD_TOKEN', '').strip()
+
+        return JsonResponse({'code': 0, 'msg': '成功'})

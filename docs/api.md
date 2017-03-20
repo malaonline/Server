@@ -1447,10 +1447,13 @@ result:
 POST /api/v1/pad/status
 ```
 
-parameters:
-
+header data:
 ```
-token=DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+PAD_TOKEN: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+```
+
+parameters:
+```
 live_class=1
 ```
 
@@ -1463,12 +1466,8 @@ result:
     "msg": "成功",
     "type": 1,
     "data": {
-        "question_group": {
-            "id": 1
-        },
-        "exercise_session": {
-            "id": 5
-        }
+        "question_group": 1,
+        "exercise_session": 5
     }
 }
 ```
@@ -1503,10 +1502,14 @@ result:
 POST /api/v1/pad/question
 ```
 
+header data:
+```
+PAD_TOKEN: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+```
+
 parameters:
 
 ```
-token=DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
 question_group=1
 ```
 
@@ -1558,5 +1561,69 @@ result:
 {
     "code": -2,
     "msg": "题组不存在"
+}
+```
+
+### Pad Submit Question(Group)
+
+```
+POST /api/v1/pad/submit
+```
+
+header data:
+```
+PAD_TOKEN: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+```
+
+```
+content_type: application/json
+```
+
+body data:
+
+```
+{
+    exercise_session: 5,
+    answers: [
+        {
+            question: 1,
+            option: 3
+        },
+        {
+            question: 2,
+            option: 6
+        },
+        ......
+    ]
+
+}
+```
+
+result:
+```
+{
+    "code": 0,
+    "msg": "成功"
+}
+```
+
+```
+{
+    "code": -1,
+    "msg": "您好，当前账号已在别处登录"
+}
+```
+
+```
+{
+    "code": -2,
+    "msg": "提交失败，答题已结束"
+}
+```
+
+```
+{
+    "code": -3,
+    "msg": "其他异常"
 }
 ```
