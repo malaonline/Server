@@ -1583,15 +1583,15 @@ body data:
 
 ```
 {
-    exercise_session: 5,
-    answers: [
+    "exercise_session": 5,
+    "answers": [
         {
-            question: 1,
-            option: 3
+            "question": 1,
+            "option": 3
         },
         {
-            question: 2,
-            option: 6
+            "question": 2,
+            "option": 6
         },
         ......
     ]

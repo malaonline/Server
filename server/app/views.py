@@ -1943,4 +1943,36 @@ class PadSubmit(View):
             return HttpResponse(status=400)
         token = request.META.get('HTTP_PAD_TOKEN', '').strip()
 
+        parent = models.Parent.objects.filter(pad_token=token).first()
+        if parent is None:
+            return JsonResponse({'code': -1, 'msg': '您好，当前账号已在别处登录'})
+
+        exercise_session_id = jsonData.get('exercise_session', 0)
+        exercise_session = get_object_or_404(
+            models.ExerciseSession, pk=exercise_session_id)
+        if not exercise_session.is_active:
+            return JsonResponse({'code': -2, 'msg': '提交失败，答题已结束'})
+
+        answers = jsonData.get('answers', [])
+        submits = []
+        for an in answers:
+            submit = {}
+            question_id = an.get('question')
+            option_id = an.get('option')
+            submit['question'] = get_object_or_404(
+                models.Question, pk=question_id)
+            submit['option'] = get_object_or_404(
+                models.QuestionOption, pk=option_id)
+            submits.append(submit)
+        for submit in submits:
+            exercise_submit, created = \
+                models.ExerciseSubmit.objects.get_or_create(
+                    exercise_session=exercise_session,
+                    parent=parent,
+                    question=submit['question'],
+                    defaults={'option': submit['option']}
+                )
+            exercise_submit.option = submit['option']
+            exercise_submit.save()
+
         return JsonResponse({'code': 0, 'msg': '成功'})
