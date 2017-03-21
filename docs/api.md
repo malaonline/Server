@@ -1449,7 +1449,7 @@ POST /api/v1/pad/status
 
 header data:
 ```
-PAD_TOKEN: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+Pad-Token: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
 ```
 
 parameters:
@@ -1504,7 +1504,7 @@ POST /api/v1/pad/question
 
 header data:
 ```
-PAD_TOKEN: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
+Pad-Token: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
 ```
 
 parameters:
@@ -1556,10 +1556,16 @@ result:
     "msg": "您好，当前账号已在别处登录"
 }
 ```
-
 ```
 {
     "code": -2,
+    "msg": "您好，下课自动登出"
+}
+```
+
+```
+{
+    "code": -3,
     "msg": "题组不存在"
 }
 ```
@@ -1613,17 +1619,23 @@ result:
     "msg": "您好，当前账号已在别处登录"
 }
 ```
-
 ```
 {
     "code": -2,
-    "msg": "提交失败，答题已结束"
+    "msg": "您好，下课自动登出"
 }
 ```
 
 ```
 {
     "code": -3,
+    "msg": "提交失败，答题已结束"
+}
+```
+
+```
+{
+    "code": -4,
     "msg": "其他异常"
 }
 ```
