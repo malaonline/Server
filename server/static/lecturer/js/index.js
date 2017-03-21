@@ -4,6 +4,8 @@
 
 $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
+  // 基本元组：总数,正确数,选A数,选B数,选C数,选D数
+  var meta_item = {'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0};
 
   // 根据 session 激活状态更新 UI
   var refreshUI = function() {
@@ -18,6 +20,19 @@ $(function() {
       $("[data-action=stop]").hide();
       $("[data-action=start]").show();
     }
+  };
+
+  var calc_questions_stat = function(submits) {
+    var stat_question = {};  // <qid: <meta_item>>
+    for (var i in submits) {
+      var row = submits[i];
+      var obj = stat_question[row.qid] || $.extend({}, meta_item);
+      obj['total'] += 1;
+      if (row.seq) obj[row.seq.toUpperCase()] += 1;
+      if (row.ok) obj['right'] += 1;
+      stat_question[row.qid] = obj;
+    }
+    console.log(stat_question);
   };
 
   // 获取答题结果的心跳
@@ -43,6 +58,7 @@ $(function() {
         'success': function(json) {
           if (json && json.ok) {
             console.log(json);
+            calc_questions_stat(json.data);
           }
           delayRefresh(repeat);
         },
