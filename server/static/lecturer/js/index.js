@@ -5,6 +5,7 @@
 $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
 
+  // 根据 session 激活状态更新 UI
   var refreshUI = function() {
     var session = $("#active-session").val();
     if (session) {
@@ -19,6 +20,35 @@ $(function() {
     }
   };
 
+  // 获取答题结果的心跳
+  var getSessionResults = function() {
+    var delay = 1000;
+    var sessionId = $("#active-session").val();
+    if (sessionId) {
+      var params = {
+        'action': 'exercise_submits',
+        'sid': sessionId
+      };
+      $.ajax({
+        'type': "GET",
+        'url': '/lecturer/api/exercise/store',
+        'data': params,
+        'success': function(json) {
+          if (json && json.ok) {
+            console.log(json);
+          }
+          setTimeout(getSessionResults, delay);
+        },
+        'error': function() {
+          setTimeout(getSessionResults, delay);
+        }
+      });
+    } else {
+      setTimeout(getSessionResults, delay);
+    }
+  };
+
+  // 开始答题
   $("[data-action=start]").click(function() {
     var params = {
       'action': 'start',
@@ -41,6 +71,7 @@ $(function() {
     });
   });
 
+  // 结束答题
   $("[data-action=stop]").click(function() {
     var params = {
       'action': 'stop',
@@ -64,4 +95,5 @@ $(function() {
   });
 
   refreshUI();
+  getSessionResults();
 });
