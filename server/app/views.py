@@ -1902,7 +1902,7 @@ class PadQuestion(View):
             pk=question_group_id,
         ).first()
         if question_group is None:
-            return JsonResponse({'code': -2, 'msg': '题组不存在'})
+            return JsonResponse({'code': -3, 'msg': '题组不存在'})
 
         questions = question_group.questions.filter(deleted=False)
         return JsonResponse({
@@ -1951,7 +1951,7 @@ class PadSubmit(View):
         exercise_session = get_object_or_404(
             models.ExerciseSession, pk=exercise_session_id)
         if not exercise_session.is_active:
-            return JsonResponse({'code': -2, 'msg': '提交失败，答题已结束'})
+            return JsonResponse({'code': -3, 'msg': '提交失败，答题已结束'})
 
         answers = jsonData.get('answers', [])
         submits = []
