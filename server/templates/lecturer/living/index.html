@@ -20,35 +20,29 @@
     <form class="form-inline">
       <div class="form-group">
         <label>选择题组</label>
-        <select id="question-group" class="form-control"
-            {% if active_session %}
-                disabled="disabled"
-            {% endif %}>
+        <select id="question-group" class="form-control">
           {% for question_group in question_groups %}
             <option
                 value="{{ question_group.id }}"
                 {% if active_session.question_group.id == question_group.id %}
-                  selected="selected"
+                selected="selected"
                 {% endif %}>
               {{ question_group.title }}
             </option>
           {% endfor %}
         </select>
-        <input type="hidden" id="live-course-timeslot"
-               value="{{ live_course_timeslot.id }}"/>
         <div class="form-group">
           <input type="button" class="form-control btn-success"
-                 data-action="start" value="开始答题"
-              {% if active_session %}
-                 style="display: none"
-              {% endif %}/>
+                 data-action="start" value="开始答题" />
           <input type="button" class="form-control btn-danger"
-                 data-action="stop"
-                 value="结束答题"
-              {% if not active_session %}
-                 style="display: none"
-              {% endif %}/>
+                 data-action="stop" value="结束答题" style="display: none"/>
         </div>
+        <input type="hidden" id="live-course-timeslot"
+               value="{{ live_course_timeslot.id }}"/>
+        <input type="hidden" id="active-session"
+            {% if active_session %}
+               value="{{ active_session.id }}"
+            {% endif %} />
       </div>
     </form>
   {% endif %}
