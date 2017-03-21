@@ -377,10 +377,14 @@ class LivingView(BaseLectureView):
         ).order_by("start").first()
         if live_course_timeslot is None:
             return context
-        question_groups = models.QuestionGroup.objects.filter(
-            livecoursetimeslot=live_course_timeslot
-        )
 
+        question_groups = live_course_timeslot.question_groups.all()
+        active_session = models.ExerciseSession.objects.filter(
+            is_active=True,
+            live_course_timeslot=live_course_timeslot,
+        ).order_by('-created_at').first()
+
+        context['active_session'] = active_session
         context['live_course_timeslot'] = live_course_timeslot
         context['question_groups'] = question_groups
 
