@@ -21,7 +21,14 @@ $(function() {
   };
 
   // 获取答题结果的心跳
-  var getSessionResults = function() {
+  var getSessionResults = function(repeat) {
+    var delayRefresh = function(repeat) {
+      if (repeat) {
+        setTimeout(function() {
+          getSessionResults(true)
+        }, delay);
+      }
+    };
     var delay = 1000;
     var sessionId = $("#active-session").val();
     if (sessionId) {
@@ -37,14 +44,14 @@ $(function() {
           if (json && json.ok) {
             console.log(json);
           }
-          setTimeout(getSessionResults, delay);
+          delayRefresh(repeat);
         },
         'error': function() {
-          setTimeout(getSessionResults, delay);
+          delayRefresh(repeat);
         }
       });
     } else {
-      setTimeout(getSessionResults, delay);
+      delayRefresh(repeat);
     }
   };
 
@@ -81,7 +88,7 @@ $(function() {
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
-          getSessionResults();
+          getSessionResults(false);
           $("#active-session").val("");
           refreshUI();
         } else {
@@ -96,5 +103,5 @@ $(function() {
   });
 
   refreshUI();
-  getSessionResults();
+  getSessionResults(true);
 });
