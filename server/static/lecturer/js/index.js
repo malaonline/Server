@@ -81,6 +81,7 @@ $(function() {
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
+          getSessionResults();
           $("#active-session").val("");
           refreshUI();
         } else {
