@@ -3448,6 +3448,9 @@ class QuestionOption(BaseModel):
     题库题目选项模型
     '''
 
+    class Meta:
+        ordering = ["pk"]
+
     # 选项文本
     text = models.CharField(max_length=50)
     # 所属题目
