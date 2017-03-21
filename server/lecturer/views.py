@@ -163,6 +163,7 @@ class ApiExerciseStore(LecturerBasedMixin, View):
             q.id: list(q.questionoption_set.values_list(flat=True))
             for q in session.question_group.questions.all()
             }
+        labels = 'ABCD'
         lc = session.live_course_timeslot.live_course
         orders = models.Order.objects.filter(
             status=models.Order.PAID,
@@ -184,8 +185,8 @@ class ApiExerciseStore(LecturerBasedMixin, View):
              "oid": sb.option.id,
              "seq": q2o_ids.get(sb.question_id) and
                     sb.option_id in q2o_ids.get(sb.question_id) and
-                    q2o_ids.get(sb.question_id).index(sb.option_id),
-             "ok": sb.option_id == sb.question.solution_id,
+                    labels[q2o_ids.get(sb.question_id).index(sb.option_id)],
+             "ok": sb.option_id == sb.question.solution_id and 1 or 0,
              }
             for sb in submits]
         return self.json_res(data=sbl)
