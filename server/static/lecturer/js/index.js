@@ -5,6 +5,20 @@
 $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
 
+  var refreshUI = function() {
+    var session = $("#active-session").val();
+    if (session) {
+      $("#question-group").enable(false);
+      $("[data-action=start]").hide();
+      $("[data-action=stop]").show();
+    }
+    else {
+      $("#question-group").enable(true);
+      $("[data-action=stop]").hide();
+      $("[data-action=start]").show();
+    }
+  };
+
   $("[data-action=start]").click(function() {
     var params = {
       'action': 'start',
@@ -14,9 +28,8 @@ $(function() {
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
-          $("#question-group").enable(false);
-          $("[data-action=start]").hide();
-          $("[data-action=stop]").show();
+          $("#active-session").val(result.sid);
+          refreshUI();
         } else {
           alert(result.msg);
         }
@@ -37,9 +50,8 @@ $(function() {
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
-          $("#question-group").enable(true);
-          $("[data-action=stop]").hide();
-          $("[data-action=start]").show();
+          $("#active-session").val("");
+          refreshUI();
         } else {
           alert(result.msg);
         }
@@ -50,4 +62,6 @@ $(function() {
       alert(defaultErrMsg);
     });
   });
+
+  refreshUI();
 });
