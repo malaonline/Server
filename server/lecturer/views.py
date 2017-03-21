@@ -158,14 +158,15 @@ class ApiExerciseStore(LecturerBasedMixin, View):
         session_id = self.request_params.get('sid')
         session = get_object_or_404(models.ExerciseSession, pk=session_id)
         submits = models.ExerciseSubmit.objects.filter(exercise_session=session)
-        q2o_ids = {  # dict of questions to its option_id list
-                     q.id: list(q.questionoption_set.values_list(flat=True))
-                     for q in session.question_group.questions.all()
-                     }
+        # dict of questions to its option_id list
+        q2o_ids = {
+            q.id: list(q.questionoption_set.values_list(flat=True))
+            for q in session.question_group.questions.all()
+            }
         sbl = [
             {"id": sb.id,
              "pid": sb.parent.id,
-             "stu": sb.parent.student_name,
+             # "stu": sb.parent.student_name,
              "qid": sb.question.id,
              "oid": sb.option.id,
              "seq": q2o_ids.get(sb.question_id) and
