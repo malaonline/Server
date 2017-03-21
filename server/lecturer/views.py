@@ -163,10 +163,23 @@ class ApiExerciseStore(LecturerBasedMixin, View):
             q.id: list(q.questionoption_set.values_list(flat=True))
             for q in session.question_group.questions.all()
             }
+        lc = session.live_course_timeslot.live_course
+        orders = models.Order.objects.filter(
+            status=models.Order.PAID,
+            live_class__live_course=lc)
+        # dict of parent to school where parent study in
+        parent2school = {
+            order.parent_id: order.live_class.class_room.school
+            for order in orders
+            }
         sbl = [
             {"id": sb.id,
              "pid": sb.parent.id,
              # "stu": sb.parent.student_name,
+             "sc_id": parent2school.get(sb.parent_id) and
+                      parent2school.get(sb.parent_id).id,
+             "sc_name": parent2school.get(sb.parent_id) and
+                        parent2school.get(sb.parent_id).name,
              "qid": sb.question.id,
              "oid": sb.option.id,
              "seq": q2o_ids.get(sb.question_id) and
