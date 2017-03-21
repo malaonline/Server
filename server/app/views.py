@@ -1701,54 +1701,14 @@ class PadLogin(View):
             except ValueError:
                 return HttpResponse(status=400)
             phone = jsonData.get('phone', '')
-            test = jsonData.get('test')
         else:
             phone = request.POST.get('phone', '')
-            test = request.POST.get('test')
         phone = phone.strip()
 
         parent = models.Parent.objects.filter(
             user__profile__phone=phone).first()
         if parent is None:
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
-
-        # 测试代码
-        if test:
-            order = models.Order.objects.filter(
-                parent=parent,
-                live_class__isnull=False,
-            ).first()
-            if order is None:
-                return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
-            live_class = order.live_class
-            school = live_class.class_room.school
-            live_course = live_class.live_course
-            parent.pad_token = random_pad_token(parent.user.profile.phone)
-            parent.save()
-            return JsonResponse({
-                'code': 0,
-                'msg': '登录成功',
-                'data': {
-                    'token': parent.pad_token,
-                    'live_class': {
-                        'id': live_class.id,
-                        'assistant': live_class.assistant.name,
-                        'class_room': live_class.class_room.name,
-                        'live_course': {
-                            'id': live_course.id,
-                            'course_no': live_course.course_no,
-                            'name': live_course.name,
-                            'grade': live_course.grade_desc,
-                            'subject': live_course.subject.name,
-                            'lecturer': live_course.lecturer.name,
-                        },
-                    },
-                    'phone': parent.user.profile.phone,
-                    'name': parent.student_name,
-                    'school': school.name,
-                    'school_id': school.id,
-                },
-            })
 
         now = timezone.now()
         timeslot = models.TimeSlot.objects.filter(
@@ -1809,10 +1769,8 @@ class PadStatus(View):
             except ValueError:
                 return HttpResponse(status=400)
             live_class = jsonData.get('live_class', '0')
-            test = jsonData.get('test')
         else:
             live_class = request.POST.get('live_class', '0')
-            test = request.POST.get('test')
         token = request.META.get('HTTP_PAD_TOKEN', '').strip()
         live_class_id = int(live_class)
 
@@ -1833,19 +1791,6 @@ class PadStatus(View):
             end__gte=now,
         ).first()
 
-        import random
-        question_groups = models.QuestionGroup.objects.filter(deleted=False)
-        question_group = random.choice(question_groups)
-
-        if test:
-            return JsonResponse({
-                'code': 0,
-                'msg': '成功',
-                'type': 1,
-                'data': {
-                    'question_group': question_group.id
-                }
-            })
         if timeslot is None:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
 
