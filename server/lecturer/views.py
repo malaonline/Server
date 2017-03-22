@@ -160,7 +160,8 @@ class ApiExerciseStore(LecturerBasedMixin, View):
         submits = models.ExerciseSubmit.objects.filter(exercise_session=session)
         # dict of questions to its option_id list
         q2o_ids = {
-            q.id: list(q.questionoption_set.values_list(flat=True))
+            q.id: list(q.questionoption_set.values_list(
+                flat=True).order_by('pk'))
             for q in session.question_group.questions.all()
             }
         labels = 'ABCD'
