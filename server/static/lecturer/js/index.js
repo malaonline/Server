@@ -5,7 +5,25 @@
 $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
   // 基本元组：总数,正确数,选A数,选B数,选C数,选D数
-  var meta_item = {'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0};
+  var META_ITEM = {'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0};
+  var group2questions = {};  // <题组, 题目>数据存储
+
+  /* 根据题组ID获取题组题目 */
+  var reqQuestionsOfGroup = function(gid, sync) {
+    if (!group2questions[gid]) {
+      $.ajax({
+        url: '/lecturer/api/exercise/store?action=group&gid=' + gid,
+        async: !sync,
+        dataType: "json",
+        success: function(json) {
+          if (json && json.ok) {
+            group2questions[gid] = json.data;
+          }
+        }
+      });
+    }
+    return group2questions[gid];
+  };
 
   // 根据 session 激活状态更新 UI
   var refreshUI = function() {
@@ -22,17 +40,24 @@ $(function() {
     }
   };
 
+  var _update_stat_item = function(item, row) {
+    item['total'] += 1;
+    if (row.seq) item[row.seq.toUpperCase()] += 1;
+    if (row.ok) item['right'] += 1;
+    return item;
+  };
+
   var calc_questions_stat = function(submits) {
-    var stat_question = {};  // <qid: <meta_item>>
+    var stat_question = {}, stat_school = {};  // <qid: <META_ITEM>>
     for (var i in submits) {
       var row = submits[i];
-      var obj = stat_question[row.qid] || $.extend({}, meta_item);
-      obj['total'] += 1;
-      if (row.seq) obj[row.seq.toUpperCase()] += 1;
-      if (row.ok) obj['right'] += 1;
-      stat_question[row.qid] = obj;
+      var obj = stat_question[row.qid] || $.extend({}, META_ITEM);
+      stat_question[row.qid] = _update_stat_item(obj, row);
+      var sc_obj = stat_school[row.sc_id] || $.extend({}, META_ITEM);
+      stat_school[row.sc_id] = _update_stat_item(sc_obj, row);
     }
     console.log(stat_question);
+    console.log(stat_school);
   };
 
   // 获取答题结果的心跳
@@ -78,6 +103,7 @@ $(function() {
       'question_group': $("#question-group").val(),
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
+    reqQuestionsOfGroup(params['question_group']);
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
@@ -101,6 +127,7 @@ $(function() {
       'question_group': $("#question-group").val(),
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
+    reqQuestionsOfGroup(params['question_group']);
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
