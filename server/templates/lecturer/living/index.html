@@ -4,8 +4,11 @@
 {% load compile_static %}
 
 {% block title %}麻辣老师双师直播后台 - 上课首页{% endblock %}
-
+{% block extrastyle %}
+  <link rel="stylesheet" type="text/css" href="{% static 'lecturer/less/index.less'|compile %}">
+{% endblock %}
 {% block addition_js %}
+  <script src="{% static 'common/js/echarts.common.min.js' %}"></script>
   <script src="{% static 'lecturer/js/index.js' %}"></script>
 {% endblock %}
 
@@ -35,7 +38,7 @@
           <input type="button" class="form-control btn-success"
                  data-action="start" value="开始答题" />
           <input type="button" class="form-control btn-danger"
-                 data-action="stop" value="结束答题" style="display: none"/>
+                 data-action="stop" value="结束答题"/>
         </div>
         <input type="hidden" id="live-course-timeslot"
                value="{{ live_course_timeslot.id }}"/>
@@ -45,5 +48,26 @@
             {% endif %} />
       </div>
     </form>
+    <h3>结果统计</h3>
+    <div class="container question">
+      <div class="row">
+        <div class="pie col-sm-12 col-md-6 col-lg-4 col-lg-offset-1"></div>
+        <div class="bar col-sm-12 col-md-6 col-lg-4 col-lg-offset-1"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-lg-offset-1 text-center">
+          <button class="btn btn-primary btn-lg">&lt;&nbsp;上一题</button>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 col-lg-offset-1 text-center">
+          <button class="btn btn-primary btn-lg">下一题&nbsp;&gt;</button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-default sort">正序</button>&nbsp;&nbsp;备注:按照正确率排序
+    </div>
+    <div class="container school">
+    </div>
+
   {% endif %}
 {% endblock %}
