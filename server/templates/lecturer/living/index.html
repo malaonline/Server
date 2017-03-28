@@ -15,59 +15,58 @@
 {% block content %}
   <h1>开始上课首页</h1>
   {% if not live_course_timeslot %}
-    <h2><span class="label label-info">当前暂无您的直播课程</span></h2>
+  <h2><span class="label label-info">当前暂无您的直播课程</span></h2>
   {% else %}
-    <h2><span
+  <h2><span
         class="label label-primary">课程名称 - {{ live_course_timeslot.live_course.name }}</span>
-    </h2>
-    <form class="form-inline">
+  </h2>
+  <form class="form-inline">
+    <div class="form-group">
+      <label>选择题组</label>
+      <select id="question-group" class="form-control">
+        {% for question_group in question_groups %}
+          <option
+              value="{{ question_group.id }}"
+              {% if active_session.question_group.id == question_group.id %}
+              selected="selected"
+              {% endif %}>
+            {{ question_group.title }}
+          </option>
+        {% endfor %}
+      </select>
       <div class="form-group">
-        <label>选择题组</label>
-        <select id="question-group" class="form-control">
-          {% for question_group in question_groups %}
-            <option
-                value="{{ question_group.id }}"
-                {% if active_session.question_group.id == question_group.id %}
-                selected="selected"
-                {% endif %}>
-              {{ question_group.title }}
-            </option>
-          {% endfor %}
-        </select>
-        <div class="form-group">
-          <input type="button" class="form-control btn-success"
-                 data-action="start" value="开始答题" />
-          <input type="button" class="form-control btn-danger"
-                 data-action="stop" value="结束答题"/>
-        </div>
-        <input type="hidden" id="live-course-timeslot"
-               value="{{ live_course_timeslot.id }}"/>
-        <input type="hidden" id="active-session"
-            {% if active_session %}
-               value="{{ active_session.id }}"
-            {% endif %} />
+        <input type="button" class="form-control btn-success"
+               data-action="start" value="开始答题" />
+        <input type="button" class="form-control btn-danger"
+               data-action="stop" value="结束答题"/>
       </div>
-    </form>
-    <h3>结果统计</h3>
-    <div class="container question">
-      <div class="row">
-        <div class="pie col-sm-12 col-md-6 col-lg-4 col-lg-offset-1"></div>
-        <div class="bar col-sm-12 col-md-6 col-lg-4 col-lg-offset-1"></div>
+      <input type="hidden" id="live-course-timeslot"
+             value="{{ live_course_timeslot.id }}"/>
+      <input type="hidden" id="active-session"
+          {% if active_session %}
+             value="{{ active_session.id }}"
+          {% endif %} />
+    </div>
+  </form>
+  <h3>结果统计</h3>
+  <div class="container question">
+    <div class="row">
+      <div class="pie col-xs-6"></div>
+      <div class="bar col-xs-6"></div>
+    </div>
+    <div class="row">
+      <div class="previous col-xs-6 text-center">
+        <button class="btn btn-primary btn-lg">&lt;&nbsp;上一题</button>
       </div>
-      <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-4 col-lg-offset-1 text-center">
-          <button class="btn btn-primary btn-lg">&lt;&nbsp;上一题</button>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 col-lg-offset-1 text-center">
-          <button class="btn btn-primary btn-lg">下一题&nbsp;&gt;</button>
-        </div>
+      <div class="next col-xs-6 text-center">
+        <button class="btn btn-primary btn-lg">下一题&nbsp;&gt;</button>
       </div>
     </div>
-    <div>
-      <button class="btn btn-default sort">正序</button>&nbsp;&nbsp;备注:按照正确率排序
+  </div>
+  <div class="school">
+    <button class="btn btn-default sort">正序</button>&nbsp;&nbsp;备注:按照正确率排序      
+    <div class="container accuracy">
     </div>
-    <div class="container school">
-    </div>
-
+  </div>
   {% endif %}
 {% endblock %}
