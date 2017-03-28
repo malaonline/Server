@@ -9,8 +9,11 @@ $(function() {
   var group2questions = {}; // <题组, 题目>数据存储
   var back_data, question_data, school_data, index = 0; // 返回数据,问题数据,校区数据,题目序号
   // 图表初始化数据
-  var elem1 = $('.pie')[0], elem2 = $('.bar')[0];
-  var radius = ['30%', '50%'], text = '参与人数: 0人', subtext = '各选项人数';
+  var elem1 = $('.pie')[0],
+    elem2 = $('.bar')[0];
+  var radius = ['30%', '50%'],
+    text = '参与人数: 0人',
+    subtext = '各选项人数';
 
   /* 根据题组ID获取题组题目 */
   var reqQuestionsOfGroup = function(gid, sync) {
@@ -65,17 +68,17 @@ $(function() {
     var stat_data = [stat_question, stat_school];
     return stat_data;
   };
-  
+
   // 问题数据格式化
   var questionDataFormat = function(data) {
-    var stat_data = [];
-    for (var i in data) {
-      stat_data[stat_data.length] = [i, data[i]];
+      var stat_data = [];
+      for (var i in data) {
+        stat_data[stat_data.length] = [i, data[i]];
+      }
+      question_data = stat_data;
+      return question_data;
     }
-    question_data = stat_data;
-    return question_data;
-  }
-  // 校区数据格式化
+    // 校区数据格式化
   var schoolDataFormat = function(data) {
     var stat_data = [];
     var accuracy;
@@ -89,7 +92,6 @@ $(function() {
 
   //绘制问题饼图
   var drawPie = function(data, elem, radius, text) {
-    // var count = data[0].value + data[1].value;
     if (data[0].value == 0 & data[1].value == 0) {
       var accuracy = 0
     } else {
@@ -231,8 +233,8 @@ $(function() {
   // 上一题
   $('.previous').click(function() {
     index--;
-    if(index < 0) {
-      index = question_data.length - 1      
+    if (index < 0) {
+      index = question_data.length - 1
     }
     drawQuestionChart(question_data[index][1]);
   })
@@ -240,17 +242,22 @@ $(function() {
   // 下一题
   $('.next').click(function() {
     index++;
-    if(index >= question_data.length) {
+    if (index >= question_data.length) {
       index = 0
     }
     drawQuestionChart(question_data[index][1]);
   })
 
   // 绘制问题结果图表(接收格式化后的数组中的数据对象)
-  var drawQuestionChart = function(data) {     
-    var right_count = data.right || 0, wrong_count = data.total - data.right || 0;
-    var A_count = data.A || 0, B_count = data.B || 0, C_count = data.C || 0, D_count = data.D || 0;
-    var elem1 = $('.pie')[0], elem2 = $('.bar')[0];
+  var drawQuestionChart = function(data) {
+    var right_count = data.right || 0,
+      wrong_count = data.total - data.right || 0;
+    var A_count = data.A || 0,
+      B_count = data.B || 0,
+      C_count = data.C || 0,
+      D_count = data.D || 0;
+    var elem1 = $('.pie')[0],
+      elem2 = $('.bar')[0];
     var radius = ['30%', '50%'];
     var text = '参与人数: ' + data.total + '人';
     var subtext = '各选项人数';
@@ -268,11 +275,18 @@ $(function() {
 
   // 绘制校区结果图表(接收格式化后的数据数组)
   var drawSchoolChart = function(data) {
-    var i = 0, l = data.length;
-    var right_count = 0, wrong_count = 0;
-    var A_count = 0, B_count = 0, C_count = 0, D_count = 0;
+    var i = 0,
+      l = data.length;
+    var right_count = 0,
+      wrong_count = 0;
+    var A_count = 0,
+      B_count = 0,
+      C_count = 0,
+      D_count = 0;
     var pie_arr, bar_arr;
-    var elem1, elem2, radius = ['50%'], text = '', subtext = '';
+    var elem1, elem2, radius = ['50%'],
+      text = '',
+      subtext = '';
     var $row, $col;
     for (; i < l; i++) {
       right_count = data[i][1].right;
@@ -283,14 +297,14 @@ $(function() {
       D_count = data[i][1].D;
       // 动态生成校区图表容器
       $col = $('<div class="col-xs-6">' +
-                  '<div class="row">' +
-                    '<div class="pie' + i + ' col-xs-6"></div>' +
-                    '<div class="bar' + i + ' col-xs-6"></div>' +
-                  '</div>' +
-                '</div>');      
+        '<div class="row">' +
+        '<div class="pie' + i + ' col-xs-6"></div>' +
+        '<div class="bar' + i + ' col-xs-6"></div>' +
+        '</div>' +
+        '</div>');
       if (i % 2 === 0) {
         $row = $('<div class="row">' +
-                  '</div>');
+          '</div>');
       }
       $row.append($col);
       $('.accuracy').append($row);
@@ -331,7 +345,7 @@ $(function() {
         'url': '/lecturer/api/exercise/store',
         'data': params,
         'success': function(json) {
-          if (json && json.ok) {
+          if (json && json.ok && json.data.length != 0) {
             console.log(json);
             if (!_.isEqual(back_data, json.data)) {
               back_data = json.data;
@@ -340,7 +354,7 @@ $(function() {
               var stat_school = stat_data[1];
               console.log(questionDataFormat(stat_question));
               drawQuestionChart(questionDataFormat(stat_question)[index][1]);
-              $('.school').show();             
+              $('.school').show();
               drawSchoolChart(schoolDataFormat(stat_school));
             }
           }
