@@ -69,9 +69,11 @@ $(function() {
 
   // 问题数据格式化
   var questionDataFormat = function(data) {
+      var stat_data = [];
       for (var i in data) {
-        question_data[question_data.length] = [i, data[i]];
+        stat_data[stat_data.length] = [i, data[i]];
       }
+      question_data = stat_data;
       return question_data;
     }
     // 题组数据格式化
@@ -88,20 +90,21 @@ $(function() {
     }
     // 校区数据格式化
   var schoolDataFormat = function(data) {
-    var accuracy, id, name;
+    var stat_data = [],
+      accuracy, name;
+    var j = 0,
+      l = back_data.length;
     for (var i in data) {
       accuracy = data[i].right / data[i].total;
-      var j = 0;
-      l = back_data.length;
       for (; j < l; j++) {
-        id = back_data[j].sc_id;
-        if (id == i) {
+        if (i == back_data[j].sc_id) {
           name = back_data[j].sc_name;
-          console.log(name)
-          school_data[school_data.length] = [name, data[i], accuracy]
+          stat_data[stat_data.length] = [name, data[i], accuracy]
+          break;
         }
       }
     }
+    school_data = stat_data;
     return school_data;
   }
 
@@ -243,7 +246,10 @@ $(function() {
     var i = 0,
       l = data.options.length;
     for (; i < l; i++) {
-      $('.option span:eq(' + i + ')').text(data.options[i].text)
+      $('.option span:eq(' + i + ')').text(data.options[i].text);
+      if (data.options[i].id == data.solution) {
+        $('.option li:eq(' + i + ')').css('color', '#00bcff');
+      }
     }
   }
 
@@ -262,9 +268,11 @@ $(function() {
   $('.previous').click(function() {
     if (back_data) {
       index--;
-      if (index < 0) {
-        index = questions.length - 1
+      $('.next button').removeAttr('disabled');
+      if (index == 0) {
+        $('.previous button').prop('disabled', true);
       }
+      $('.option li').css('color', '#000');
       showQuestion(questions, index);
       drawChartById(question_data, questions[index].id);
     }
@@ -274,9 +282,11 @@ $(function() {
   $('.next').click(function() {
     if (back_data) {
       index++;
-      if (index >= question_data.length) {
-        index = 0
+      $('.previous button').removeAttr('disabled');
+      if (index == question_data.length - 1) {
+        $('.next button').prop('disabled', true);
       }
+      $('.option li').css('color', '#000');
       showQuestion(questions, index);
       drawChartById(question_data, questions[index].id);
     }
@@ -334,10 +344,11 @@ $(function() {
       C_count = 0,
       D_count = 0;
     var pie_arr, bar_arr;
-    var elem1, elem2, radius = ['50%'],
+    var elem1, elem2, radius = '50%',
       text = '',
       subtext = '';
     var $row, $col;
+    $('.accuracy').html('');
     for (; i < l; i++) {
       text = data[i][0];
       right_count = data[i][1].right;
@@ -404,9 +415,12 @@ $(function() {
               var stat_question = stat_data[0];
               var stat_school = stat_data[1];
               $('.question').show();
-              drawChartById(questionDataFormat(stat_question), questions[index].id)
+              console.log(questions);
+              drawChartById(questionDataFormat(stat_question), questions[index].id);
               drawQuestionsChart(questionsDataFormat(stat_question));
-              $('.question .row:eq(1)').hide();
+              if ($('.btn-group button:eq(1)').attr('class') == 'btn btn-default') {
+                $('.question .row:eq(1)').hide();
+              }
               $('.school').show();
               drawSchoolChart(schoolDataFormat(stat_school));
             }
@@ -482,12 +496,14 @@ $(function() {
     $('.question .btn-group button:eq(1)').removeClass('btn-info').addClass('btn-default');
     $('.question .row:eq(0)').show();
     $('.question .row:eq(1)').hide();
+    drawChartById(question_data, questions[index].id);
   })
   $('.question .btn-group button:eq(1)').click(function() {
     $(this).removeClass('btn-default').addClass('btn-info');
     $('.question .btn-group button:eq(0)').removeClass('btn-info').addClass('btn-default');
     $('.question .row:eq(0)').hide();
     $('.question .row:eq(1)').show();
+    drawQuestionsChart(questions_data);
   })
 
   // 控制校区排列顺序
