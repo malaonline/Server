@@ -6,11 +6,11 @@ $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
   // 基本元组：总数,正确数,选A数,选B数,选C数,选D数
   var META_ITEM = { 'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0 };
-  var group2questions = {}, stat_question_bak,
+  var group2questions = {},
+    stat_question_bak,
     questions, question; // <题组, 题目>数据存储,题组所有题目,单个题目
-  var back_data, question_data = [],
-    questions_data = {},
-    school_data = [],
+  var back_data, question_data,
+    school_data,
     index = 0; // 返回数据,问题数据,数组数据,校区数据,题目序号
 
   /* 根据题组ID获取题组题目 */
@@ -56,10 +56,11 @@ $(function() {
     for (var i in submits) {
       var row = submits[i];
       var obj = stat_question[row.qid] || $.extend({
-            'schools': {}
-          }, META_ITEM);
+        'schools': {}
+      }, META_ITEM);
       stat_question[row.qid] = _update_stat_item(obj, row);
       var q_schools_stat = stat_question[row.qid]['schools'];
+      console.log(q_schools_stat);
       var sc_obj = q_schools_stat[row.sc_id] || $.extend({}, META_ITEM);
       q_schools_stat[row.sc_id] = _update_stat_item(sc_obj, row);
     }
@@ -70,26 +71,16 @@ $(function() {
 
   // 问题数据格式化
   var questionDataFormat = function(data) {
-      var stat_data = [];
-      for (var i in data) {
-        stat_data[stat_data.length] = [i, data[i]];
-      }
-      question_data = stat_data;
-      return question_data;
+    var stat_data = [];
+    for (var i in data) {
+      stat_data[stat_data.length] = [i, data[i]];
     }
-    // 题组数据格式化
-  var questionsDataFormat = function(data) {
-      var right = 0,
-        total = 0;
-      for (var i in data) {
-        right += data[i].right;
-        total += data[i].total;
-      }
-      questions_data.right = right;
-      questions_data.total = total;
-      return questions_data;
-    }
-    // 校区数据格式化
+    question_data = stat_data;
+    return question_data;
+  }
+
+
+  // 校区数据格式化
   var schoolDataFormat = function(data) {
     var stat_data = [],
       accuracy, name;
@@ -303,45 +294,30 @@ $(function() {
 
   // 绘制问题结果图表(接收格式化后的数组中的数据对象)
   var drawQuestionChart = function(data) {
-      var right_count = data.right || 0,
-        wrong_count = data.total - data.right || 0;
-      var A_count = data.A || 0,
-        B_count = data.B || 0,
-        C_count = data.C || 0,
-        D_count = data.D || 0;
-      var elem1 = $('.pie')[0],
-        elem2 = $('.bar')[0];
-      var radius = ['30%', '50%'];
-      var text = '参与人数: ' + data.total + '人';
-      var subtext = '各选项人数';
-      var pie_arr = [{
-        value: right_count,
-        name: '正确'
-      }, {
-        value: wrong_count,
-        name: '错误'
-      }];
-      drawPie(pie_arr, elem1, radius, text);
-      var bar_arr = [A_count, B_count, C_count, D_count];
-      drawBar(bar_arr, elem2, subtext);
-    }
-    // 绘制题组图表
-  var drawQuestionsChart = function(data) {
-      var right_count = data.right || 0,
-        wrong_count = data.total - data.right || 0;
-      var elem = $('.questions')[0];
-      var radius = ['50%', '75%'];
-      var text = '参与人数: ' + data.total + '人';
-      var pie_arr = [{
-        value: right_count,
-        name: '正确'
-      }, {
-        value: wrong_count,
-        name: '错误'
-      }];
-      drawPie(pie_arr, elem, radius, text);
-    }
-    // 绘制校区结果图表(接收格式化后的数据数组)
+    var right_count = data.right || 0,
+      wrong_count = data.total - data.right || 0;
+    var A_count = data.A || 0,
+      B_count = data.B || 0,
+      C_count = data.C || 0,
+      D_count = data.D || 0;
+    var elem1 = $('.pie')[0],
+      elem2 = $('.bar')[0];
+    var radius = ['30%', '50%'];
+    var text = '参与人数: ' + data.total + '人';
+    var subtext = '各选项人数';
+    var pie_arr = [{
+      value: right_count,
+      name: '正确'
+    }, {
+      value: wrong_count,
+      name: '错误'
+    }];
+    drawPie(pie_arr, elem1, radius, text);
+    var bar_arr = [A_count, B_count, C_count, D_count];
+    drawBar(bar_arr, elem2, subtext);
+  }
+
+  // 绘制校区结果图表(接收格式化后的数据数组)
   var drawSchoolChart = function(data) {
     console.log(data[0])
     var i = 0,
@@ -424,10 +400,6 @@ $(function() {
               $('.question').show();
               console.log(questions);
               drawChartById(questionDataFormat(stat_question), questions[index].id);
-              drawQuestionsChart(questionsDataFormat(stat_question));
-              if ($('.btn-group button:eq(1)').attr('class') == 'btn btn-default') {
-                $('.question .row:eq(1)').hide();
-              }
               $('.school').show();
               drawSchoolChart(schoolDataFormat(stat_question[questions[index].id]['schools']));
             }
@@ -494,24 +466,16 @@ $(function() {
     });
   });
 
-  refreshUI();
-  getSessionResults(true);
-
-  // 题目题组图表切换
-  $('.question .btn-group button:eq(0)').click(function() {
-    $(this).removeClass('btn-default').addClass('btn-info');
-    $('.question .btn-group button:eq(1)').removeClass('btn-info').addClass('btn-default');
-    $('.question .row:eq(0)').show();
-    $('.question .row:eq(1)').hide();
-    drawChartById(question_data, questions[index].id);
-  })
-  $('.question .btn-group button:eq(1)').click(function() {
-    $(this).removeClass('btn-default').addClass('btn-info');
-    $('.question .btn-group button:eq(0)').removeClass('btn-info').addClass('btn-default');
-    $('.question .row:eq(0)').hide();
-    $('.question .row:eq(1)').show();
-    drawQuestionsChart(questions_data);
-  })
+  var init = function() {
+    // 刷新网页后，恢复题目显示
+    if ($("#active-session").val() && $("#question-group").val()) {
+      questions = reqQuestionsOfGroup($("#question-group").val(), true).questions;
+      showQuestion(questions, index);
+    }
+    refreshUI();
+    getSessionResults(true);
+  };
+  init();
 
   // 控制校区排列顺序
   $('.sort').click(function() {
