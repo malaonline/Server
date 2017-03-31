@@ -6,7 +6,7 @@ $(function() {
   var defaultErrMsg = '请求失败, 请稍后重试, 或联系管理员!';
   // 基本元组：总数,正确数,选A数,选B数,选C数,选D数
   var META_ITEM = { 'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0 };
-  var group2questions = {},
+  var group2questions = {}, stat_question_bak,
     questions, question; // <题组, 题目>数据存储,题组所有题目,单个题目
   var back_data, question_data = [],
     questions_data = {},
@@ -52,19 +52,20 @@ $(function() {
   };
 
   var calc_questions_stat = function(submits) {
-    var stat_question = {},
-      stat_school = {}; // <qid: <META_ITEM>>
+    var stat_question = {}; // {<qid: <META_ITEM + schools>>} && schools = {<sc_id: META_ITEM>}
     for (var i in submits) {
       var row = submits[i];
-      var obj = stat_question[row.qid] || $.extend({}, META_ITEM);
+      var obj = stat_question[row.qid] || $.extend({
+            'schools': {}
+          }, META_ITEM);
       stat_question[row.qid] = _update_stat_item(obj, row);
-      var sc_obj = stat_school[row.sc_id] || $.extend({}, META_ITEM);
-      stat_school[row.sc_id] = _update_stat_item(sc_obj, row);
+      var q_schools_stat = stat_question[row.qid]['schools'];
+      var sc_obj = q_schools_stat[row.sc_id] || $.extend({}, META_ITEM);
+      q_schools_stat[row.sc_id] = _update_stat_item(sc_obj, row);
     }
     console.log(stat_question);
-    console.log(stat_school);
-    var stat_data = [stat_question, stat_school];
-    return stat_data;
+    stat_question_bak = stat_question;
+    return stat_question;
   };
 
   // 问题数据格式化
@@ -275,6 +276,10 @@ $(function() {
       $('.option li').css('color', '#000');
       showQuestion(questions, index);
       drawChartById(question_data, questions[index].id);
+      if (stat_question_bak) {
+        var q_school_stat = stat_question_bak[questions[index].id]['schools'];
+        drawSchoolChart(schoolDataFormat(q_school_stat));
+      }
     }
   })
 
@@ -289,6 +294,10 @@ $(function() {
       $('.option li').css('color', '#000');
       showQuestion(questions, index);
       drawChartById(question_data, questions[index].id);
+      if (stat_question_bak) {
+        var q_school_stat = stat_question_bak[questions[index].id]['schools'];
+        drawSchoolChart(schoolDataFormat(q_school_stat));
+      }
     }
   })
 
@@ -411,9 +420,7 @@ $(function() {
             console.log(json);
             if (!_.isEqual(back_data, json.data)) {
               back_data = json.data;
-              var stat_data = calc_questions_stat(json.data);
-              var stat_question = stat_data[0];
-              var stat_school = stat_data[1];
+              var stat_question = calc_questions_stat(json.data);
               $('.question').show();
               console.log(questions);
               drawChartById(questionDataFormat(stat_question), questions[index].id);
@@ -422,7 +429,7 @@ $(function() {
                 $('.question .row:eq(1)').hide();
               }
               $('.school').show();
-              drawSchoolChart(schoolDataFormat(stat_school));
+              drawSchoolChart(schoolDataFormat(stat_question[questions[index].id]['schools']));
             }
           }
           delayRefresh(repeat);
