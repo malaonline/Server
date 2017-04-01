@@ -64,6 +64,7 @@ $(function() {
       q_schools_stat[row.sc_id] = _update_stat_item(sc_obj, row);
     }
     stat_question_bak = stat_question;
+    console.log(stat_question_bak);
     return stat_question;
   };
 
@@ -80,12 +81,13 @@ $(function() {
 
   // 校区数据格式化
   var schoolDataFormat = function(data) {
+    console.log(data);
     var stat_data = [],
       accuracy, name;
-    var j = 0,
-      l = back_data.length;
+    var l = back_data.length;
     for (var i in data) {
       accuracy = data[i].right / data[i].total;
+      var j = 0;
       for (; j < l; j++) {
         if (i == back_data[j].sc_id) {
           name = back_data[j].sc_name;
@@ -95,6 +97,7 @@ $(function() {
       }
     }
     school_data = stat_data;
+    console.log(school_data);
     return school_data;
   }
 
@@ -325,6 +328,7 @@ $(function() {
 
   // 绘制校区结果图表(接收格式化后的数据数组)
   var drawSchoolChart = function(data) {
+    console.log(data);
     var i = 0,
       l = data.length;
     var right_count = 0,
@@ -400,7 +404,8 @@ $(function() {
           if (json && json.ok && json.data.length != 0) {
             if (!_.isEqual(back_data, json.data)) {
               back_data = json.data;
-              var stat_question = calc_questions_stat(json.data);
+              console.log(back_data);
+              var stat_question = calc_questions_stat(back_data);
               $('.question').show();
               drawChartById(questionDataFormat(stat_question), question_arr[index].id);
               if (stat_question[question_arr[index].id]) {
@@ -427,6 +432,7 @@ $(function() {
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
     question_arr = reqQuestionsOfGroup(params['question_group'], true).questions;
+    $('.option li').css('color', '#000');
     showQuestion(question_arr, index);
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
@@ -473,27 +479,13 @@ $(function() {
     if (index == 0) {
       $('.previous').prop('disabled', true);
     }
-    // 刷新网页后，恢复题目显示
-    // if ($("#active-session").val() && $("#question-group").val()) {
     if (reqQuestionsOfGroup($("#question-group").val(), true)) {
       question_arr = reqQuestionsOfGroup($("#question-group").val(), true).questions;
       showQuestion(question_arr, index);
     }
-    // }
     refreshUI();
     getSessionResults(true);
   })();
-
-  /*var init = function() {
-    // 刷新网页后，恢复题目显示
-    if ($("#active-session").val() && $("#question-group").val()) {
-      questions = reqQuestionsOfGroup($("#question-group").val(), true).questions;
-      showQuestion(questions, index);
-    }
-    refreshUI();
-    getSessionResults(true);
-  };
-  init();*/
 
   // 控制校区排列顺序
   $('.sort').click(function() {
