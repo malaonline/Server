@@ -8,10 +8,10 @@ $(function() {
   var META_ITEM = { 'total': 0, 'right': 0, 'A': 0, 'B': 0, 'C': 0, 'D': 0 };
   var group2questions = {},
     stat_question_bak,
-    questions, question; // <题组, 题目>数据存储,题组所有题目,单个题目
+    question_arr, question; // <题组, 题目>数据存储,题组,单个题目
   var back_data, question_data,
     school_data,
-    index = 0; // 返回数据,问题数据,数组数据,校区数据,题目序号
+    index = 0; // 返回数据,问题数据,校区数据,题目序号
 
   /* 根据题组ID获取题组题目 */
   var reqQuestionsOfGroup = function(gid, sync) {
@@ -60,11 +60,9 @@ $(function() {
       }, META_ITEM);
       stat_question[row.qid] = _update_stat_item(obj, row);
       var q_schools_stat = stat_question[row.qid]['schools'];
-      console.log(q_schools_stat);
       var sc_obj = q_schools_stat[row.sc_id] || $.extend({}, META_ITEM);
       q_schools_stat[row.sc_id] = _update_stat_item(sc_obj, row);
     }
-    console.log(stat_question);
     stat_question_bak = stat_question;
     return stat_question;
   };
@@ -250,7 +248,7 @@ $(function() {
     var i = 0,
       l = question_data.length;
     for (; i < l; i++) {
-      if (questions[index].id == question_data[i][0]) {
+      if (question_arr[index].id == question_data[i][0]) {
         drawQuestionChart(question_data[i][1]);
       }
     }
@@ -258,36 +256,44 @@ $(function() {
 
   // 上一题
   $('.previous').click(function() {
-    if (back_data) {
+    if (question_arr) {
       index--;
-      $('.next button').removeAttr('disabled');
+      $('.next').removeAttr('disabled');
       if (index == 0) {
-        $('.previous button').prop('disabled', true);
+        $('.previous').prop('disabled', true);
       }
       $('.option li').css('color', '#000');
-      showQuestion(questions, index);
-      drawChartById(question_data, questions[index].id);
-      if (stat_question_bak) {
-        var q_school_stat = stat_question_bak[questions[index].id]['schools'];
+      showQuestion(question_arr, index);
+      if (question_data) {
+        drawChartById(question_data, question_arr[index].id);
+      }
+      if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
+        var q_school_stat = stat_question_bak[question_arr[index].id].schools;
         drawSchoolChart(schoolDataFormat(q_school_stat));
+      } else {
+        if ($("#active-session").val()) alert('该题尚无学生提交答案!');
       }
     }
   })
 
   // 下一题
   $('.next').click(function() {
-    if (back_data) {
+    if (question_arr) {
       index++;
-      $('.previous button').removeAttr('disabled');
-      if (index == question_data.length - 1) {
-        $('.next button').prop('disabled', true);
+      $('.previous').removeAttr('disabled');
+      if (index == question_arr.length - 1) {
+        $('.next').prop('disabled', true);
       }
       $('.option li').css('color', '#000');
-      showQuestion(questions, index);
-      drawChartById(question_data, questions[index].id);
-      if (stat_question_bak) {
-        var q_school_stat = stat_question_bak[questions[index].id]['schools'];
+      showQuestion(question_arr, index);
+      if (question_data) {
+        drawChartById(question_data, question_arr[index].id);
+      }
+      if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
+        var q_school_stat = stat_question_bak[question_arr[index].id].schools;
         drawSchoolChart(schoolDataFormat(q_school_stat));
+      } else {
+        if ($("#active-session").val()) alert('该题尚无学生提交答案!');
       }
     }
   })
@@ -303,7 +309,7 @@ $(function() {
     var elem1 = $('.pie')[0],
       elem2 = $('.bar')[0];
     var radius = ['30%', '50%'];
-    var text = '参与人数: ' + data.total + '人';
+    var text = '参与第' + (index + 1) + '题学生' + '人数: ' + data.total + '人';
     var subtext = '各选项人数';
     var pie_arr = [{
       value: right_count,
@@ -319,7 +325,6 @@ $(function() {
 
   // 绘制校区结果图表(接收格式化后的数据数组)
   var drawSchoolChart = function(data) {
-    console.log(data[0])
     var i = 0,
       l = data.length;
     var right_count = 0,
@@ -393,15 +398,14 @@ $(function() {
         'data': params,
         'success': function(json) {
           if (json && json.ok && json.data.length != 0) {
-            console.log(json);
             if (!_.isEqual(back_data, json.data)) {
               back_data = json.data;
               var stat_question = calc_questions_stat(json.data);
               $('.question').show();
-              console.log(questions);
-              drawChartById(questionDataFormat(stat_question), questions[index].id);
-              $('.school').show();
-              drawSchoolChart(schoolDataFormat(stat_question[questions[index].id]['schools']));
+              drawChartById(questionDataFormat(stat_question), question_arr[index].id);
+              if (stat_question[question_arr[index].id]) {
+                drawSchoolChart(schoolDataFormat(stat_question[question_arr[index].id].schools));
+              }
             }
           }
           delayRefresh(repeat);
@@ -422,9 +426,8 @@ $(function() {
       'question_group': $("#question-group").val(),
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
-    questions = reqQuestionsOfGroup(params['question_group'], true).questions;
-    console.log(questions);
-    showQuestion(questions, index);
+    question_arr = reqQuestionsOfGroup(params['question_group'], true).questions;
+    showQuestion(question_arr, index);
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
@@ -466,7 +469,22 @@ $(function() {
     });
   });
 
-  var init = function() {
+  (function() {
+    if (index == 0) {
+      $('.previous').prop('disabled', true);
+    }
+    // 刷新网页后，恢复题目显示
+    // if ($("#active-session").val() && $("#question-group").val()) {
+    if (reqQuestionsOfGroup($("#question-group").val(), true)) {
+      question_arr = reqQuestionsOfGroup($("#question-group").val(), true).questions;
+      showQuestion(question_arr, index);
+    }
+    // }
+    refreshUI();
+    getSessionResults(true);
+  })();
+
+  /*var init = function() {
     // 刷新网页后，恢复题目显示
     if ($("#active-session").val() && $("#question-group").val()) {
       questions = reqQuestionsOfGroup($("#question-group").val(), true).questions;
@@ -475,7 +493,7 @@ $(function() {
     refreshUI();
     getSessionResults(true);
   };
-  init();
+  init();*/
 
   // 控制校区排列顺序
   $('.sort').click(function() {

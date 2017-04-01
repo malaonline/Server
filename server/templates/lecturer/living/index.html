@@ -48,8 +48,7 @@
           {% endif %} />
     </div>
   </form>
-  <div class="container question">
-    <h3>结果统计</h3>
+  <div class="container">
     <h5 class="exercise"></h5>
     <ul class="option">
       <li>A. <span></span></li>
@@ -58,24 +57,25 @@
       <li>D. <span></span></li>
     </ul>
     <div class="row">
-      <div class="previous col-xs-6 text-center">
-        <button class="btn btn-info btn-lg">&lt;&nbsp;上一题</button>
+      <div class="col-xs-6 text-center">
+        <button class="previous btn btn-info btn-lg">&lt;&nbsp;上一题</button>
       </div>
-      <div class="next col-xs-6 text-center">
-        <button class="btn btn-info btn-lg">下一题&nbsp;&gt;</button>
+      <div class="col-xs-6 text-center">
+        <button class="next btn btn-info btn-lg">下一题&nbsp;&gt;</button>
       </div>
     </div>
+  </div>
+  <div class="container question">
+    <h3>结果统计:</h3>
+    <br>
     <div class="row">
       <div class="pie col-xs-6"></div>
       <div class="bar col-xs-6"></div>
     </div>
-    <div class="row">
-      <div class="questions col-xs-12"></div>
-    </div>
-  </div>
-  <div class="school">
-    <button class="btn btn-default sort">正序</button>&nbsp;&nbsp;备注:按照正确率排序      
-    <div class="container accuracy">
+    <div class="school">
+      <button class="btn btn-default sort">正序</button>&nbsp;&nbsp;备注:按照正确率排序      
+      <div class="container accuracy">
+      </div>
     </div>
   </div>
   {% endif %}
