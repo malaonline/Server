@@ -252,7 +252,11 @@ $(function() {
       l = question_data.length;
     for (; i < l; i++) {
       if (question_arr[index].id == question_data[i][0]) {
+        $('.question').show();
         drawQuestionChart(question_data[i][1]);
+        break;
+      } else {
+        $('.question').hide();
       }
     }
   }
@@ -273,8 +277,6 @@ $(function() {
       if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
         var q_school_stat = stat_question_bak[question_arr[index].id].schools;
         drawSchoolChart(schoolDataFormat(q_school_stat));
-      } else {
-        if ($("#active-session").val()) alert('该题尚无学生提交答案!');
       }
     }
   })
@@ -295,8 +297,6 @@ $(function() {
       if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
         var q_school_stat = stat_question_bak[question_arr[index].id].schools;
         drawSchoolChart(schoolDataFormat(q_school_stat));
-      } else {
-        if ($("#active-session").val()) alert('该题尚无学生提交答案!');
       }
     }
   })
@@ -312,7 +312,7 @@ $(function() {
     var elem1 = $('.pie')[0],
       elem2 = $('.bar')[0];
     var radius = ['30%', '50%'];
-    var text = '参与第' + (index + 1) + '题学生' + '人数: ' + data.total + '人';
+    var text = '参与人数: ' + data.total + '人';
     var subtext = '各选项人数';
     var pie_arr = [{
       value: right_count,
@@ -432,6 +432,7 @@ $(function() {
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
     question_arr = reqQuestionsOfGroup(params['question_group'], true).questions;
+    console.log(question_arr);
     $('.option li').css('color', '#000');
     showQuestion(question_arr, index);
     malaAjaxPost(location.pathname, params, function(result) {
@@ -457,7 +458,6 @@ $(function() {
       'question_group': $("#question-group").val(),
       'live_course_timeslot': $("#live-course-timeslot").val()
     };
-    reqQuestionsOfGroup(params['question_group']);
     malaAjaxPost(location.pathname, params, function(result) {
       if (result) {
         if (result.ok) {
@@ -475,17 +475,39 @@ $(function() {
     });
   });
 
+  // 自执行函数
   (function() {
-    if (index == 0) {
-      $('.previous').prop('disabled', true);
-    }
-    if (reqQuestionsOfGroup($("#question-group").val(), true)) {
+    $('.previous').prop('disabled', true);  
+    if ($("#question-group").val()) {
       question_arr = reqQuestionsOfGroup($("#question-group").val(), true).questions;
+      if (question_arr && question_arr.length == 1) {
+        $('.next').prop('disabled', true);
+      }
       showQuestion(question_arr, index);
     }
     refreshUI();
     getSessionResults(true);
   })();
+
+  $('#question-group').change(function() {
+    index= 0;
+    $('.next').removeAttr('disabled');
+    question_arr = reqQuestionsOfGroup($("#question-group").val(), true).questions;
+    console.log(question_arr);
+    if (question_arr && question_arr.length == 1) {
+      $('.previous').prop('disabled', true);
+      $('.next').prop('disabled', true);
+    }
+    $('.option li').css('color', '#000');
+    showQuestion(question_arr, index);
+    if (question_data) {
+      drawChartById(question_data, question_arr[index].id);
+    }
+    if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
+      var q_school_stat = stat_question_bak[question_arr[index].id].schools;
+      drawSchoolChart(schoolDataFormat(q_school_stat));
+    }
+  })
 
   // 控制校区排列顺序
   $('.sort').click(function() {
