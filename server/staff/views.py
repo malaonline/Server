@@ -2772,7 +2772,10 @@ class SchoolIncomeRecordView(BaseStaffView):
         if school_account:
             # paginate
             page = self.request.GET.get('page')
-            records = models.SchoolIncomeRecord.objects.filter(school_account=school_account)
+            records = models.SchoolIncomeRecord.objects.filter(
+                school_account=school_account,
+                amount__gt=0,
+            )
             records = records.order_by('-id')
             records, pager = paginate(records, page)
             kwargs['records'] = records
@@ -2791,12 +2794,9 @@ class SchoolIncomeAuditView(BaseStaffView):
         kwargs['query_data'] = self.request.GET.dict()
         page = self.request.GET.get('page')
         school = self.request.GET.get('school')
-        records = models.SchoolIncomeRecord.objects.filter()
+        records = models.SchoolIncomeRecord.objects.filter(amount__gt=0)
         if school and school.isdigit():
-            records = records.filter(
-                school_account__school_id=school,
-                amount__gt=0,
-            )
+            records = records.filter(school_account__school_id=school)
         records = records.order_by('-id')
         records, pager = paginate(records, page)
         kwargs['records'] = records
