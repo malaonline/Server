@@ -56,12 +56,13 @@ $(function() {
     for (var i in submits) {
       var row = submits[i];
       var obj = stat_question[row.qid] || $.extend({
-        'schools': {}
+        'schools': {}, 
       }, META_ITEM);
       stat_question[row.qid] = _update_stat_item(obj, row);
       var q_schools_stat = stat_question[row.qid]['schools'];
       var sc_obj = q_schools_stat[row.sc_id] || $.extend({}, META_ITEM);
       q_schools_stat[row.sc_id] = _update_stat_item(sc_obj, row);
+      q_schools_stat[row.sc_id]['name'] = row.sc_name;
     }
     stat_question_bak = stat_question;
     console.log(stat_question_bak);
@@ -83,25 +84,18 @@ $(function() {
   var schoolDataFormat = function(data) {
     console.log(data);
     var stat_data = [],
-      accuracy, name;
+      accuracy;
     var l = back_data.length;
     for (var i in data) {
       accuracy = data[i].right / data[i].total;
-      var j = 0;
-      for (; j < l; j++) {
-        if (i == back_data[j].sc_id) {
-          name = back_data[j].sc_name;
-          stat_data[stat_data.length] = [name, data[i], accuracy]
-          break;
-        }
-      }
+      stat_data[stat_data.length] = [i, data[i], accuracy];
     }
     school_data = stat_data;
     console.log(school_data);
     return school_data;
   }
 
-  //绘制问题饼图
+  // 绘制问题饼图
   var drawPie = function(data, elem, radius, text) {
     if (data[0].value == 0 & data[1].value == 0) {
       var accuracy = 0;
@@ -344,7 +338,7 @@ $(function() {
     var $row, $col;
     $('.accuracy').html('');
     for (; i < l; i++) {
-      text = data[i][0];
+      text = data[i][1].name;
       right_count = data[i][1].right;
       wrong_count = data[i][1].total - data[i][1].right;
       A_count = data[i][1].A;
@@ -500,13 +494,10 @@ $(function() {
     }
     $('.option li').css('color', '#000');
     showQuestion(question_arr, index);
-    if (question_data) {
-      drawChartById(question_data, question_arr[index].id);
-    }
-    if (stat_question_bak && stat_question_bak[question_arr[index].id]) {
-      var q_school_stat = stat_question_bak[question_arr[index].id].schools;
-      drawSchoolChart(schoolDataFormat(q_school_stat));
-    }
+    $('.question').hide();
+    back_data = null;
+    question_data = null;
+    stat_question_bak = null;         
   })
 
   // 控制校区排列顺序
