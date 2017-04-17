@@ -56,7 +56,7 @@ $(function() {
     for (var i in submits) {
       var row = submits[i];
       var obj = stat_question[row.qid] || $.extend({
-        'schools': {}, 
+        'schools': {}
       }, META_ITEM);
       stat_question[row.qid] = _update_stat_item(obj, row);
       var q_schools_stat = stat_question[row.qid]['schools'];
