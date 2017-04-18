@@ -193,7 +193,7 @@ class CourseChoosingView(OrderBaseView):
         kwargs['first_buy'] = first_buy
         kwargs['evaluate_time'] = int(models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
         prices = list(teacher.prices())
-        prices.sort(key=lambda x: x.ability.grade_id)
+        prices.sort(key=lambda x: x.grade.id)
         kwargs['prices'] = prices
         schools = teacher.schools.filter(opened=True)
         # schools = list(models.School.objects.filter(opened=True))
