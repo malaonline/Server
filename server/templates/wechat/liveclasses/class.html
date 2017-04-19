@@ -4,13 +4,68 @@
 {% load staticfiles %}
 {% load compile_static %}
 
-{% block addition_css %}
-{% endblock %}
-
-{% block javascripts %}
-{#    如引入任何js文件#}
+{% block addition_header %}
+  <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/class.less'|compile %}">
 {% endblock %}
 
 {% block content %}
-  <h1>hahahah</h1>
+  <div class="page" id="liveclasses">
+  {#下载横条#}
+    {% include 'wechat/w_download_banner.html' %}
+    <div class="content">
+      <div class="card">
+        <h3>阅读核心词汇培优班</h3>
+        <div class="horizontal"></div>
+        <div class="grade">
+          <div class="tag">
+            <span>20人班</span>
+            <span>初二</span>
+          </div>
+          <p>2017/3/11-2017/6/17</p>
+          <p>每周六 8:00-10:00</p>
+          <p>已报: <span>0人</span></p>
+          <p>青岛市北店</p>
+          <p>市北区延安路142号甲-4</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>课程介绍</h3>
+        <div class="horizontal"></div>
+        <div class="lesson">
+          <p>-初二词汇各个突破</p>
+          <p>-初二词汇各个突破</p>
+          <p>-初二词汇各个突破</p>
+          <p>-初二词汇各个突破</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>直播名师</h3>
+        <div class="horizontal"></div>
+        <div class="teacher">
+          <div>Kelly(何芳)</div>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+          <p>美国领袖培训学院首席口译员</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>联系助教</h3>
+        <div class="horizontal"></div>
+        <div class="tutor">
+          <p>助教: 唐爽</p>
+          <p>对课程有疑问? 快电话咨询助教老师吧!</p>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>￥1200 / <span>15次</span></p>
+      <a href="#" class="right">立即购买</a>
+    </div>
+  </div>
 {% endblock %}
