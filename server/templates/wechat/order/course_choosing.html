@@ -22,8 +22,8 @@
                 <div class="m-panel abilities-panel">
                     {% for price in prices %}
                         <div class="grade-box">
-                            <div class="grade" data-gradeid="{{ price.ability.grade.id }}">
-                                {{ price.ability.grade.name }}&nbsp;&nbsp;{{ price.price|money_format:'/a' }}/小时
+                            <div class="grade" data-gradeid="{{ price.grade.id }}">
+                                {{ price.grade.name }}&nbsp;&nbsp;{{ price.price|money_format:'/a' }}/小时
                                 <input type="hidden" name="price" value="{{ price.price }}"/>
                             </div>
                         </div>
