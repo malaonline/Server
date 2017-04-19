@@ -977,3 +977,10 @@ class RegisterRedirectView(View):
             return render(request, 'wechat/parent/reg_success.html', context)
         reg_url = _get_auth_redirect_url(request, 'ONLY_REGISTER')
         return redirect(reg_url)
+
+
+class LiveClassView(View):
+    template_name = 'wechat/liveclasses/class.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, kwargs)
