@@ -27,6 +27,7 @@ $(function() {
         }
       });
     }
+    console.log(group2questions);
     return group2questions[gid];
   };
 
@@ -474,6 +475,7 @@ $(function() {
     $('.previous').prop('disabled', true);  
     if ($("#question-group").val()) {
       question_arr = reqQuestionsOfGroup($("#question-group").val(), true).questions;
+      console.log(question_arr);
       if (question_arr && question_arr.length == 1) {
         $('.next').prop('disabled', true);
       }

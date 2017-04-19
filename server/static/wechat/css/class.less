@@ -1,0 +1,110 @@
+#liveclasses.page {
+  background: #ededed;
+  .content {
+    margin-top: 52px;
+    padding-bottom: 9px;
+    .card {
+      position: relative;
+      padding: 0 12px 10px 12px;
+      margin: 8px 12px 0;
+      background-color: #fff;
+      h3 {
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 27px;
+        padding: 15px 0 0 0;
+        color: #82b4d9;
+      }
+      .horizontal {
+        height: 17px;
+        background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAACCAYAAACuTHuKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1OThBRDY4OUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1OThBRDY4QUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjU5OEFENjg3Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU5OEFENjg4Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+VU513gAAADVJREFUeNrs0DENACAQBDBIWLGBJQby/mUcJn5sJXQmOQMAAAAAAJqt+2prAAAAAACg2xdgANk6BEVuJgyMAAAAAElFTkSuQmCC);
+        background-repeat: no-repeat;
+        background-position: 0 8px;
+        background-size: 100% 1px;
+      }
+      .grade {
+        font-size: 15px;
+        margin: 0 15px;
+        .tag {
+          margin: 5px 0 10px;
+          span {
+            background: #82b4d9;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 300;
+            padding: 5px 8px;
+            margin-right: 5px;
+          }
+        }
+        p {
+          span {
+            color: red;
+          }
+          &:nth-of-type(2), 
+          &:last-child {
+            font-size: 13px;
+            color: #939393;
+          } 
+        }      
+      }
+      .lesson {
+        font-size: 14px;
+        color: #939393;
+        p {
+          margin: 2px 0;
+        }
+      }
+      .teacher {
+        margin: 0 15px;
+        font-size: 14px;
+        color: #939393;
+        div {
+          margin: 5px 0;
+          color: #82b4d9;
+        }
+        p {
+          margin: 5px 0;
+        }
+      }
+      .tutor {
+        margin: 5px 0;
+        font-size: 14px;
+        p:last-child {
+          color: #939393;
+        }
+      }
+    }
+  }
+  .bottom {
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    z-index: 9;
+    height: 41px;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(242, 242, 242, .9);
+    border-top: 1px solid #cecece;
+    p {
+      position: absolute;
+      left: 0;
+      color: red;
+      font-size: 18px;
+      width: 50%;
+      span {
+        font-size: 14px;
+      }
+    }
+    .right {
+      background: #82b4d9; 
+      color: #fff;
+      font-size: 18px;
+      font-weight: 300;
+      position: absolute;
+      right: 0;
+      height: 100%;
+      width: 50%;
+    }
+  }
+}
