@@ -1,8 +1,9 @@
 {% extends "wechat/wechat_base_simple.html" %}
 
-{% block title %}XXX 在麻辣老师为您讲课{% endblock %}
+{% block title %}{{ live_class.lecturer_name }} 在麻辣老师为您讲课{% endblock %}
 {% load staticfiles %}
 {% load compile_static %}
+{% load custom_tags %}
 
 {% block addition_header %}
   <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
@@ -16,55 +17,55 @@
     {% include 'wechat/w_download_banner.html' %}
     <div class="content">
       <div class="card">
-        <h3>阅读核心词汇培优班</h3>
+        <h3>{{ live_class.course_name }}</h3>
         <div class="horizontal"></div>
         <div class="grade">
           <div class="tag">
-            <span>20人班</span>
-            <span>初二</span>
+            <span>{{ live_class.room_capacity }}人小班</span>
+            <span>{{ live_class.course_grade }}</span>
           </div>
-          <p>2017/3/11-2017/6/17</p>
-          <p>每周六 8:00-10:00</p>
-          <p>已报: <span>0人</span></p>
-          <p>青岛市北店</p>
-          <p>市北区延安路142号甲-4</p>
+          <p>{{ course_start }}-{{ course_end }}</p>
+          {% for course_period in course_periods %}
+            <p class="period">{{ course_period }}</p>
+          {% endfor %}
+          <p>剩余名额:
+            <span>{{ seats_remaining }}人</span>
+          </p>
+          <p>{{ live_class.school_name }}</p>
+          <p class="address">{{ live_class.school_address }}</p>
         </div>
       </div>
       <div class="card">
         <h3>课程介绍</h3>
         <div class="horizontal"></div>
         <div class="lesson">
-          <p>-初二词汇各个突破</p>
-          <p>-初二词汇各个突破</p>
-          <p>-初二词汇各个突破</p>
-          <p>-初二词汇各个突破</p>
+          {% for course_description in course_descriptions %}
+            <p>{{ course_description }}</p>
+          {% endfor %}
         </div>
       </div>
       <div class="card">
         <h3>直播名师</h3>
         <div class="horizontal"></div>
         <div class="teacher">
-          <div>Kelly(何芳)</div>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
-          <p>美国领袖培训学院首席口译员</p>
+          <div>{{ live_class.lecturer_name }}</div>
+          {% for lecturer_bio in lecturer_bios %}
+            <p>{{ lecturer_bio }}</p>
+          {% endfor %}
         </div>
       </div>
       <div class="card">
         <h3>联系助教</h3>
         <div class="horizontal"></div>
         <div class="tutor">
-          <p>助教: 唐爽</p>
+          <p>助教: {{ live_class.assistant_name }}</p>
           <p>对课程有疑问? 快电话咨询助教老师吧!</p>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <p>￥1200 / <span>15次</span></p>
+      <p>￥{{ live_class.course_fee|money_format:'/' }} /
+        <span>{{ live_class.course_lessons }}次</span></p>
       <a href="#" class="right">立即购买</a>
     </div>
   </div>

@@ -1,7 +1,10 @@
+@bottom-height: 41px;
+
 #liveclasses.page {
   background: #ededed;
   .content {
     margin-top: 52px;
+    margin-bottom: @bottom-height;
     padding-bottom: 9px;
     .card {
       position: relative;
@@ -40,8 +43,8 @@
           span {
             color: red;
           }
-          &:nth-of-type(2), 
-          &:last-child {
+          &.period,
+          &.address {
             font-size: 13px;
             color: #939393;
           } 
@@ -80,7 +83,7 @@
     position: fixed;
     bottom: 0;
     z-index: 9;
-    height: 41px;
+    height: @bottom-height;
     width: 100%;
     line-height: 40px;
     text-align: center;

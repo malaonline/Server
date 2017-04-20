@@ -10,7 +10,7 @@ from urllib.parse import urlencode
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, TemplateView, ListView, DetailView
-from django.db.models import Q,Count
+from django.db.models import Q, Count
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.utils import timezone
@@ -28,6 +28,7 @@ from app.tasks import registerKuaiLeXueUserByOrder
 from wechat import wxapi as wx
 
 logger = logging.getLogger('app')
+
 
 # Create your views here.
 
@@ -50,7 +51,8 @@ def _get_parent(request):
         if not openid:
             openid = request.POST.get("openid")
         if openid:
-            profile = models.Profile.objects.filter(wx_openid=openid).order_by('-id').first()
+            profile = models.Profile.objects.filter(wx_openid=openid).order_by(
+                '-id').first()
             try:
                 parent = profile and profile.user.parent or None
             except Exception as e:
@@ -69,7 +71,7 @@ class TeachersView(ListView):
     def get_queryset(self):
         teacher_list = self.model.objects.filter(
             recommended_on_wechat=True
-         ).filter(
+        ).filter(
             published=True
         )
         return teacher_list
@@ -85,12 +87,13 @@ class SchoolsView(ListView):
     template_name = 'wechat/school/schools.html'
 
     def get_queryset(self):
-        school_list=self.model.objects.annotate(num_photos=Count('schoolphoto'))
-        school_list=school_list.filter(opened=True)
+        school_list = self.model.objects.annotate(
+            num_photos=Count('schoolphoto'))
+        school_list = school_list.filter(opened=True)
         queryset = {}
         queryset['expr_center_list'] = school_list.filter(
-            center = True
-         )
+            center=True
+        )
         queryset['community_center_list'] = school_list.filter(
             center=False
         )
@@ -138,8 +141,8 @@ class SchoolPhotosView(DetailView):
 
 def _get_auth_redirect_url(request, teacher_id):
     if settings.TESTING:
-        return reverse('wechat:phone_page') + '?state='+str(teacher_id)
-    checkPhoneURI = get_server_host(request)+reverse('wechat:check_phone')
+        return reverse('wechat:phone_page') + '?state=' + str(teacher_id)
+    checkPhoneURI = get_server_host(request) + reverse('wechat:check_phone')
     params_str = {
         # 'redirect_uri': checkPhoneURI,
         'response_type': "code",
@@ -147,13 +150,13 @@ def _get_auth_redirect_url(request, teacher_id):
         'state': teacher_id,
         'connect_redirect': "1"
     }
-    redirect_url = wx.WX_AUTH_URL + '&' + urlencode(params_str) + '&redirect_uri=' + checkPhoneURI + '#wechat_redirect'
+    redirect_url = wx.WX_AUTH_URL + '&' + urlencode(
+        params_str) + '&redirect_uri=' + checkPhoneURI + '#wechat_redirect'
     return redirect_url
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class OrderBaseView(View):
-
     def get_teacher(self, request):
         teacher_id = request.GET.get('teacher_id', -1)
         return get_object_or_404(models.Teacher, pk=teacher_id)
@@ -187,18 +190,20 @@ class CourseChoosingView(OrderBaseView):
         kwargs['parent'] = parent
         subject = teacher.subject()  # 目前老师只有一个科目
         order_count = models.Order.objects.filter(
-                parent=parent, subject=subject,
-                status=models.Order.PAID).count()
+            parent=parent, subject=subject,
+            status=models.Order.PAID).count()
         first_buy = order_count <= 0  # 对于当前科目来说, 是第一次购买
         kwargs['first_buy'] = first_buy
-        kwargs['evaluate_time'] = int(models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
+        kwargs['evaluate_time'] = int(
+            models.TimeSlot.GRACE_TIME.total_seconds())  # 第一次购买某个科目时, 建档需要的时间, 精确到秒
         prices = list(teacher.prices())
         prices.sort(key=lambda x: x.grade.id)
         kwargs['prices'] = prices
         schools = teacher.schools.filter(opened=True)
         # schools = list(models.School.objects.filter(opened=True))
         kwargs['schools'] = schools
-        kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS(teacher.region)
+        kwargs['daily_time_slots'] = models.WeeklyTimeSlot.DAILY_TIME_SLOTS(
+            teacher.region)
         now = timezone.now()
         now_timestamp = int(now.timestamp())
         kwargs['server_timestamp'] = now_timestamp
@@ -268,15 +273,19 @@ class CourseChoosingView(OrderBaseView):
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
         school = get_object_or_404(models.School, pk=school_id)
         grade = get_object_or_404(models.Grade, pk=grade_id)
-        subject = teacher.subject() # 老师只有一个科目
-        coupon = coupon_id and coupon_id != '0' and get_object_or_404(models.Coupon, pk=coupon_id) or None
-        weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=w_id) for w_id in weekly_time_slot_ids]
+        subject = teacher.subject()  # 老师只有一个科目
+        coupon = coupon_id and coupon_id != '0' and get_object_or_404(
+            models.Coupon, pk=coupon_id) or None
+        weekly_time_slots = [get_object_or_404(models.WeeklyTimeSlot, pk=w_id)
+                             for w_id in weekly_time_slot_ids]
         if coupon:
             if coupon.used:
-                return JsonResponse({'ok': False, 'msg': '您所选择奖学金已使用, 请重新选择', 'code': 2})
+                return JsonResponse(
+                    {'ok': False, 'msg': '您所选择奖学金已使用, 请重新选择', 'code': 2})
             # 使用期限不满足
             if not coupon.check_date():
-                return JsonResponse({'ok': False, 'msg': '您所选择奖学金不在使用有效期内, 请重新选择', 'code': 2})
+                return JsonResponse(
+                    {'ok': False, 'msg': '您所选择奖学金不在使用有效期内, 请重新选择', 'code': 2})
             # 限制条件不满足
             ability = get_object_or_404(
                 models.Ability, grade=grade, subject=subject)
@@ -284,16 +293,18 @@ class CourseChoosingView(OrderBaseView):
             price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
             if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
-                return JsonResponse({'ok': False, 'msg': '您所选择奖学金不满足使用条件, 请重新选择', 'code': 2})
+                return JsonResponse(
+                    {'ok': False, 'msg': '您所选择奖学金不满足使用条件, 请重新选择', 'code': 2})
 
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
         if not teacher.is_longterm_available(periods, school, parent):
-            return JsonResponse({'ok': False, 'msg': '该老师部分时段已被占用, 请重新选择上课时间', 'code': 3})
+            return JsonResponse(
+                {'ok': False, 'msg': '该老师部分时段已被占用, 请重新选择上课时间', 'code': 3})
 
         # create order
         order = models.Order.objects.create(
-                parent=parent, teacher=teacher, school=school,
-                grade=grade, subject=subject, hours=hours, coupon=coupon)
+            parent=parent, teacher=teacher, school=school,
+            grade=grade, subject=subject, hours=hours, coupon=coupon)
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
         order_data = {}
@@ -309,16 +320,19 @@ class CourseChoosingView(OrderBaseView):
             charge.order_no = order.order_id
             charge.amount = order.to_pay
             charge.save()
-            return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': order_data})
+            return JsonResponse(
+                {'ok': True, 'msg': '', 'code': '', 'data': order_data})
         # get wx pay order
         ret_json = wx.wx_pay_unified_order(order, request, wx_openid)
         if not ret_json['ok']:
-            return JsonResponse({'ok': False, 'msg': ret_json['msg'], 'code': -500})
+            return JsonResponse(
+                {'ok': False, 'msg': ret_json['msg'], 'code': -500})
         # 构造js-sdk 支付接口参数 appId, timeStamp, nonceStr, package, signType
         data = {}
         data['timeStamp'] = int(timezone.now().timestamp())
         data['nonceStr'] = wx.make_nonce_str()
-        data['package'] = 'prepay_id={id}'.format(id=ret_json['data']['prepay_id'])
+        data['package'] = 'prepay_id={id}'.format(
+            id=ret_json['data']['prepay_id'])
         data['signType'] = 'MD5'
         data['appId'] = settings.WEIXIN_APPID
         data['paySign'] = wx.wx_sign_for_pay(data)
@@ -334,7 +348,8 @@ class CourseChoosingView(OrderBaseView):
         if settings.TESTING:
             ret_code = set_order_paid(order_id=order_id)
             if ret_code == 1:
-                return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+                return JsonResponse(
+                    {'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
             return JsonResponse({'ok': True, 'msg': '', 'code': 0})
         query_ret = wx.wx_pay_order_query(order_id=order_id)
         if query_ret['ok']:
@@ -342,14 +357,21 @@ class CourseChoosingView(OrderBaseView):
             if trade_state == wx.WX_SUCCESS:
                 # 支付成功, 设置订单支付成功, 并且生成课程安排
                 try:
-                    ret_code = set_order_paid(prepay_id=prepay_id, order_id=query_ret['data']['out_trade_no'], open_id=query_ret['data']['openid'])
+                    ret_code = set_order_paid(prepay_id=prepay_id,
+                                              order_id=query_ret['data'][
+                                                  'out_trade_no'],
+                                              open_id=query_ret['data'][
+                                                  'openid'])
                     if ret_code == 1:
-                        return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+                        return JsonResponse(
+                            {'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
                 except (OrderStatusIncorrect, RefundError):
-                    return JsonResponse({'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
+                    return JsonResponse(
+                        {'ok': False, 'msg': FAIL_HINT_MSG, 'code': 4})
                 except Exception as ex:
                     logger.exception(ex)
-                    return JsonResponse({'ok': False, 'msg': '未知异常, 请稍后重试', 'code': 5})
+                    return JsonResponse(
+                        {'ok': False, 'msg': '未知异常, 请稍后重试', 'code': 5})
                 return JsonResponse({'ok': True, 'msg': '', 'code': 0})
             else:
                 if trade_state == wx.WX_PAYERROR:
@@ -398,8 +420,10 @@ class CouponListView(OrderBaseView):
         kwargs['parent'] = parent
 
         now = timezone.now()
-        coupons = models.Coupon.objects.filter(parent=parent, expired_at__gt=now, used=False
-                                        ).order_by('used', '-amount', 'expired_at')
+        coupons = models.Coupon.objects.filter(parent=parent,
+                                               expired_at__gt=now, used=False
+                                               ).order_by('used', '-amount',
+                                                          'expired_at')
 
         kwargs['coupons'] = sorted(coupons, key=lambda x: x.sort_key())
         pre_chosen_coupon = None
@@ -457,7 +481,9 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         1, 分配上课时间失败
         -1, ignore it
     """
-    logger.debug('wx_pub_pay try to set_order_paid, order_no: '+str(order_id)+', prepay_id: '+str(prepay_id)+', open_id: '+str(open_id))
+    logger.debug('wx_pub_pay try to set_order_paid, order_no: ' + str(
+        order_id) + ', prepay_id: ' + str(prepay_id) + ', open_id: ' + str(
+        open_id))
     charge = None
     if prepay_id:
         charge = models.Charge.objects.get(ch_id=prepay_id)
@@ -475,26 +501,30 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         order_id = order.order_id
 
     if order.status == models.Order.PAID:
-        return -1 # 已经处理过了, 直接返回
+        return -1  # 已经处理过了, 直接返回
     order.status = models.Order.PAID
     order.paid_at = timezone.now()
     order.save()
 
-    logger.debug('wx_pub_pay set_order_paid, allocate_timeslots order_no: '+str(order_id))
+    logger.debug(
+        'wx_pub_pay set_order_paid, allocate_timeslots order_no: ' + str(
+            order_id))
     try:
         models.Order.objects.allocate_timeslots(order)
         # 微信通知用户购课成功信息
         send_pay_info_to_user(open_id, order_id)
         # 把学生和老师注册到快乐学
-        registerKuaiLeXueUserByOrder.apply_async((order.id,), retry=True, retry_policy={
-            'max_retries': 3,
-            'interval_start': 10,
-            'interval_step': 20,
-            'interval_max': 30,
-        })
+        registerKuaiLeXueUserByOrder.apply_async((order.id,), retry=True,
+                                                 retry_policy={
+                                                     'max_retries': 3,
+                                                     'interval_start': 10,
+                                                     'interval_step': 20,
+                                                     'interval_max': 30,
+                                                 })
         return 0
     except TimeSlotConflict:
-        logger.warning('timeslot conflict, do refund, order_id: '+str(order_id))
+        logger.warning(
+            'timeslot conflict, do refund, order_id: ' + str(order_id))
         # 微信通知用户失败信息
         send_pay_fail_to_user(open_id, order_id)
         # 短信通知家长
@@ -506,14 +536,14 @@ def set_order_paid(prepay_id=None, order_id=None, open_id=None):
         # 退款事宜操作
         try:
             models.Order.objects.refund(
-                    order, '课程被抢占，自动退款', order.parent.user)
+                order, '课程被抢占，自动退款', order.parent.user)
         except OrderStatusIncorrect as e:
             logger.exception(e)
             raise e
         except RefundError as e:
             logger.exception(e)
             raise e
-        return 1 # 没有其他错误, 返回分配上课时间失败
+        return 1  # 没有其他错误, 返回分配上课时间失败
 
 
 def _get_wx_jsapi_ticket(access_token):
@@ -531,7 +561,8 @@ def _get_wx_jsapi_ticket(access_token):
 
 
 def _get_wx_jsapi_ticket_from_db():
-    tk = models.WeiXinToken.objects.filter(token_type=models.WeiXinToken.JSAPI_TICKET).order_by('-id').first()
+    tk = models.WeiXinToken.objects.filter(
+        token_type=models.WeiXinToken.JSAPI_TICKET).order_by('-id').first()
     if tk and tk.token and (not tk.is_token_expired()):
         return tk.token
     return None
@@ -552,7 +583,8 @@ def _get_wx_token():
 
 
 def _get_wx_token_from_db():
-    tk = models.WeiXinToken.objects.filter(token_type=models.WeiXinToken.ACCESS_TOKEN).order_by('-id').first()
+    tk = models.WeiXinToken.objects.filter(
+        token_type=models.WeiXinToken.ACCESS_TOKEN).order_by('-id').first()
     if tk and tk.token and (not tk.is_token_expired()):
         return tk.token
     return None
@@ -565,7 +597,8 @@ def wx_pay_notify_view(request):
     """
     req_json = wx.resolve_wx_pay_notify(request)
     if not req_json['ok']:
-        return HttpResponse(wx.wx_dict2xml({'return_code': wx.WX_FAIL, 'return_msg': ''}))
+        return HttpResponse(
+            wx.wx_dict2xml({'return_code': wx.WX_FAIL, 'return_msg': ''}))
     data = req_json['data']
     openid = data['openid']
     wx_order_id = data['transaction_id']
@@ -573,8 +606,9 @@ def wx_pay_notify_view(request):
     try:
         set_order_paid(order_id=order_id, open_id=openid)
     except Exception as e:
-        pass # 该view为异步调用, 忽略错误
-    return HttpResponse(wx.wx_dict2xml({'return_code': wx.WX_SUCCESS, 'return_msg': ''}))
+        pass  # 该view为异步调用, 忽略错误
+    return HttpResponse(
+        wx.wx_dict2xml({'return_code': wx.WX_SUCCESS, 'return_msg': ''}))
 
 
 def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
@@ -587,7 +621,7 @@ def _try_send_wx_tpl_msg(tpl_id, openid, data, times=1):
             if 'msgid' in ret_json:
                 return ret_json['msgid']
             errcode = ret_json.get('errcode')
-            if errcode == 40001: # access_token失效, 重新获取
+            if errcode == 40001:  # access_token失效, 重新获取
                 wx.wx_get_token()
         except Exception as ex:
             logger.error(ex)
@@ -617,10 +651,10 @@ def send_pay_info_to_user(openid, order_no):
             "value": order.parent.student_name or order.parent.user.profile.mask_phone()
         },
         "keyword5": {
-            "value": "%.2f元"%(order.to_pay/100)
+            "value": "%.2f元" % (order.to_pay / 100)
         },
         "remark": {
-            "value": '有任何疑问请拨打客服电话'+settings.SERVICE_SUPPORT_TEL
+            "value": '有任何疑问请拨打客服电话' + settings.SERVICE_SUPPORT_TEL
         }
     }
     tpl_id = settings.WECHAT_PAY_INFO_TEMPLATE
@@ -629,6 +663,7 @@ def send_pay_info_to_user(openid, order_no):
 
 FAIL_HINT_MSG = '您好，该老师该时段课程已被抢购，您可重新选择课时进行购买。' \
                 '我们将在24小时内为您退款。退款事宜请联系客服：%s' % (settings.SERVICE_SUPPORT_TEL,)
+
 
 def send_pay_fail_to_user(openid, order_no):
     """
@@ -646,7 +681,7 @@ def send_pay_fail_to_user(openid, order_no):
             "value": order.order_id
         },
         "remark": {
-            "value": '我们将在24小时内为您退款。退款事宜请联系客服：'+settings.SERVICE_SUPPORT_TEL
+            "value": '我们将在24小时内为您退款。退款事宜请联系客服：' + settings.SERVICE_SUPPORT_TEL
         }
     }
     tpl_id = settings.WECHAT_PAY_FAIL_TEMPLATE
@@ -680,7 +715,8 @@ def teacher_view(request):
         return JsonResponse({'error': 'teacher profile not exist', 'code': -1})
 
     memberService = models.Memberservice.objects.all()
-    achievements = models.Achievement.objects.filter(teacher=teacher).order_by('id')
+    achievements = models.Achievement.objects.filter(teacher=teacher).order_by(
+        'id')
 
     teacher_grade_ids = [grade.id for grade in teacher.grades()]
     grades_all = models.Grade.objects.all()
@@ -688,11 +724,11 @@ def teacher_view(request):
     grades_tree = []
     for grade in grades_all:
         if not grade.superset_id:
-            _temp = {'id':grade.id, 'name':grade.name, 'children':[]}
+            _temp = {'id': grade.id, 'name': grade.name, 'children': []}
             _heap[grade.id] = _temp
         else:
             _temp = _heap[grade.superset_id]
-            _temp['children'].append({'id':grade.id, 'name':grade.name})
+            _temp['children'].append({'id': grade.id, 'name': grade.name})
     # 过滤该老师的
     for _, _grade in _heap.items():
         _children = _grade['children']
@@ -734,7 +770,8 @@ def teacher_view(request):
         "teacher": teacher,
         "schools": schools,
         "hasLogin": parent and True or False,
-        "isFavorite": parent and models.Favorite.isFavorite(parent, teacher) or False,
+        "isFavorite": parent and models.Favorite.isFavorite(parent,
+                                                            teacher) or False,
         "isTesting": settings.TESTING
     }
 
@@ -781,25 +818,29 @@ def getSchoolsWithDistance(request):
             dis = calculateDistance(point, pointB)
             sc['dis'] = dis
         ret.append(sc)
-    ret = sorted(ret, key = lambda school: school['dis'] if 'dis' in school else 63710000)
+    ret = sorted(ret, key=lambda school: school[
+        'dis'] if 'dis' in school else 63710000)
     for sc in ret:
         if 'dis' in sc and sc['dis'] is not None:
-            sc['dis'] = sc['dis']/1000
+            sc['dis'] = sc['dis'] / 1000
     return JsonResponse({'ok': True, 'schools': ret, 'code': 0})
 
 
 def calculateDistance(pointA, pointB):
-  R = 6371000; #metres
-  toRadians = math.pi/180;
+    R = 6371000;  # metres
+    toRadians = math.pi / 180;
 
-  return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(toRadians * pointB["lat"]) + math.cos(toRadians * pointA["lat"]) * math.cos(
-      toRadians * pointB["lat"]) * math.cos(toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
+    return math.acos(math.sin(toRadians * pointA["lat"]) * math.sin(
+        toRadians * pointB["lat"]) + math.cos(
+        toRadians * pointA["lat"]) * math.cos(
+        toRadians * pointB["lat"]) * math.cos(
+        toRadians * pointB["lng"] - toRadians * pointA["lng"])) * R;
 
 
 @csrf_exempt
 def phone_page(request):
     template_name = 'wechat/parent/reg_phone.html'
-    teacherId = request.GET.get('state') # 注册, 报名, 收藏
+    teacherId = request.GET.get('state')  # 注册, 报名, 收藏
 
     openid = request.GET.get("openid")
     if not openid:
@@ -883,18 +924,19 @@ def _get_reg_next_page(state, openid):
     微信注册后的下一个页面
     '''
     if not state or state == 'ONLY_REGISTER':
-        return reverse('wechat:register')+'?step=success'
+        return reverse('wechat:register') + '?step=success'
     if state.startswith('FAVORITE_'):
         id = state[len('FAVORITE_'):]
-        return reverse('wechat:teacher')+'?teacherid='+str(id)
-    return reverse('wechat:order-course-choosing')+'?teacher_id='+str(state)+'&openid='+str(openid)
+        return reverse('wechat:teacher') + '?teacherid=' + str(id)
+    return reverse('wechat:order-course-choosing') + '?teacher_id=' + str(
+        state) + '&openid=' + str(openid)
 
 
 @csrf_exempt
 def check_phone(request):
     get_openid_url = wx.WX_GET_OPENID_RUL
     wx_code = request.GET.get('code')
-    teacherId = request.GET.get('state') # 注册, 报名, 收藏
+    teacherId = request.GET.get('state')  # 注册, 报名, 收藏
 
     if wx_code in [None, 'None', '']:
         return HttpResponse(json.dumps({
@@ -921,7 +963,8 @@ def check_phone(request):
     nextpage = _get_reg_next_page(teacherId, openid)
 
     if openid:
-        profiles = models.Profile.objects.filter(wx_openid=openid).order_by('-id')
+        profiles = models.Profile.objects.filter(wx_openid=openid).order_by(
+            '-id')
         lastOne = list(profiles) and profiles[0]
         if lastOne:
             return HttpResponseRedirect(nextpage)
@@ -966,7 +1009,6 @@ class VipView(View):
 
 
 class RegisterRedirectView(View):
-
     def get(self, request):
         step = request.GET.get('step')
         if step == 'success':
@@ -979,8 +1021,29 @@ class RegisterRedirectView(View):
         return redirect(reg_url)
 
 
-class LiveClassView(View):
+class LiveClassView(TemplateView):
     template_name = 'wechat/liveclasses/class.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, kwargs)
+        context = super(LiveClassView, self).get_context_data(**kwargs)
+
+        live_class_id = request.GET.get('liveclassid')
+        live_class = get_object_or_404(models.LiveClass, pk=live_class_id)
+        course_periods = live_class.course_period.split(';')
+        course_start = timezone.localtime(live_class.course_start).strftime(
+            '%Y/%m/%d')
+        course_end = timezone.localtime(live_class.course_end).strftime(
+            '%Y/%m/%d')
+        course_descriptions = live_class.course_description.split('\r\n')
+        lecturer_bios = live_class.lecturer_bio.split(';')
+
+        context['live_class'] = live_class
+        context['course_start'] = course_start
+        context['course_end'] = course_end
+        context['course_periods'] = course_periods
+        context['seats_remaining'] = live_class.room_capacity - \
+            live_class.students_count
+        context['course_descriptions'] = course_descriptions
+        context['lecturer_bios'] = lecturer_bios
+
+        return render(request, self.template_name, context)
