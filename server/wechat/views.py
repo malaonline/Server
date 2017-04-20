@@ -172,14 +172,19 @@ class OrderBaseView(View):
 
 
 class CourseChoosingView(OrderBaseView):
+    # 一对一，选择课程页
     template_name = 'wechat/order/course_choosing.html'
-    # 确认订单页面
+    # 一对一，确认订单页
     confirm_page = 'wechat/order/confirm.html'
+    # 双师课程页，课程详情
+    live_class_page = 'wechat/liveclasses/class.html'
 
     def get(self, request):
         step = request.GET.get('step')
         if step == 'confirm_page':
             return self._get_confirm_page(request)
+        if step == 'live_class_page':
+            return self._get_live_class_page(request)
         kwargs = {}
         kwargs['teacher'] = teacher = self.get_teacher(request)
         parent = self.get_parent(request)
@@ -236,6 +241,29 @@ class CourseChoosingView(OrderBaseView):
         kwargs.update(sign_data)
         kwargs['WX_APPID'] = settings.WEIXIN_APPID
         return render(request, self.confirm_page, kwargs)
+
+    def _get_live_class_page(self, request):
+        live_class_id = request.GET.get('liveclassid')
+        live_class = get_object_or_404(models.LiveClass, pk=live_class_id)
+        course_periods = live_class.course_period.split(';')
+        course_start = timezone.localtime(live_class.course_start).strftime(
+            '%Y/%m/%d')
+        course_end = timezone.localtime(live_class.course_end).strftime(
+            '%Y/%m/%d')
+        course_descriptions = live_class.course_description.split('\r\n')
+        lecturer_bios = live_class.lecturer_bio.split(';')
+
+        context = dict()
+        context['live_class'] = live_class
+        context['course_start'] = course_start
+        context['course_end'] = course_end
+        context['course_periods'] = course_periods
+        context['seats_remaining'] = live_class.room_capacity - \
+            live_class.students_count
+        context['course_descriptions'] = course_descriptions
+        context['lecturer_bios'] = lecturer_bios
+
+        return render(request, self.live_class_page, context)
 
     def post(self, request):
         action = request.POST.get('action')
@@ -1019,31 +1047,3 @@ class RegisterRedirectView(View):
             return render(request, 'wechat/parent/reg_success.html', context)
         reg_url = _get_auth_redirect_url(request, 'ONLY_REGISTER')
         return redirect(reg_url)
-
-
-class LiveClassView(TemplateView):
-    template_name = 'wechat/liveclasses/class.html'
-
-    def get(self, request, *args, **kwargs):
-        context = super(LiveClassView, self).get_context_data(**kwargs)
-
-        live_class_id = request.GET.get('liveclassid')
-        live_class = get_object_or_404(models.LiveClass, pk=live_class_id)
-        course_periods = live_class.course_period.split(';')
-        course_start = timezone.localtime(live_class.course_start).strftime(
-            '%Y/%m/%d')
-        course_end = timezone.localtime(live_class.course_end).strftime(
-            '%Y/%m/%d')
-        course_descriptions = live_class.course_description.split('\r\n')
-        lecturer_bios = live_class.lecturer_bio.split(';')
-
-        context['live_class'] = live_class
-        context['course_start'] = course_start
-        context['course_end'] = course_end
-        context['course_periods'] = course_periods
-        context['seats_remaining'] = live_class.room_capacity - \
-            live_class.students_count
-        context['course_descriptions'] = course_descriptions
-        context['lecturer_bios'] = lecturer_bios
-
-        return render(request, self.template_name, context)

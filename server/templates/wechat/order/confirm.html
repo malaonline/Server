@@ -87,7 +87,7 @@
 {% block addition_js %}
     <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js' charset='utf-8'></script>
     <script>
-        var order_pay_url = '{% url 'wechat:order-course-choosing' %}?teacher_id={{ teacher.id }}';
+        var order_pay_url = '{% url 'wechat:order-course-choosing' %}';
         wx.config({
             debug: false,
             appId: '{{ WX_APPID }}',
