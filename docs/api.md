@@ -1410,6 +1410,7 @@ result:
         "name": "小张",
         "school_id": 2,
         "school": "洛阳社区一店",
+        "lc_timeslot_id": 5,
         "live_class": {
             "id": 1,
             "assistant": "尚尔迪",
@@ -1454,7 +1455,7 @@ Pad-Token: DZOEib615127525377788a3ef1d77d47b1a9856ce86d8ef0f8
 
 parameters:
 ```
-live_class=1
+lc_timeslot=1
 ```
 
 result:
