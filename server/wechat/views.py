@@ -177,7 +177,7 @@ class CourseChoosingView(OrderBaseView):
     # 一对一，确认订单页
     confirm_page = 'wechat/order/confirm.html'
     # 双师课程页，课程详情
-    live_class_page = 'wechat/liveclasses/class.html'
+    live_class_page = 'wechat/liveclass/liveclass.html'
 
     def get(self, request):
         step = request.GET.get('step')
