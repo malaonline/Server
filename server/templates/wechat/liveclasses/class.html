@@ -6,7 +6,7 @@
 {% load custom_tags %}
 
 {% block addition_header %}
-  <link rel="stylesheet" href="{% static 'wechat/css/weui.min.less'|compile %}">
+  <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}">
   <link rel="stylesheet" href="{% static 'wechat/css/class.less'|compile %}">
 {% endblock %}
@@ -24,14 +24,14 @@
             <span>{{ live_class.room_capacity }}人小班</span>
             <span>{{ live_class.course_grade }}</span>
           </div>
-          <p>{{ course_start }}-{{ course_end }}</p>
+          <p><span class="glyphicon glyphicon-time"></span>{{ course_start }}-{{ course_end }}</p>
           {% for course_period in course_periods %}
             <p class="period">{{ course_period }}</p>
           {% endfor %}
-          <p>剩余名额:
-            <span>{{ seats_remaining }}人</span>
+          <p><span class="glyphicon glyphicon-bell"></span>剩余名额:
+            <strong>{{ seats_remaining }}人</strong>
           </p>
-          <p>{{ live_class.school_name }}</p>
+          <p><span class="glyphicon glyphicon-map-marker"></span>{{ live_class.school_name }}</p>
           <p class="address">{{ live_class.school_address }}</p>
         </div>
       </div>
@@ -48,6 +48,7 @@
         <h3>直播名师</h3>
         <div class="horizontal"></div>
         <div class="teacher">
+          <div></div>
           <div>{{ live_class.lecturer_name }}</div>
           {% for lecturer_bio in lecturer_bios %}
             <p>{{ lecturer_bio }}</p>
@@ -58,14 +59,16 @@
         <h3>联系助教</h3>
         <div class="horizontal"></div>
         <div class="tutor">
-          <p>助教: {{ live_class.assistant_name }}<a href="tel:15801690996">(点此测试打电话)</a></p>
+          <a href="tel:15801690996"></a>
+          <p>助教: {{ live_class.assistant_name }}</p>
           <p>对课程有疑问? 快电话咨询助教老师吧!</p>
         </div>
       </div>
     </div>
     <div class="bottom">
       <p>￥{{ live_class.course_fee|money_format:'/' }} /
-        <span>{{ live_class.course_lessons }}次</span></p>
+        <span>{{ live_class.course_lessons }}次</span>
+      </p>
       <a href="#" class="right">立即购买</a>
     </div>
   </div>
