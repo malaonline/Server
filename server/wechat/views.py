@@ -275,17 +275,8 @@ class CourseChoosingView(OrderBaseView):
             return self.schools_distance(request)
         return HttpResponse("Not supported request.", status=403)
 
-    def confirm_order(self, request):
+    def create_order_one_to_one(self, request):
         parent = self.get_parent(request)
-        if not parent:
-            return JsonResponse({'ok': False, 'msg': '您还未登录', 'code': 403})
-        if settings.TESTING:
-            # the below line is real wx_openid, but not related with ours server
-            wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
-        else:
-            wx_openid = parent.user.profile.wx_openid
-        if not wx_openid:
-            return JsonResponse({'ok': False, 'msg': '您还未关注公共号', 'code': 403})
         # get request params
         teacher_id = request.POST.get('teacher')
         school_id = request.POST.get('school')
@@ -295,7 +286,11 @@ class CourseChoosingView(OrderBaseView):
         hours = parseInt(request.POST.get('hours'))
         weekly_time_slot_ids = request.POST.get('weekly_time_slots').split('+')
         if not hours or not weekly_time_slot_ids:
-            return JsonResponse({'ok': False, 'msg': '时间选择参数错误', 'code': 1})
+            return None, JsonResponse({
+                'ok': False,
+                'msg': '时间选择参数错误',
+                'code': 1
+            })
 
         # check params and get ref obj
         teacher = get_object_or_404(models.Teacher, pk=teacher_id)
@@ -308,12 +303,18 @@ class CourseChoosingView(OrderBaseView):
                              for w_id in weekly_time_slot_ids]
         if coupon:
             if coupon.used:
-                return JsonResponse(
-                    {'ok': False, 'msg': '您所选择奖学金已使用, 请重新选择', 'code': 2})
+                return None, JsonResponse({
+                    'ok': False,
+                    'msg': '您所选择奖学金已使用, 请重新选择',
+                    'code': 2
+                })
             # 使用期限不满足
             if not coupon.check_date():
-                return JsonResponse(
-                    {'ok': False, 'msg': '您所选择奖学金不在使用有效期内, 请重新选择', 'code': 2})
+                return None, JsonResponse({
+                    'ok': False,
+                    'msg': '您所选择奖学金不在使用有效期内, 请重新选择',
+                    'code': 2
+                })
             # 限制条件不满足
             ability = get_object_or_404(
                 models.Ability, grade=grade, subject=subject)
@@ -321,13 +322,19 @@ class CourseChoosingView(OrderBaseView):
             price = teacher.region.price_set.get(
                 ability=ability, level=teacher.level).price
             if hours < coupon.mini_course_count or price * hours < coupon.mini_total_price:
-                return JsonResponse(
-                    {'ok': False, 'msg': '您所选择奖学金不满足使用条件, 请重新选择', 'code': 2})
+                return None, JsonResponse({
+                    'ok': False,
+                    'msg': '您所选择奖学金不满足使用条件, 请重新选择',
+                    'code': 2
+                })
 
         periods = [(s.weekday, s.start, s.end) for s in weekly_time_slots]
         if not teacher.is_longterm_available(periods, school, parent):
-            return JsonResponse(
-                {'ok': False, 'msg': '该老师部分时段已被占用, 请重新选择上课时间', 'code': 3})
+            return None, JsonResponse({
+                'ok': False,
+                'msg': '该老师部分时段已被占用, 请重新选择上课时间',
+                'code': 3
+            })
 
         # create order
         order = models.Order.objects.create(
@@ -335,7 +342,89 @@ class CourseChoosingView(OrderBaseView):
             grade=grade, subject=subject, hours=hours, coupon=coupon)
         order.weekly_time_slots.add(*weekly_time_slots)
         order.save()
-        order_data = {}
+
+        return order, JsonResponse({})
+
+    def create_order_live_class(self, request):
+        parent = self.get_parent(request)
+        coupon_id = request.POST.get('coupon')
+
+        # validate if order can create
+        live_class = get_object_or_404(
+            models.LiveClass, pk=request.POST.get('live_class'))
+        if live_class.is_full():
+            return None, JsonResponse({
+                'ok': False,
+                'msg': '课程已满',
+                'code': -3
+            })
+
+        if models.Order.objects.filter(
+                parent=parent,
+                status=models.Order.PAID,
+                live_class__live_course=live_class.live_course,
+        ).count() > 0:
+            return None, JsonResponse({
+                'ok': False,
+                'msg': '请勿重复购买',
+                'code': -4
+            })
+        coupon = coupon_id and coupon_id != '0' and get_object_or_404(
+            models.Coupon, pk=coupon_id) or None
+        if coupon:
+            if coupon.used:
+                return None, JsonResponse({
+                    'ok': False,
+                    'msg': '您所选择奖学金已使用, 请重新选择',
+                    'code': 2
+                })
+            # 使用期限不满足
+            if not coupon.check_date():
+                return None, JsonResponse({
+                    'ok': False,
+                    'msg': '您所选择奖学金不在使用有效期内, 请重新选择',
+                    'code': 2
+                })
+
+        # create order
+        order = models.Order.objects.create(
+            parent=parent, live_class=live_class, coupon=coupon)
+        order.save()
+
+        return order, JsonResponse({})
+
+    def confirm_order(self, request):
+        parent = self.get_parent(request)
+        if not parent:
+            return JsonResponse({
+                'ok': False,
+                'msg': '您还未登录',
+                'code': 403
+            })
+        if settings.TESTING:
+            # the below line is real wx_openid, but not related with ours server
+            wx_openid = 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
+        else:
+            wx_openid = parent.user.profile.wx_openid
+        if not wx_openid:
+            return JsonResponse({
+                'ok': False,
+                'msg': '您还未关注公共号',
+                'code': 403
+            })
+
+        live_class = request.POST.get('live_class', None)
+        if live_class:
+            # 双师直播
+            order, response = self.create_order_live_class(request)
+        else:
+            # 一对一
+            order, response = self.create_order_one_to_one(request)
+
+        if order is None:  # 订单创建失败，返回对应的 JsonResponse
+            return response
+
+        order_data = dict()
         order_data['order_id'] = order.order_id
         order_data['orders_api_url'] = '/api/v1/orders/%s' % order.id
         if settings.TESTING:
@@ -367,7 +456,12 @@ class CourseChoosingView(OrderBaseView):
         data['prepay_id'] = ret_json['data']['prepay_id']
         data.update(order_data)
         logger.debug(data)
-        return JsonResponse({'ok': True, 'msg': '', 'code': '', 'data': data})
+        return JsonResponse({
+            'ok': True,
+            'msg': '',
+            'code': '',
+            'data': data
+        })
 
     def verify_order(self, request):
         # get request params
