@@ -263,6 +263,12 @@ class CourseChoosingView(OrderBaseView):
         context['course_descriptions'] = course_descriptions
         context['lecturer_bios'] = lecturer_bios
 
+        # wxsdk config
+        url = request.build_absolute_uri()
+        sign_data = _jssdk_sign(url)
+        context.update(sign_data)
+        context['WX_APPID'] = settings.WEIXIN_APPID
+
         return render(request, self.live_class_page, context)
 
     def post(self, request):
