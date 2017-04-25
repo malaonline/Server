@@ -81,14 +81,16 @@
           charset='utf-8'></script>
   <script>
     var order_pay_url = '{% url 'wechat:order-course-choosing' %}';
+    var wx_appid = '{{ WX_APPID }}';
     wx.config({
       debug: false,
-      appId: '{{ WX_APPID }}',
+      appId: wx_appid,
       timestamp: '{{ timestamp }}',
       nonceStr: '{{ noncestr }}',
       signature: '{{ signature }}',
       jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow']
     });
+    var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
   </script>
   <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?v=2.0"></script>
 {% endblock %}

@@ -125,6 +125,18 @@ $(function() {
               }
             });
           } else {
+            // 未登录，跳转到登录页面
+            if (result.code == 401) {
+              var state = "LIVECLASS_" + liveClassId;
+              var href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + wx_appid
+                  + '&redirect_uri=' + encodeURI(checkPhoneURI)
+                  + '&response_type=code'
+                  + '&scope=snsapi_base'
+                  + '&state=' + state
+                  + '&connect_redirect=1#wechat_redirect';
+              location.href = href;
+              return;
+            }
             alert(result.msg);
             stopPaying();
           }

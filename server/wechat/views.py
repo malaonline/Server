@@ -139,15 +139,15 @@ class SchoolPhotosView(DetailView):
     template_name = 'wechat/school/school_photo.html'
 
 
-def _get_auth_redirect_url(request, teacher_id):
+def _get_auth_redirect_url(request, state):
     if settings.TESTING:
-        return reverse('wechat:phone_page') + '?state=' + str(teacher_id)
+        return reverse('wechat:phone_page') + '?state=' + str(state)
     checkPhoneURI = get_server_host(request) + reverse('wechat:check_phone')
     params_str = {
         # 'redirect_uri': checkPhoneURI,
         'response_type': "code",
         'scope': "snsapi_base",
-        'state': teacher_id,
+        'state': state,
         'connect_redirect': "1"
     }
     redirect_url = wx.WX_AUTH_URL + '&' + urlencode(
@@ -405,7 +405,7 @@ class CourseChoosingView(OrderBaseView):
             return JsonResponse({
                 'ok': False,
                 'msg': '您还未登录',
-                'code': 403
+                'code': 401  # 前端根据此错误码，进入登录页面
             })
         if settings.TESTING:
             # the below line is real wx_openid, but not related with ours server
@@ -1054,8 +1054,12 @@ def _get_reg_next_page(state, openid):
     if not state or state == 'ONLY_REGISTER':
         return reverse('wechat:register') + '?step=success'
     if state.startswith('FAVORITE_'):
-        id = state[len('FAVORITE_'):]
-        return reverse('wechat:teacher') + '?teacherid=' + str(id)
+        teacher_id = state[len('FAVORITE_'):]
+        return reverse('wechat:teacher') + '?teacherid=' + str(teacher_id)
+    if state.startswith('LIVECLASS_'):
+        live_class_id = state[len('LIVECLASS_'):]
+        return reverse('wechat:order-course-choosing')\
+            + '?step=live_class_page&liveclassid=' + str(live_class_id)
     return reverse('wechat:order-course-choosing') + '?teacher_id=' + str(
         state) + '&openid=' + str(openid)
 
