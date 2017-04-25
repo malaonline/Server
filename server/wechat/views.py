@@ -419,9 +419,14 @@ class CourseChoosingView(OrderBaseView):
         if not wx_openid:
             return JsonResponse({
                 'ok': False,
-                'msg': '您还未关注公共号',
-                'code': 403
+                'msg': '您还未登录',
+                'code': 401  # 前端根据此错误码，进入登录页面
             })
+            # return JsonResponse({
+            #    'ok': False,
+            #    'msg': '您还未关注公共号',
+            #    'code': 403
+            # })
 
         live_class = request.POST.get('live_class', None)
         if live_class:
@@ -1076,7 +1081,8 @@ def check_phone(request):
 
     if wx_code in [None, 'None', '']:
         return HttpResponse(json.dumps({
-            "msg": '请关注麻辣老师公众号, 通过公众号访问！',
+            # "msg": '请关注麻辣老师公众号, 通过公众号访问！',
+            "msg": '请在微信中注册和登录',
             "code": -1
         }, ensure_ascii=False))
 
