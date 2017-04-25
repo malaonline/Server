@@ -48,7 +48,7 @@
         <h3>直播名师</h3>
         <div class="horizontal"></div>
         <div class="teacher">
-          <img src="https://b-ssl.duitang.com/uploads/item/201604/10/20160410150542_AJUcX.thumb.700_0.jpeg" alt="直播名师">
+          <img src="{{ live_class.lecturer_avatar }}" alt="直播名师">
           <div>{{ live_class.lecturer_name }}</div>
           {% for lecturer_bio in lecturer_bios %}
             <p>{{ lecturer_bio }}</p>
@@ -59,7 +59,7 @@
         <h3>联系助教</h3>
         <div class="horizontal"></div>
         <div class="tutor">
-          <a href="tel:{{ live_class.assistant_phone }}"><img src="http://img.zcool.cn/community/01fcab579c23060000018c1bca35d7.png" alt="点此拨打助教电话"></a>
+          <a href="tel:{{ live_class.assistant_phone }}"><img src="{{ assistant_avatar }}" alt="点此拨打助教电话"></a>
           <p>助教: {{ live_class.assistant_name }}</p>
           <p>对课程有疑问? 快电话咨询助教老师吧!</p>
         </div>
