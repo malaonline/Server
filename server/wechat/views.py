@@ -262,6 +262,10 @@ class CourseChoosingView(OrderBaseView):
             live_class.students_count
         context['course_descriptions'] = course_descriptions
         context['lecturer_bios'] = lecturer_bios
+        if live_class.lecturer_avatar:
+            context['lecturer_avatar'] = live_class.lecturer_avatar.url
+        if live_class.assistant_avatar:
+            context['assistant_avatar'] = live_class.assistant_avatar.url
 
         # wxsdk config
         url = request.build_absolute_uri()
