@@ -82,6 +82,7 @@ $(function() {
                   'data': verify_params,
                   'success': function(verify_ret) {
                     if (verify_ret && verify_ret.ok) {
+                      alert('恭喜您，购课成功！');
                       wx.closeWindow();
                       return;
                     } else {
