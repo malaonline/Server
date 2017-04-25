@@ -48,7 +48,7 @@
         <h3>直播名师</h3>
         <div class="horizontal"></div>
         <div class="teacher">
-          <img src="{{ live_class.lecturer_avatar.url }}" alt="直播名师">
+          <img src="{{ lecturer_avatar }}" alt="直播名师">
           <div>{{ live_class.lecturer_name }}</div>
           {% for lecturer_bio in lecturer_bios %}
             <p>{{ lecturer_bio }}</p>
@@ -59,7 +59,7 @@
         <h3>联系助教</h3>
         <div class="horizontal"></div>
         <div class="tutor">
-          <a href="tel:{{ live_class.assistant_phone }}"><img src="{{ live_class.assistant_avatar.url }}" alt="点此拨打电话"></a>
+          <a href="tel:{{ live_class.assistant_phone }}"><img src="{{ assistant_avatar }}" alt="点此拨打助教电话"></a>
           <p>助教: {{ live_class.assistant_name }}</p>
           <p>对课程有疑问? 快电话咨询助教老师吧!</p>
         </div>
@@ -81,14 +81,16 @@
           charset='utf-8'></script>
   <script>
     var order_pay_url = '{% url 'wechat:order-course-choosing' %}';
+    var wx_appid = '{{ WX_APPID }}';
     wx.config({
       debug: false,
-      appId: '{{ WX_APPID }}',
+      appId: wx_appid,
       timestamp: '{{ timestamp }}',
       nonceStr: '{{ noncestr }}',
       signature: '{{ signature }}',
       jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow']
     });
+    var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
   </script>
   <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?v=2.0"></script>
 {% endblock %}
