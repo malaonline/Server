@@ -267,6 +267,24 @@ class CourseChoosingView(OrderBaseView):
         if live_class.assistant_avatar:
             context['assistant_avatar'] = live_class.assistant_avatar.url
 
+        # 获取课程状态
+        if timezone.now() > live_class.course_end:
+            # 课程已结束
+            context['course_finished'] = True
+        if live_class.students_count >= live_class.room_capacity:
+            # 课程已满
+            context['is_full'] = True
+        # 是否已经购买
+        context['is_paid'] = False
+        parent = self.get_parent(request)
+        if parent is not None:
+            if models.Order.objects.filter(
+                    parent=parent,
+                    status=models.Order.PAID,
+                    live_class__live_course=live_class.live_course,
+            ).count() > 0:
+                context['is_paid'] = True
+
         # wxsdk config
         url = request.build_absolute_uri()
         sign_data = _jssdk_sign(url)
