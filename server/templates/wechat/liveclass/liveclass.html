@@ -77,7 +77,15 @@
       <p>￥{{ live_class.course_fee|money_format:'/' }} /
         <span>{{ live_class.course_lessons }}次</span>
       </p>
-      <a href="#" class="right" id="confirmBtn">立即购买</a>
+      {% if course_finished %}
+        <input type="button" value="课程已结束" class="btn btn-danger" disabled>
+      {% elif is_full %}
+        <input type="button" value="座位已满" class="btn btn-danger" disabled>
+      {% elif is_paid %}
+        <input type="button" value="课程已购买" class="btn btn-danger" disabled>
+      {% else %}
+        <input type="button" value="立即购买" class="btn btn-primary" id="confirmBtn">
+      {% endif %}
       <input type="hidden" name="liveClassId" id="liveClassId"
              value="{{ live_class.id }}"/>
     </div>
