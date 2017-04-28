@@ -108,5 +108,5 @@
     });
     var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
   </script>
-  <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?{% lorem 1 w random %}></script>
+  <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?{% lorem 1 w random %}"></script>
 {% endblock %}
