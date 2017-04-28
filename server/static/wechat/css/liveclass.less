@@ -77,20 +77,20 @@
         background-repeat: no-repeat;
         background-position: 0 3px;
         background-size: 14px;
-        img {
+        div {
           position: absolute;
-          top: 20px;
           right: 5px;
           width: 50px;
           height: 50px;
+          background-size: cover;
+          background-position: center center;
           border-radius: 50%;
-        }
-        div {
-          .margin;
-          color: @color;
         }
         p {
           .margin;
+          &.name {
+            color: @color;
+          }
         }
       }
       .tutor {
@@ -106,12 +106,14 @@
           background-image: url(../images/tutor_phone.png);
           background-repeat: no-repeat;
           background-size: 50px;
-          img {
+          span {
             position: absolute;
             top: 9px;
             left: 9px;
             width: 32px;
             height: 32px;
+            background-size: cover;
+            background-position: center center;
             border-radius: 50%;
           }
         }
