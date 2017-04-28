@@ -11,7 +11,7 @@ $(function() {
     isPaying = true;
   };
   var stopPaying = function() {
-    hideLoading();
+    isPaying = false;
   };
 
   $payBtn.click(function(e) {
