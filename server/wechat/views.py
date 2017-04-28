@@ -250,7 +250,8 @@ class CourseChoosingView(OrderBaseView):
             '%Y/%m/%d')
         course_end = timezone.localtime(live_class.course_end).strftime(
             '%Y/%m/%d')
-        course_descriptions = live_class.course_description.split('\r\n')
+        course_descriptions = live_class.course_description.replace('\r', '')
+        course_descriptions = course_descriptions.split('\n')
         lecturer_bios = live_class.lecturer_bio.split(';')
 
         context = dict()
