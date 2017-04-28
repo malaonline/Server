@@ -7,8 +7,8 @@
 
 {% block addition_header %}
   <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}">
-  <link rel="stylesheet" href="{% static 'wechat/css/liveclass.less'|compile %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}?{% lorem 1 w random %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/liveclass.less'|compile %}?{% lorem 1 w random %}">
 {% endblock %}
 
 {% block content %}
@@ -108,5 +108,5 @@
     });
     var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
   </script>
-  <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?v=2.0.1"></script>
+  <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?{% lorem 1 w random %}></script>
 {% endblock %}
