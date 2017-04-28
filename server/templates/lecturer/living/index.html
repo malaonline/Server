@@ -5,7 +5,7 @@
 
 {% block title %}麻辣老师双师直播后台 - 上课首页{% endblock %}
 {% block extrastyle %}
-  <link rel="stylesheet" type="text/css" href="{% static 'lecturer/less/index.less'|compile %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'lecturer/less/index.less'|compile %}?{% lorem 1 w random %}">
 {% endblock %}
 {% block addition_js %}
   <script src="{% static 'common/js/echarts.common.min.js' %}"></script>
