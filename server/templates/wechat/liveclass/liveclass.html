@@ -48,12 +48,8 @@
         <h3>直播名师</h3>
         <div class="horizontal"></div>
         <div class="teacher">
-          {% if lecturer_avatar %}
-            <img src="{{ lecturer_avatar }}" alt="直播名师">
-          {% else %}
-            <img src="{% static 'wechat/images/ic_person.png' %}" alt="直播名师">
-          {% endif %}
-          <div>{{ live_class.lecturer_name }}</div>
+          <div data-avatarurl="{{ lecturer_avatar }}"></div>
+          <p class="name">{{ live_class.lecturer_name }}</p>
           {% for lecturer_bio in lecturer_bios %}
             <p>{{ lecturer_bio }}</p>
           {% endfor %}
@@ -63,11 +59,7 @@
         <h3>联系助教</h3>
         <div class="horizontal"></div>
         <div class="tutor">
-          {% if assistant_avatar %}
-            <a href="tel:{{ live_class.assistant_phone }}"><img src="{{ assistant_avatar }}" alt="点此拨打电话"></a>
-          {% else %}
-            <a href="tel:{{ live_class.assistant_phone }}"><img src="{% static 'wechat/images/ic_person.png' %}" alt="点此拨打电话"></a>
-          {% endif %}
+          <a href="tel:{{ live_class.assistant_phone }}"><span data-avatarurl="{{ assistant_avatar }}"></span></a>
           <p>助教: {{ live_class.assistant_name }}</p>
           <p>对课程有疑问? 快电话咨询助教老师吧!</p>
         </div>
@@ -96,6 +88,14 @@
   <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js'
           charset='utf-8'></script>
   <script>
+    $(function(){
+      var $teacher = $('.teacher div');
+      var $tutor = $('.tutor span');
+      var teacher_avatarurl = $teacher.data('avatarurl') || "{% static 'wechat/images/ic_person.png' %}";
+      var tutor_avatarurl = $tutor.data('avatarurl') || "{% static 'wechat/images/ic_person.png' %}";
+      $teacher.css('background-image', 'url('+teacher_avatarurl+')');
+      $tutor.css('background-image', 'url('+tutor_avatarurl+')');
+    });
     var order_pay_url = '{% url 'wechat:order-course-choosing' %}';
     var wx_appid = '{{ WX_APPID }}';
     wx.config({
