@@ -1,0 +1,112 @@
+{% extends "wechat/wechat_base_simple.html" %}
+
+{% block title %}{{ live_class.lecturer_name }} 在麻辣老师为您讲课{% endblock %}
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+
+{% block addition_header %}
+  <link rel="stylesheet" href="{% static 'common/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/wechat_base.less'|compile %}?{% lorem 1 w random %}">
+  <link rel="stylesheet" href="{% static 'wechat/css/liveclass.less'|compile %}?{% lorem 1 w random %}">
+{% endblock %}
+
+{% block content %}
+  <div class="page" id="liveclasses">
+  {#下载横条#}
+    {% include 'wechat/w_download_banner.html' %}
+    <div class="content">
+      <div class="card">
+        <h3>{{ live_class.course_name }}</h3>
+        <div class="horizontal"></div>
+        <div class="grade">
+          <div class="tag">
+            <span>{{ live_class.room_capacity }}人小班</span>
+            <span>{{ live_class.course_grade }}</span>
+          </div>
+          <p><span class="glyphicon glyphicon-time"></span>{{ course_start }}-{{ course_end }}</p>
+          {% for course_period in course_periods %}
+            <p class="period">{{ course_period }}</p>
+          {% endfor %}
+          <p><span class="glyphicon glyphicon-bell"></span>剩余名额:
+            <strong>{{ seats_remaining }}人</strong>
+          </p>
+          <p><span class="glyphicon glyphicon-map-marker"></span>{{ live_class.school_name }}</p>
+          <p class="address">{{ live_class.school_address }}</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>课程介绍</h3>
+        <div class="horizontal"></div>
+        <div class="lesson">
+          {% for course_description in course_descriptions %}
+            <p>{{ course_description }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card">
+        <h3>直播名师</h3>
+        <div class="horizontal"></div>
+        <div class="teacher">
+          <div data-avatarurl="{{ lecturer_avatar }}"></div>
+          <p class="name">{{ live_class.lecturer_name }}</p>
+          {% for lecturer_bio in lecturer_bios %}
+            <p>{{ lecturer_bio }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card">
+        <h3>联系助教</h3>
+        <div class="horizontal"></div>
+        <div class="tutor">
+          <a href="tel:{{ live_class.assistant_phone }}"><span data-avatarurl="{{ assistant_avatar }}"></span></a>
+          <p>助教: {{ live_class.assistant_name }}</p>
+          <p>对课程有疑问? 快电话咨询助教老师吧!</p>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>￥{{ live_class.course_fee|money_format:'/' }} /
+        <span>{{ live_class.course_lessons }}次</span>
+      </p>
+      {% if course_finished %}
+        <input type="button" value="课程已结束" class="btn btn-danger" disabled>
+      {% elif is_full %}
+        <input type="button" value="座位已满" class="btn btn-danger" disabled>
+      {% elif is_paid %}
+        <input type="button" value="课程已购买" class="btn btn-danger" disabled>
+      {% else %}
+        <input type="button" value="立即购买" class="btn btn-primary" id="confirmBtn">
+      {% endif %}
+      <input type="hidden" name="liveClassId" id="liveClassId"
+             value="{{ live_class.id }}"/>
+    </div>
+  </div>
+{% endblock %}
+
+{% block addition_js %}
+  <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.0.0.js'
+          charset='utf-8'></script>
+  <script>
+    $(function(){
+      var $teacher = $('.teacher div');
+      var $tutor = $('.tutor span');
+      var teacher_avatarurl = $teacher.data('avatarurl') || "{% static 'wechat/images/ic_person.png' %}";
+      var tutor_avatarurl = $tutor.data('avatarurl') || "{% static 'wechat/images/ic_person.png' %}";
+      $teacher.css('background-image', 'url('+teacher_avatarurl+')');
+      $tutor.css('background-image', 'url('+tutor_avatarurl+')');
+    });
+    var order_pay_url = '{% url 'wechat:order-course-choosing' %}';
+    var wx_appid = '{{ WX_APPID }}';
+    wx.config({
+      debug: false,
+      appId: wx_appid,
+      timestamp: '{{ timestamp }}',
+      nonceStr: '{{ noncestr }}',
+      signature: '{{ signature }}',
+      jsApiList: ['chooseWXPay', 'getLocation', 'closeWindow']
+    });
+    var checkPhoneURI = '{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{% url 'wechat:check_phone' %}';
+  </script>
+  <script src="{% static 'wechat/js/order/confirm_liveclass.js' %}?{% lorem 1 w random %}"></script>
+{% endblock %}

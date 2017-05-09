@@ -1,0 +1,162 @@
+@bottom-height: 50px;
+@color: #82b4d9;
+@padding-right: 60px;
+@font-weight: 300;
+.margin {
+  margin: 5px 0;
+}
+
+#liveclasses.page {
+  background: #ededed;
+  .content {
+    padding-top: 52px;
+    padding-bottom: 60px;
+    .card {
+      position: relative;
+      padding: 0 12px 10px 12px;
+      margin: 8px 12px 0;
+      background-color: #fff;
+      h3 {
+        font-size: 17px;
+        font-weight: @font-weight;
+        line-height: 27px;
+        padding: 15px 0 0 0;
+        margin: 0;
+        color: @color;
+      }
+      .horizontal {
+        height: 17px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAACCAYAAACuTHuKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1OThBRDY4OUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1OThBRDY4QUNDMTYxMUU0OUE3NUVGOEJDMzMzMjE2NyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjU5OEFENjg3Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU5OEFENjg4Q0MxNjExRTQ5QTc1RUY4QkMzMzMyMTY3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+VU513gAAADVJREFUeNrs0DENACAQBDBIWLGBJQby/mUcJn5sJXQmOQMAAAAAAJqt+2prAAAAAACg2xdgANk6BEVuJgyMAAAAAElFTkSuQmCC);
+        background-repeat: no-repeat;
+        background-position: 0 8px;
+        background-size: 100% 1px;
+      }
+      .grade {
+        .tag {
+          margin: 5px 18px 10px;
+          span {
+            background: @color;
+            color: #fff;
+            font-weight: @font-weight;
+            padding: 5px 8px;
+            margin-right: 5px;
+          }
+        }
+        p {
+          .margin;
+          span {
+            float: left;
+            font-size: 14px;
+            margin-top: 2px;
+            margin-right: 3px;
+            color: #939393;
+          }
+          strong {
+            color: red;
+          }
+          &.period,
+          &.address {
+            margin: 0 18px;
+            font-size: 13px;
+            color: #939393;
+          }
+        }
+      }
+      .lesson {
+        color: #939393;
+        p {
+          .margin;
+        }
+      }
+      .teacher {
+        position: relative;
+        padding-left: 18px;
+        padding-right: @padding-right;
+        color: #939393;
+        background-image: url(../images/ic_person.png);
+        background-repeat: no-repeat;
+        background-position: 0 3px;
+        background-size: 14px;
+        div {
+          position: absolute;
+          right: 5px;
+          width: 50px;
+          height: 50px;
+          background-size: cover;
+          background-position: center center;
+          border-radius: 50%;
+        }
+        p {
+          .margin;
+          &.name {
+            color: @color;
+          }
+        }
+      }
+      .tutor {
+        .margin;
+        position: relative;
+        padding-right: @padding-right;
+        a {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          width: 50px;
+          height: 50px;
+          background-image: url(../images/tutor_phone.png);
+          background-repeat: no-repeat;
+          background-size: 50px;
+          span {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            width: 32px;
+            height: 32px;
+            background-size: cover;
+            background-position: center center;
+            border-radius: 50%;
+          }
+        }
+        p:last-child {
+          color: #939393;
+        }
+      }
+    }
+  }
+  .bottom {
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    z-index: 9;
+    height: @bottom-height;
+    width: 100%;
+    font-size: 18px;
+    line-height: @bottom-height;
+    text-align: center;
+    background: rgba(242, 242, 242, .9);
+    border-top: 1px solid #cecece;
+    p {
+      position: absolute;
+      left: 0;
+      color: red;
+      height: 100%;
+      width: 50%;
+      span {
+        font-size: 14px;
+      }
+    }
+    .btn-primary {
+      background: @color;
+      border: none;
+    }
+    input {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      width: 50%;
+      border-radius: 0;
+      font-size: 18px;
+      font-weight: @font-weight;
+    }
+  }
+}
