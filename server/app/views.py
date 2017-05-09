@@ -1711,6 +1711,7 @@ class PadLogin(View):
             return JsonResponse({'code': -1, 'msg': '当前账号未注册，请查证'})
 
         now = timezone.now()
+        # 需确认课程已经购买
         timeslot = models.TimeSlot.objects.filter(
             deleted=False,
             order__parent=parent,
@@ -1726,6 +1727,13 @@ class PadLogin(View):
         live_class = current_lesson.order.live_class
         school = live_class.class_room.school
         live_course = live_class.live_course
+        lc_timeslot = models.LiveCourseTimeSlot.objects.filter(
+            live_course=live_course,
+            start__lte=now,
+            end__gte=now,
+        ).order_by("start").first()
+        if lc_timeslot is None:
+            return JsonResponse({'code': -2, 'msg': '您好，暂无有效课程'})
         parent.pad_token = random_pad_token(parent.user.profile.phone)
         parent.save()
         return JsonResponse({
@@ -1733,7 +1741,7 @@ class PadLogin(View):
             'msg': '登录成功',
             'data': {
                 'token': parent.pad_token,
-                'live_class' : {
+                'live_class': {
                     'id': live_class.id,
                     'assistant': live_class.assistant.name,
                     'class_room': live_class.class_room.name,
@@ -1750,6 +1758,7 @@ class PadLogin(View):
                 'name': parent.student_name,
                 'school': school.name,
                 'school_id': school.id,
+                'lc_timeslot_id': lc_timeslot.id,
             },
         })
 
@@ -1768,25 +1777,31 @@ class PadStatus(View):
                 jsonData = json.loads(request.body.decode())
             except ValueError:
                 return HttpResponse(status=400)
-            live_class = jsonData.get('live_class', '0')
+            lc_timeslot = jsonData.get('lc_timeslot', '0')
         else:
-            live_class = request.POST.get('live_class', '0')
+            lc_timeslot = request.POST.get('lc_timeslot', '0')
         token = request.META.get('HTTP_PAD_TOKEN', '').strip()
-        live_class_id = int(live_class)
+        lc_timeslot_id = int(lc_timeslot)
 
         parent = models.Parent.objects.filter(pad_token=token).first()
         if parent is None:
             return JsonResponse({'code': -1, 'msg': '您好，当前账号已在别处登录'})
 
         now = timezone.now()
-        live_class = models.LiveClass.objects.filter(pk=live_class_id).first()
-        if live_class is None:
+        lc_timeslot = models.LiveCourseTimeSlot.objects.filter(
+            pk=lc_timeslot_id).first()
+        # 判断课程是否有效存在
+        if lc_timeslot is None:
             return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
+        # 上次登录时的课程是否在有效时间内
+        if lc_timeslot.start > now or lc_timeslot.end < now:
+            return JsonResponse({'code': -2, 'msg': '您好，下课自动登出'})
+        # 需确认课程已经购买
         timeslot = models.TimeSlot.objects.filter(
             deleted=False,
             order__parent=parent,
             order__status=models.Order.PAID,
-            order__live_class=live_class,
+            order__live_class__live_course=lc_timeslot.live_course,
             start__lte=now,
             end__gte=now,
         ).first()
@@ -1796,7 +1811,7 @@ class PadStatus(View):
 
         exercise_session = models.ExerciseSession.objects.filter(
             is_active=True,
-            live_course_timeslot__live_course=live_class.live_course
+            live_course_timeslot=lc_timeslot,
         ).order_by('-created_at').first()
 
         if exercise_session is not None:
