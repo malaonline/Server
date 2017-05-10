@@ -704,12 +704,13 @@ class TeacherUnpublishedEditView(BaseStaffView):
         # TODO:
         pass
 
+
 class TeacherBankcardView(BaseStaffView):
     template_name = 'staff/teacher/teacher_bankcard_list.html'
 
     def get_context_data(self, **kwargs):
         # 把查询参数数据放到kwargs['query_data'], 以便template回显
-        query_data = {}
+        query_data = dict()
         query_data['name'] = self.request.GET.get('name', '')
         query_data['phone'] = self.request.GET.get('phone', '')
         kwargs['query_data'] = query_data
