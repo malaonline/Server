@@ -1223,7 +1223,10 @@ class TeacherActionView(BaseStaffActionView):
         from_time = from_day.replace(hour=0, minute=0, second=0, microsecond=0)
         to_time = to_day.replace(hour=0, minute=0, second=0, microsecond=0)
         time_slots = models.TimeSlot.objects.select_related("order__parent")\
-            .filter(order__teacher_id=teacher.id, start__gte=from_time, end__lt=to_time)
+            .filter(order__teacher_id=teacher.id,
+                    start__gte=from_time,
+                    end__lt=to_time,
+                    deleted=False)
         courses = []
         TIME_FMT = '%H:%M:00'
         order_heap = {}
