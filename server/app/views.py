@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q
+from django.db.models import Q, F
 from django.core import exceptions
 from django.utils.decorators import method_decorator
 from django.utils import timezone
@@ -1290,8 +1290,47 @@ class ParentCenter(ParentBasedMixin, APIView):
                 comment__isnull=True,
                 end__lt=timezone.now(),
                 end__gte=timezone.now()-models.TimeSlot.COMMENT_DELAY).count()
+        # 错题本数据
+        exercise_mistakes = models.ExerciseSubmit.objects.filter(
+            parent=parent,
+            exercise_session__is_active=False,
+        ).exclude(question__solution=F('option')).order_by('-updated_at')
+        math_mistakes = exercise_mistakes.filter(
+            exercise_session__live_course_timeslot__live_course__subject__name='数学'
+        )
+        english_mistakes = exercise_mistakes.filter(
+            exercise_session__live_course_timeslot__live_course__subject__name='英语'
+        )
+        # 获取提交答案当时上课学校
+        order = None
+        latest_mistake = exercise_mistakes.first()
+        if latest_mistake is not None:
+            live_course = latest_mistake.exercise_session.live_course_timeslot.live_course
+            updated_at = latest_mistake.updated_at
+            timeslot = models.TimeSlot.objects.filter(
+                order__parent=parent,
+                order__live_class__live_course=live_course,
+                start__lte=updated_at,
+                end__gte=updated_at,
+            ).first()
+            if timeslot is not None:
+                order = timeslot.order
+
+        school_name = order.school.name if order is not None else ''
         return JsonResponse(
-                {'unpaid_num': unpaid_num, 'tocomment_num': tocomment_num})
+                {
+                    'unpaid_num': unpaid_num,
+                    'tocomment_num': tocomment_num,
+                    'exercise_mistakes': {
+                        'school': school_name,
+                        'student': parent.student_name,
+                        'numbers': {
+                            'total': exercise_mistakes.count(),
+                            'math': math_mistakes.count(),
+                            'english': english_mistakes.count(),
+                        }
+                    }
+                })
 
 
 class StudyReportView(ParentBasedMixin, APIView):
