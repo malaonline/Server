@@ -3490,6 +3490,10 @@ class Question(BaseModel):
     def analyse(self):
         return self.explanation
 
+    @property
+    def options(self):
+        return self.questionoption_set
+
 
 class QuestionGroup(BaseModel):
     '''
