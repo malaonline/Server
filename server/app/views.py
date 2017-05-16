@@ -1325,9 +1325,9 @@ class ParentCenter(ParentBasedMixin, APIView):
                         'school': school_name,
                         'student': parent.student_name,
                         'numbers': {
-                            '总数': exercise_mistakes.count(),
-                            '数学': math_mistakes.count(),
-                            '英语': english_mistakes.count(),
+                            'total': exercise_mistakes.count(),
+                            'math': math_mistakes.count(),
+                            'english': english_mistakes.count(),
                         }
                     }
                 })
