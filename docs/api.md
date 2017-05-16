@@ -1136,10 +1136,10 @@ result:
 }
 ```
 
-### Get user unpaid orders count
+### User center(unpaid, to comment, exercise mistakes)
 
 ```
-GET /api/v1/unpaid_count
+GET /api/v1/my_center
 ```
 
 header data:
@@ -1150,7 +1150,17 @@ HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
 result:
 ```
 {
-    "count": 1
+    "tocomment_num": 8, // 0 if no data
+    "unpaid_num": 1,    // 0 if no data
+    "exercise_mistakes": {
+        "numbers": {
+            "总数": 10,   // 0 if no data
+            "英语": 5,    // 0 if no data
+            "数学": 5     // 0 if no data
+        },
+        "school": "北京正通店",  // "" if no data
+        "student": "王小二"     // "" if no data
+    }
 }
 ```
 
