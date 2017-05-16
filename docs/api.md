@@ -1154,9 +1154,9 @@ result:
     "unpaid_num": 1,    // 0 if no data
     "exercise_mistakes": {
         "numbers": {
-            "总数": 10,   // 0 if no data
-            "英语": 5,    // 0 if no data
-            "数学": 5     // 0 if no data
+            "total": 10,   // 0 if no data
+            "english": 5,    // 0 if no data
+            "math": 5     // 0 if no data
         },
         "school": "北京正通店",  // "" if no data
         "student": "王小二"     // "" if no data
