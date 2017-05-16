@@ -2012,7 +2012,7 @@ class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = models.ExerciseSubmit.objects.filter(
         exercise_session__is_active=False
     ).exclude(question__solution=F('option'))
-    serializer_class = QuestionSerializer
+    serializer_class = ExerciseSubmitSerializer
 
     def get_queryset(self):
         queryset = self.queryset
