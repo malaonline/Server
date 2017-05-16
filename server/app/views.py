@@ -1976,3 +1976,59 @@ class PadSubmit(View):
             exercise_submit.save()
 
         return JsonResponse({'code': 0, 'msg': '成功'})
+
+
+class QuestionOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionOption
+        fields = ('id', 'text')
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    options = QuestionOptionSerializer(many=True)
+
+    class Meta:
+        model = models.Question
+        fields = ('id', 'title', 'options', 'solution', 'explanation')
+
+
+class ExerciseSubmitSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer()
+    option = QuestionOptionSerializer()
+    updated_at = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.ExerciseSubmit
+        fields = ('id', 'question', 'option', 'updated_at')
+
+    def get_updated_at(self, obj):
+        if obj.updated_at:
+            return int(obj.updated_at.timestamp())
+        return None
+
+
+class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
+    # 从 ExerciseSubmit 提交结果中获取
+    queryset = models.ExerciseSubmit.objects.filter(
+        exercise_session__is_active=False
+    ).exclude(question__solution=F('option'))
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        try:
+            parent = self.request.user.parent
+        except (AttributeError, exceptions.ObjectDoesNotExist):
+            parent = None
+        if parent is not None:
+            queryset = queryset.filter(parent=parent)
+
+        subject_id = self.request.query_params.get('subject', None)
+        if subject_id is not None:
+            subject = get_object_or_404(models.Subject, pk=subject_id)
+            queryset = queryset.filter(
+                exercise_session__live_course_timeslot__live_course__subject=subject
+            )
+
+        return queryset.order_by('-updated_at')
