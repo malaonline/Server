@@ -1650,3 +1650,101 @@ result:
     "msg": "其他异常"
 }
 ```
+
+### Exercise Mistakes List
+
+```
+GET /api/v1/exercise
+```
+
+header data:
+
+```
+HTTP_AUTHORIZATION: Token 438728ef5e888bfbecbabdad189363afb28b52b3
+```
+
+parameters:
+
+```
+subject=2
+1 = math; 2 = english;
+```
+
+```
+{
+    "count": 94,
+    "next": "http://dev.malalaoshi.com/api/v1/exercise?page=2&subject=2",
+    "previous": null,
+    "results": [
+        {
+            "id": 353,
+            "question_group": {
+                "id": 56,
+                "title": "数词",
+                "description": "数词"
+            },
+            "question": {
+                "id": 101,
+                "title": "We can see _________stars in the sky at night in the countryside.",
+                "options": [
+                    {
+                        "id": 401,
+                        "text": "million of"
+                    },
+                    {
+                        "id": 402,
+                        "text": "three millions of"
+                    },
+                    {
+                        "id": 403,
+                        "text": "millions of"
+                    },
+                    {
+                        "id": 404,
+                        "text": "three million of"
+                    }
+                ],
+                "solution": 404,
+                "explanation": "题目解析"
+            },
+            "submit_option": 403,
+            "updated_at": 1494490662
+        },
+        {
+            "id": 359,
+            "question_group": {
+                "id": 56,
+                "title": "数词",
+                "description": "数词"
+            },
+            "question": {
+                "id": 101,
+                "title": "We can see _________stars in the sky at night in the countryside.",
+                "options": [
+                    {
+                        "id": 401,
+                        "text": "million of"
+                    },
+                    {
+                        "id": 402,
+                        "text": "three millions of"
+                    },
+                    {
+                        "id": 403,
+                        "text": "millions of"
+                    },
+                    {
+                        "id": 404,
+                        "text": "three million of"
+                    }
+                ],
+                "solution": 404,
+                "explanation": "题目解析"
+            },
+            "submit_option": 401,
+            "updated_at": 1494490342
+        },
+        ...
+    ]
+}
+```
