@@ -3553,3 +3553,7 @@ class ExerciseSubmit(BaseModel):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def question_group(self):
+        return self.exercise_session.question_group

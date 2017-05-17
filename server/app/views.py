@@ -1992,19 +1992,35 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'options', 'solution', 'explanation')
 
 
+class QuestionGroupNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuestionGroup
+        fields = ('id', 'title', 'description')
+
+
 class ExerciseSubmitSerializer(serializers.ModelSerializer):
     question = QuestionSerializer()
-    option = QuestionOptionSerializer()
+    submit_option = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
+    question_group = QuestionGroupNameSerializer()
 
     class Meta:
         model = models.ExerciseSubmit
-        fields = ('id', 'question', 'option', 'updated_at')
+        fields = (
+            'id',
+            'question_group',
+            'question',
+            'submit_option',
+            'updated_at',
+        )
 
     def get_updated_at(self, obj):
         if obj.updated_at:
             return int(obj.updated_at.timestamp())
         return None
+
+    def get_submit_option(self, obj):
+        return obj.option.id
 
 
 class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
