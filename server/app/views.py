@@ -1992,7 +1992,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'options', 'solution', 'explanation')
 
 
-class QuestionGroupNameSerializer(serializers.ModelSerializer):
+class QuestionGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QuestionGroup
         fields = ('id', 'title', 'description')
@@ -2002,7 +2002,7 @@ class ExerciseSubmitSerializer(serializers.ModelSerializer):
     question = QuestionSerializer()
     submit_option = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
-    question_group = QuestionGroupNameSerializer()
+    question_group = QuestionGroupSerializer()
 
     class Meta:
         model = models.ExerciseSubmit
@@ -2023,7 +2023,7 @@ class ExerciseSubmitSerializer(serializers.ModelSerializer):
         return obj.option.id
 
 
-class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
+class ExerciseSubmitViewSet(ParentBasedMixin, viewsets.ReadOnlyModelViewSet):
     # 从 ExerciseSubmit 提交结果中获取
     queryset = models.ExerciseSubmit.objects.filter(
         exercise_session__is_active=False
@@ -2031,14 +2031,8 @@ class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ExerciseSubmitSerializer
 
     def get_queryset(self):
-        queryset = self.queryset
-
-        try:
-            parent = self.request.user.parent
-        except (AttributeError, exceptions.ObjectDoesNotExist):
-            parent = None
-        if parent is not None:
-            queryset = queryset.filter(parent=parent)
+        parent = self.get_parent()
+        queryset = self.queryset.filter(parent=parent)
 
         subject_id = self.request.query_params.get('subject', None)
         if subject_id is not None:
