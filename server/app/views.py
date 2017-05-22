@@ -2023,7 +2023,7 @@ class ExerciseSubmitSerializer(serializers.ModelSerializer):
         return obj.option.id
 
 
-class ExerciseSubmitViewSet(ParentBasedMixin, viewsets.ReadOnlyModelViewSet):
+class ExerciseSubmitViewSet(viewsets.ReadOnlyModelViewSet):
     # 从 ExerciseSubmit 提交结果中获取
     queryset = models.ExerciseSubmit.objects.filter(
         exercise_session__is_active=False
@@ -2031,8 +2031,14 @@ class ExerciseSubmitViewSet(ParentBasedMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ExerciseSubmitSerializer
 
     def get_queryset(self):
-        parent = self.get_parent()
-        queryset = self.queryset.filter(parent=parent)
+        queryset = self.queryset
+
+        try:
+            parent = self.request.user.parent
+        except (AttributeError, exceptions.ObjectDoesNotExist):
+            parent = None
+        if parent is not None:
+            queryset = queryset.filter(parent=parent)
 
         subject_id = self.request.query_params.get('subject', None)
         if subject_id is not None:
