@@ -877,17 +877,29 @@ class Teacher(BaseModel):
     # 新建一个空白老师用户
     @staticmethod
     def new_teacher(phone: str)->User:
-        # 新建用户
-        username = random_string()[:30]
-        salt = random_string()[:5]
-        password = "malalaoshi"
-        user = User(username=username)
-        user.email = ""
-        user.password = make_password(password, salt)
-        user.save()
-        # 创建老师身份
-        profile = Profile(user=user, phone=phone)
-        profile.save()
+        # 检查是否已经存在对应手机号的用户
+        profile = Profile.objects.filter(phone=phone).first()
+        if profile is not None and profile.user is not None:
+            username = random_string()[:30]
+            salt = random_string()[:5]
+            password = "malalaoshi"
+            user = profile.user
+            user.username = username
+            user.email = ""
+            user.password = make_password(password, salt)
+            user.save()
+        else:
+            # 新建用户
+            username = random_string()[:30]
+            salt = random_string()[:5]
+            password = "malalaoshi"
+            user = User(username=username)
+            user.email = ""
+            user.password = make_password(password, salt)
+            user.save()
+            # 创建老师身份
+            profile = Profile(user=user, phone=phone)
+            profile.save()
         teacher = Teacher(user=user)
         teacher.save()
         teacher_group = Group.objects.get(name="老师")
