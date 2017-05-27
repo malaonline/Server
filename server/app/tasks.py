@@ -6,12 +6,13 @@ import logging
 from django.conf import settings
 from django.utils import timezone
 # from django.utils import timezone
-# from django.db.models import F
+from django.db.models import F
 import jpush
 
 from celery import shared_task
 from .models import TimeSlot, TimeSlotAttendance,\
-    Order, Teacher, Coupon, Evaluation, School
+    Order, Teacher, Coupon, Evaluation, School, LiveCourseTimeSlot,\
+    ExerciseSubmit
 from .utils.klx_api import klx_reg_student, klx_reg_teacher, klx_relation
 from .utils.smsUtil import tpl_send_sms, TPL_STU_REMIND_COURSE
 
@@ -26,6 +27,7 @@ class Remind:
     COURSE_REMIND = "4"
     COUPON_WILL_EXPIRED = "5"
     EVALUATION_SCHEDULED = "6"
+    EXERCISE_MISTAKES = "7"
     # 标题
     titles = {
         COURSE_CHANGED: '课程变动',
@@ -34,6 +36,7 @@ class Remind:
         COURSE_REMIND: '课前通知',
         COUPON_WILL_EXPIRED: '奖学金即将到期',
         EVALUATION_SCHEDULED: '测评建档',
+        EXERCISE_MISTAKES: '错题本更新啦',
     }
 
     @staticmethod
@@ -302,4 +305,45 @@ def autoCreateSchoolIncomeRecord():
             ok_count += 1
             logger.debug("[autoCreateSchoolIncomeRecord] %s" % school.name)
     logger.debug("[autoCreateSchoolIncomeRecord] %d schools end." % ok_count)
+    return True
+
+
+@shared_task
+def autoNotifyExerciseMistakes():
+    # 需要通知的课程
+    NOTIFY_DELAY = datetime.timedelta(minutes=10)
+    lc_tss = LiveCourseTimeSlot.objects.filter(
+        mistakes_pushed=False,
+        end__lte=timezone.now() - NOTIFY_DELAY,
+    )
+    logger.debug("[autoNotifyExerciseMistakes] %d live course found" % (
+        lc_tss.count()))
+
+    # 有错题的用户列表
+    user_ids = list()
+    for lc_ts in lc_tss:
+        ess = ExerciseSubmit.objects.filter(
+            exercise_session__is_active=False,
+            exercise_session__live_course_timeslot=lc_ts,
+        ).exclude(question__solution=F('option')).distinct('parent')
+        user_ids += [es.parent.user_id for es in ess]
+
+    user_ids = list(set(user_ids))
+
+    logger.debug(
+        "[autoNotifyExerciseMistakes] users count: %d" % (len(user_ids)))
+
+    # JPush 通知
+    extras = {
+        "type": Remind.EXERCISE_MISTAKES,  # 错题本更新
+        "code": None
+    }
+
+    send_push.delay(
+        "[专属错题本] 小狮已帮你把课上打错的题收进错题本啦，内附私密解析，快去看看哦>>",
+        title=Remind.title(Remind.EXERCISE_MISTAKES),
+        user_ids=user_ids,
+        extras=extras
+    )
+    lc_tss.update(mistakes_pushed=True)
     return True
