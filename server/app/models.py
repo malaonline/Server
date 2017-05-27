@@ -3444,6 +3444,8 @@ class LiveCourseTimeSlot(BaseModel):
     # 课时中包含的题组
     question_groups = models.ManyToManyField('QuestionGroup')
     created_at = models.DateTimeField(auto_now_add=True)
+    # 错题本推送标记
+    mistakes_pushed = models.BooleanField(default=False)
 
     def __str__(self):
         return '(%d) %s, %s, %s - %s' % (

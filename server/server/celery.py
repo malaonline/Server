@@ -60,6 +60,10 @@ celery_app.conf.update(
             "task": "app.tasks.autoCreateSchoolIncomeRecord",
             "schedule": crontab(minute=39, hour=2, day_of_week='wed'),
         },
+        "mistakes-push": {
+            "task": "app.tasks.autoNotifyExerciseMistakes",
+            "schedule": timedelta(minutes=1),
+        },
     },
 )
 
