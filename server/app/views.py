@@ -1010,9 +1010,12 @@ class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LiveClassSerializer
 
     def get_queryset(self):
-        queryset = self.queryset.filter(
-            live_course__livecoursetimeslot__end__gt=timezone.now(),
-        ).distinct('id')
+        queryset = self.queryset
+        # 列表页过滤掉已经结束的课程
+        if self.action == 'list':
+            queryset = queryset.filter(
+                live_course__livecoursetimeslot__end__gt=timezone.now(),
+            ).distinct('id')
         school_id = self.request.query_params.get('school')
         if school_id:
             queryset = queryset.filter(class_room__school_id=school_id)
