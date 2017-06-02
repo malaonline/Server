@@ -340,7 +340,7 @@ def autoNotifyExerciseMistakes():
     }
 
     send_push.delay(
-        "[专属错题本] 小狮已帮你把课上打错的题收进错题本啦，内附私密解析，快去看看哦>>",
+        "[专属错题本] 小狮已帮你把课上答错的题收进错题本啦，内附私密解析，快去看看哦>>",
         title=Remind.title(Remind.EXERCISE_MISTAKES),
         user_ids=user_ids,
         extras=extras
