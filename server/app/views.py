@@ -971,16 +971,17 @@ class LiveClassSerializer(serializers.ModelSerializer):
     assistant_avatar = serializers.ImageField()
     # Create a custom method field
     is_paid = serializers.SerializerMethodField('_is_paid')
+    course_subject = SubjectNameSerializer()
 
     class Meta:
         model = models.LiveClass
         fields = ('id', 'course_name', 'course_start', 'course_end',
                   'course_period', 'course_fee', 'course_lessons',
-                  'course_grade', 'course_description', 'room_capacity',
-                  'students_count', 'lecturer_name', 'lecturer_title',
-                  'lecturer_bio', 'lecturer_avatar', 'assistant_name',
-                  'assistant_avatar', 'assistant_phone', 'school_name',
-                  'school_address', 'is_paid',
+                  'course_grade', 'course_subject', 'course_description',
+                  'room_capacity', 'students_count', 'lecturer_name',
+                  'lecturer_title', 'lecturer_bio', 'lecturer_avatar',
+                  'assistant_name', 'assistant_avatar', 'assistant_phone',
+                  'school_name', 'school_address', 'is_paid',
                   )
 
     def get_course_start(self, obj):
