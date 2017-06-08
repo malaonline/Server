@@ -3387,6 +3387,10 @@ class LiveClass(BaseModel):
         return self.live_course.grade_desc
 
     @property
+    def course_subject(self):
+        return self.live_course.subject
+
+    @property
     def course_description(self):
         return self.live_course.description
 
