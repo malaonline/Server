@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q, F
+from django.db.models import Q, F, Min, Max
 from django.core import exceptions
 from django.utils.decorators import method_decorator
 from django.utils import timezone
@@ -1013,13 +1013,15 @@ class LiveClassViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.queryset
         # 列表页过滤掉已经结束的课程
         if self.action == 'list':
-            queryset = queryset.filter(
-                live_course__livecoursetimeslot__end__gt=timezone.now(),
-            ).distinct('id')
+            queryset = queryset.annotate(
+                start=Min('live_course__livecoursetimeslot__start'),
+                end=Max('live_course__livecoursetimeslot__end'),
+            ).filter(end__gt=timezone.now()).order_by('start')
+
         school_id = self.request.query_params.get('school')
         if school_id:
             queryset = queryset.filter(class_room__school_id=school_id)
-        return queryset.order_by('-id')
+        return queryset
 
 
 class OrderListSerializer(serializers.ModelSerializer):
