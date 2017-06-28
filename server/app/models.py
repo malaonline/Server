@@ -3301,6 +3301,16 @@ class SchoolIncomeRecordV2(BaseModel):
     # 记录创建的时间
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return '%s %s -> total: %d' % (
+                self.school_account.school,
+                self.income_time_str,
+                self.total_amount)
+
+    @property
+    def income_time_str(self):
+        return localtime(self.income_time).strftime('%Y-%m-%d')
+
 
 class ClassRoom(BaseModel):
     school = models.ForeignKey(School)
