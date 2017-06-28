@@ -1,0 +1,83 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}校区提现{% endblock %}
+
+{% block addition_header %}
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/school_account/income_audit.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form name="query_form" class="head-form form-inline">
+        地区
+        <select name="school" class="form-control">
+            <option value="">请选择学校</option>
+            {% for school in schools %}
+                <option value="{{ school.id }}" {% if school.id|stringformat:"i" == query_data.school %}
+                        selected="selected"{% endif %}>{{ school.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" class="form-control btn-success" value="查询"/>
+    </form>
+
+    <div id="recordsList">
+        <table class="record-list" border="1" width="100%">
+            <tr class="heading text-primary">
+                <th class="text-center">提交时间</th>
+                <th class="text-center">课程类型</th>
+                <th class="text-center">校区名</th>
+                <th class="text-center">手机号</th>
+                <th class="text-center">转账金额</th>
+                <th class="text-center">所在银行</th>
+                <th class="text-center">银行卡号</th>
+                <th class="text-center">开户行</th>
+                <th class="text-center">开户名称</th>
+                <th class="text-center">SWIFT CODE</th>
+                <th class="text-center">状态/操作</th>
+            </tr>
+            {% for hist in records %}
+                <tr class="item" recordId="{{ hist.id }}">
+                    <td class="text-center time">{{ hist.income_time_str }}</td>
+                    <td class="text-center">{{ hist.get_type_display }}</td>
+                    <td class="text-center">{{ hist.school_account.school.name }}</td>
+                    <td class="text-center">{{ hist.school_account.school.master_phone }}</td>
+                    <td class="text-center">{{ hist.amount|money_format:'/a' }}元</td>
+                    <th class="text-center">{{ hist.school_account.bank_name }}</th>
+                    <th class="text-center">{{ hist.school_account.account_number }}</th>
+                    <th class="text-center">{{ hist.school_account.bank_address }}</th>
+                    <th class="text-center">{{ hist.school_account.account_name }}</th>
+                    <th class="text-center">{{ hist.school_account.swift_code }}</th>
+                    <td class="text-center status">
+                        <a data-action="switch_status"
+                           status="{% if hist.status == hist.APPROVED %}yes{% else %}no{% endif %}"
+                           title="标记为{% if hist.status != hist.APPROVED %}已打款{% else %}未打款{% endif %}">
+                            {% if hist.status == hist.APPROVED %}
+                                已打款
+                            {% else %}
+                                <div style="color: deeppink">未打款</div>
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td class="text-center" colspan="11">没有记录</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="clearfix page-info">
+            <div class="pull-left">
+                每页显示{% if pager and pager.page_size %}{{ pager.page_size }}{% else %}10{% endif %}条,
+                共{% if pager %}{{ pager.total_count }}{% else %}{{ histories.count }}{% endif %}条
+            </div>
+            <div class="pull-right">
+                {% include 'pagination_nav.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

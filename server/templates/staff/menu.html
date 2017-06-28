@@ -102,6 +102,11 @@
     <li>
       <a href="{% url 'staff:school_account_info' %}" class="{% menu_style 'staff:school_account_info' %}">账户金额</a>
     </li>
+    {% if env != 'prd' %}
+      <li>
+        <a href="{% url 'staff:school_account_info_v2' %}" class="{% menu_style 'staff:school_account_info_v2' %}">账户金额(新)</a>
+      </li>
+    {% endif %}
   </ul>
 
   <div class="mui-heading">财务</div>
@@ -109,6 +114,11 @@
     <li>
       <a href="{% url 'staff:school_income_audit' %}" class="{% menu_style 'staff:school_income_audit' %}">校区提现</a>
     </li>
+    {% if env != 'prd' %}
+      <li>
+        <a href="{% url 'staff:school_income_audit_v2' %}" class="{% menu_style 'staff:school_income_audit_v2' %}">校区提现(新)</a>
+      </li>
+    {% endif %}
   </ul>
 
   <div class="mui-heading">校区管理(双师)</div>
