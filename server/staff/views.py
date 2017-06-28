@@ -98,6 +98,8 @@ def _try_send_sms(phone, tpl_id=0, params=None, times=1):
 
 
 class StaffRoleRequiredMixin(AccessMixin):
+    env_settings = settings.ENV_TYPE
+
     def dispatch(self, request, *args, **kwargs):
         url_name = self.request.resolver_match.url_name
         for group in self.request.user.groups.all():
@@ -107,6 +109,11 @@ class StaffRoleRequiredMixin(AccessMixin):
                     return super(StaffRoleRequiredMixin, self).dispatch(request, *args, **kwargs)
 
         return HttpResponse("Not Allowed.", status=403)
+
+    def get_context_data(self, **kwargs):
+        context = super(StaffRoleRequiredMixin, self).get_context_data(**kwargs)
+        context['env'] = self.env_settings
+        return context
 
 
 class BaseStaffView(StaffRoleRequiredMixin, TemplateView):
@@ -2745,6 +2752,73 @@ class SchoolAccountInfoView(BaseStaffView):
         return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
 
 
+class SchoolAccountInfoViewV2(BaseStaffView):
+    """
+    学校账号信息编辑和显示页面
+    """
+    template_name = 'staff/school_account/info.html'
+
+    def get(self, request, *args, **kwargs):
+        if not request.GET.get('show') == 'true':
+            # 检查是否已经配置过校区账号
+            school_master = self.school_master
+            school = school_master and school_master.school
+            if school and hasattr(school, 'schoolaccount'):
+                return redirect('staff:school_income_records_v2')
+        return super(SchoolAccountInfoViewV2, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        kwargs['is_school_master'] = is_school_master
+        if not is_school_master:
+            return super(SchoolAccountInfoViewV2, self).get_context_data(**kwargs)
+        # 获取学校属性, 该校区订单收入, 以及银行账号信息
+        school = school_master.school
+        kwargs['school_master'] = school_master
+        kwargs['school'] = school
+
+        school_account = None
+        if hasattr(school, 'schoolaccount'):
+            school_account = school.schoolaccount
+        kwargs['school_account'] = school_account
+
+        # 计算校区账户余额
+        kwargs['account_balance'], _ = school.balance()
+
+        return super(SchoolAccountInfoViewV2, self).get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        account_name = request.POST.get('account_name')
+        account_number = request.POST.get('account_number')
+        bank_name = request.POST.get('bank_name')
+        bank_address = request.POST.get('bank_address')
+        swift_code = request.POST.get('swift_code')
+
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        if not is_school_master:
+            return JsonResponse({'ok': False, 'msg': '您不是校长, 不需要操作', 'code': 1})
+
+        school_account = None
+        if hasattr(school_master.school, 'schoolaccount'):
+            # return JsonResponse({'ok': False, 'msg': '填写过后不允许修改, 若要修改请联系管理员', 'code': 2})
+            school_account = school_master.school.schoolaccount
+        else:
+            school_account = models.SchoolAccount(school=school_master.school)
+
+        school_account.account_name = account_name
+        school_account.account_number = account_number
+        school_account.bank_name = bank_name
+        school_account.bank_address = bank_address
+        school_account.swift_code = swift_code
+        school_account.save()
+
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
+
 class SchoolIncomeRecordView(BaseStaffView):
     """
     学校账号信息编辑和显示页面
@@ -2788,6 +2862,49 @@ class SchoolIncomeRecordView(BaseStaffView):
         return super(SchoolIncomeRecordView, self).get_context_data(**kwargs)
 
 
+class SchoolIncomeRecordViewV2(BaseStaffView):
+    """
+    学校账号信息编辑和显示页面
+    """
+    template_name = 'staff/school_account/records_v2.html'
+
+    def get_context_data(self, **kwargs):
+        # 检查是否是校长
+        school_master = self.school_master
+        is_school_master = school_master is not None and school_master.school is not None
+        kwargs['is_school_master'] = is_school_master
+        if not is_school_master:
+            return super(SchoolIncomeRecordViewV2, self).get_context_data(**kwargs)
+        # 获取学校属性, 该校区订单收入, 以及银行账号信息
+        school = school_master.school
+        kwargs['school_master'] = school_master
+        kwargs['school'] = school
+
+        school_account = None
+        if hasattr(school, 'schoolaccount'):
+            school_account = school.schoolaccount
+        kwargs['school_account'] = school_account
+
+        # 计算校区账户余额
+        kwargs['account_balance'], balance_detail = school.balance()
+        kwargs['balance_one_to_one'] = balance_detail.get('one_to_one')
+        kwargs['balance_live_course'] = balance_detail.get('live_course')
+
+        if school_account:
+            # paginate
+            page = self.request.GET.get('page')
+            records = models.SchoolIncomeRecord.objects.filter(
+                school_account=school_account,
+                amount__gt=0,
+            )
+            records = records.order_by('-id')
+            records, pager = paginate(records, page)
+            kwargs['records'] = records
+            kwargs['pager'] = pager
+
+        return super(SchoolIncomeRecordViewV2, self).get_context_data(**kwargs)
+
+
 class SchoolIncomeAuditView(BaseStaffView):
     """
     学校账号信息编辑和显示页面
@@ -2807,6 +2924,38 @@ class SchoolIncomeAuditView(BaseStaffView):
         kwargs['pager'] = pager
         kwargs['schools'] = models.School.objects.filter(opened=True)
         return super(SchoolIncomeAuditView, self).get_context_data(**kwargs)
+
+    def post(self, request, *args, **kwargs):
+        action = request.POST.get('action')
+        record_id = request.POST.get('rid')
+        record = get_object_or_404(models.SchoolIncomeRecord, pk=record_id)
+        if action == 'mark_yes':
+            record.status = models.SchoolIncomeRecord.APPROVED
+        elif action == 'mark_no':
+            record.status = models.SchoolIncomeRecord.PENDING
+        record.save()
+        return JsonResponse({'ok': True, 'msg': '保存成功', 'code': 0})
+
+
+class SchoolIncomeAuditViewV2(BaseStaffView):
+    """
+    学校账号信息编辑和显示页面
+    """
+    template_name = 'staff/school_account/income_audit_v2.html'
+
+    def get_context_data(self, **kwargs):  # paginate
+        kwargs['query_data'] = self.request.GET.dict()
+        page = self.request.GET.get('page')
+        school = self.request.GET.get('school')
+        records = models.SchoolIncomeRecord.objects.filter(amount__gt=0)
+        if school and school.isdigit():
+            records = records.filter(school_account__school_id=school)
+        records = records.order_by('-id')
+        records, pager = paginate(records, page)
+        kwargs['records'] = records
+        kwargs['pager'] = pager
+        kwargs['schools'] = models.School.objects.filter(opened=True)
+        return super(SchoolIncomeAuditViewV2, self).get_context_data(**kwargs)
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get('action')
@@ -3039,6 +3188,7 @@ class LiveCourseListView(BaseStaffView):
         kwargs['live_courses'] = live_courses
         kwargs['pager'] = pager
         return super(LiveCourseListView, self).get_context_data(**kwargs)
+
 
 class StaffAuthView(BaseStaffView):
     def post(self, request):

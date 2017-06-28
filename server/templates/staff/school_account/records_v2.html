@@ -1,0 +1,81 @@
+{% extends "staff/staff_base.html" %}
+
+{% load staticfiles %}
+{% load compile_static %}
+{% load custom_tags %}
+{% block title %}校区账户{% endblock %}
+
+{% block addition_header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'staff/less/school_account/info.less'|compile %}">
+{% endblock %}
+{% block addition_js %}
+    <script src="{% static 'staff/js/school_account/info.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    {% if is_school_master %}
+        <div class="row" id="accountBalance">
+            <div class="float-left col-sm-6">
+                {% include 'staff/school_account/balance_area.html' %}
+            </div>
+            <div class="float-right col-sm-6">
+                <br>
+                <a href="{% url 'staff:school_account_info' %}?show=true">账号设置</a>
+            </div>
+        </div>
+        <div class="row" id="balanceDetail">
+            <div class="col-sm-4">
+                <h3 class="text-primary">一对一</h3>
+                <h4 class="text-warning">本周收入: {{ balance_one_to_one|money_format:'/' }}元</h4>
+            </div>
+            <div class="col-sm-8">
+                <h3 class="text-primary">双师直播</h3>
+                <h4 class="text-warning">本周收入: {{ balance_live_course|money_format:'/' }}元</h4>
+            </div>
+        </div>
+        <hr>
+        <div id="recordsList">
+            <h3 class="text-primary">收入记录</h3>
+            <table class="record-list" border="1" width="100%">
+                <tr class="heading text-primary">
+                    <th class="text-center" width="30%">时间</th>
+                    <th class="text-center" width="20%">金额</th>
+                    <th class="text-center" width="20%">类型</th>
+                    <th class="text-center">
+                      状态
+                      <span class="badge" data-toggle="tooltip"
+                            title="已打款提交后，钱款收入会在1-7个工作日内打到您的银行卡账户，具体以银行到账为主，请您注意查收。">?</span>
+                    </th>
+                </tr>
+                {% for hist in records %}
+                    <tr class="item">
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
+                            {{ hist.amount|money_format:'/a' }}元
+                        </td>
+                        <td class="text-center">{{ hist.get_type_display }}</td>
+                        <td class="text-center status">
+                            {% if hist.status == hist.APPROVED %}
+                                已打款
+                            {% else %}
+                                待打款
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td class="text-center" colspan="4">没有记录</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <div class="clearfix page-info">
+                <div class="pull-left">每页显示{% if pager and pager.page_size %}{{ pager.page_size }}{% else %}10{% endif %}条, 共{% if pager %}{{ pager.total_count }}{% else %}{{ histories.count }}{% endif %}条</div>
+                <div class="pull-right">
+                    {% include 'pagination_nav.html' %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        您不是校长, 没有信息可以显示
+    {% endif %}
+{% endblock %}
