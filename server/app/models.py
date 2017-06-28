@@ -3281,7 +3281,7 @@ class SchoolIncomeRecordV2(BaseModel):
 
     school_account = models.ForeignKey(SchoolAccount)
     # 新结算方式按照课程结算
-    live_class = models.ForeignKey(LiveClass)
+    live_class = models.ForeignKey('LiveClass')
     # 结算时班级人数
     students_count = models.PositiveSmallIntegerField()
     # 结算时的分成比例
