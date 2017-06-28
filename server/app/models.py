@@ -6,6 +6,7 @@ import posix_ipc
 from segmenttree import SegmentTree
 
 import random
+from collections import OrderedDict
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -3246,6 +3247,69 @@ class SchoolIncomeRecord(BaseModel):
     def income_time_str(self):
         return self.income_time and localtime(self.income_time).strftime('%Y-%m-%d')\
                or localtime(self.created_at).strftime('%Y-%m-%d')
+
+
+class SchoolIncomeRecordV2(BaseModel):
+    '''
+    新版学校收入记录（仅针对双师直播）
+    '''
+    # 审核状态
+    PENDING = 'p'
+    APPROVED = 'a'
+    REJECTED = 'r'
+    STATUS_CHOICES = (
+        (PENDING, '待处理'),
+        (APPROVED, '已通过'),
+        (REJECTED, '被驳回')
+    )
+
+    # 结算类别
+    FIRST = '1st'
+    SECOND = '2nd'
+    TYPE_CHOICES = (
+        (FIRST, '首款'),
+        (SECOND, '尾款'),
+    )
+
+    # 分成比例
+    SHARE_RATE_CONF = OrderedDict([
+        (100, 60),  # 满班率 >= 100%，分成 60%
+        (80, 55),   # 满班率 >= 80%，分成 55%
+        (60, 50),   # 满班率 >= 60%，分成 50%
+        (0, 40),    # 满班率 >= 0%，分成 40%
+    ])
+
+    school_account = models.ForeignKey(SchoolAccount)
+    # 新结算方式按照课程结算
+    live_class = models.ForeignKey('LiveClass')
+    # 结算时班级人数
+    students_count = models.PositiveSmallIntegerField()
+    # 结算时的分成比例
+    shared_rate = models.PositiveSmallIntegerField()
+    # 审核状态
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES,
+                              default=PENDING)
+    # 结算类型(首款、尾款)
+    type = models.CharField(max_length=4, choices=TYPE_CHOICES)
+
+    # 本次结算总的收益(未分成之前的金额，单位是分)
+    total_amount = models.PositiveIntegerField()
+    # 备注，保留字段
+    remark = models.CharField(max_length=300, null=True, blank=True)
+    # 收入时间: 统计收入的截止时间
+    income_time = models.DateTimeField()
+    # 记录创建的时间
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s %s -> total: %d' % (
+                self.school_account.school,
+                self.income_time_str,
+                self.total_amount)
+
+    @property
+    def income_time_str(self):
+        return localtime(self.income_time).strftime('%Y-%m-%d')
 
 
 class ClassRoom(BaseModel):
