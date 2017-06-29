@@ -14,33 +14,29 @@
 
 {% block content %}
     {% if is_school_master %}
-        <div class="row" id="accountBalance">
-            <div class="float-left col-sm-6">
-                {% include 'staff/school_account/balance_area.html' %}
-            </div>
-            <div class="float-right col-sm-6">
-                <br>
+        <div id="accountBalance">
+            <h3>
                 <a href="{% url 'staff:school_account_info' %}?show=true">账号设置</a>
-            </div>
-        </div>
-        <div class="row" id="balanceDetail">
-            <div class="col-sm-4">
-                <h3 class="text-primary">一对一</h3>
-                <h4 class="text-warning">本周收入: {{ balance_one_to_one|money_format:'/' }}元</h4>
-            </div>
-            <div class="col-sm-8">
-                <h3 class="text-primary">双师直播</h3>
-                <h4 class="text-warning">本周收入: {{ balance_live_course|money_format:'/' }}元</h4>
-            </div>
+            </h3>
         </div>
         <hr>
         <div id="recordsList">
             <h3 class="text-primary">收入记录</h3>
-            <table class="record-list" border="1" width="100%">
-                <tr class="heading text-primary">
-                    <th class="text-center" width="30%">时间</th>
-                    <th class="text-center" width="20%">金额</th>
-                    <th class="text-center" width="20%">类型</th>
+            <table class="table table-striped table-hover table-bordered">
+                <tr class="text-primary">
+                    <th class="text-center">课程时间</th>
+                    <th class="text-center">校区</th>
+                    <th class="text-center">课程名称</th>
+                    <th class="text-center">主讲老师</th>
+                    <th class="text-center">课前插班人数</th>
+                    <th class="text-center">实时上课人数</th>
+                    <th class="text-center">课后退费人数</th>
+                    <th class="text-center">课程单价</th>
+                    <th class="text-center">课程课时</th>
+                    <th class="text-center">单堂课分成比</th>
+                    <th class="text-center">总收益/元</th>
+                    <th class="text-center">校区收益</th>
+                    <th class="text-center">总部收益</th>
                     <th class="text-center">
                       状态
                       <span class="badge" data-toggle="tooltip"
@@ -50,10 +46,24 @@
                 {% for hist in records %}
                     <tr class="item">
                         <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
+                        <td class="text-center time">{{ hist.income_time_str }}</td>
                         <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
                             {{ hist.amount|money_format:'/a' }}元
                         </td>
-                        <td class="text-center">{{ hist.get_type_display }}</td>
+                        <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
+                            {{ hist.amount|money_format:'/a' }}元
+                        </td>
+                        <td class="text-center amount {% if hist.amount >= 0 %}income{% else %}outgoing{% endif %}">
+                            {{ hist.amount|money_format:'/a' }}元
+                        </td>
                         <td class="text-center status">
                             {% if hist.status == hist.APPROVED %}
                                 已打款
@@ -64,7 +74,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td class="text-center" colspan="4">没有记录</td>
+                        <td class="text-center" colspan="14">没有记录</td>
                     </tr>
                 {% endfor %}
             </table>
