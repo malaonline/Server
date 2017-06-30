@@ -1888,6 +1888,9 @@ class OrderManager(models.Manager):
         OrderRefundRecord = apps.get_model('app', 'OrderRefundRecord')
         TimeSlot = apps.get_model('app', 'TimeSlot')
 
+        # 新退费规则未开发完毕，暂时不允许退费
+        raise RefundError('退费失败, 请稍后重试或联系管理员')
+
         if order.status != order.PAID:
             raise OrderStatusIncorrect('订单未支付')
         if order.refund_status == order.REFUND_PENDING:
