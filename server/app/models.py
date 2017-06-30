@@ -2118,7 +2118,7 @@ class Order(BaseModel):
         total_hours = self.total_lessons() * 2
         # 如果双师直播正在上课，未开课次数减掉一次
         if self.live_class is not None and self.live_class.live_course.on_the_lesson_time > 0:
-            total_hours = self.total_lessons() * 2 - 1
+            total_hours = (self.total_lessons() - 1) * 2
         return total_hours - self.completed_hours()
 
     # 计算剩余金额,单位是分
