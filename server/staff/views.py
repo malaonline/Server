@@ -2041,17 +2041,28 @@ class OrderRefundActionView(BaseStaffActionView):
         order_id = request.GET.get('order_id')
         order = models.Order.objects.get(id=order_id)
         # 只要是已支付的, 都可以预览退费信息, 包括 审核中 和 已驳回
-        if order.status == order.PAID:
-            # 根据当前时间点,计算退费信息
-            return JsonResponse({
-                'ok': True,
-                'remainingHours': order.remaining_hours(),          # 剩余小时
-                'refundHours': order.preview_refund_hours(),        # 退费小时
-                'refundAmount': order.preview_refund_amount()/100,  # 退费金额
-                'reason': order.refund_info().reason if order.refund_info() is not None else ''
-                # 退费原因
-            })
-        return JsonResponse({'ok': False, 'msg': '订单还未支付', 'code': 'order_01'})
+        if order.status != order.PAID:
+            return JsonResponse(
+                {'ok': False, 'msg': '订单还未支付', 'code': 'order_01'})
+        # 目前退费只支持双师直播
+        if order.live_class is None:
+            return JsonResponse(
+                {'ok': False, 'msg': '只有双师直播可以退款', 'code': 'order_02'})
+        # 根据当前时间点,计算退费信息
+        live_course = order.live_class.live_course
+        discount_amount = order.coupon.amount if order.coupon is not None else 0
+        return JsonResponse({
+            'ok': True,
+            'orderLessons': order.total_lessons(),              # 订单课次
+            'finishLessons': live_course.finish_lessons,        # 完成课次
+            'completedHours': order.completed_hours(),          # 完成小时
+            'remainingLessons': live_course.remaining_lessons,  # 剩余课次
+            'remainingHours': order.remaining_hours(),          # 剩余小时
+            'onTheLessonTime': live_course.on_the_lesson_time,  # 开课时间(无课为0，单位是分钟)
+            'discountAmount': discount_amount,                  # 扣除优惠金额(单位分)
+            'pricePerHour': order.price,                        # 小时单价(单位分)
+            'reason': order.refund_info().reason if order.refund_info() is not None else ''  # 退费原因
+        })
 
     def get_refund_record(self, request):
         order_id = request.GET.get('order_id')

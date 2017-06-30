@@ -2094,6 +2094,10 @@ class Order(BaseModel):
         # 已退款的订单, 目前不显示课程时间
         return data
 
+    # 订单内有效课次
+    def total_lessons(self):
+        return self.timeslot_set.filter(deleted=False).count()
+
     # 计算订单内已经完成课程的小时数(消耗小时)
     def completed_hours(self):
         completed_hours = 0
@@ -2111,7 +2115,7 @@ class Order(BaseModel):
 
     # 计算剩余小时
     def remaining_hours(self):
-        total_hours = self.timeslot_set.filter(deleted=False).count()*2
+        total_hours = self.total_lessons() * 2
         return total_hours - self.completed_hours()
 
     # 计算剩余金额,单位是分
@@ -3365,7 +3369,24 @@ class LiveCourse(BaseModel):
     @property
     def finish_lessons(self):
         now = timezone.now()
-        return self.livecoursetimeslot_set.filter(end__lte=now).count()
+        return self.livecoursetimeslot_set.filter(end__lt=now).count()
+
+    @property
+    def remaining_lessons(self):
+        now = timezone.now()
+        return self.livecoursetimeslot_set.filter(start__gt=now).count()
+
+    # 如在上课中，返回已经上了多久，单位为分钟
+    @property
+    def on_the_lesson_time(self):
+        now = timezone.now()
+        on_the_lesson = self.livecoursetimeslot_set.filter(
+            start__lte=now,
+            end__gte=now,
+        ).first()
+        if on_the_lesson is not None:
+            return (now - on_the_lesson.start).total_seconds()/60
+        return 0
 
     @property
     def slots(self):

@@ -25,22 +25,72 @@ $(function(){
     // 刷新预览退费信息
     $("[data-action=refresh-refund-preview]").click(function(e){
         // 先清空一下
+        $('#orderLessons').html("");
         $('#remainingHours').html("");
-        $('#refundHours').html("");
-        $('#refundAmount').html("");
+        $('#finishLessons').html("");
+        $('#completedHours').html("");
+        $('#remainingLessons').html("");
+        $('#onTheLessonTime').html("");
+        $('#discountAmount').html("");
+        $('#remainingLessonsPreRefund').html("");
+        $('#remainingHoursPreRefund').html("");
+        $('#pricePerHour').html("");
+        $('#calcDetailPreRefund').html("");
 
         var orderId = $('#orderId').val();
         var params = {'action': 'preview-refund-info', 'order_id': orderId};
         malaAjaxGet("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
-                    var order = result;
-                    $('#remainingHours').html(order.remainingHours);
-                    $('#refundHours').html(order.refundHours);
-                    $('#refundAmount').html(order.refundAmount);
+                    // test begin
+                    // 一共10次课，20小时；结束5次课，10小时；未开始4次课，8小时；进行中一节课，开课56分钟；优惠券120元；单价：120元
+                    // result.orderLessons = 10;
+                    // result.remainingHours = 8;
+                    // result.finishLessons = 5;
+                    // result.completedHours = 10;
+                    // result.remainingLessons = 4;
+                    // result.onTheLessonTime = 56;
+                    // result.pricePerHour = 12000;
+                    // result.discountAmount = 12000;
+                    // test end
+                    $('#orderLessons').html(result.orderLessons);
+                    // 暂时认为一节课 2 小时
+                    $('#orderHours').html(result.orderLessons * 2);
+                    $('#remainingHours').html(result.remainingHours);
+                    $('#finishLessons').html(result.finishLessons);
+                    $('#completedHours').html(result.completedHours);
+                    $('#remainingLessons').html(result.remainingLessons);
+                    $('#remainingLessonsPreRefund').html(result.remainingLessons);
+                    $('#remainingHoursPreRefund').html(result.remainingHours);
+                    $('#pricePerHour').html(result.pricePerHour/100);
+                    $('#discountAmount').html(result.discountAmount/100);
+
+                    if (result.onTheLessonTime != 0) {
+                        $('#onTheLessonTime').html(result.onTheLessonTime);
+                        $('#onTheLessonTip').show();
+                    }
+                    else {
+                        $('#onTheLessonTip').hide();
+                    }
+
+                    // 这里显示预计退款费用
+                    var calcDetailStr = "";
+                    calcDetailStr += result.pricePerHour/100;
+                    calcDetailStr += " x ";
+                    calcDetailStr += result.remainingHours;
+                    calcDetailStr += " - ";
+                    calcDetailStr += result.discountAmount/100;
+                    calcDetailStr += " = ";
+                    calcDetailStr += Math.max(result.pricePerHour/100 * result.remainingHours - result.discountAmount/100, 0);
+                    $('#calcDetailPreRefund').html(calcDetailStr);
+
+                    // 确认退款，默认与预计的相同
+                    $('#refundLessons').val(result.remainingLessons);
+                    $('#refundLessons').triggerHandler("input");
+
                     // 如果原因未填写, 则默认显示上次提交的原因(如果存在的话)
                     if ($('#refundReason').val().trim() == "")
-                        $('#refundReason').val(order.reason);
+                        $('#refundReason').val(result.reason);
                     // 状态获取成功, 才显示 dialog
                     $('#refundModal').modal();
                 } else {
@@ -52,6 +102,24 @@ $(function(){
         }, 'json', function () {
             alert(defaultErrMsg);
         });
+    });
+
+    // 确认退费输入框改变
+    $('#refundLessons').bind('input propertychange', function() {
+        var refundHours = $(this).val() * 2;
+        var pricePerHour = $('#pricePerHour').html();
+        var discountAmount = $('#discountAmount').html();
+        $('#refundHours').html(refundHours);
+        // 这里显示预计退款费用
+        var calcDetailStr = "";
+        calcDetailStr += pricePerHour;
+        calcDetailStr += " x ";
+        calcDetailStr += refundHours;
+        calcDetailStr += " - ";
+        calcDetailStr += discountAmount;
+        calcDetailStr += " = ";
+        calcDetailStr += Math.max(pricePerHour * refundHours - discountAmount, 0);
+        $('#calcDetail').html(calcDetailStr);
     });
 
     // 申请退款 link click
@@ -94,9 +162,7 @@ $(function(){
         malaAjaxPost("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
-                    var order = result;
-                    // todo: 需要完整显示提交时间点的退费信息
-                    alert("退费申请成功")
+                    alert("退费成功")
                     location.reload();
                 } else {
                     alert(result.msg);
