@@ -25,6 +25,7 @@ from app.utils.algorithm import orderid, Tree, Node
 from app.utils import random_string
 from app.utils.smsUtil import isTestPhone, sendCheckcode, SendSMSError,\
         tpl_send_sms, TPL_STU_PAY_SUCCESS, TPL_TEACHER_COURSE_PAID
+from app.utils.types import parseInt
 
 logger = logging.getLogger('app')
 
@@ -1884,12 +1885,9 @@ class OrderManager(models.Manager):
             evaluation.save()
         return timeslots
 
-    def refund(self, order, reason, user):
+    def refund(self, order, reason, user, lessons_count=None):
         OrderRefundRecord = apps.get_model('app', 'OrderRefundRecord')
         TimeSlot = apps.get_model('app', 'TimeSlot')
-
-        # 新退费规则未开发完毕，暂时不允许退费
-        raise RefundError('退费失败, 请稍后重试或联系管理员')
 
         if order.status != order.PAID:
             raise OrderStatusIncorrect('订单未支付')
@@ -1898,8 +1896,18 @@ class OrderManager(models.Manager):
         if order.refund_status == order.REFUND_APPROVED:
             raise OrderStatusIncorrect('订单退费已经审核通过, 请勿重复提交')
 
+        # 退课次数
+        if lessons_count is None:
+            lessons_count = order.remaining_hours / 2
+        else:
+            lessons_count = parseInt(lessons_count, 0)
+
         try:
             with transaction.atomic():
+                # 校验退课次数
+                if lessons_count > order.total_lessons() or lessons_count <= 0:
+                    raise RefundError('输入的课程时间有误, 请检查')
+                # TODO: 接着写下面的 OrderRefundRecord
                 # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
                 record = OrderRefundRecord(
                     order=order,
@@ -1915,27 +1923,47 @@ class OrderManager(models.Manager):
                 # 记录申请时间, 用于 query
                 order.refund_at = record.created_at
                 order.save()
-                if TimeSlot.objects.filter(
-                        order=order, deleted=False).count() > 0:
-                    # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
-                    assert TimeSlot.objects.all().filter(
-                        order=order,
-                        deleted=False,
-                        accounthistory__isnull=True,
-                        order__status=Order.PAID
-                    ).count() * 2 == record.remaining_hours
-                    # 释放该订单内的所有未完成的课程时间
-                    TimeSlot.objects.all().filter(
-                        order=order,
-                        deleted=False,
-                        accounthistory__isnull=True,
-                        order__status=Order.PAID
-                    ).update(deleted=True)
+                if order.live_class is not None:
+                    # 双师释放课程，由后往前依次释放指定次数的课程
+                    if order.total_lessons() > 0:
+                        refund_timeslots = TimeSlot.objects.filter(
+                            order=order,
+                            deleted=False,
+                        ).order_by('-end')[:lessons_count]
+                        for refund_timeslot in refund_timeslots:
+                            refund_timeslot.deleted = True
+                            refund_timeslot.save()
+                    else:
+                        coupon = order.coupon
+                        if coupon is not None:
+                            coupon.used = False
+                            coupon.save()
                 else:
-                    coupon = order.coupon
-                    if coupon is not None:
-                        coupon.used = False
-                        coupon.save()
+                    # 原有一对一释放课程
+                    if TimeSlot.objects.filter(
+                            order=order, deleted=False).count() > 0:
+                        # 断言以确保将释放的时间无误, 已经 deleted 的课不要计算在内
+                        assert TimeSlot.objects.all().filter(
+                            order=order,
+                            deleted=False,
+                            accounthistory__isnull=True,
+                            order__status=Order.PAID
+                        ).count() * 2 == record.remaining_hours
+                        # 释放该订单内的所有未完成的课程时间
+                        TimeSlot.objects.all().filter(
+                            order=order,
+                            deleted=False,
+                            accounthistory__isnull=True,
+                            order__status=Order.PAID
+                        ).update(deleted=True)
+                    else:
+                        coupon = order.coupon
+                        if coupon is not None:
+                            coupon.used = False
+                            coupon.save()
+
+                # 新退款模式，直接审核通过
+                record.approve_refund()
 
         except IntegrityError as err:
             logger.error(err)

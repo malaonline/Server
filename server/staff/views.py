@@ -1751,7 +1751,7 @@ class OrderReviewView(BaseStaffView):
                     status=status,
                     refund_status=models.Order.REFUND_APPROVED,
                 )
-            if status in [
+            elif status in [
                     models.Order.REFUND_PENDING, models.Order.REFUND_REJECTED]:
                 # 退费审核中/退费被驳回: 最后审核状态
                 query_set = query_set.filter(refund_status=status)
@@ -2083,8 +2083,9 @@ class OrderRefundActionView(BaseStaffActionView):
         order_id = request.POST.get('order_id')
         order = models.Order.objects.get(id=order_id)
         reason = request.POST.get('reason')
+        lessons_count = request.POST.get('lessons_count', 0)
         try:
-            models.Order.objects.refund(order, reason, self.request.user)
+            models.Order.objects.refund(order, reason, self.request.user, lessons_count)
             # 短信通知家长
             parent = order.parent
             student_name = parent.student_name or parent.user.profile.mask_phone()

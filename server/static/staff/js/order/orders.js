@@ -158,7 +158,8 @@ $(function(){
     $("[data-action=submit-refund]").click(function(e){
         var orderId = $('#orderId').val();
         var reason = $('#refundReason').val();
-        var params = {'action': 'request-refund', 'order_id': orderId, 'reason': reason};
+        var lessonsCount = $('#refundLessons').val();
+        var params = {'action': 'request-refund', 'order_id': orderId, 'reason': reason, 'lessons_count': lessonsCount};
         malaAjaxPost("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
