@@ -3385,7 +3385,7 @@ class LiveCourse(BaseModel):
             end__gte=now,
         ).first()
         if on_the_lesson is not None:
-            return (now - on_the_lesson.start).total_seconds() // 60
+            return (now - on_the_lesson.start).total_seconds() // 60 + 1
         return 0
 
     @property
