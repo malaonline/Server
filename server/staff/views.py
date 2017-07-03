@@ -1995,7 +1995,7 @@ class OrderRefundView(BaseStaffView):
                 '是否排课',
             )
             columns = (
-                lambda x: timezone.make_naive(x.refund_info().refunded_at),
+                lambda x: timezone.make_naive(x.refund_info().created_at),
                 'order_id',
                 'parent.user.profile.phone',
                 'parent.student_name',
@@ -2072,10 +2072,18 @@ class OrderRefundActionView(BaseStaffActionView):
             # 将之前申请退费时记录下来的退费信息返回给前端
             return JsonResponse({
                 'ok': True,
-                'remainingHoursRecord': record.remaining_hours,     # 剩余小时(申请退费时计算的)
-                'refundHoursRecord': record.refund_hours,           # 退费小时(申请退费时计算的)
-                'refundAmountRecord': record.refund_amount/100,     # 退费金额(申请退费时计算的)
-                'reason': record.reason                             # 退费原因(申请退费时提交的)
+                'orderLessonsRecord': record.total_lessons,             # 订单课次
+                'finishLessonsRecord': record.finish_lessons,           # 完成课次
+                'completedHoursRecord': record.completed_hours,         # 完成小时
+                'remainingLessonsRecord': record.remaining_lessons,     # 剩余课次
+                'remainingHoursRecord': record.remaining_hours,         # 剩余小时
+                'onTheLessonTimeRecord': record.on_the_lesson_time,     # 开课时间(无课为0，单位是分钟)
+                'discountAmountRecord': record.discount_amount,         # 扣除优惠金额(单位分)
+                'pricePerHourRecord': record.hour_price,                # 小时单价(单位分)
+                'refundLessonsRecord': record.refund_lessons,           # 退费课次
+                'refundHoursRecord': record.refund_hours,               # 退费小时
+                'refundAmountRecord': record.refund_amount,             # 退费金额
+                'reasonRecord': record.reason                           # 退费原因
             })
         return JsonResponse({'ok': False, 'msg': '订单无申请退费记录', 'code': 'order_02'})
 
