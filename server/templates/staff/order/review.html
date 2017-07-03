@@ -206,7 +206,7 @@
                       {% if order.status == order.PAID and not order.refund_status %}
                           <a data-action="show-refund-preview" orderId={{ order.id }}>退款</a>
                       {% elif order.status == order.REFUND and order.refund_status == order.REFUND_APPROVED %}
-                          <a data-action="show-refund-record" orderId={{ order.id }}>退款记录</a>
+                          <a data-action="show-refund-record" orderId={{ order.id }}>查看退款记录</a>
                       {% endif %}
                     {% endif %}
                 </td>
@@ -291,16 +291,45 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title text-center">查看记录</h4>
+                    <h4 class="modal-title text-center">查看退款记录</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
-                        <p>剩余 <label id="remainingHoursRecord"></label> 小时</p>
-                        <p>共退 <label id="refundHoursRecord"></label> 小时</p>
-                        <p>退费金额 <label id="refundAmountRecord"></label> 元</p>
+                        <p>以下为退款时间点信息：</p>
+                        <p>订单内课程：
+                          <label id="orderLessonsRecord"></label> 次 ，
+                          <label id="orderHoursRecord"></label> 小时
+                        </p>
+                        <p>已结束课程：
+                          <label id="finishLessonsRecord"></label> 次 ，
+                          <label id="completedHoursRecord"></label> 小时
+                        </p>
+                        <p>未开始课程：
+                          <label id="remainingLessonsRecord"></label> 次 ，
+                          <label id="remainingHoursRecord"></label> 小时
+                        </p>
+                        <p id="onTheLessonTipRecord" style="color: red; display: none">
+                          有一节课正在进行中：已上课 <label id="onTheLessonTimeRecord"></label> 分钟
+                        </p>
+                        <hr>
+                        <p>小时单价：<label id="pricePerHourRecord"></label> 元</p>
+                        <p>
+                          扣除优惠：<label id="discountAmountRecord"></label> 元
+                        </p>
+                        <p>
+                          退款公式：<label>小时单价 x 退课小时 - 扣除优惠</label>
+                        </p>
+                        <hr>
+                        <p>确认退课：
+                          <label id="refundLessonsRecord"></label> 次 ，
+                          <label id="refundHoursRecord"></label> 小时
+                        </p>
+                        <p>确认退款：
+                          <label id="refundAmountRecord" style="color: red"></label> 元
+                        </p>
                         <fieldset>
                             <div class="control-group">
-                                <textarea name="refundReason" id="refundReasonRecord" rows="5" cols="36" readonly="readonly"></textarea>
+                                <textarea id="reasonRecord" rows="5" cols="36" readonly="readonly"></textarea>
                             </div>
                         </fieldset>
                     </form>

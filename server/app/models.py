@@ -1907,13 +1907,24 @@ class OrderManager(models.Manager):
                 # 校验退课次数
                 if lessons_count > order.total_lessons() or lessons_count <= 0:
                     raise RefundError('输入的课程时间有误, 请检查')
-                # TODO: 接着写下面的 OrderRefundRecord
                 # 生成新的 OrderRefundRecord, 根据当前时间点, 计算退费信息, 并保存在退费申请记录中
+                live_course = order.live_class.live_course
+                discount_amount = order.coupon.amount if order.coupon is not None else 0
+                refund_amount = lessons_count * 2 * order.price - discount_amount
+                refund_amount = max(refund_amount, 0)
                 record = OrderRefundRecord(
                     order=order,
+                    total_lessons=order.total_lessons(),
+                    finish_lessons=live_course.finish_lessons,
+                    completed_hours=order.completed_hours(),
+                    remaining_lessons=live_course.remaining_lessons,
                     remaining_hours=order.remaining_hours(),
-                    refund_hours=order.preview_refund_hours(),
-                    refund_amount=order.preview_refund_amount(),
+                    on_the_lesson_time=live_course.on_the_lesson_time,
+                    discount_amount=discount_amount,
+                    hour_price=order.price,
+                    refund_lessons=lessons_count,
+                    refund_hours=lessons_count*2,
+                    refund_amount=refund_amount,
                     reason=reason,
                     last_updated_by=user
                 )
@@ -1974,10 +1985,9 @@ class OrderManager(models.Manager):
 
     def should_auto_canceled_objects(self):
         now = timezone.now()
-        autoCancelDeltaTime = Order.AUTO_CANCEL_TIME
         return Order.objects.filter(
             status=Order.PENDING,
-            created_at__lt=now - autoCancelDeltaTime,
+            created_at__lt=now - Order.AUTO_CANCEL_TIME,
         )
 
 
@@ -2195,27 +2205,7 @@ class Order(BaseModel):
     # 最后退费信息, 是当时申请的记录
     def refund_info(self):
         last_record = self.last_refund_record()
-        if last_record is None:
-            return None
-        else:
-            class RefundInfo:
-                pass
-            refund_info = RefundInfo()
-            # 最后申请退费时间
-            refund_info.refunded_at = last_record.created_at
-            # 最后审核时间
-            refund_info.audited_at = last_record.last_updated_at
-            # 最后退费审核人
-            refund_info.auditor = last_record.last_updated_by
-            # 剩余小时
-            refund_info.remaining_hours = last_record.remaining_hours
-            # 退费小时
-            refund_info.refund_hours = last_record.refund_hours
-            # 退费金额
-            refund_info.refund_amount = last_record.refund_amount
-            # 退费原因
-            refund_info.reason = last_record.reason
-            return refund_info
+        return last_record
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -2282,10 +2272,30 @@ class OrderRefundRecord(BaseModel):
     last_updated_at = models.DateTimeField(auto_now=True)
     last_updated_by = models.ForeignKey(User)
 
-    # 申请退费时, 保存的退费信息(剩余小时/退费小时/退费金额)
+    # 申请退费时, 保存的退费信息
+    # 订单内课次
+    total_lessons = models.PositiveIntegerField(default=0)
+    # 完成课次
+    finish_lessons = models.PositiveIntegerField(default=0)
+    # 完成小时
+    completed_hours = models.PositiveIntegerField(default=0)
+    # 剩余课次
+    remaining_lessons = models.PositiveIntegerField(default=0)
+    # 剩余小时
     remaining_hours = models.PositiveIntegerField(default=0)
+    # 开课时间(无课为0，单位是分钟)
+    on_the_lesson_time = models.PositiveIntegerField(default=0)
+    # 扣除优惠金额(单位分)
+    discount_amount = models.PositiveIntegerField(default=0)
+    # 小时单价(单位分)
+    hour_price = models.PositiveIntegerField(default=0)
+    # 退费课次
+    refund_lessons = models.PositiveIntegerField(default=0)
+    # 退费小时
     refund_hours = models.PositiveIntegerField(default=0)
+    # 退费金额
     refund_amount = models.PositiveIntegerField(default=0)
+    # 退费原因
     reason = models.CharField(max_length=100, default="退费原因", blank=True)
 
     class Meta:

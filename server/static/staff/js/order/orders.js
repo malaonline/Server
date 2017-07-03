@@ -42,17 +42,6 @@ $(function(){
         malaAjaxGet("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
-                    // test begin
-                    // 一共10次课，20小时；结束5次课，10小时；未开始4次课，8小时；进行中一节课，开课56分钟；优惠券120元；单价：120元
-                    // result.orderLessons = 10;
-                    // result.remainingHours = 8;
-                    // result.finishLessons = 5;
-                    // result.completedHours = 10;
-                    // result.remainingLessons = 4;
-                    // result.onTheLessonTime = 56;
-                    // result.pricePerHour = 12000;
-                    // result.discountAmount = 12000;
-                    // test end
                     $('#orderLessons').html(result.orderLessons);
                     // 暂时认为一节课 2 小时
                     $('#orderHours').html(result.orderLessons * 2);
@@ -136,11 +125,40 @@ $(function(){
         malaAjaxGet("/staff/orders/action/", params, function (result) {
             if (result) {
                 if (result.ok) {
-                    var order = result;
-                    $('#remainingHoursRecord').html(order.remainingHoursRecord);
-                    $('#refundHoursRecord').html(order.refundHoursRecord);
-                    $('#refundAmountRecord').html(order.refundAmountRecord);
-                    $('#refundReasonRecord').val(order.reason);
+                    // test begin
+                    // 一共10次课，20小时；结束5次课，10小时；未开始4次课，8小时；进行中一节课，开课56分钟；优惠券120元；单价：120元
+                    // result.orderLessonsRecord = 10;
+                    // result.remainingHoursRecord = 8;
+                    // result.finishLessonsRecord = 5;
+                    // result.completedHoursRecord = 10;
+                    // result.remainingLessonsRecord = 4;
+                    // result.onTheLessonTimeRecord = 56;
+                    // result.pricePerHourRecord = 12000;
+                    // result.discountAmountRecord = 12000;
+                    // result.refundLessonsRecord = 5;
+                    // result.refundHoursRecord = 10;
+                    // result.refundAmountRecord = 10 * 12000 - 12000;
+                    // result.reasonRecord = "blah blah";
+                    // test end
+                    $('#orderLessonsRecord').html(result.orderLessonsRecord);
+                    $('#orderHoursRecord').html(result.orderLessonsRecord * 2);
+                    $('#finishLessonsRecord').html(result.finishLessonsRecord);
+                    $('#completedHoursRecord').html(result.completedHoursRecord);
+                    $('#remainingLessonsRecord').html(result.remainingLessonsRecord);
+                    $('#remainingHoursRecord').html(result.remainingHoursRecord);
+                    $('#discountAmountRecord').html(result.discountAmountRecord/100);
+                    $('#pricePerHourRecord').html(result.pricePerHourRecord/100);
+                    $('#refundLessonsRecord').html(result.refundLessonsRecord);
+                    $('#refundHoursRecord').html(result.refundHoursRecord);
+                    $('#refundAmountRecord').html(result.refundAmountRecord/100);
+                    if (result.onTheLessonTimeRecord != 0) {
+                        $('#onTheLessonTimeRecord').html(result.onTheLessonTimeRecord);
+                        $('#onTheLessonTipRecord').show();
+                    }
+                    else {
+                        $('#onTheLessonTipRecord').hide();
+                    }
+                    $('#reasonRecord').val(result.reasonRecord);
                     // 状态获取成功, 才显示 dialog
                     $('#refundInfoModal').modal();
                 } else {
